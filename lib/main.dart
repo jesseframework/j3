@@ -7,12 +7,33 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'J3 ENTERPRISE',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('J3 Enterprise Solutions'),
+          backgroundColor: Colors.blue,
+        ),
+        body: SafeArea(
+          child: MyHomePage(),
+        ),
+        resizeToAvoidBottomInset: false,
+      ),
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'J3 ENTERPRISE SOLUTION'),
     );
   }
 }
+
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       title: 'J3 ENTERPRISE',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: MyHomePage(title: 'J3 ENTERPRISE SOLUTION'),
+//     );
+//   }
+// }
