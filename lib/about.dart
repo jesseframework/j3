@@ -31,7 +31,7 @@ class _AboutState extends State<About> {
           ),
           SizedBox(height: 10,),
           NormWid(name:'Product Version',type:'u',text: '19.05.001',),
-          NormWid(name:'Device ID',type:'u',text: '0000-0000-0000-0000',),
+          NormWid(name:'Device ID',type:'u',text: '0000-0000-0000-0001',),
           NormWid(name:'Device Status',type:'u',text: 'Approved for develoment',),
         ],
       ),
