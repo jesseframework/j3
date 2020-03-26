@@ -9,7 +9,7 @@ import 'package:j3enterprise/profile.dart';
 import 'package:j3enterprise/setup_communication.dart';
 import 'package:j3enterprise/sever_setup.dart';
 
-import 'my_flutter_app_icons.dart';
+import 'custom_icons.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -35,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Container(
             decoration: BoxDecoration(
                 image: DecorationImage(
-              image: AssetImage('images/beach-background-4.jpg'),
+              image: AssetImage('images/beach-background.jpg'),
               fit: BoxFit.cover,
             )),
             height: double.maxFinite,
@@ -223,7 +223,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Image(
-                                            image: AssetImage('images/g+.png'),height: 25,
+                                            image: AssetImage('images/g+.png'),
+                                            height: 25,
                                           ),
                                         ),
                                         Padding(
@@ -239,16 +240,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                           padding: const EdgeInsets.all(8.0),
                                           child: Image(
                                             image: AssetImage(
-                                                'images/twitter.png'),height: 25,
+                                                'images/twitter.png'),
+                                            height: 25,
                                           ),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Image(
                                               width: 24,
-                                              height: 27,color: Colors.yellow.shade700,
-                                              image: AssetImage(
-                                                  'images/cogs.png'),
+                                              height: 27,
+                                              color: Colors.yellow.shade700,
+                                              image:
+                                                  AssetImage('images/cogs.png'),
                                               fit: BoxFit.fill),
                                         ),
                                       ],
@@ -319,7 +322,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: ListTile(
                 leading: Icon(
-                  MyFlutterApp.wrench_solid,
+                  CustomIcons.wrench_solid,
                   color: Colors.blue,
                 ),
                 title: Text(
@@ -359,7 +362,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: ListTile(
                 leading: Icon(
-                  MyFlutterApp.database_solid,
+                  CustomIcons.database_solid,
                   color: Colors.blue,
                 ),
                 title: Text(
@@ -382,7 +385,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: ListTile(
                 leading: Icon(
-                  MyFlutterApp.language,
+                  CustomIcons.language,
                   color: Colors.blue,
                 ),
                 title: Text(
@@ -402,7 +405,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: ListTile(
                 leading: Icon(
-                  MyFlutterApp.info_circle_solid,
+                  CustomIcons.info_circle_solid,
                   color: Colors.blue,
                 ),
                 title: Text(
@@ -553,7 +556,7 @@ class _DropWidState extends State<DropWid> {
 //                },
 //                child: ListTile(
 //                  leading: Icon(
-//                    MyFlutterApp.wrench_solid,
+//                    CustomIcons.wrench_solid,
 //                    color: Colors.black,
 //                  ),
 //                  title: Text(
@@ -595,7 +598,7 @@ class _DropWidState extends State<DropWid> {
 //                },
 //                child: ListTile(
 //                  leading: Icon(
-//                    MyFlutterApp.database_solid,
+//                    CustomIcons.database_solid,
 //                    color: Colors.black,
 //                  ),
 //                  title: Text(
@@ -640,7 +643,7 @@ class _DropWidState extends State<DropWid> {
 //                },
 //                child: ListTile(
 //                  leading: Icon(
-//                    MyFlutterApp.language,
+//                    CustomIcons.language,
 //                    color: Colors.black,
 //                  ),
 //                  title: Text(
@@ -660,7 +663,7 @@ class _DropWidState extends State<DropWid> {
 //                },
 //                child: ListTile(
 //                  leading: Icon(
-//                    MyFlutterApp.info_circle_solid,
+//                    CustomIcons.info_circle_solid,
 //                    color: Colors.black,
 //                  ),
 //                  title: Text(
