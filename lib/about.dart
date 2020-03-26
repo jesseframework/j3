@@ -23,7 +23,7 @@ class _AboutState extends State<About> {
               padding: const EdgeInsets.symmetric(vertical:6.0),
               child: Row(
                 children: <Widget>[
-                  Icon(Icons.chevron_left,size: 36,),
+                  //Icon(Icons.chevron_left,size: 36,),
                   Expanded(child: Text('About',style: TextStyle(fontSize: 22),)),
                 ],
               ),
