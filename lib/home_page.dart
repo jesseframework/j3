@@ -1,13 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:j3enterprise/about.dart';
-import 'package:j3enterprise/btasks.dart';
-import 'package:j3enterprise/customDialogBox.dart';
 import 'package:j3enterprise/profile.dart';
-import 'package:j3enterprise/setup_communication.dart';
-import 'package:j3enterprise/sever_setup.dart';
 
 import 'custom_icons.dart';
 
@@ -22,14 +15,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool isSwitched = false;
   bool pass = true;
-
-  bool val = false; //set the state of the switch value
-
-  onPinOnlyChange(bool newVal) {
-    setState(() {
-      val = newVal;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,21 +89,33 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                     Row(
                                       children: <Widget>[
+                                        Icon(
+                                          CustomIcons.pushpin,
+                                          color: Colors.grey.shade600,
+                                        ),
+                                        SizedBox(
+                                          width: 15,
+                                        ),
                                         Expanded(
-                                          child: TextFormField(
-                                            decoration: InputDecoration(
-                                              icon: Icon(CustomIcons.pushpin),
-                                              border: InputBorder
-                                                  .none, //remove input line.
-                                              labelText: 'Pin Only',
+                                          child: Text(
+                                            "Pin Only",
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w300,
+                                              color: Colors.grey.shade600,
                                             ),
                                           ),
                                         ),
                                         Switch(
-                                            value: val,
-                                            onChanged: (newVal) {
-                                              onPinOnlyChange(newVal);
-                                            })
+                                          value: isSwitched,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              isSwitched = value;
+                                              print(isSwitched);
+                                            });
+                                          },
+                                          activeColor: Colors.black,
+                                        ),
                                       ],
                                     ),
                                     ButtonTheme(
@@ -131,9 +128,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 TextStyle(color: Colors.white),
                                           ),
                                           onPressed: () {
-                                            setState(() {
-                                              print('Test');
-                                            });
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        LandingPage()));
                                           }),
                                     ),
                                     Row(

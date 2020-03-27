@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:j3enterprise/widgets.dart';
 import 'home_page.dart';
 
 void main() => runApp(MyApp());
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
           child: MyHomePage(),
         ),
         resizeToAvoidBottomInset: false,
+        drawer: CustomDrawer(),
       ),
       theme: ThemeData(
         primarySwatch: Colors.blue,
