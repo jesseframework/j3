@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomDialog extends StatelessWidget {
+class LangCustomDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
