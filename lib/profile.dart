@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:j3enterprise/preferences.dart';
 import 'package:j3enterprise/setup_communication.dart';
 import 'package:j3enterprise/sever_setup.dart';
+import 'package:j3enterprise/shared/icons/custom_icons.dart';
 
 import 'about.dart';
 import 'btasks.dart';
 import 'customDialogBox.dart';
-import 'custom_icons.dart';
+
 
 class LandingPage extends StatefulWidget {
   @override

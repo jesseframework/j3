@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'custom_icons.dart';
+import 'package:j3enterprise/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/about.dart';
 import 'package:j3enterprise/btasks.dart';
 import 'package:j3enterprise/customDialogBox.dart';
