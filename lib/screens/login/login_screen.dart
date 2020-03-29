@@ -8,11 +8,16 @@ import 'package:j3enterprise/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/shared/utils/auth.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({Key key, this.title}) : super(key: key);
-  final String title;
-
+//  LoginScreen({Key key, this.title}) : super(key: key);
+//  final String title;
+//
+//  @override
+//  _LoginScreenState createState() => _LoginScreenState();
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return new _LoginScreenState();
+  }
 }
 
 class _LoginScreenState extends State<LoginScreen> implements LoginScreenContract, AuthStateListener{
@@ -23,11 +28,12 @@ class _LoginScreenState extends State<LoginScreen> implements LoginScreenContrac
   bool _isLoading = false;
   final formKey = new GlobalKey<FormState>();
   final scaffoldKey = new GlobalKey<ScaffoldState>();
-  String _username, _password;
+  static String _username;
+  static String _password;
 
   LoginScreenPresenter _presenter;
 
-  LoginScreenState() {
+  loginScreenState() {
     _presenter = new LoginScreenPresenter(this);
     var authStateProvider = new AuthStateProvider();
     authStateProvider.subscribe(this);
@@ -50,7 +56,6 @@ class _LoginScreenState extends State<LoginScreen> implements LoginScreenContrac
 
   @override
   onAuthStateChanged(AuthState state) {
-   
     if(state == AuthState.LOGGED_IN)
       Navigator.of(_ctx).pushReplacementNamed("/home");
   }
@@ -84,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> implements LoginScreenContrac
                   ),
                   Flexible(
                     flex: 7,
-                    child: Form(
+                    child: new Form(
                       key: formKey,
                       child: Container(
                         constraints: BoxConstraints(
@@ -105,9 +110,9 @@ class _LoginScreenState extends State<LoginScreen> implements LoginScreenContrac
                                   children: <Widget>[
                                     Expanded(
                                       child: TextFormField(
-                                        onSaved: (val) => _username = val,
-                                        validator: (val){
-                                          return val.length < 3
+                                        onSaved: (_value) => _username = _value,
+                                        validator: (_value){
+                                          return _value.length < 3
                                                 ? "Username must have at lease 4 charactor"
                                                 : null;
                                         },
