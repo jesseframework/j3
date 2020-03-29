@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:j3enterprise/screens/about/about.dart';
+import 'package:j3enterprise/screens/backgroundjobs/btasks.dart';
+import 'package:j3enterprise/screens/communication/setup_communication.dart';
+import 'package:j3enterprise/screens/communication/sever_setup.dart';
 import 'package:j3enterprise/shared/icons/custom_icons.dart';
-import 'package:j3enterprise/about.dart';
-import 'package:j3enterprise/btasks.dart';
-import 'package:j3enterprise/customDialogBox.dart';
-import 'package:j3enterprise/setup_communication.dart';
-import 'package:j3enterprise/sever_setup.dart';
+import 'package:j3enterprise/shared/utils/langcustomdialogbox.dart';
+
 
 class CustomDrawer extends StatelessWidget {
   @override
@@ -111,7 +112,7 @@ class CustomDrawer extends StatelessWidget {
                 showDialog(
                     context: context,
                     builder: (context) {
-                      return CustomDialog();
+                      return LangCustomDialog();
                     });
               },
               child: ListTile(

@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:j3enterprise/preferences.dart';
-import 'package:j3enterprise/setup_communication.dart';
-import 'package:j3enterprise/sever_setup.dart';
+import 'package:j3enterprise/screens/about/about.dart';
+import 'package:j3enterprise/screens/backgroundjobs/btasks.dart';
+import 'package:j3enterprise/screens/communication/setup_communication.dart';
+import 'package:j3enterprise/screens/communication/sever_setup.dart';
+import 'package:j3enterprise/screens/prefrences/preferences.dart';
 import 'package:j3enterprise/shared/icons/custom_icons.dart';
-
-import 'about.dart';
-import 'btasks.dart';
-import 'customDialogBox.dart';
+import 'package:j3enterprise/shared/utils/langcustomdialogbox.dart';
+import 'package:j3enterprise/shared/widgets/customdrawer.dart';
 
 
-class LandingPage extends StatefulWidget {
+
+class HomePage extends StatefulWidget {
   @override
-  _LandingPageState createState() => _LandingPageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _LandingPageState extends State<LandingPage> {
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +31,7 @@ class _LandingPageState extends State<LandingPage> {
           ),
         ],
       ),
-      drawer: customDrawer(),
+      drawer: CustomDrawer(),
       body: Container(
         decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -208,7 +209,7 @@ class _LandingPageState extends State<LandingPage> {
                 showDialog(
                     context: context,
                     builder: (context) {
-                      return CustomDialog();
+                      return LangCustomDialog();
                     });
               },
               child: ListTile(

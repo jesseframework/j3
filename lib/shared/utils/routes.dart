@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:j3enterprise/screens/home_page.dart';
+import 'package:j3enterprise/screens/home/hoomscreen.dart';
+import 'package:j3enterprise/screens/login/login_screen.dart';
+
 
 
 final routes = {
-  //'/login':         (BuildContext context) => new LoginScreen(),
-  '/home':         (BuildContext context) => new MyHomePage(),
   //'/' :          (BuildContext context) => new LoginScreen(),
+  '/login':         (BuildContext context) => new LoginScreen(),
+  '/home':         (BuildContext context) => new HomePage(),
+  
 };

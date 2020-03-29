@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:j3enterprise/screens/home_page.dart';
-import 'package:j3enterprise/widgets.dart';
+import 'package:j3enterprise/screens/login/login_screen.dart';
+import 'package:j3enterprise/shared/utils/routes.dart';
+import 'package:j3enterprise/shared/widgets/customdrawer.dart';
+
 
 
 void main() => runApp(MyApp());
@@ -16,28 +18,18 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.blue,
         ),
         body: SafeArea(
-          child: MyHomePage(),
+          child: LoginScreen(),
         ),
         resizeToAvoidBottomInset: false,
         drawer: CustomDrawer(),
       ),
+     
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+       routes: routes,
+      
     );
   }
 }
 
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: 'J3 ENTERPRISE',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: MyHomePage(title: 'J3 ENTERPRISE SOLUTION'),
-//     );
-//   }
-// }
