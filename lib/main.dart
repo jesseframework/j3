@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/screens/login/login_screen.dart';
 import 'package:j3enterprise/shared/utils/routes.dart';
-import 'package:j3enterprise/shared/widgets/customdrawer.dart';
-
-
+import 'package:j3enterprise/shared/widgets/custom_drawer.dart';
 
 void main() => runApp(MyApp());
-
 
 class MyApp extends StatelessWidget {
   @override
@@ -23,13 +20,10 @@ class MyApp extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         drawer: CustomDrawer(),
       ),
-     
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-       routes: routes,
-      
+      routes: routes,
     );
   }
 }
-
