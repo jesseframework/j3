@@ -57,10 +57,9 @@ class DatabaseHelper{
                         "PasswordResetCode TEXT, " +
                         "PhoneNumber TEXT," +
                         "SecurityStamp TEXT, " +
-                        "Surname TEXT," +
-                        "username TEXT," + 
-                        "TenantId TEXT," +
-                        "UserName TEXT,");
+                        "Surname TEXT, " +
+                        "TenantId TEXT, " +
+                        "UserName TEXT)");
     print("Created tables");
   }
 Future<int> saveUser(User user) async {

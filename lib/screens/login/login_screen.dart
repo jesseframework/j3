@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/database/database_helper.dart';
 import 'package:j3enterprise/database/models/users.dart';
-import 'package:j3enterprise/screens/home/hoomscreen.dart';
+//import 'package:j3enterprise/screens/home/hoomscreen.dart';
 import 'package:j3enterprise/screens/login/login_screen_presenter.dart';
 import 'package:j3enterprise/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/shared/utils/auth.dart';
@@ -14,12 +14,11 @@ class LoginScreen extends StatefulWidget {
 //  @override
 //  _LoginScreenState createState() => _LoginScreenState();
   @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
+  State<StatefulWidget> createState() {    
     return new _LoginScreenState();
   }
 }
-
+//fawzanm@gmail.com 
 class _LoginScreenState extends State<LoginScreen> implements LoginScreenContract, AuthStateListener{
   bool isSwitched = false;
   bool pass = true;
@@ -33,6 +32,13 @@ class _LoginScreenState extends State<LoginScreen> implements LoginScreenContrac
 
   LoginScreenPresenter _presenter;
 
+  @override
+  void initState() { 
+    super.initState();
+    
+    loginScreenState();
+  }
+
   loginScreenState() {
     _presenter = new LoginScreenPresenter(this);
     var authStateProvider = new AuthStateProvider();
@@ -45,12 +51,16 @@ class _LoginScreenState extends State<LoginScreen> implements LoginScreenContrac
     if (form.validate()) {
       setState(() => _isLoading = true);
       form.save();
-      _presenter.doLogin(_username, _password);
+
+     _presenter.doLogin(_username, _password);
+
     }
   }
 
   void _showSnackBar(String text) {
-    scaffoldKey.currentState
+
+    Scaffold.of(context)
+    //scaffoldKey.currentState
         .showSnackBar(new SnackBar(content: new Text(text)));
   }
 
@@ -257,7 +267,8 @@ class _LoginScreenState extends State<LoginScreen> implements LoginScreenContrac
 
   @override
   void onLoginError(String errorTxt) {
-    _showSnackBar(errorTxt);
+    print('Cannot login');
+       _showSnackBar(errorTxt);
     setState(() => _isLoading = false);
   }
 
