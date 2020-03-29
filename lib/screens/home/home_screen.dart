@@ -8,7 +8,6 @@ import 'package:j3enterprise/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/shared/utils/langcustomdialogbox.dart';
 import 'package:j3enterprise/shared/widgets/custom_drawer.dart';
 
-
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
