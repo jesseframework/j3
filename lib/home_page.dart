@@ -81,11 +81,23 @@ class _MyHomePageState extends State<MyHomePage> {
                                       ),
                                     ),
                                     Expanded(
-                                      child: TextFormField(
-                                        decoration: InputDecoration(
+                                      child: DropdownButtonFormField(
+                                          decoration: InputDecoration(
                                             icon: Icon(Icons.home),
-                                            labelText: 'Company Code'),
-                                      ),
+                                            labelText: 'Tenant',
+                                          ),
+                                          items: [
+                                            DropdownMenuItem(
+                                              value: '1',
+                                              child: Text('Host'),
+                                            ),
+                                          ],
+                                          onChanged: null),
+                                      // child: TextFormField(
+                                      //   decoration: InputDecoration(
+                                      //       icon: Icon(Icons.home),
+                                      //       labelText: 'Company Code'),
+                                      // ),
                                     ),
                                     Row(
                                       children: <Widget>[
@@ -100,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           child: Text(
                                             "Pin Only",
                                             style: TextStyle(
-                                              fontSize: 16,
+                                              fontSize: 15,
                                               fontWeight: FontWeight.w300,
                                               color: Colors.grey.shade600,
                                             ),
