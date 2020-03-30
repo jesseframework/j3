@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:j3enterprise/shared/icons/custom_icons.dart';
 
 class SetupCommunication extends StatefulWidget {
   @override
@@ -8,95 +9,134 @@ class SetupCommunication extends StatefulWidget {
 class _SetupCommunicationState extends State<SetupCommunication> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.chevron_left),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: Text('Communication'),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: Row(
-              children: <Widget>[
-                SizedBox(
-                  width: 8,
+    return MaterialApp(
+      home: DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            bottom: TabBar(
+              tabs: [
+                Tab(
+                  icon: Icon(CustomIcons.wrench_solid),
+                  text: 'Communication',
                 ),
-                Icon(
-                  Icons.stop,
-                  size: 36,
-                  color: Colors.red,
-                ),
-                SizedBox(
-                  width: 8,
-                ),
-                Icon(
-                  Icons.sync,
-                  size: 28,
-                ),
-                SizedBox(
-                  width: 8,
-                ),
-                Icon(
-                  Icons.file_download,
-                  size: 28,
-                  color: Colors.green,
-                ),
-                SizedBox(
-                  width: 8,
-                ),
-                Icon(
-                  Icons.lock_open,
-                  size: 28,
-                  color: Colors.redAccent,
-                ),
-                SizedBox(
-                  width: 8,
+                Tab(
+                  icon: Icon(CustomIcons.cog_regular),
+                  text: 'API',
                 ),
               ],
             ),
+            title: Text('Setup Communication'),
+            actions: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Icon(
+                      Icons.stop,
+                      size: 36,
+                      color: Colors.red,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Icon(
+                      Icons.sync,
+                      size: 28,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Icon(
+                      Icons.file_download,
+                      size: 28,
+                      color: Colors.green,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    Icon(
+                      Icons.lock_open,
+                      size: 28,
+                      color: Colors.redAccent,
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            SizedBox(
-              height: 15,
-            ),
-            DropWid(
-              name: 'Type of ERP',
-              list: 'ERP Next',
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            NormWid(name: 'Server Url', type: 'u'),
-            SizedBox(
-              height: 20,
-            ),
-            NormWid(name: 'Username', type: 'u'),
-            SizedBox(
-              height: 20,
-            ),
-            NormWid(name: 'New Password', type: 'p'),
-            SizedBox(
-              height: 20,
-            ),
-            NormWid(name: 'Confirm Password', type: 'p'),
-            SizedBox(
-              height: 20,
-            ),
-            DropWid(
-              name: 'Sync Frequency',
-              list: 'Daily',
-            ),
-          ],
+          body: TabBarView(
+            children: [
+              //Communications tab content
+              SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    SizedBox(
+                      height: 15,
+                    ),
+                    DropWid(
+                      name: 'Type of ERP',
+                      list: 'ERP Next',
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    NormWid(name: 'Server Url', type: 'u'),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    NormWid(name: 'Username', type: 'u'),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    NormWid(name: 'New Password', type: 'p'),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    NormWid(name: 'Confirm Password', type: 'p'),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    DropWid(
+                      name: 'Sync Frequency',
+                      list: 'Daily',
+                    ),
+                  ],
+                ),
+              ),
+              //API tab content
+              Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 15,
+                  ),
+                  NormWid(name: 'Server Url', type: 'u'),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  NormWid(name: 'Username', type: 'u'),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  NormWid(name: 'New Password', type: 'p'),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  NormWid(name: 'Confirm Password', type: 'p'),
+                  SizedBox(
+                    height: 20,
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

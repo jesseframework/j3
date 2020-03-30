@@ -164,7 +164,9 @@ class _LoginScreenState extends State<LoginScreen>
                                           alignLabelWithHint: false,
                                           labelText: 'Tenant',
                                           contentPadding:
-                                              const EdgeInsets.only(top: 25.0),
+                                              const EdgeInsets.symmetric(
+                                            vertical: 10.0,
+                                          ),
                                         ),
                                         value: selected,
                                         items: ["Host", "Admin", "Guest"]
