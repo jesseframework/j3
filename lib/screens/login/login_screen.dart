@@ -157,7 +157,8 @@ class _LoginScreenState extends State<LoginScreen>
                                     ),
                                     Expanded(
                                       child: DropdownButtonFormField<String>(
-                                        hint: Text('Select...'),
+                                        hint:
+                                            Text('Select applicable tenant...'),
                                         decoration: InputDecoration(
                                           icon: Icon(Icons.home),
                                           alignLabelWithHint: false,
