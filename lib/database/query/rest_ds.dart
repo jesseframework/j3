@@ -22,11 +22,11 @@ class RestDatasource {
     };
 
 
-return _netUtil.get(BASE_URL+'/api/services/app/User/Get?id='+id.toString(),   headers).then((dynamic res) {
+    return _netUtil.get(BASE_URL+'/api/services/app/User/Get?id='+id.toString(), headers).then((dynamic res) {
       //print(res.toString());
-    //  if(res["error"]) throw new Exception(res["error_msg"]);
-      print('getting userL ');
-      print(res);
+      //  if(res["error"]) throw new Exception(res["error_msg"]);
+      //print('getting userL ');
+      //print(res);
       return res["result"];
     });
   } 

@@ -23,6 +23,11 @@ class User{
   String _surname;
   int _tenantid;
   String _username;
+  String _fullname;
+  DateTime _lastlogintime;
+  DateTime _creationtime;
+  String _rolenames;
+
 
   User(
   // this._accessfaildcount,
@@ -46,8 +51,13 @@ class User{
   // this._securitystamp,
   // this._surname,
   this._tenantid,
-  this._username);
-//fawzanm
+  this._username,
+  this._fullname,
+  this._lastlogintime,
+  this._creationtime,
+  this._rolenames);
+  //fawzanm
+
   User.fromMap(dynamic user){
   this._id = user['id'];
   this._accessfaildcount = user['accessfaildcount'];
@@ -71,7 +81,11 @@ class User{
   this._securitystamp = user['securitystamp'];
   this._surname = user['surname'];
   this._tenantid = user['tenantid'];
-  this._username = user['username'];
+  this._username = user['userName'];
+  this._fullname = user["fullname"];
+  this._lastlogintime = user["lastLoginTime"];
+  this._creationtime = user["creationTime"];
+  this._rolenames = user["roleNames"];
   }
 
   int get id => _id;
@@ -97,6 +111,10 @@ class User{
   String get surname => _surname;
   int get tenantid => _tenantid;
   String get username => _username;
+  String get fullname => _fullname;
+  DateTime get lastloginTime => _lastlogintime;
+  DateTime get creationtime => _creationtime;
+  String get rolenames => _rolenames;
 
 Map<String, dynamic> toMap(){
   var map = new Map<String,dynamic>();
@@ -123,6 +141,8 @@ Map<String, dynamic> toMap(){
   map['surname'] = _surname;
   map['tenantid'] = _tenantid;
   map['userName'] = _username;
+  map['fullname'] = _fullname;
+  map['roleNames'] = _rolenames;
 
   return map;
   
