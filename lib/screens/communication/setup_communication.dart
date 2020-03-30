@@ -14,6 +14,12 @@ class _SetupCommunicationState extends State<SetupCommunication> {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(Icons.chevron_left),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
             bottom: TabBar(
               tabs: [
                 Tab(

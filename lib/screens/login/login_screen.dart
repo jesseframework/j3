@@ -163,10 +163,6 @@ class _LoginScreenState extends State<LoginScreen>
                                           icon: Icon(Icons.home),
                                           alignLabelWithHint: false,
                                           labelText: 'Tenant',
-                                          contentPadding:
-                                              const EdgeInsets.symmetric(
-                                            vertical: 10.0,
-                                          ),
                                         ),
                                         value: selected,
                                         items: ["Host", "Admin", "Guest"]
