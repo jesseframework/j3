@@ -1,151 +1,54 @@
 class User{
 
-  int _id;
-  int _accessfaildcount;
-  String _authenticationsource;
-  String _concurrencystamp;
-  String _emailaddress;
-  String _emailconfirmationcode;
-  bool _isactive;
-  bool _isdeleted;
-  bool _isemailconfirmed;
-  bool _islockoutenabled;
-  bool _isphonenumberconfirmed;
-  bool _istwofactorenabled;
-  DateTime _lockoutenddatetutc; 
-  String _name;
-  String _normalizedemailaddress;
-  String _normalizedusername;
-  String _password;
-  String _passwordresetcode;
-  String _phonenumber;
-  String _securitystamp;
-  String _surname;
-  int _tenantid;
-  String _username;
-  String _fullname;
-  DateTime _lastlogintime;
-  DateTime _creationtime;
-  String _rolenames;
-
+  String userName;
+  String name;
+  String surname;
+  String emailAddress;
+  bool isActive;
+  String fullName;
+  String lastLoginTime;
+  String creationTime;
+  //List<String> roleNames;
+  int id;
 
   User(
-  // this._accessfaildcount,
-  // this._authenticationsource,
-  // this._concurrencystamp,
-  // this._emailaddress,
-  // this._emailconfirmationcode,
-  // this._isactive,
-  // this._isdeleted,
-  // this._islockoutenabled,
-  // this._isemailconfirmed,
-  // this._lockoutenddatetutc,
-  // this._name,
-  // this._normalizedemailaddress,
-  // this._normalizedusername,
-  this._password,
-  // this._passwordresetcode,
-  // this._phonenumber,
-  // this._isphonenumberconfirmed,
-  // this._istwofactorenabled,
-  // this._securitystamp,
-  // this._surname,
-  this._tenantid,
-  this._username,
-  this._fullname,
-  this._lastlogintime,
-  this._creationtime,
-  this._rolenames);
-  //fawzanm
+      {this.userName,
+      this.name,
+      this.surname,
+      this.emailAddress,
+      this.isActive,
+      this.fullName,
+      this.lastLoginTime,
+      this.creationTime,
+      //this.roleNames,
+      this.id});
 
-  User.fromMap(dynamic user){
-  this._id = user['id'];
-  this._accessfaildcount = user['accessfaildcount'];
-  this._authenticationsource = user['authenticationsource'];
-  this._concurrencystamp = user['concurrencystamp'];
-  this._emailaddress = user['emailAddress'];
-  this._emailconfirmationcode = user['emailconfirmationcode'];
-  this._isactive = user['isActive'];
-  this._isdeleted = user['isdeleted'];
-  this._islockoutenabled = user['islockoutenabled'];
-  this._isemailconfirmed = user['isemailconfirmed'];
-  this._lockoutenddatetutc = user['lockoutenddatetutc'];
-  this._name = user['name'];
-  this._normalizedemailaddress = user['normalizedemailaddress'];
-  this._normalizedusername = user['normalizedusername'];
-  this._password = user['password'];
-  this._passwordresetcode = user['passwordresetcode'];
-  this._phonenumber = user['phonenumber'];
-  this._isphonenumberconfirmed = user['isphonenumberconfirmed'];
-  this._istwofactorenabled = user['istwofactorenabled'];
-  this._securitystamp = user['securitystamp'];
-  this._surname = user['surname'];
-  this._tenantid = user['tenantid'];
-  this._username = user['userName'];
-  this._fullname = user["fullname"];
-  this._lastlogintime = user["lastLoginTime"];
-  this._creationtime = user["creationTime"];
-  this._rolenames = user["roleNames"];
+  User.fromMap(Map<String, dynamic> user) {
+    userName = user['userName'];
+    name = user['name'];
+    surname = user['surname'];
+    emailAddress = user['emailAddress'];
+    isActive = user['isActive'];
+    fullName = user['fullName'];
+    lastLoginTime = user['lastLoginTime'];
+    creationTime = user['creationTime'];
+    //roleNames = user['roleNames'].cast<String>();
+    id = user['id'];
   }
 
-  int get id => _id;
-  int get accessfaildcount => _accessfaildcount;
-  String get authenticationsource => _authenticationsource;
-  String get concurrencystamp => _concurrencystamp;
-  String get emailaddress => _emailaddress;
-  String get emailconfirmationcode => _emailconfirmationcode;
-  bool get isactive => _isactive;
-  bool get isdeleted => _isdeleted;
-  bool get isemailconfirmed => _isemailconfirmed;
-  bool get islockoutenabled => _islockoutenabled;
-  bool get isphonenumberconfirmed => _isphonenumberconfirmed;
-  bool get istwofactorenabled => _istwofactorenabled;
-  DateTime get lockoutenddatetutc => _lockoutenddatetutc; 
-  String get name => _name;
-  String get normalizedemailaddress => _normalizedemailaddress;
-  String get normalizedusername => _normalizedusername;
-  String get password => _password;
-  String get passwordresetcode => _passwordresetcode;
-  String get phonenumber => _phonenumber;
-  String get securitystamp => _securitystamp;
-  String get surname => _surname;
-  int get tenantid => _tenantid;
-  String get username => _username;
-  String get fullname => _fullname;
-  DateTime get lastloginTime => _lastlogintime;
-  DateTime get creationtime => _creationtime;
-  String get rolenames => _rolenames;
-
-Map<String, dynamic> toMap(){
-  var map = new Map<String,dynamic>();
-  map['id'] = _id;
-  map['accessfaildcount'] = _accessfaildcount;
-  map['authenticationsource'] = _authenticationsource;
-  map['concurrencystamp'] = _concurrencystamp;
-  map['emailaddress'] = _emailaddress;
-  map['emailconfirmationcode'] = _emailconfirmationcode;
-  map['isactive'] = _isactive;
-  map['isdeleted'] = _isdeleted;
-  map['islockoutenabled'] = _islockoutenabled;
-  map['isemailconfirmed'] = _isemailconfirmed;
-  map['lockoutenddatetutc'] = _lockoutenddatetutc;
-  map['name'] = _name;
-  map['normalizedemailaddress'] = _normalizedemailaddress;
-  map['normalizedusername'] = _normalizedusername;
-  map['password'] = _password;
-  map['passwordresetcode'] = _passwordresetcode;
-  map['phonenumber'] = _phonenumber;
-  map['isphonenumberconfirmed'] = _isphonenumberconfirmed;
-  map['istwofactorenabled'] = _istwofactorenabled;
-  map['securitystamp'] = _securitystamp;
-  map['surname'] = _surname;
-  map['tenantid'] = _tenantid;
-  map['userName'] = _username;
-  map['fullname'] = _fullname;
-  map['roleNames'] = _rolenames;
-
-  return map;
-  
+  Map<String, dynamic> toMap() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['userName'] = this.userName;
+    data['name'] = this.name;
+    data['surname'] = this.surname;
+    data['emailAddress'] = this.emailAddress;
+    data['isActive'] = this.isActive;
+    data['fullName'] = this.fullName;
+    data['lastLoginTime'] = this.lastLoginTime;
+    data['creationTime'] = this.creationTime;
+    //data['roleNames'] = this.roleNames;
+    data['id'] = this.id;
+    return data;
   }
   
 }

@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen>
   @override
   onAuthStateChanged(AuthState state) {
     if (state == AuthState.LOGGED_IN)
-      Navigator.of(_ctx).pushReplacementNamed("/home");
+      Navigator.of(_ctx).pushReplacementNamed("/screens/home");
   }
 
   String selected;
@@ -314,8 +314,8 @@ class _LoginScreenState extends State<LoginScreen>
   void onLoginSuccess(User user) async {
     _showSnackBar(user.toString());
     setState(() => _isLoading = false);
-    var db = new DatabaseHelper();
-    await db.saveUser(user);
+    // var db = new DatabaseHelper();
+    // await db.saveUser(user);
     var authStateProvider = new AuthStateProvider();
     authStateProvider.notify(AuthState.LOGGED_IN);
   }

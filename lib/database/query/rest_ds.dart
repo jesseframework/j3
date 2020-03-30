@@ -27,7 +27,9 @@ class RestDatasource {
       //  if(res["error"]) throw new Exception(res["error_msg"]);
       //print('getting userL ');
       //print(res);
-      return res["result"];
+      var saveU = User.fromMap(res["result"]);
+      return saveU;
+      
     });
   } 
 

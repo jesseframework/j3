@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:j3enterprise/screens/about/about.dart';
-import 'package:j3enterprise/screens/background_jobs/btasks.dart';
-import 'package:j3enterprise/screens/communication/server_setup.dart';
-import 'package:j3enterprise/screens/communication/setup_communication.dart';
 import 'package:j3enterprise/screens/preferences/preferences.dart';
-import 'package:j3enterprise/shared/icons/custom_icons.dart';
-import 'package:j3enterprise/shared/utils/langcustomdialogbox.dart';
 import 'package:j3enterprise/shared/widgets/custom_drawer.dart';
 
 class HomePage extends StatefulWidget {
