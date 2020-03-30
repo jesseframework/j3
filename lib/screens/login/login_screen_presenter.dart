@@ -13,8 +13,18 @@ class LoginScreenPresenter {
   LoginScreenPresenter(this._view);
 
   doLogin(String username, String password) {
-    return api.login(username, password).then((User user) {
-      _view.onLoginSuccess(user);
+    return api.login(username, password).then(( d) {
+       print('on login success triggered');
+
+        var accessToken = d['accessToken'];
+        var userId = d['userId'];
+        print('Token : ' + accessToken);
+
+      api.getUser(accessToken, userId).then((user) => {
+            _view.onLoginSuccess(user)
+      });
+
+     
     }).catchError((e) =>_view. onLoginError(e.toString()));
     /*
     .catchError(

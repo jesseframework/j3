@@ -29,8 +29,8 @@ class _LoginScreenState extends State<LoginScreen>
   bool _isLoading = false;
   final formKey = new GlobalKey<FormState>();
   final scaffoldKey = new GlobalKey<ScaffoldState>();
-  static String _username;
-  static String _password;
+  static String _username = "admin";
+  static String _password = "123qwe";
 
   LoginScreenPresenter _presenter;
 
@@ -121,7 +121,8 @@ class _LoginScreenState extends State<LoginScreen>
                                   children: <Widget>[
                                     Expanded(
                                       child: TextFormField(
-                                        onSaved: (_value) => _username = _value,
+                                        onSaved: (_value) =>
+                                            _username = _value.trim(),
                                         validator: (_value) {
                                           return _value.length < 3
                                               ? "Username must have at lease 4 charactor"
@@ -135,7 +136,8 @@ class _LoginScreenState extends State<LoginScreen>
                                     Expanded(
                                       //Fit and size widgets widgets according to container size
                                       child: TextFormField(
-                                        onSaved: (val) => _password = val,
+                                        onSaved: (val) =>
+                                            _password = val.trim(),
                                         decoration: InputDecoration(
                                           icon: Icon(Icons.lock),
                                           suffixIcon: IconButton(

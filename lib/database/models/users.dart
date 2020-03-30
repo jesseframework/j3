@@ -47,15 +47,15 @@ class User{
   // this._surname,
   this._tenantid,
   this._username);
-
+//fawzanm
   User.fromMap(dynamic user){
   this._id = user['id'];
   this._accessfaildcount = user['accessfaildcount'];
   this._authenticationsource = user['authenticationsource'];
   this._concurrencystamp = user['concurrencystamp'];
-  this._emailaddress = user['emailaddress'];
+  this._emailaddress = user['emailAddress'];
   this._emailconfirmationcode = user['emailconfirmationcode'];
-  this._isactive = user['isactive'];
+  this._isactive = user['isActive'];
   this._isdeleted = user['isdeleted'];
   this._islockoutenabled = user['islockoutenabled'];
   this._isemailconfirmed = user['isemailconfirmed'];
@@ -122,7 +122,7 @@ Map<String, dynamic> toMap(){
   map['securitystamp'] = _securitystamp;
   map['surname'] = _surname;
   map['tenantid'] = _tenantid;
-  map['username'] = _username;
+  map['userName'] = _username;
 
   return map;
   
