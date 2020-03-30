@@ -14,12 +14,14 @@ class LoginScreen extends StatefulWidget {
 //  @override
 //  _LoginScreenState createState() => _LoginScreenState();
   @override
-  State<StatefulWidget> createState() {    
+  State<StatefulWidget> createState() {
     return new _LoginScreenState();
   }
 }
-//fawzanm@gmail.com 
-class _LoginScreenState extends State<LoginScreen> implements LoginScreenContract, AuthStateListener{
+
+//fawzanm@gmail.com
+class _LoginScreenState extends State<LoginScreen>
+    implements LoginScreenContract, AuthStateListener {
   bool isSwitched = false;
   bool pass = true;
   BuildContext _ctx;
@@ -33,9 +35,9 @@ class _LoginScreenState extends State<LoginScreen> implements LoginScreenContrac
   LoginScreenPresenter _presenter;
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
-    
+
     loginScreenState();
   }
 
@@ -52,21 +54,19 @@ class _LoginScreenState extends State<LoginScreen> implements LoginScreenContrac
       setState(() => _isLoading = true);
       form.save();
 
-     _presenter.doLogin(_username, _password);
-
+      _presenter.doLogin(_username, _password);
     }
   }
 
   void _showSnackBar(String text) {
-
     Scaffold.of(context)
-    //scaffoldKey.currentState
+        //scaffoldKey.currentState
         .showSnackBar(new SnackBar(content: new Text(text)));
   }
 
   @override
   onAuthStateChanged(AuthState state) {
-    if(state == AuthState.LOGGED_IN)
+    if (state == AuthState.LOGGED_IN)
       Navigator.of(_ctx).pushReplacementNamed("/home");
   }
 
@@ -121,10 +121,10 @@ class _LoginScreenState extends State<LoginScreen> implements LoginScreenContrac
                                     Expanded(
                                       child: TextFormField(
                                         onSaved: (_value) => _username = _value,
-                                        validator: (_value){
+                                        validator: (_value) {
                                           return _value.length < 3
-                                                ? "Username must have at lease 4 charactor"
-                                                : null;
+                                              ? "Username must have at lease 4 charactor"
+                                              : null;
                                         },
                                         decoration: InputDecoration(
                                             icon: Icon(Icons.person),
@@ -137,13 +137,26 @@ class _LoginScreenState extends State<LoginScreen> implements LoginScreenContrac
                                         onSaved: (val) => _password = val,
                                         decoration: InputDecoration(
                                           icon: Icon(Icons.lock),
+                                          suffixIcon: IconButton(
+                                            icon: !pass
+                                                ? Icon(CustomIcons.eye_off)
+                                                : Icon(CustomIcons.eye),
+                                            onPressed: () {
+                                              setState(() {
+                                                pass = !pass;
+                                              });
+                                            },
+                                          ),
                                           labelText: 'Password',
                                         ),
-                                        obscureText: true, // Hide password
+                                        obscureText: pass, // Hide password
                                       ),
                                     ),
                                     Expanded(
                                       child: TextFormField(
+                                        keyboardType:
+                                            TextInputType.numberWithOptions(
+                                                decimal: false),
                                         decoration: InputDecoration(
                                             icon: Icon(Icons.home),
                                             labelText: 'Company Code'),
@@ -180,19 +193,19 @@ class _LoginScreenState extends State<LoginScreen> implements LoginScreenContrac
                                         ),
                                       ],
                                     ),
-                                    _isLoading ? new CircularProgressIndicator() :
-                                    ButtonTheme(
-                                      minWidth: double.infinity,
-                                      child: RaisedButton(
-                                          color: Colors.blue.shade500,
-                                          child: Text(
-                                            'Login',
-                                            style:
-                                                TextStyle(color: Colors.white),
+                                    _isLoading
+                                        ? new CircularProgressIndicator()
+                                        : ButtonTheme(
+                                            minWidth: double.infinity,
+                                            child: RaisedButton(
+                                                color: Colors.blue.shade500,
+                                                child: Text(
+                                                  'Login',
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                                onPressed: _submit),
                                           ),
-                                          onPressed: _submit
-                                          ),
-                                    ),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -268,7 +281,7 @@ class _LoginScreenState extends State<LoginScreen> implements LoginScreenContrac
   @override
   void onLoginError(String errorTxt) {
     print('Cannot login');
-       _showSnackBar(errorTxt);
+    _showSnackBar(errorTxt);
     setState(() => _isLoading = false);
   }
 
@@ -282,8 +295,6 @@ class _LoginScreenState extends State<LoginScreen> implements LoginScreenContrac
     authStateProvider.notify(AuthState.LOGGED_IN);
   }
 }
-
-
 
 class DropWid extends StatefulWidget {
   final String list;
@@ -326,5 +337,3 @@ class _DropWidState extends State<DropWid> {
     );
   }
 }
-
-

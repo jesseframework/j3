@@ -16,6 +16,10 @@
 ///         Author:    Dave Gandy
 ///         License:   SIL ()
 ///         Homepage:  http://fortawesome.github.com/Font-Awesome/
+/// * Zocial, Copyright (C) 2012 by Sam Collins
+///         Author:    Sam Collins
+///         License:   MIT (http://opensource.org/licenses/mit-license.php)
+///         Homepage:  http://zocial.smcllns.com/
 /// * Linearicons Free, Copyright (C) Linearicons.com
 ///         Author:    Perxis
 ///         License:   CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/)
@@ -34,10 +38,13 @@ class CustomIcons {
   static const IconData database_solid = IconData(0xe803, fontFamily: _kFontFam);
   static const IconData info_circle_solid = IconData(0xe804, fontFamily: _kFontFam);
   static const IconData language = IconData(0xe805, fontFamily: _kFontFam);
+  static const IconData buffer = IconData(0xe806, fontFamily: _kFontFam);
   static const IconData sync_alt_solid = IconData(0xe807, fontFamily: _kFontFam);
   static const IconData envelope_solid = IconData(0xe808, fontFamily: _kFontFam);
   static const IconData facebook_square_brands = IconData(0xe809, fontFamily: _kFontFam);
   static const IconData google_brands = IconData(0xe80a, fontFamily: _kFontFam);
   static const IconData twitter_square_brands = IconData(0xe80b, fontFamily: _kFontFam);
+  static const IconData eye = IconData(0xe80c, fontFamily: _kFontFam);
+  static const IconData eye_off = IconData(0xe80d, fontFamily: _kFontFam);
   static const IconData pushpin = IconData(0xe832, fontFamily: _kFontFam);
 }
