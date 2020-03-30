@@ -23,7 +23,7 @@ class DatabaseHelper{
   Future<Database> initDb() async {
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "J3EntDb.db");
-    var theDb = await openDatabase(path, version: 1, onCreate: _onCreate);
+    var theDb = await openDatabase(path, version: 2, onCreate: _onCreate);
     return theDb;
   }
   
@@ -59,7 +59,9 @@ class DatabaseHelper{
                         "SecurityStamp TEXT, " +
                         "Surname TEXT, " +
                         "TenantId TEXT, " +
-                        "UserName TEXT)");
+                        "UserName TEXT, " +
+                        "roleNames TEXT," +
+                        "fullName TEXT)");
     print("Created tables");
   }
 Future<int> saveUser(User user) async {
