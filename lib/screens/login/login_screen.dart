@@ -70,6 +70,7 @@ class _LoginScreenState extends State<LoginScreen>
       Navigator.of(_ctx).pushReplacementNamed("/home");
   }
 
+  String selected;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -153,14 +154,37 @@ class _LoginScreenState extends State<LoginScreen>
                                       ),
                                     ),
                                     Expanded(
-                                      child: TextFormField(
-                                        keyboardType:
-                                            TextInputType.numberWithOptions(
-                                                decimal: false),
+                                      child: DropdownButtonFormField<String>(
+                                        hint: Text('Select...'),
                                         decoration: InputDecoration(
-                                            icon: Icon(Icons.home),
-                                            labelText: 'Company Code'),
+                                          icon: Icon(Icons.home),
+                                          alignLabelWithHint: false,
+                                          labelText: 'Tenant',
+                                          contentPadding:
+                                              const EdgeInsets.only(top: 25.0),
+                                        ),
+                                        value: selected,
+                                        items: ["Host", "Admin", "Guest"]
+                                            .map((label) =>
+                                                DropdownMenuItem<String>(
+                                                  child: Text(label),
+                                                  value: label,
+                                                ))
+                                            .toList(),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            selected = value;
+                                          });
+                                        },
                                       ),
+                                      // child: TextFormField(
+                                      //   keyboardType:
+                                      //       TextInputType.numberWithOptions(
+                                      //           decimal: false),
+                                      //   decoration: InputDecoration(
+                                      //       icon: Icon(Icons.home),
+                                      //       labelText: 'Tenant'),
+                                      // ),
                                     ),
                                     Row(
                                       children: <Widget>[
