@@ -23,7 +23,7 @@ class DatabaseHelper{
   Future<Database> initDb() async {
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "J3EntDb.db");
-    var theDb = await openDatabase(path, version: 2, onCreate: _onCreate);
+    var theDb = await openDatabase(path, version: 4, onCreate: _onCreate);
     return theDb;
   }
   
@@ -31,36 +31,15 @@ class DatabaseHelper{
   void _onCreate(Database db, int version) async {
     // When creating the db, create the table
     await db.execute(
-    "CREATE TABLE User(id INTEGER PRIMARY KEY, " +
-                        "AccessFailedCount INT, " +
-                        "AuthenticationSource TEXT," +
-                        "ConcurrencyStamp TEXT, " +
-                        "CreationTime DATETIME," +
-                        "CreatorUserId INT, " +
-                        "DeleterUserId INT," +
-                        "DeletionTime DATETIME, " +
-                        "EmailAddress TEXT," +
-                        "EmailConfirmationCode TEXT," +
-                        "IsActive INT," +
-                        "IsDeleted INT," +
-                        "IsEmailConfirmed INT," +
-                        "IsLockoutEnabled INT, " +
-                        "IsPhoneNumberConfirmed INT," +
-                        "IsTwoFactorEnabled INT, " +
-                        "LastModificationTime DATETIME," +
-                        "LastModifierUserId INT, " +
-                        "LockoutEndDateUtc DATETIME," +
-                        "Name TEXT, " +
-                        "NormalizedEmailAddress TEXT," +
-                        "NormalizedUserName TEXT, " +
-                        "password TEXT," +
-                        "PasswordResetCode TEXT, " +
-                        "PhoneNumber TEXT," +
-                        "SecurityStamp TEXT, " +
-                        "Surname TEXT, " +
-                        "TenantId TEXT, " +
-                        "UserName TEXT, " +
-                        "roleNames TEXT," +
+    "CREATE TABLE User(id INTEGER PRIMARY KEY, " +                        
+                        "CreationTime TEXT," +                        
+                        "EmailAddress TEXT," +                        
+                        "IsActive INT," +                     
+                        "lastLoginTime TEXT," +                        
+                        "Name TEXT, " +                       
+                        "password TEXT," +                        
+                        "Surname TEXT, " +                       
+                        "UserName TEXT, " +                        
                         "fullName TEXT)");
     print("Created tables");
   }
