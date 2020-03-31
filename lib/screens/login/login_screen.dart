@@ -67,12 +67,13 @@ class _LoginScreenState extends State<LoginScreen>
   @override
   onAuthStateChanged(AuthState state) {
     if (state == AuthState.LOGGED_IN)
-      Navigator.of(_ctx).pushReplacementNamed("/screens/home");
+      Navigator.of(_ctx).pushReplacementNamed("/home");
   }
 
   String selected;
   @override
   Widget build(BuildContext context) {
+    _ctx = context;
     return Stack(
       children: <Widget>[
         Positioned.fill(

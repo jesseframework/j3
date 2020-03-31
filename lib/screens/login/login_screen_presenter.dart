@@ -20,14 +20,14 @@ class LoginScreenPresenter {
 //  RestDatasource api = new RestDatasource();
   LoginScreenPresenter(this._view);
 
-  doLogin(String username, String password) {
-    return api.login({
+  void doLogin(String username, String password) {
+    api.login({
       "rememberClient": true,
       "userNameOrEmailAddress": username,
       "password": password
     }).then((Response response) {
       Map<String, dynamic> map = json.decode(response.bodyString);
-      if (response.isSuccessful) {
+      if (response.isSuccessful && map['success']) {
         //decode the response body
         Map<String, dynamic> result = map['result'];
 
@@ -39,17 +39,21 @@ class LoginScreenPresenter {
         });
 
         //get user from the user id
-        api.getUser(result['userId']).then((Response response) {
-          Map<String, dynamic> map = json.decode(response.bodyString);
-          if (response.isSuccessful) {
-            var saveU = User.fromMap(map["result"]);
-            print(saveU);
-            _view.onLoginSuccess(saveU);
-          }
-        });
+        _getUserById(result['userId']);
       } else {
         //display errors
-        _view.onLoginError(map["error"].toString());
+        // can have an error class and use frommap here as well
+        final error = map["error"];
+        _view.onLoginError(error["details"]);
+      }
+    });
+  }
+
+  Future<dynamic> _getUserById(int userId) {
+    return api.getUser(userId).then((Response response) {
+      Map<String, dynamic> map = json.decode(response.bodyString);
+      if (response.isSuccessful) {
+        _view.onLoginSuccess(User.fromMap(map["result"]));
       }
     });
   }

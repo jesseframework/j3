@@ -5,11 +5,11 @@ import 'package:j3enterprise/shared/widgets/custom_drawer.dart';
 import 'package:logging/logging.dart';
 
 void main() {
-//  setupLogging();
+  _setupLogging();
   runApp(MyApp());
 }
 
-void setupLogging() {
+void _setupLogging() {
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((rec) {
     print('${rec.level.name}: ${rec.time} : ${rec.message}');
