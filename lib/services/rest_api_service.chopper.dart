@@ -21,6 +21,13 @@ class _$RestApiService extends RestApiService {
     return client.send<dynamic, dynamic>($request);
   }
 
+  Future<Response> getUser(int id) {
+    final $url = '/api/services/app/User/Get';
+    final Map<String, dynamic> $params = {'id': id};
+    final $request = Request('GET', $url, client.baseUrl, parameters: $params);
+    return client.send<dynamic, dynamic>($request);
+  }
+
   Future<Response> sampleWithUrlAndQuery(String url, String page) {
     final $url = '/api/${url}';
     final Map<String, dynamic> $params = {'page': page};

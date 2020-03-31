@@ -2,8 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:j3enterprise/screens/login/login_screen.dart';
 import 'package:j3enterprise/shared/utils/routes.dart';
 import 'package:j3enterprise/shared/widgets/custom_drawer.dart';
+import 'package:logging/logging.dart';
 
-void main() => runApp(MyApp());
+void main() {
+//  setupLogging();
+  runApp(MyApp());
+}
+
+void setupLogging() {
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((rec) {
+    print('${rec.level.name}: ${rec.time} : ${rec.message}');
+  });
+}
 
 class MyApp extends StatelessWidget {
   @override
