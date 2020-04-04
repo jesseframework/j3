@@ -70,6 +70,7 @@ class _LoginFormState extends State<LoginForm> {
                           Expanded(
                             //Fit and size widgets widgets according to container size
                             child: TextFormField(
+                              controller: _passwordController,
                               decoration: InputDecoration(
                                 icon: Icon(Icons.lock),
                                 suffixIcon: IconButton(
