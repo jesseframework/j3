@@ -161,6 +161,11 @@ class _LoginFormState extends State<LoginForm> {
                                   : null,
                             ),
                           ),
+                          Container(
+                            child: state is LoginLoading
+                                ? LinearProgressIndicator()
+                                : null,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
