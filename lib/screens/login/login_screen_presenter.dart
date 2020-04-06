@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:chopper/chopper.dart';
 import 'package:j3enterprise/api_clients/api_client.dart';
 import 'package:j3enterprise/database/models/users.dart';
-import 'package:j3enterprise/database/query/rest_ds.dart';
 import 'package:j3enterprise/services/rest_api_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

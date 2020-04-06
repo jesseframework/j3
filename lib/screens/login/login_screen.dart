@@ -1,19 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:j3enterprise/database/database_helper.dart';
 import 'package:j3enterprise/database/models/users.dart';
 import 'package:j3enterprise/login/login_form.dart';
 //import 'package:j3enterprise/screens/home/hoomscreen.dart';
 import 'package:j3enterprise/screens/login/login_screen_presenter.dart';
-import 'package:j3enterprise/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/shared/utils/auth.dart';
 
 class LoginScreen extends StatefulWidget {
-//  LoginScreen({Key key, this.title}) : super(key: key);
-//  final String title;
-//
-//  @override
-//  _LoginScreenState createState() => _LoginScreenState();
+
   @override
   State<StatefulWidget> createState() {
     return new _LoginScreenState();

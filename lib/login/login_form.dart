@@ -78,9 +78,6 @@ class _LoginFormState extends State<LoginForm> {
                                       ? Icon(CustomIcons.eye_off)
                                       : Icon(CustomIcons.eye),
                                   onPressed: () {
-//                                      setState(() {
-//                                        pass = !pass;
-//                                      });
                                   },
                                 ),
                                 labelText: 'Password',
@@ -109,14 +106,7 @@ class _LoginFormState extends State<LoginForm> {
                                 });
                               },
                             ),
-                            // child: TextFormField(
-                            //   keyboardType:
-                            //       TextInputType.numberWithOptions(
-                            //           decimal: false),
-                            //   decoration: InputDecoration(
-                            //       icon: Icon(Icons.home),
-                            //       labelText: 'Tenant'),
-                            // ),
+                            
                           ),
                           Row(
                             children: <Widget>[
@@ -228,41 +218,4 @@ class _LoginFormState extends State<LoginForm> {
   }
 }
 
-//class NewWidget extends StatelessWidget {
-//  const NewWidget({
-//    Key key,
-//    @required TextEditingController usernameController,
-//    @required TextEditingController passwordController,
-//  })  : _usernameController = usernameController,
-//        _passwordController = passwordController,
-//        super(key: key);
-//
-//  final TextEditingController _usernameController;
-//  final TextEditingController _passwordController;
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    return Form(
-//      child: Column(
-//        children: [
-//          TextFormField(
-//            decoration: InputDecoration(labelText: 'username'),
-//            controller: _usernameController,
-//          ),
-//          TextFormField(
-//            decoration: InputDecoration(labelText: 'password'),
-//            controller: _passwordController,
-//            obscureText: true,
-//          ),
-//          RaisedButton(
-//            onPressed: state is! LoginLoading ? _onLoginButtonPressed : null,
-//            child: Text('Login'),
-//          ),
-//          Container(
-//            child: state is LoginLoading ? CircularProgressIndicator() : null,
-//          ),
-//        ],
-//      ),
-//    );
-//  }
-//}
+
