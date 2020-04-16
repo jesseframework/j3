@@ -132,6 +132,9 @@ class _LoginFormState extends State<LoginForm> {
                                 onChanged: (value) {
                                   setState(() {
                                     isSwitched = value;
+                                    if(value = true){
+                                      
+                                    }
                                     print(isSwitched);
                                   });
                                 },

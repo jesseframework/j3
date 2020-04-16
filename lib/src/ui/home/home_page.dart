@@ -11,13 +11,14 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('J3 Enterprise Solutions'),
+        title: Text('J3 ENTERPRISE SOLUTION'),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 18),
             child: Icon(
               Icons.wifi,
-              color: Colors.greenAccent,
+              color: Colors.white,
+              size: 40.0,
             ),
           ),
         ],

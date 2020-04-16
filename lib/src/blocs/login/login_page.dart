@@ -19,7 +19,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('J3 Enterprise Solutions'),
+        title: Text('J3 ENTERPRISE SOLUTION'),
         backgroundColor: Colors.blue,
       ),
       body: SafeArea(
