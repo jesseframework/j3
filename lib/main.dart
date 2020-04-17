@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:j3enterprise/screens/login/login_screen.dart';
-import 'package:j3enterprise/shared/utils/routes.dart';
-import 'package:j3enterprise/shared/widgets/custom_drawer.dart';
-import 'package:j3enterprise/splash/splash_page.dart';
+import 'package:j3enterprise/src/resources/shared/utils/routes.dart';
+import 'package:j3enterprise/src/ui/splash/splash_page.dart';
 import 'package:logging/logging.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'Repositories/user_repository.dart';
-import 'authentication/authentication_bloc.dart';
-import 'authentication/authentication_event.dart';
-import 'authentication/authentication_state.dart';
-import 'common/loading_indicator.dart';
-import 'home/home_page.dart';
-import 'login/login_page.dart';
+import 'src/resources/repositories/user_repository.dart';
+import 'src/blocs/authentication/authentication_bloc.dart';
+import 'src/blocs/authentication/authentication_event.dart';
+import 'src/blocs/authentication/authentication_state.dart';
+import 'src/resources/shared/common/loading_indicator.dart';
+import 'src/ui/home/home_page.dart';
+import 'src/blocs/login/login_page.dart';
 
 //
 //void main() {
@@ -47,6 +46,7 @@ class SimpleBlocDelegate extends BlocDelegate {
 }
 
 void main() {
+  SharedPreferences.setMockInitialValues({});
   _setupLogging();
   BlocSupervisor.delegate = SimpleBlocDelegate();
   final userRepository = UserRepository();
