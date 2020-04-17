@@ -22,6 +22,10 @@ class AuthenticationBloc
     AuthenticationEvent event,
   ) async* {
     if (event is AppStarted) {
+
+      await Future.delayed(Duration(
+          seconds: 9
+      ));
       final bool hasToken = await userRepository.hasToken();
 
       if (hasToken) {
