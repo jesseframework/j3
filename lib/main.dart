@@ -6,12 +6,12 @@ import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'src/resources/repositories/user_repository.dart';
-import 'src/blocs/authentication/authentication_bloc.dart';
-import 'src/blocs/authentication/authentication_event.dart';
-import 'src/blocs/authentication/authentication_state.dart';
+import 'src/ui/authentication/authentication_bloc.dart';
+import 'src/ui/authentication/authentication_event.dart';
+import 'src/ui/authentication/authentication_state.dart';
 import 'src/resources/shared/common/loading_indicator.dart';
 import 'src/ui/home/home_page.dart';
-import 'src/blocs/login/login_page.dart';
+import 'src/ui/login/login_page.dart';
 
 //
 //void main() {
