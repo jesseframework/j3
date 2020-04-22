@@ -3,8 +3,8 @@ import 'dart:convert';
 
 import 'package:chopper/chopper.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
-import 'package:j3enterprise/src/blocs/authentication/authentication_bloc.dart';
-import 'package:j3enterprise/src/blocs/authentication/authentication_event.dart';
+import 'package:j3enterprise/src/ui/authentication/authentication_bloc.dart';
+import 'package:j3enterprise/src/ui/authentication/authentication_event.dart';
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'package:bloc/bloc.dart';

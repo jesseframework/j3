@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:j3enterprise/src/blocs/authentication/authentication_bloc.dart';
-import 'package:j3enterprise/src/blocs/authentication/authentication_event.dart';
+import 'package:j3enterprise/src/ui/authentication/authentication_bloc.dart';
+import 'package:j3enterprise/src/ui/authentication/authentication_event.dart';
 import 'package:j3enterprise/src/ui/preferences/preferences.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/custom_drawer.dart';
 
