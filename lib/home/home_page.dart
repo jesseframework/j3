@@ -7,7 +7,7 @@ import 'package:j3enterprise/authentication/authentication_event.dart';
 import 'package:j3enterprise/screens/preferences/preferences.dart';
 import 'package:j3enterprise/shared/widgets/custom_drawer.dart';
 
-Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
+Future<dynamic> backgroundMessageHandler(Map<String, dynamic> message) {
   print(message);
 }
 
@@ -25,16 +25,13 @@ class _HomePageState extends State<HomePage> {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
-//        _showItemDialog(message);
       },
-      onBackgroundMessage: myBackgroundMessageHandler,
+      onBackgroundMessage: backgroundMessageHandler,
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
-//        _navigateToItemDetail(message);
       },
       onResume: (Map<String, dynamic> message) async {
         print("onResume: $message");
-//        _navigateToItemDetail(message);
       },
     );
     super.initState();
