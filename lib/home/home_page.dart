@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,7 +7,39 @@ import 'package:j3enterprise/authentication/authentication_event.dart';
 import 'package:j3enterprise/screens/preferences/preferences.dart';
 import 'package:j3enterprise/shared/widgets/custom_drawer.dart';
 
-class HomePage extends StatelessWidget {
+Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
+  print(message);
+}
+
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+//        _showItemDialog(message);
+      },
+      onBackgroundMessage: myBackgroundMessageHandler,
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+//        _navigateToItemDetail(message);
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+//        _navigateToItemDetail(message);
+      },
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,8 +122,8 @@ class HomePage extends StatelessWidget {
                       RaisedButton(
                         child: Text('logout'),
                         onPressed: () {
-                      BlocProvider.of<AuthenticationBloc>(context)
-                          .add(LoggedOut());
+                          BlocProvider.of<AuthenticationBloc>(context)
+                              .add(LoggedOut());
                         },
                       ),
                     ],
