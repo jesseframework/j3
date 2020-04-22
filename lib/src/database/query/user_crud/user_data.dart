@@ -1,5 +1,5 @@
 import 'package:j3enterprise/src/database/database_helper.dart';
-import 'file:///C:/Users/jgray/source/repos/j3/lib/src/models/users.dart';
+import 'package:j3enterprise/src/models/users.dart';
 import 'package:sqflite/sqflite.dart';
 
 
