@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/ui/about/about.dart';
 import 'package:j3enterprise/src/ui/background_jobs/btasks.dart';
 import 'package:j3enterprise/src/ui/communication/setup_communication.dart';
 import 'package:j3enterprise/src/ui/communication/server_setup.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/src/resources/shared/utils/langcustomdialogbox.dart';
+
+import 'dart:io' show Platform;
 
 class CustomDrawer extends StatelessWidget {
   @override
@@ -26,7 +29,7 @@ class CustomDrawer extends StatelessWidget {
                       width: 27,
                     ),
                     Text(
-                      'Settings',
+                      AppLocalization.of(context).translate('setting_label_appdraw'),
                       style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
@@ -57,7 +60,7 @@ class CustomDrawer extends StatelessWidget {
                   color: Colors.blue,
                 ),
                 title: Text(
-                  'Setup Communication',
+                  AppLocalization.of(context).translate('set_communication_appdraw'),
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
               ),
@@ -77,27 +80,31 @@ class CustomDrawer extends StatelessWidget {
                   color: Colors.blue,
                 ),
                 title: Text(
-                  'Background Jobs',
+                  AppLocalization.of(context).translate('background_job_appdraw'),
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
               ),
             ),
           ),
           Align(
+                   
             alignment: Alignment.bottomLeft,
+            
             child: GestureDetector(
+              
               onTap: () {
                 Navigator.of(context).pop();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => LocalServer()));
-              },
+              },              
               child: ListTile(
                 leading: Icon(
                   CustomIcons.database_solid,
                   color: Colors.blue,
                 ),
                 title: Text(
-                  'Local Server Setup',
+                  
+                  AppLocalization.of(context).translate('local_server_setup_appdraw'),
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
               ),
@@ -120,7 +127,7 @@ class CustomDrawer extends StatelessWidget {
                   color: Colors.blue,
                 ),
                 title: Text(
-                  'Language',
+                 AppLocalization.of(context).translate('language_appdraw'),
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
               ),
@@ -140,7 +147,7 @@ class CustomDrawer extends StatelessWidget {
                   color: Colors.blue,
                 ),
                 title: Text(
-                  'About',
+                 AppLocalization.of(context).translate('about_appdraw'),
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
               ),
@@ -158,7 +165,7 @@ class CustomDrawer extends StatelessWidget {
                   thickness: 2,
                 ),
                 Text(
-                  'Version',
+                  AppLocalization.of(context).translate('version_appdraw'),
                   style: TextStyle(color: Colors.black, fontSize: 12),
                 ),
                 SizedBox(
@@ -172,7 +179,7 @@ class CustomDrawer extends StatelessWidget {
                   height: 8,
                 ),
                 Text(
-                  'J3 Enterprise Solution',
+                  'J3 Enterprise Pro 3.1',
                   style: TextStyle(color: Colors.grey, fontSize: 12),
                 ),
               ],

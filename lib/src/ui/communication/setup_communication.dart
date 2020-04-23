@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
+import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 
 class SetupCommunication extends StatefulWidget {
   @override
@@ -24,15 +25,15 @@ class _SetupCommunicationState extends State<SetupCommunication> {
               tabs: [
                 Tab(
                   icon: Icon(CustomIcons.wrench_solid),
-                  text: 'Communication',
+                  text: AppLocalization.of(context).translate('tab_communication_communication'),
                 ),
                 Tab(
                   icon: Icon(CustomIcons.cog_regular),
-                  text: 'API',
+                  text:  AppLocalization.of(context).translate('tab_api_communication'),
                 ),
               ],
             ),
-            title: Text('Setup Communication'),
+            title: Text(AppLocalization.of(context).translate('title_communication')),
             actions: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(8),
@@ -88,30 +89,30 @@ class _SetupCommunicationState extends State<SetupCommunication> {
                       height: 15,
                     ),
                     DropWid(
-                      name: 'Type of ERP',
+                      name: AppLocalization.of(context).translate('type_of_erp_label_communication'),
                       list: 'ERP Next',
                     ),
                     SizedBox(
                       height: 20,
                     ),
-                    NormWid(name: 'Server Url', type: 'u'),
+                    NormWid(name: AppLocalization.of(context).translate('server_url_label_communication'), type: 'u'),
                     SizedBox(
                       height: 20,
                     ),
-                    NormWid(name: 'Username', type: 'u'),
+                    NormWid(name: AppLocalization.of(context).translate('username_label_communication'), type: 'u'),
                     SizedBox(
                       height: 20,
                     ),
-                    NormWid(name: 'New Password', type: 'p'),
+                    NormWid(name: AppLocalization.of(context).translate('new_password_label_communication'), type: 'p'),
                     SizedBox(
                       height: 20,
                     ),
-                    NormWid(name: 'Confirm Password', type: 'p'),
+                    NormWid(name: AppLocalization.of(context).translate('confirm_password_label_communication'), type: 'p'),
                     SizedBox(
                       height: 20,
                     ),
                     DropWid(
-                      name: 'Sync Frequency',
+                      name: AppLocalization.of(context).translate('sync_frequency_label_communication'),
                       list: 'Daily',
                     ),
                   ],
@@ -123,19 +124,19 @@ class _SetupCommunicationState extends State<SetupCommunication> {
                   SizedBox(
                     height: 15,
                   ),
-                  NormWid(name: 'Server Url', type: 'u'),
+                  NormWid(name: AppLocalization.of(context).translate('server_url_label_communication'), type: 'u'),
                   SizedBox(
                     height: 20,
                   ),
-                  NormWid(name: 'Username', type: 'u'),
+                  NormWid(name: AppLocalization.of(context).translate('username_label_communication'), type: 'u'),
                   SizedBox(
                     height: 20,
                   ),
-                  NormWid(name: 'New Password', type: 'p'),
+                  NormWid(name: AppLocalization.of(context).translate('new_password_label_communication'), type: 'p'),
                   SizedBox(
                     height: 20,
                   ),
-                  NormWid(name: 'Confirm Password', type: 'p'),
+                  NormWid(name: AppLocalization.of(context).translate('confirm_password_label_communication'), type: 'p'),
                   SizedBox(
                     height: 20,
                   ),

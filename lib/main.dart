@@ -13,11 +13,12 @@ import 'src/resources/shared/common/loading_indicator.dart';
 import 'src/ui/home/home_page.dart';
 import 'src/ui/login/login_page.dart';
 
-//
-//void main() {
-//  runApp(MyApp());
-//}
-//
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
+
+import 'dart:io' show Platform;
+
 void _setupLogging() {
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((rec) {
@@ -87,6 +88,40 @@ class App extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       routes: routes,
+
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('es', 'ES'),
+        Locale('sk', 'SK'),
+      ],
+
+      localizationsDelegates: [
+        AppLocalization.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+
+       localeResolutionCallback: (locale, supportedLocales) {
+        // Check if the current device locale is supported
+        if (Platform.isAndroid) {
+        for (var supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale.languageCode &&
+              supportedLocale.countryCode == locale.countryCode) {
+            return supportedLocale;
+          }
+        }
+      } else if (Platform.isIOS) {
+        for (var supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale.languageCode &&
+              supportedLocale.countryCode == locale.countryCode) {
+            return supportedLocale;
+          }
+        }
+      }
+        
+         return supportedLocales.first;
+       },       
+      
     );
   }
 

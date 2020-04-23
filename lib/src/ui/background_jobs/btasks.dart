@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 
 class BackgroundTasks extends StatefulWidget {
   @override
@@ -25,7 +26,7 @@ class _BackgroundTasksState extends State<BackgroundTasks> {
             Navigator.pop(context);
           },
         ),
-        title: Text('Background Jobs'),
+        title: Text(AppLocalization.of(context).translate('title_backgroundjob')),
         actions: <Widget>[
           Icon(
             Icons.stop,
@@ -76,7 +77,7 @@ class _BackgroundTasksState extends State<BackgroundTasks> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14),
                 child: Text(
-                  'Schedule Jobs',
+                  AppLocalization.of(context).translate('schedule_jobs_sub_title_backgroundjob'),
                   style: TextStyle(color: Colors.white, fontSize: 24),
                 ),
               ),
@@ -169,11 +170,11 @@ class _BackgroundTasksState extends State<BackgroundTasks> {
               ),
             ),
             DropWid(
-              name: 'Sync Frequency',
+              name: AppLocalization.of(context).translate('sync_frequency_label_backgroundjob'),
               list: 'Daily',
             ),
             DropWid(
-              name: 'Select Job',
+              name: AppLocalization.of(context).translate('select_jobs_label_backgroundjob'),
               list: 'Getiteminformation',
             ),
             SizedBox(
@@ -185,7 +186,7 @@ class _BackgroundTasksState extends State<BackgroundTasks> {
                 Container(
                   child: Container(
                     child: Text(
-                      'START',
+                      AppLocalization.of(context).translate('start_button_backgroundjob'),
                       style: TextStyle(
                           color: Colors.blue,
                           fontSize: 18,
@@ -195,7 +196,7 @@ class _BackgroundTasksState extends State<BackgroundTasks> {
                 ),
                 Container(
                   decoration: BoxDecoration(),
-                  child: Text('CANCEL',
+                  child: Text(AppLocalization.of(context).translate('cancel_button_backgroundjob'),
                       style: TextStyle(
                           color: Colors.blue,
                           fontSize: 18,
@@ -213,7 +214,7 @@ class _BackgroundTasksState extends State<BackgroundTasks> {
                 children: <Widget>[
                   FlatButton(
                     child: Text(
-                      'Running',
+                      AppLocalization.of(context).translate('running_tab_backgroundjob'),
                       style: TextStyle(
                           color: select == 0 ? Colors.white : Colors.black),
                     ),
@@ -227,7 +228,7 @@ class _BackgroundTasksState extends State<BackgroundTasks> {
                   FlatButton(
                     color: select == 1 ? Colors.blue : Colors.white,
                     child: Text(
-                      'SyncedJobs',
+                      AppLocalization.of(context).translate('systemjobs_tab_backgroundjob'),
                       style: TextStyle(
                           color: select == 1 ? Colors.white : Colors.black),
                     ),

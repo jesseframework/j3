@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 
 class About extends StatefulWidget {
   @override
@@ -10,7 +11,7 @@ class _AboutState extends State<About> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('J3 ENTERPRISE'),
+        title: Text(AppLocalization.of(context).translate('about_title_about')),
       ),
       body: Column(
         children: <Widget>[
@@ -24,15 +25,15 @@ class _AboutState extends State<About> {
               child: Row(
                 children: <Widget>[
                   //Icon(Icons.chevron_left,size: 36,),
-                  Expanded(child: Text('About',style: TextStyle(fontSize: 22),)),
+                  //Expanded(child: Text('About',style: TextStyle(fontSize: 22),)),
                 ],
               ),
             ),
           ),
           SizedBox(height: 10,),
-          NormWid(name:'Product Version',type:'u',text: '19.05.001',),
-          NormWid(name:'Device ID',type:'u',text: '0000-0000-0000-0001',),
-          NormWid(name:'Device Status',type:'u',text: 'Approved for develoment',),
+          NormWid(name:AppLocalization.of(context).translate('preduct_version_label_about'),type:'u',text: '19.05.001',),
+          NormWid(name:AppLocalization.of(context).translate('device_id_label_about'),type:'u',text: '0000-0000-0000-0001',),
+          NormWid(name:AppLocalization.of(context).translate('device_status_label_about'),type:'u',text: 'Approved for develoment',),
         ],
       ),
     );

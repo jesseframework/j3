@@ -2,6 +2,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication_bloc.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication_event.dart';
 import 'package:j3enterprise/src/ui/preferences/preferences.dart';
@@ -21,7 +22,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    
+    print('Init firebase');
+    _firebaseMessaging.getToken().then((value) => print('fcm : ' + value));
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
@@ -41,7 +44,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('J3 ENTERPRISE SOLUTION'),
+        title: Text(AppLocalization.of(context).translate('app_title')),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 18),
@@ -111,7 +114,7 @@ class _HomePageState extends State<HomePage> {
                         height: 10,
                       ),
                       Text(
-                        'Preferences',
+                        AppLocalization.of(context).translate('home_prefrence_icon_label'),
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

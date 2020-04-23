@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/ui/preferences/preferences.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/custom_drawer.dart';
 
@@ -12,7 +13,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('J3 Enterprise Solutions'),
+        title: Text(AppLocalization.of(context).translate('app_title')),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 18),
@@ -81,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                         height: 10,
                       ),
                       Text(
-                        'Preferences',
+                        AppLocalization.of(context).translate('home_prefrence_icon_label'),
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
+import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication_bloc.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/custom_drawer.dart';
 
@@ -19,7 +20,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('J3 ENTERPRISE SOLUTION'),
+        title: Text(AppLocalization.of(context).translate('app_title')),
         backgroundColor: Colors.blue,
       ),
       body: SafeArea(

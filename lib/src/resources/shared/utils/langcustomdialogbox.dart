@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
+//import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
+
+
+
+Locale spanish = Locale("es", "ES");
+Locale hindi = Locale("hi", "IN");
+Locale english = Locale("en","IN");
 
 class LangCustomDialog extends StatelessWidget {
   @override
@@ -115,18 +123,56 @@ class DropWid extends StatefulWidget {
   _DropWidState createState() => _DropWidState();
 }
 
+// class _DropWidState extends State<DropWid> {
+//   String selecteditem;
+
+//   @override
+//   void initState() {
+
+//     super.initState();
+//     selecteditem=widget.list;
+//   }
+//   @override
+//   Widget build(BuildContext context) {
+
+//     return Padding(
+//       padding: const EdgeInsets.all(8.0),
+//       child: Padding(
+//         padding: const EdgeInsets.symmetric(horizontal: 16.0),
+//         child: DropdownButton(
+//           isExpanded: true,
+//           onChanged: (value) {
+//             setState(() {
+//               selecteditem = value;
+//             });
+//           },
+//           value: selecteditem,
+//           items: [
+//             DropdownMenuItem(
+//               child: Text('French'),
+//               value: 'French',
+//             ),
+//             DropdownMenuItem(
+//               child: Text(widget.list),
+//               value: widget.list,
+//             )
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
 class _DropWidState extends State<DropWid> {
-  String selecteditem;
+
+  String selecteditem = 'English';
 
   @override
   void initState() {
-
     super.initState();
-    selecteditem=widget.list;
   }
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Padding(
@@ -136,18 +182,31 @@ class _DropWidState extends State<DropWid> {
           onChanged: (value) {
             setState(() {
               selecteditem = value;
+              if(value=="Spanish"){
+                //AppLocalization.of(context).translate('login_button'),
+                AppLocalization.of(context).locale == english;
+              }else if(value =='English'){
+                //EasyLocalization.of(context).locale = english;                
+                //AppLocalization.of(context).locale == "en";
+              }else if(value == 'Hindi'){
+                //EasyLocalization.of(context).locale = hindi;
+              }
             });
           },
           value: selecteditem,
           items: [
             DropdownMenuItem(
-              child: Text('French'),
-              value: 'French',
+              child: Text("English"),
+              value: 'English',
             ),
             DropdownMenuItem(
-              child: Text(widget.list),
-              value: widget.list,
-            )
+              child: Text('Spanish'),
+              value: 'Spanish',
+            ),
+            DropdownMenuItem(
+              child: Text("Hindi"),
+              value: 'Hindi',
+            ),
           ],
         ),
       ),

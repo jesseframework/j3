@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 
 class LocalServer extends StatefulWidget {
   @override
@@ -19,7 +20,7 @@ class _LocalServerState extends State<LocalServer> {
             Navigator.pop(context);
           },
         ),
-        title: Text('Server Setup'),
+        title: Text(AppLocalization.of(context).translate('title_serversetup')),
         actions: <Widget>[
           Padding(
             padding: const EdgeInsets.all(8),
@@ -70,21 +71,21 @@ class _LocalServerState extends State<LocalServer> {
           children: <Widget>[
            SizedBox(height: 15,),
             DropWid(
-              name: 'Server Name',
+              name: AppLocalization.of(context).translate('server_name_label_serversetup'),
               list: 'ERP Next',
             ),
             SizedBox(height: 15,),
-            NormWid(name: 'Database Name', type: 'u'),
+            NormWid(name: AppLocalization.of(context).translate('database_name_label_serversetup'), type: 'u'),
             SizedBox(height: 15,),
-            NormWid(name: 'SQL Username', type: 'u'),
+            NormWid(name: AppLocalization.of(context).translate('sql_username_label_serversetup'), type: 'u'),
             SizedBox(height: 15,),
-            NormWid(name: 'SQL Password', type: 'p'),
+            NormWid(name: AppLocalization.of(context).translate('sql_password_label_serversetup'), type: 'p'),
             SizedBox(height: 15,),
             Row(
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(left: 16.0),
-                  child: Text('Connection Timeout: '),
+                  child: Text(AppLocalization.of(context).translate('connection_timeout_label_serversetup')),
                 ),
                 Expanded(
                   child: Slider(
@@ -110,7 +111,7 @@ class _LocalServerState extends State<LocalServer> {
                   onPressed: () {},
                   child: Center(
                       child: Text(
-                    'SAVE CHANGES',
+                    AppLocalization.of(context).translate('save_changes_button_serversetup'),
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
                   )),
@@ -126,7 +127,7 @@ class _LocalServerState extends State<LocalServer> {
                   onPressed: () {},
                   child: Center(
                       child: Text(
-                    'TEST',
+                    AppLocalization.of(context).translate('test_button_serversetup'),
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
                   )),
@@ -142,7 +143,7 @@ class _LocalServerState extends State<LocalServer> {
                   onPressed: () {},
                   child: Center(
                       child: Text(
-                    'CANCEL',
+                    AppLocalization.of(context).translate('cancel_button_label_serversetup'),
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
                   )),

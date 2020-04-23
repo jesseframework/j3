@@ -4,6 +4,8 @@ import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 
 import 'bloc/login_bloc.dart';
 
+import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
+
 class LoginForm extends StatefulWidget {
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -59,12 +61,12 @@ class _LoginFormState extends State<LoginForm> {
                               controller: _usernameController,
                               validator: (_value) {
                                 return _value.length < 3
-                                    ? "Username must have at lease 4 charactor"
+                                    ? AppLocalization.of(context).translate('username_validation_text')
                                     : null;
                               },
                               decoration: InputDecoration(
                                   icon: Icon(Icons.person),
-                                  labelText: 'Username'),
+                                  labelText: AppLocalization.of(context).translate('username_label'),),
                             ),
                           ),
                           Expanded(
@@ -80,18 +82,18 @@ class _LoginFormState extends State<LoginForm> {
                                   onPressed: () {
                                   },
                                 ),
-                                labelText: 'Password',
+                                labelText: AppLocalization.of(context).translate('password_label'),
                               ),
                               obscureText: pass, // Hide password
                             ),
                           ),
                           Expanded(
-                            child: DropdownButtonFormField<String>(
-                              hint: Text('Select applicable tenant...'),
+                            child: DropdownButtonFormField<String>(                              
+                              hint: Text(AppLocalization.of(context).translate('tenant_default_text')),                              
                               decoration: InputDecoration(
                                 icon: Icon(Icons.home),
                                 alignLabelWithHint: false,
-                                labelText: 'Tenant',
+                                labelText: AppLocalization.of(context).translate('tenant_label'),
                               ),
                               value: selected,
                               items: ["Host", "Admin", "Guest"]
@@ -119,7 +121,7 @@ class _LoginFormState extends State<LoginForm> {
                               ),
                               Expanded(
                                 child: Text(
-                                  "Pin Only",
+                                  AppLocalization.of(context).translate('pin_only_label'),
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w300,
@@ -147,7 +149,7 @@ class _LoginFormState extends State<LoginForm> {
                             child: RaisedButton(
                               color: Colors.blue.shade500,
                               child: Text(
-                                'Login',
+                                AppLocalization.of(context).translate('login_button'),
                                 style: TextStyle(color: Colors.white),
                               ),
                               onPressed: state is! LoginLoading
