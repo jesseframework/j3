@@ -468,8 +468,7 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   }
 }
 
-class CommunicationSetupData extends DataClass
-    implements Insertable<CommunicationSetupData> {
+class ComssetData extends DataClass implements Insertable<ComssetData> {
   final int id;
   final String serverurl;
   final String username;
@@ -478,7 +477,7 @@ class CommunicationSetupData extends DataClass
   final String syncfrequency;
   final String commtype;
   final String typeoferp;
-  CommunicationSetupData(
+  ComssetData(
       {@required this.id,
       @required this.serverurl,
       @required this.username,
@@ -487,13 +486,12 @@ class CommunicationSetupData extends DataClass
       @required this.syncfrequency,
       @required this.commtype,
       @required this.typeoferp});
-  factory CommunicationSetupData.fromData(
-      Map<String, dynamic> data, GeneratedDatabase db,
+  factory ComssetData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
-    return CommunicationSetupData(
+    return ComssetData(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       serverurl: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}serverurl']),
@@ -511,10 +509,10 @@ class CommunicationSetupData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}typeoferp']),
     );
   }
-  factory CommunicationSetupData.fromJson(Map<String, dynamic> json,
+  factory ComssetData.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
-    return CommunicationSetupData(
+    return ComssetData(
       id: serializer.fromJson<int>(json['id']),
       serverurl: serializer.fromJson<String>(json['serverurl']),
       username: serializer.fromJson<String>(json['username']),
@@ -541,8 +539,8 @@ class CommunicationSetupData extends DataClass
   }
 
   @override
-  CommunicationSetupCompanion createCompanion(bool nullToAbsent) {
-    return CommunicationSetupCompanion(
+  ComssetCompanion createCompanion(bool nullToAbsent) {
+    return ComssetCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       serverurl: serverurl == null && nullToAbsent
           ? const Value.absent()
@@ -568,7 +566,7 @@ class CommunicationSetupData extends DataClass
     );
   }
 
-  CommunicationSetupData copyWith(
+  ComssetData copyWith(
           {int id,
           String serverurl,
           String username,
@@ -577,7 +575,7 @@ class CommunicationSetupData extends DataClass
           String syncfrequency,
           String commtype,
           String typeoferp}) =>
-      CommunicationSetupData(
+      ComssetData(
         id: id ?? this.id,
         serverurl: serverurl ?? this.serverurl,
         username: username ?? this.username,
@@ -589,7 +587,7 @@ class CommunicationSetupData extends DataClass
       );
   @override
   String toString() {
-    return (StringBuffer('CommunicationSetupData(')
+    return (StringBuffer('ComssetData(')
           ..write('id: $id, ')
           ..write('serverurl: $serverurl, ')
           ..write('username: $username, ')
@@ -618,7 +616,7 @@ class CommunicationSetupData extends DataClass
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
-      (other is CommunicationSetupData &&
+      (other is ComssetData &&
           other.id == this.id &&
           other.serverurl == this.serverurl &&
           other.username == this.username &&
@@ -629,8 +627,7 @@ class CommunicationSetupData extends DataClass
           other.typeoferp == this.typeoferp);
 }
 
-class CommunicationSetupCompanion
-    extends UpdateCompanion<CommunicationSetupData> {
+class ComssetCompanion extends UpdateCompanion<ComssetData> {
   final Value<int> id;
   final Value<String> serverurl;
   final Value<String> username;
@@ -639,7 +636,7 @@ class CommunicationSetupCompanion
   final Value<String> syncfrequency;
   final Value<String> commtype;
   final Value<String> typeoferp;
-  const CommunicationSetupCompanion({
+  const ComssetCompanion({
     this.id = const Value.absent(),
     this.serverurl = const Value.absent(),
     this.username = const Value.absent(),
@@ -649,7 +646,7 @@ class CommunicationSetupCompanion
     this.commtype = const Value.absent(),
     this.typeoferp = const Value.absent(),
   });
-  CommunicationSetupCompanion.insert({
+  ComssetCompanion.insert({
     @required int id,
     @required String serverurl,
     @required String username,
@@ -666,7 +663,7 @@ class CommunicationSetupCompanion
         syncfrequency = Value(syncfrequency),
         commtype = Value(commtype),
         typeoferp = Value(typeoferp);
-  CommunicationSetupCompanion copyWith(
+  ComssetCompanion copyWith(
       {Value<int> id,
       Value<String> serverurl,
       Value<String> username,
@@ -675,7 +672,7 @@ class CommunicationSetupCompanion
       Value<String> syncfrequency,
       Value<String> commtype,
       Value<String> typeoferp}) {
-    return CommunicationSetupCompanion(
+    return ComssetCompanion(
       id: id ?? this.id,
       serverurl: serverurl ?? this.serverurl,
       username: username ?? this.username,
@@ -688,11 +685,10 @@ class CommunicationSetupCompanion
   }
 }
 
-class $CommunicationSetupTable extends CommunicationSetup
-    with TableInfo<$CommunicationSetupTable, CommunicationSetupData> {
+class $ComssetTable extends Comsset with TableInfo<$ComssetTable, ComssetData> {
   final GeneratedDatabase _db;
   final String _alias;
-  $CommunicationSetupTable(this._db, [this._alias]);
+  $ComssetTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedIntColumn _id;
   @override
@@ -805,13 +801,13 @@ class $CommunicationSetupTable extends CommunicationSetup
         typeoferp
       ];
   @override
-  $CommunicationSetupTable get asDslTable => this;
+  $ComssetTable get asDslTable => this;
   @override
-  String get $tableName => _alias ?? 'communication_setup';
+  String get $tableName => _alias ?? 'comsset';
   @override
-  final String actualTableName = 'communication_setup';
+  final String actualTableName = 'comsset';
   @override
-  VerificationContext validateIntegrity(CommunicationSetupCompanion d,
+  VerificationContext validateIntegrity(ComssetCompanion d,
       {bool isInserting = false}) {
     final context = VerificationContext();
     if (d.id.present) {
@@ -871,13 +867,13 @@ class $CommunicationSetupTable extends CommunicationSetup
   @override
   Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
   @override
-  CommunicationSetupData map(Map<String, dynamic> data, {String tablePrefix}) {
+  ComssetData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
-    return CommunicationSetupData.fromData(data, _db, prefix: effectivePrefix);
+    return ComssetData.fromData(data, _db, prefix: effectivePrefix);
   }
 
   @override
-  Map<String, Variable> entityToSql(CommunicationSetupCompanion d) {
+  Map<String, Variable> entityToSql(ComssetCompanion d) {
     final map = <String, Variable>{};
     if (d.id.present) {
       map['id'] = Variable<int, IntType>(d.id.value);
@@ -909,8 +905,8 @@ class $CommunicationSetupTable extends CommunicationSetup
   }
 
   @override
-  $CommunicationSetupTable createAlias(String alias) {
-    return $CommunicationSetupTable(_db, alias);
+  $ComssetTable createAlias(String alias) {
+    return $ComssetTable(_db, alias);
   }
 }
 
@@ -918,12 +914,18 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $UsersTable _users;
   $UsersTable get users => _users ??= $UsersTable(this);
-  $CommunicationSetupTable _communicationSetup;
-  $CommunicationSetupTable get communicationSetup =>
-      _communicationSetup ??= $CommunicationSetupTable(this);
+  $ComssetTable _comsset;
+  $ComssetTable get comsset => _comsset ??= $ComssetTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [users, communicationSetup];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [users, comsset];
+}
+
+// **************************************************************************
+// DaoGenerator
+// **************************************************************************
+
+mixin _$ComssetDaoMixin on DatabaseAccessor<AppDatabase> {
+  $ComssetTable get comsset => db.comsset;
 }

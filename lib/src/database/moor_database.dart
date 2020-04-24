@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
 part 'moor_database.g.dart';
+//part 'Comsset_crud.g.dart';
 
 
 LazyDatabase _openConnection() {
@@ -18,12 +19,14 @@ LazyDatabase _openConnection() {
   });
 }
 
-@UseMoor(tables: [Users, CommunicationSetup])
+@UseMoor(tables: [Users, Comsset])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
   int get schemaVersion => 1;
 }
+
+
 
 

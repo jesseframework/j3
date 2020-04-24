@@ -1,7 +1,7 @@
 
 import 'package:moor/moor.dart';
 
-class CommunicationSetup extends Table {
+class Comsset extends Table {
 
   IntColumn get id => integer()();
   TextColumn get serverurl => text()();
