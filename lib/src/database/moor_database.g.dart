@@ -468,12 +468,462 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   }
 }
 
+class CommunicationSetupData extends DataClass
+    implements Insertable<CommunicationSetupData> {
+  final int id;
+  final String serverurl;
+  final String username;
+  final String newpasskey;
+  final String confirmpasskey;
+  final String syncfrequency;
+  final String commtype;
+  final String typeoferp;
+  CommunicationSetupData(
+      {@required this.id,
+      @required this.serverurl,
+      @required this.username,
+      @required this.newpasskey,
+      @required this.confirmpasskey,
+      @required this.syncfrequency,
+      @required this.commtype,
+      @required this.typeoferp});
+  factory CommunicationSetupData.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    return CommunicationSetupData(
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      serverurl: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}serverurl']),
+      username: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}username']),
+      newpasskey: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}newpasskey']),
+      confirmpasskey: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}confirmpasskey']),
+      syncfrequency: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}syncfrequency']),
+      commtype: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}commtype']),
+      typeoferp: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}typeoferp']),
+    );
+  }
+  factory CommunicationSetupData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return CommunicationSetupData(
+      id: serializer.fromJson<int>(json['id']),
+      serverurl: serializer.fromJson<String>(json['serverurl']),
+      username: serializer.fromJson<String>(json['username']),
+      newpasskey: serializer.fromJson<String>(json['newpasskey']),
+      confirmpasskey: serializer.fromJson<String>(json['confirmpasskey']),
+      syncfrequency: serializer.fromJson<String>(json['syncfrequency']),
+      commtype: serializer.fromJson<String>(json['commtype']),
+      typeoferp: serializer.fromJson<String>(json['typeoferp']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'serverurl': serializer.toJson<String>(serverurl),
+      'username': serializer.toJson<String>(username),
+      'newpasskey': serializer.toJson<String>(newpasskey),
+      'confirmpasskey': serializer.toJson<String>(confirmpasskey),
+      'syncfrequency': serializer.toJson<String>(syncfrequency),
+      'commtype': serializer.toJson<String>(commtype),
+      'typeoferp': serializer.toJson<String>(typeoferp),
+    };
+  }
+
+  @override
+  CommunicationSetupCompanion createCompanion(bool nullToAbsent) {
+    return CommunicationSetupCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      serverurl: serverurl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(serverurl),
+      username: username == null && nullToAbsent
+          ? const Value.absent()
+          : Value(username),
+      newpasskey: newpasskey == null && nullToAbsent
+          ? const Value.absent()
+          : Value(newpasskey),
+      confirmpasskey: confirmpasskey == null && nullToAbsent
+          ? const Value.absent()
+          : Value(confirmpasskey),
+      syncfrequency: syncfrequency == null && nullToAbsent
+          ? const Value.absent()
+          : Value(syncfrequency),
+      commtype: commtype == null && nullToAbsent
+          ? const Value.absent()
+          : Value(commtype),
+      typeoferp: typeoferp == null && nullToAbsent
+          ? const Value.absent()
+          : Value(typeoferp),
+    );
+  }
+
+  CommunicationSetupData copyWith(
+          {int id,
+          String serverurl,
+          String username,
+          String newpasskey,
+          String confirmpasskey,
+          String syncfrequency,
+          String commtype,
+          String typeoferp}) =>
+      CommunicationSetupData(
+        id: id ?? this.id,
+        serverurl: serverurl ?? this.serverurl,
+        username: username ?? this.username,
+        newpasskey: newpasskey ?? this.newpasskey,
+        confirmpasskey: confirmpasskey ?? this.confirmpasskey,
+        syncfrequency: syncfrequency ?? this.syncfrequency,
+        commtype: commtype ?? this.commtype,
+        typeoferp: typeoferp ?? this.typeoferp,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('CommunicationSetupData(')
+          ..write('id: $id, ')
+          ..write('serverurl: $serverurl, ')
+          ..write('username: $username, ')
+          ..write('newpasskey: $newpasskey, ')
+          ..write('confirmpasskey: $confirmpasskey, ')
+          ..write('syncfrequency: $syncfrequency, ')
+          ..write('commtype: $commtype, ')
+          ..write('typeoferp: $typeoferp')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      id.hashCode,
+      $mrjc(
+          serverurl.hashCode,
+          $mrjc(
+              username.hashCode,
+              $mrjc(
+                  newpasskey.hashCode,
+                  $mrjc(
+                      confirmpasskey.hashCode,
+                      $mrjc(syncfrequency.hashCode,
+                          $mrjc(commtype.hashCode, typeoferp.hashCode))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is CommunicationSetupData &&
+          other.id == this.id &&
+          other.serverurl == this.serverurl &&
+          other.username == this.username &&
+          other.newpasskey == this.newpasskey &&
+          other.confirmpasskey == this.confirmpasskey &&
+          other.syncfrequency == this.syncfrequency &&
+          other.commtype == this.commtype &&
+          other.typeoferp == this.typeoferp);
+}
+
+class CommunicationSetupCompanion
+    extends UpdateCompanion<CommunicationSetupData> {
+  final Value<int> id;
+  final Value<String> serverurl;
+  final Value<String> username;
+  final Value<String> newpasskey;
+  final Value<String> confirmpasskey;
+  final Value<String> syncfrequency;
+  final Value<String> commtype;
+  final Value<String> typeoferp;
+  const CommunicationSetupCompanion({
+    this.id = const Value.absent(),
+    this.serverurl = const Value.absent(),
+    this.username = const Value.absent(),
+    this.newpasskey = const Value.absent(),
+    this.confirmpasskey = const Value.absent(),
+    this.syncfrequency = const Value.absent(),
+    this.commtype = const Value.absent(),
+    this.typeoferp = const Value.absent(),
+  });
+  CommunicationSetupCompanion.insert({
+    @required int id,
+    @required String serverurl,
+    @required String username,
+    @required String newpasskey,
+    @required String confirmpasskey,
+    @required String syncfrequency,
+    @required String commtype,
+    @required String typeoferp,
+  })  : id = Value(id),
+        serverurl = Value(serverurl),
+        username = Value(username),
+        newpasskey = Value(newpasskey),
+        confirmpasskey = Value(confirmpasskey),
+        syncfrequency = Value(syncfrequency),
+        commtype = Value(commtype),
+        typeoferp = Value(typeoferp);
+  CommunicationSetupCompanion copyWith(
+      {Value<int> id,
+      Value<String> serverurl,
+      Value<String> username,
+      Value<String> newpasskey,
+      Value<String> confirmpasskey,
+      Value<String> syncfrequency,
+      Value<String> commtype,
+      Value<String> typeoferp}) {
+    return CommunicationSetupCompanion(
+      id: id ?? this.id,
+      serverurl: serverurl ?? this.serverurl,
+      username: username ?? this.username,
+      newpasskey: newpasskey ?? this.newpasskey,
+      confirmpasskey: confirmpasskey ?? this.confirmpasskey,
+      syncfrequency: syncfrequency ?? this.syncfrequency,
+      commtype: commtype ?? this.commtype,
+      typeoferp: typeoferp ?? this.typeoferp,
+    );
+  }
+}
+
+class $CommunicationSetupTable extends CommunicationSetup
+    with TableInfo<$CommunicationSetupTable, CommunicationSetupData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $CommunicationSetupTable(this._db, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _serverurlMeta = const VerificationMeta('serverurl');
+  GeneratedTextColumn _serverurl;
+  @override
+  GeneratedTextColumn get serverurl => _serverurl ??= _constructServerurl();
+  GeneratedTextColumn _constructServerurl() {
+    return GeneratedTextColumn(
+      'serverurl',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _usernameMeta = const VerificationMeta('username');
+  GeneratedTextColumn _username;
+  @override
+  GeneratedTextColumn get username => _username ??= _constructUsername();
+  GeneratedTextColumn _constructUsername() {
+    return GeneratedTextColumn(
+      'username',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _newpasskeyMeta = const VerificationMeta('newpasskey');
+  GeneratedTextColumn _newpasskey;
+  @override
+  GeneratedTextColumn get newpasskey => _newpasskey ??= _constructNewpasskey();
+  GeneratedTextColumn _constructNewpasskey() {
+    return GeneratedTextColumn(
+      'newpasskey',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _confirmpasskeyMeta =
+      const VerificationMeta('confirmpasskey');
+  GeneratedTextColumn _confirmpasskey;
+  @override
+  GeneratedTextColumn get confirmpasskey =>
+      _confirmpasskey ??= _constructConfirmpasskey();
+  GeneratedTextColumn _constructConfirmpasskey() {
+    return GeneratedTextColumn(
+      'confirmpasskey',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _syncfrequencyMeta =
+      const VerificationMeta('syncfrequency');
+  GeneratedTextColumn _syncfrequency;
+  @override
+  GeneratedTextColumn get syncfrequency =>
+      _syncfrequency ??= _constructSyncfrequency();
+  GeneratedTextColumn _constructSyncfrequency() {
+    return GeneratedTextColumn(
+      'syncfrequency',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _commtypeMeta = const VerificationMeta('commtype');
+  GeneratedTextColumn _commtype;
+  @override
+  GeneratedTextColumn get commtype => _commtype ??= _constructCommtype();
+  GeneratedTextColumn _constructCommtype() {
+    return GeneratedTextColumn(
+      'commtype',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _typeoferpMeta = const VerificationMeta('typeoferp');
+  GeneratedTextColumn _typeoferp;
+  @override
+  GeneratedTextColumn get typeoferp => _typeoferp ??= _constructTypeoferp();
+  GeneratedTextColumn _constructTypeoferp() {
+    return GeneratedTextColumn(
+      'typeoferp',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        serverurl,
+        username,
+        newpasskey,
+        confirmpasskey,
+        syncfrequency,
+        commtype,
+        typeoferp
+      ];
+  @override
+  $CommunicationSetupTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'communication_setup';
+  @override
+  final String actualTableName = 'communication_setup';
+  @override
+  VerificationContext validateIntegrity(CommunicationSetupCompanion d,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    if (d.id.present) {
+      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (d.serverurl.present) {
+      context.handle(_serverurlMeta,
+          serverurl.isAcceptableValue(d.serverurl.value, _serverurlMeta));
+    } else if (isInserting) {
+      context.missing(_serverurlMeta);
+    }
+    if (d.username.present) {
+      context.handle(_usernameMeta,
+          username.isAcceptableValue(d.username.value, _usernameMeta));
+    } else if (isInserting) {
+      context.missing(_usernameMeta);
+    }
+    if (d.newpasskey.present) {
+      context.handle(_newpasskeyMeta,
+          newpasskey.isAcceptableValue(d.newpasskey.value, _newpasskeyMeta));
+    } else if (isInserting) {
+      context.missing(_newpasskeyMeta);
+    }
+    if (d.confirmpasskey.present) {
+      context.handle(
+          _confirmpasskeyMeta,
+          confirmpasskey.isAcceptableValue(
+              d.confirmpasskey.value, _confirmpasskeyMeta));
+    } else if (isInserting) {
+      context.missing(_confirmpasskeyMeta);
+    }
+    if (d.syncfrequency.present) {
+      context.handle(
+          _syncfrequencyMeta,
+          syncfrequency.isAcceptableValue(
+              d.syncfrequency.value, _syncfrequencyMeta));
+    } else if (isInserting) {
+      context.missing(_syncfrequencyMeta);
+    }
+    if (d.commtype.present) {
+      context.handle(_commtypeMeta,
+          commtype.isAcceptableValue(d.commtype.value, _commtypeMeta));
+    } else if (isInserting) {
+      context.missing(_commtypeMeta);
+    }
+    if (d.typeoferp.present) {
+      context.handle(_typeoferpMeta,
+          typeoferp.isAcceptableValue(d.typeoferp.value, _typeoferpMeta));
+    } else if (isInserting) {
+      context.missing(_typeoferpMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  @override
+  CommunicationSetupData map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return CommunicationSetupData.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  Map<String, Variable> entityToSql(CommunicationSetupCompanion d) {
+    final map = <String, Variable>{};
+    if (d.id.present) {
+      map['id'] = Variable<int, IntType>(d.id.value);
+    }
+    if (d.serverurl.present) {
+      map['serverurl'] = Variable<String, StringType>(d.serverurl.value);
+    }
+    if (d.username.present) {
+      map['username'] = Variable<String, StringType>(d.username.value);
+    }
+    if (d.newpasskey.present) {
+      map['newpasskey'] = Variable<String, StringType>(d.newpasskey.value);
+    }
+    if (d.confirmpasskey.present) {
+      map['confirmpasskey'] =
+          Variable<String, StringType>(d.confirmpasskey.value);
+    }
+    if (d.syncfrequency.present) {
+      map['syncfrequency'] =
+          Variable<String, StringType>(d.syncfrequency.value);
+    }
+    if (d.commtype.present) {
+      map['commtype'] = Variable<String, StringType>(d.commtype.value);
+    }
+    if (d.typeoferp.present) {
+      map['typeoferp'] = Variable<String, StringType>(d.typeoferp.value);
+    }
+    return map;
+  }
+
+  @override
+  $CommunicationSetupTable createAlias(String alias) {
+    return $CommunicationSetupTable(_db, alias);
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $UsersTable _users;
   $UsersTable get users => _users ??= $UsersTable(this);
+  $CommunicationSetupTable _communicationSetup;
+  $CommunicationSetupTable get communicationSetup =>
+      _communicationSetup ??= $CommunicationSetupTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [users];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [users, communicationSetup];
 }

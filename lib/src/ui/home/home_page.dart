@@ -8,6 +8,8 @@ import 'package:j3enterprise/src/ui/authentication/authentication_event.dart';
 import 'package:j3enterprise/src/ui/preferences/preferences.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/custom_drawer.dart';
 
+import 'dart:io' show Platform;
+
 Future<dynamic> backgroundMessageHandler(Map<String, dynamic> message) {
   print(message);
 }
@@ -22,22 +24,25 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    if(!Platform.isWindows){
+        print('Init firebase');
+      _firebaseMessaging.getToken().then((value) => print('fcm : ' + value));
+      _firebaseMessaging.configure(
+        onMessage: (Map<String, dynamic> message) async {
+          print("onMessage: $message");
+        },
+        onBackgroundMessage: backgroundMessageHandler,
+        onLaunch: (Map<String, dynamic> message) async {
+          print("onLaunch: $message");
+        },
+        onResume: (Map<String, dynamic> message) async {
+          print("onResume: $message");
+        },
+      );
+      super.initState();
+
+    }
     
-    print('Init firebase');
-    _firebaseMessaging.getToken().then((value) => print('fcm : ' + value));
-    _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print("onMessage: $message");
-      },
-      onBackgroundMessage: backgroundMessageHandler,
-      onLaunch: (Map<String, dynamic> message) async {
-        print("onLaunch: $message");
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print("onResume: $message");
-      },
-    );
-    super.initState();
   }
 
   @override

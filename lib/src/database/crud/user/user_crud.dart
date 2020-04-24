@@ -15,5 +15,8 @@ part 'user_crud.g.dart';
     Future updateUser(User user) => update(db.users).replace(user);
     Future deleteUser(User user) => delete(db.users).delete(user);
 
+    
+
 
  }
+

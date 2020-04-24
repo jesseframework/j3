@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:j3enterprise/src/models/user_models.dart';
+import 'package:j3enterprise/src/models/communication_model.dart';
 import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
 import 'package:path_provider/path_provider.dart';
@@ -17,7 +18,7 @@ LazyDatabase _openConnection() {
   });
 }
 
-@UseMoor(tables: [Users])
+@UseMoor(tables: [Users, CommunicationSetup])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
