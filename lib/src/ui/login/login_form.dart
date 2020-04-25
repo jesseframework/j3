@@ -61,12 +61,15 @@ class _LoginFormState extends State<LoginForm> {
                               controller: _usernameController,
                               validator: (_value) {
                                 return _value.length < 3
-                                    ? AppLocalization.of(context).translate('username_validation_text')
+                                    ? AppLocalization.of(context)
+                                        .translate('username_validation_text')
                                     : null;
                               },
                               decoration: InputDecoration(
-                                  icon: Icon(Icons.person),
-                                  labelText: AppLocalization.of(context).translate('username_label'),),
+                                icon: Icon(Icons.person),
+                                labelText: AppLocalization.of(context)
+                                    .translate('username_label'),
+                              ),
                             ),
                           ),
                           Expanded(
@@ -79,21 +82,22 @@ class _LoginFormState extends State<LoginForm> {
                                   icon: !pass
                                       ? Icon(CustomIcons.eye_off)
                                       : Icon(CustomIcons.eye),
-                                  onPressed: () {
-                                  },
+                                  onPressed: () {},
                                 ),
-                                labelText: AppLocalization.of(context).translate('password_label'),
+                                labelText: AppLocalization.of(context)
+                                    .translate('password_label'),
                               ),
                               obscureText: pass, // Hide password
                             ),
                           ),
                           Expanded(
-                            child: DropdownButtonFormField<String>(                              
-                              hint: Text(AppLocalization.of(context).translate('tenant_default_text')),                              
+                            child: DropdownButtonFormField<String>(
+                              // hint: Text(AppLocalization.of(context).translate('tenant_default_text')),
                               decoration: InputDecoration(
                                 icon: Icon(Icons.home),
                                 alignLabelWithHint: false,
-                                labelText: AppLocalization.of(context).translate('tenant_label'),
+                                labelText: AppLocalization.of(context)
+                                    .translate('tenant_label'),
                               ),
                               value: selected,
                               items: ["Host", "Admin", "Guest"]
@@ -108,7 +112,6 @@ class _LoginFormState extends State<LoginForm> {
                                 });
                               },
                             ),
-                            
                           ),
                           Row(
                             children: <Widget>[
@@ -121,7 +124,8 @@ class _LoginFormState extends State<LoginForm> {
                               ),
                               Expanded(
                                 child: Text(
-                                  AppLocalization.of(context).translate('pin_only_label'),
+                                  AppLocalization.of(context)
+                                      .translate('pin_only_label'),
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w300,
@@ -134,9 +138,7 @@ class _LoginFormState extends State<LoginForm> {
                                 onChanged: (value) {
                                   setState(() {
                                     isSwitched = value;
-                                    if(value = true){
-                                      
-                                    }
+                                    if (value = true) {}
                                     print(isSwitched);
                                   });
                                 },
@@ -149,7 +151,8 @@ class _LoginFormState extends State<LoginForm> {
                             child: RaisedButton(
                               color: Colors.blue.shade500,
                               child: Text(
-                                AppLocalization.of(context).translate('login_button'),
+                                AppLocalization.of(context)
+                                    .translate('login_button'),
                                 style: TextStyle(color: Colors.white),
                               ),
                               onPressed: state is! LoginLoading
@@ -222,5 +225,3 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 }
-
-
