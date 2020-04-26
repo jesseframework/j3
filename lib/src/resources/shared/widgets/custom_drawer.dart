@@ -9,6 +9,8 @@ import 'package:j3enterprise/src/resources/shared/utils/langcustomdialogbox.dart
 
 import 'dart:io' show Platform;
 
+import 'package:j3enterprise/src/ui/communication/setup_communication_page.dart';
+
 class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -52,7 +54,7 @@ class CustomDrawer extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SetupCommunication()));
+                        builder: (context) => CommunicationPage()));
               },
               child: ListTile(
                 leading: Icon(

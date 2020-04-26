@@ -14,7 +14,7 @@ class _LocalServerState extends State<LocalServer> {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        leading:  IconButton(
+        leading: IconButton(
           icon: Icon(Icons.chevron_left),
           onPressed: () {
             Navigator.pop(context);
@@ -69,23 +69,44 @@ class _LocalServerState extends State<LocalServer> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-           SizedBox(height: 15,),
+            SizedBox(
+              height: 15,
+            ),
             DropWid(
-              name: AppLocalization.of(context).translate('server_name_label_serversetup'),
+              name: AppLocalization.of(context)
+                  .translate('server_name_label_serversetup'),
               list: 'ERP Next',
             ),
-            SizedBox(height: 15,),
-            NormWid(name: AppLocalization.of(context).translate('database_name_label_serversetup'), type: 'u'),
-            SizedBox(height: 15,),
-            NormWid(name: AppLocalization.of(context).translate('sql_username_label_serversetup'), type: 'u'),
-            SizedBox(height: 15,),
-            NormWid(name: AppLocalization.of(context).translate('sql_password_label_serversetup'), type: 'p'),
-            SizedBox(height: 15,),
+            SizedBox(
+              height: 15,
+            ),
+            NormWid(
+                name: AppLocalization.of(context)
+                    .translate('database_name_label_serversetup'),
+                type: 'u'),
+            SizedBox(
+              height: 15,
+            ),
+            NormWid(
+                name: AppLocalization.of(context)
+                    .translate('sql_username_label_serversetup'),
+                type: 'u'),
+            SizedBox(
+              height: 15,
+            ),
+            NormWid(
+                name: AppLocalization.of(context)
+                    .translate('sql_password_label_serversetup'),
+                type: 'p'),
+            SizedBox(
+              height: 15,
+            ),
             Row(
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(left: 16.0),
-                  child: Text(AppLocalization.of(context).translate('connection_timeout_label_serversetup')),
+                  child: Text(AppLocalization.of(context)
+                      .translate('connection_timeout_label_serversetup')),
                 ),
                 Expanded(
                   child: Slider(
@@ -101,7 +122,9 @@ class _LocalServerState extends State<LocalServer> {
                 ),
               ],
             ),
-            SizedBox(height: 25,),
+            SizedBox(
+              height: 25,
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 16, right: 16),
               child: ButtonTheme(
@@ -111,13 +134,17 @@ class _LocalServerState extends State<LocalServer> {
                   onPressed: () {},
                   child: Center(
                       child: Text(
-                    AppLocalization.of(context).translate('save_changes_button_serversetup'),
+                    AppLocalization.of(context)
+                        .translate('save_changes_button_serversetup'),
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
                   )),
                 ),
               ),
-            ),  SizedBox(height: 25,),
+            ),
+            SizedBox(
+              height: 25,
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 16, right: 16),
               child: ButtonTheme(
@@ -127,13 +154,17 @@ class _LocalServerState extends State<LocalServer> {
                   onPressed: () {},
                   child: Center(
                       child: Text(
-                    AppLocalization.of(context).translate('test_button_serversetup'),
+                    AppLocalization.of(context)
+                        .translate('test_button_serversetup'),
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
                   )),
                 ),
               ),
-            ),  SizedBox(height: 25,),
+            ),
+            SizedBox(
+              height: 25,
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 16, right: 16),
               child: ButtonTheme(
@@ -143,13 +174,17 @@ class _LocalServerState extends State<LocalServer> {
                   onPressed: () {},
                   child: Center(
                       child: Text(
-                    AppLocalization.of(context).translate('cancel_button_label_serversetup'),
+                    AppLocalization.of(context)
+                        .translate('cancel_button_label_serversetup'),
                     style: TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.white),
                   )),
                 ),
               ),
-            ),  SizedBox(height: 15,),
+            ),
+            SizedBox(
+              height: 15,
+            ),
             SizedBox()
           ],
         ),
