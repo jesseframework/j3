@@ -11,6 +11,8 @@ class CommunicationInitial extends CommunicationState {}
 
 class CommunicationLoading extends CommunicationState {}
 
+class CommunicationSuccess extends CommunicationState {}
+
 class CommunicationFailure extends CommunicationState {
   final String error;
 

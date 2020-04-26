@@ -5,13 +5,13 @@ abstract class CommunicationEvent extends Equatable {
 }
 
 class SaveCammunicationButtonPressed extends CommunicationEvent {
-  final Stream serverurl;
+  final ComssetData data;
 
-  const SaveCammunicationButtonPressed({@required this.serverurl});
-
-  @override
-  List<Object> get props => [serverurl];
+  const SaveCammunicationButtonPressed({@required this.data});
 
   @override
-  String toString() => 'SaveCammunicationButtonPressed {serverurl: $serverurl}';
+  List<Object> get props => [data];
+
+  @override
+  String toString() => 'SaveCammunicationButtonPressed {data: $data}';
 }

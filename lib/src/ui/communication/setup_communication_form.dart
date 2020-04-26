@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
+
+import 'bloc/communication_bloc.dart';
 
 class SetupCommunicationForm extends StatefulWidget {
   @override
@@ -24,7 +28,7 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
   ];
 
   //ERP Communication setting
-  //final _typeoferpController = TextEditingController();
+  final _typeoferpController = TextEditingController();
   final _serverurlController = TextEditingController();
   final _usernameController = TextEditingController();
   final _confirmpasswordController = TextEditingController();
@@ -32,8 +36,26 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
 
   //API comeunication Setting
 
+  void submitForm(CommunicationBloc bloc) {
+    var formData = ComssetData(
+      id: 0,
+      serverurl: "http",
+      username: "testflutter",
+      newpasskey: "123hhh",
+      confirmpasskey: "667788",
+      syncfrequency: "daily",
+      typeoferp: "erp",
+      commtype: _typeoferpController.value.text,
+    );
+
+    var event = SaveCammunicationButtonPressed(data: formData);
+    bloc.add(event);
+  }
+
   @override
   Widget build(BuildContext context) {
+    var bloc = BlocProvider.of<CommunicationBloc>(context);
+
     return Form(
       key: formKey,
       child: DefaultTabController(
@@ -201,7 +223,9 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
                         height: 50,
                         child: FlatButton(
                           color: Colors.green[400],
-                          onPressed: () {},
+                          onPressed: () {
+                            submitForm(bloc);
+                          },
                           child: Center(
                               child: Text(
                             AppLocalization.of(context)
