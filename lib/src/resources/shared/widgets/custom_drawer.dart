@@ -4,11 +4,8 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/ui/about/about.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication.dart';
 import 'package:j3enterprise/src/ui/background_jobs/btasks.dart';
-import 'package:j3enterprise/src/ui/communication/server_setup.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/src/resources/shared/utils/langcustomdialogbox.dart';
-
-import 'dart:io' show Platform;
 
 import 'package:j3enterprise/src/ui/communication/setup_communication_page.dart';
 
