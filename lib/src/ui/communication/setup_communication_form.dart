@@ -4,6 +4,7 @@ import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/dropdown_box.dart';
+import 'package:j3enterprise/src/resources/shared/widgets/password_field.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/text_field_nullable.dart';
 
 import 'bloc/communication_bloc.dart';
@@ -25,11 +26,13 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
   final _serverurlController = TextEditingController();
   final _usernameController = TextEditingController();
   final _confirmpasswordController = TextEditingController();
-  //final _syncfrequncyController = TextEditingController();
+  final _apiserverurlController = TextEditingController();
+  final _apiusernameController = TextEditingController();
+  final _apiConfirmPasswordController = TextEditingController();
 
   //API comeunication Setting
 
-  void submitForm(CommunicationBloc bloc) {
+  void submitERPTab(CommunicationBloc bloc) {
     var formData = ComssetData(
       id: 0,
       serverurl: _serverurlController.value.text,
@@ -121,7 +124,7 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(0.00),
-                      child: TextFromFieldNullableReusable(
+                      child: TextFromFieldPasswordReusable(
                         labelName: AppLocalization.of(context)
                             .translate('new_password_label_communication'),
                         validationText: 'Test',
@@ -129,7 +132,7 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(0.00),
-                      child: TextFromFieldNullableReusable(
+                      child: TextFromFieldPasswordReusable(
                         labelName: AppLocalization.of(context)
                             .translate('confirm_password_label_communication'),
                         controllerName: _confirmpasswordController,
@@ -137,7 +140,7 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(10.00),
+                      padding: const EdgeInsets.all(0.00),
                       child: DropdownFormFieldNormalReuse(
                         hintText: AppLocalization.of(context)
                             .translate('sync_frequency_label_communication'),
@@ -153,13 +156,13 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(20.00),
+                      padding: const EdgeInsets.all(10.00),
                       child: ButtonTheme(
                         height: 50,
                         child: FlatButton(
                           color: Colors.green[400],
                           onPressed: () {
-                            submitForm(bloc);
+                            submitERPTab(bloc);
                           },
                           child: Center(
                               child: Text(
@@ -175,10 +178,66 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
                   ],
                 ),
               ),
-              Column(
-                children: <Widget>[
-                  //ToDo Implemet texteditor for API
-                ],
+              SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(0.00),
+                      child: TextFromFieldNullableReusable(
+                        labelName: AppLocalization.of(context)
+                            .translate('server_url_label_communication'),
+                        controllerName: _apiserverurlController,
+                        validationText: 'Test',
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(0.00),
+                      child: TextFromFieldNullableReusable(
+                        labelName: AppLocalization.of(context)
+                            .translate('username_label_communication'),
+                        controllerName: _apiusernameController,
+                        validationText: 'Test',
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(0.00),
+                      child: TextFromFieldPasswordReusable(
+                        labelName: AppLocalization.of(context)
+                            .translate('new_password_label_communication'),
+                        validationText: 'Test',
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(0.00),
+                      child: TextFromFieldPasswordReusable(
+                        labelName: AppLocalization.of(context)
+                            .translate('confirm_password_label_communication'),
+                        controllerName: _apiConfirmPasswordController,
+                        validationText: 'Test',
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.00),
+                      child: ButtonTheme(
+                        height: 50,
+                        child: FlatButton(
+                          color: Colors.green[400],
+                          onPressed: () {
+                            //submitForm(bloc);
+                          },
+                          child: Center(
+                              child: Text(
+                            AppLocalization.of(context)
+                                .translate('save_changes_button_serversetup'),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          )),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               )
             ],
           ),
