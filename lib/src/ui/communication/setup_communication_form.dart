@@ -6,6 +6,7 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/dropdown_box.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/password_field.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/text_field_nullable.dart';
+import 'package:moor/moor.dart' as moor;
 
 import 'bloc/communication_bloc.dart';
 
@@ -20,9 +21,11 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
   //Drop down setting
   var erpSelecteditem;
   var syncfrequencySelectedItem;
+  var syncApifrequencySelectedItem;
+  final String erpConnection = 'ERP';
+  final String apiConnection = 'API';
 
-  //ERP Communication setting
-  final _typeoferpController = TextEditingController();
+  //Form field
   final _serverurlController = TextEditingController();
   final _usernameController = TextEditingController();
   final _confirmpasswordController = TextEditingController();
@@ -30,18 +33,46 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
   final _apiusernameController = TextEditingController();
   final _apiConfirmPasswordController = TextEditingController();
 
+  _onUpdateERBSelection(String value) {
+    setState(() {
+      erpSelecteditem = value;
+    });
+  }
+
+  _onUpdateeFrequencySelection(String value) {
+    setState(() {
+      syncfrequencySelectedItem = value;
+    });
+  }
+
+  _onUpdateeApiFrequencySelection(String value) {
+    setState(() {
+      syncApifrequencySelectedItem = value;
+    });
+  }
   //API comeunication Setting
 
-  void submitERPTab(CommunicationBloc bloc) {
-    var formData = ComssetData(
-      id: 0,
-      serverurl: _serverurlController.value.text,
-      username: _usernameController.value.text,
-      newpasskey: "123hhh",
-      confirmpasskey: _confirmpasswordController.value.text,
-      syncfrequency: syncfrequencySelectedItem,
-      typeoferp: erpSelecteditem,
-      commtype: _typeoferpController.value.text,
+  Future<void> submitERPTab(CommunicationBloc bloc) async {
+    var formData = CommunicationCompanion(
+      serverurl: moor.Value(_serverurlController.value.text),
+      username: moor.Value(_usernameController.value.text),
+      confirmpasskey: moor.Value(_confirmpasswordController.value.text),
+      syncfrequency: moor.Value(syncfrequencySelectedItem),
+      typeoferp: moor.Value(erpSelecteditem),
+      communicationtype: moor.Value(erpConnection),
+    );
+
+    var event = SaveCammunicationButtonPressed(data: formData);
+    bloc.add(event);
+  }
+
+  Future<void> submitAPITab(CommunicationBloc bloc) async {
+    var formData = CommunicationCompanion(
+      serverurl: moor.Value(_apiserverurlController.value.text),
+      username: moor.Value(_apiusernameController.value.text),
+      confirmpasskey: moor.Value(_apiConfirmPasswordController.value.text),
+      syncfrequency: moor.Value(syncApifrequencySelectedItem),
+      communicationtype: moor.Value(apiConnection),
     );
 
     var event = SaveCammunicationButtonPressed(data: formData);
@@ -99,6 +130,7 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
                     Padding(
                         padding: const EdgeInsets.all(0.00),
                         child: DropdownFormFieldNormalReuse(
+                          _onUpdateERBSelection,
                           hintText: AppLocalization.of(context)
                               .translate('type_of_erp_label_communication'),
                           selectedValue: erpSelecteditem,
@@ -142,6 +174,7 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
                     Padding(
                       padding: const EdgeInsets.all(0.00),
                       child: DropdownFormFieldNormalReuse(
+                        _onUpdateeFrequencySelection,
                         hintText: AppLocalization.of(context)
                             .translate('sync_frequency_label_communication'),
                         selectedValue: syncfrequencySelectedItem,
@@ -217,13 +250,30 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
                       ),
                     ),
                     Padding(
+                      padding: const EdgeInsets.all(0.00),
+                      child: DropdownFormFieldNormalReuse(
+                        _onUpdateeApiFrequencySelection,
+                        hintText: AppLocalization.of(context)
+                            .translate('sync_frequency_label_communication'),
+                        selectedValue: syncApifrequencySelectedItem,
+                        listData: [
+                          'Every Minet',
+                          'Every 5 Minutes',
+                          'Every 20 Minutes',
+                          'Every Day',
+                          'Every Month',
+                          'Every Year'
+                        ],
+                      ),
+                    ),
+                    Padding(
                       padding: const EdgeInsets.all(10.00),
                       child: ButtonTheme(
                         height: 50,
                         child: FlatButton(
                           color: Colors.green[400],
                           onPressed: () {
-                            //submitForm(bloc);
+                            submitAPITab(bloc);
                           },
                           child: Center(
                               child: Text(
@@ -244,5 +294,10 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

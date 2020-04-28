@@ -11,7 +11,7 @@
 ///      fonts:
 ///       - asset: fonts/CustomIcons.ttf
 ///
-/// 
+///
 /// * Font Awesome, Copyright (C) 2016 by Dave Gandy
 ///         Author:    Dave Gandy
 ///         License:   SIL ()
@@ -35,15 +35,21 @@ class CustomIcons {
   static const IconData cog_alt = IconData(0xe800, fontFamily: _kFontFam);
   static const IconData wrench_solid = IconData(0xe801, fontFamily: _kFontFam);
   static const IconData cog_regular = IconData(0xe802, fontFamily: _kFontFam);
-  static const IconData database_solid = IconData(0xe803, fontFamily: _kFontFam);
-  static const IconData info_circle_solid = IconData(0xe804, fontFamily: _kFontFam);
+  static const IconData database_solid =
+      IconData(0xe803, fontFamily: _kFontFam);
+  static const IconData info_circle_solid =
+      IconData(0xe804, fontFamily: _kFontFam);
   static const IconData language = IconData(0xe805, fontFamily: _kFontFam);
   static const IconData buffer = IconData(0xe806, fontFamily: _kFontFam);
-  static const IconData sync_alt_solid = IconData(0xe807, fontFamily: _kFontFam);
-  static const IconData envelope_solid = IconData(0xe808, fontFamily: _kFontFam);
-  static const IconData facebook_square_brands = IconData(0xe809, fontFamily: _kFontFam);
+  static const IconData sync_alt_solid =
+      IconData(0xe807, fontFamily: _kFontFam);
+  static const IconData envelope_solid =
+      IconData(0xe808, fontFamily: _kFontFam);
+  static const IconData facebook_square_brands =
+      IconData(0xe809, fontFamily: _kFontFam);
   static const IconData google_brands = IconData(0xe80a, fontFamily: _kFontFam);
-  static const IconData twitter_square_brands = IconData(0xe80b, fontFamily: _kFontFam);
+  static const IconData twitter_square_brands =
+      IconData(0xe80b, fontFamily: _kFontFam);
   static const IconData eye = IconData(0xe80c, fontFamily: _kFontFam);
   static const IconData eye_off = IconData(0xe80d, fontFamily: _kFontFam);
   static const IconData pushpin = IconData(0xe832, fontFamily: _kFontFam);

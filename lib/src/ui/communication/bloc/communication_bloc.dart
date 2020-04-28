@@ -11,9 +11,15 @@ part 'communication_event.dart';
 part 'communication_state.dart';
 
 class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
-  final ComssetDao comssetDao;
+  CommunicationDao communicationDao;
+  CommunicationData communicationData;
+  final String comunicationtype;
+  var db;
 
-  CommunicationBloc({@required this.comssetDao}) : assert(comssetDao != null);
+  CommunicationBloc({this.comunicationtype}) {
+    db = AppDatabase();
+    communicationDao = CommunicationDao(db);
+  }
 
   @override
   CommunicationState get initialState => CommunicationInitial();
@@ -24,9 +30,17 @@ class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
   ) async* {
     if (event is SaveCammunicationButtonPressed) {
       // set state as loading
-      yield CommunicationLoading();
+      yield CommunicationInserting();
       // save data to db
-      await comssetDao.insertUser(event.data);
+      await communicationDao.insertCommunnication(event.data);
+      // set the success state
+      yield CommunicationSuccess();
+    }
+
+    if (event is OnFormLoadGetSaveCommunication) {
+      yield CommunicationLoading();
+
+      await communicationDao.getAllComsetData(communicationData);
       // set the success state
       yield CommunicationSuccess();
     }

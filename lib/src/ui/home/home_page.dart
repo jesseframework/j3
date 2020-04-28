@@ -24,8 +24,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    if(!Platform.isWindows){
-        print('Init firebase');
+    if (!Platform.isWindows) {
+      print('Init firebase');
       _firebaseMessaging.getToken().then((value) => print('fcm : ' + value));
       _firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
@@ -40,9 +40,7 @@ class _HomePageState extends State<HomePage> {
         },
       );
       super.initState();
-
     }
-    
   }
 
   @override
@@ -119,19 +117,20 @@ class _HomePageState extends State<HomePage> {
                         height: 10,
                       ),
                       Text(
-                        AppLocalization.of(context).translate('home_prefrence_icon_label'),
+                        AppLocalization.of(context)
+                            .translate('home_prefrence_icon_label'),
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 18),
                       ),
-                      RaisedButton(
-                        child: Text('logout'),
-                        onPressed: () {
-                          BlocProvider.of<AuthenticationBloc>(context)
-                              .add(LoggedOut());
-                        },
-                      ),
+                      // RaisedButton(
+                      //   child: Text('logout'),
+                      //   onPressed: () {
+                      //     BlocProvider.of<AuthenticationBloc>(context)
+                      //         .add(LoggedOut());
+                      //   },
+                      // ),
                     ],
                   ),
                 ),

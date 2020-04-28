@@ -20,9 +20,15 @@ LazyDatabase _openConnection() {
   });
 }
 
-@UseMoor(tables: [Users, Comsset])
+@UseMoor(tables: [Users, Communication])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase() : super(_openConnection());
+  static AppDatabase _db = AppDatabase._internal();
+
+  factory AppDatabase() {
+    return _db;
+  }
+
+  AppDatabase._internal() : super(_openConnection());
 
   @override
   int get schemaVersion => 1;

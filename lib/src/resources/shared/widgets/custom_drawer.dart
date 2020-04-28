@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/ui/about/about.dart';
+import 'package:j3enterprise/src/ui/authentication/authentication.dart';
 import 'package:j3enterprise/src/ui/background_jobs/btasks.dart';
 import 'package:j3enterprise/src/ui/communication/server_setup.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
@@ -95,27 +97,6 @@ class CustomDrawer extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LocalServer()));
-              },
-              child: ListTile(
-                leading: Icon(
-                  CustomIcons.database_solid,
-                  color: Colors.blue,
-                ),
-                title: Text(
-                  AppLocalization.of(context)
-                      .translate('local_server_setup_appdraw'),
-                  style: TextStyle(color: Colors.black, fontSize: 16),
-                ),
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
                 showDialog(
                     context: context,
                     builder: (context) {
@@ -149,6 +130,21 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 title: Text(
                   AppLocalization.of(context).translate('about_appdraw'),
+                  style: TextStyle(color: Colors.black, fontSize: 16),
+                ),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: GestureDetector(
+              onTap: () {
+                BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
+              },
+              child: ListTile(
+                leading: Icon(Icons.exit_to_app, color: Colors.blue),
+                title: Text(
+                  AppLocalization.of(context).translate('logout_appdraw'),
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
               ),

@@ -6,6 +6,6 @@ part of 'comset_crud.dart';
 // DaoGenerator
 // **************************************************************************
 
-mixin _$ComssetDaoMixin on DatabaseAccessor<AppDatabase> {
-  $ComssetTable get comsset => db.comsset;
+mixin _$CommunicationDaoMixin on DatabaseAccessor<AppDatabase> {
+  $CommunicationTable get communication => db.communication;
 }

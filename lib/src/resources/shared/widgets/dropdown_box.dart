@@ -5,7 +5,9 @@ class DropdownFormFieldNormalReuse extends StatefulWidget {
   final dynamic selectedValue;
   final List<String> listData;
 
-  DropdownFormFieldNormalReuse(
+  var onUpdateERBSelection;
+
+  DropdownFormFieldNormalReuse(this.onUpdateERBSelection,
       {@required this.hintText,
       @required this.selectedValue,
       @required this.listData});
@@ -35,6 +37,7 @@ class _DropdownFormFieldNormalReuseState
               onChanged: (String newValue) {
                 setState(() {
                   setselectedValue = newValue;
+                  widget.onUpdateERBSelection(newValue);
                 });
               },
               items: widget.listData.map((String dropDownStringItem) {
