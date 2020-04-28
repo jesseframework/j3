@@ -66,6 +66,7 @@ class _LoginFormState extends State<LoginForm> {
                                     : null;
                               },
                               decoration: InputDecoration(
+                                filled: true,
                                 icon: Icon(Icons.person),
                                 labelText: AppLocalization.of(context)
                                     .translate('username_label'),
@@ -77,6 +78,7 @@ class _LoginFormState extends State<LoginForm> {
                             child: TextFormField(
                               controller: _passwordController,
                               decoration: InputDecoration(
+                                filled: true,
                                 icon: Icon(Icons.lock),
                                 suffixIcon: IconButton(
                                   icon: !pass
@@ -94,6 +96,7 @@ class _LoginFormState extends State<LoginForm> {
                             child: DropdownButtonFormField<String>(
                               // hint: Text(AppLocalization.of(context).translate('tenant_default_text')),
                               decoration: InputDecoration(
+                                filled: true,
                                 icon: Icon(Icons.home),
                                 alignLabelWithHint: false,
                                 labelText: AppLocalization.of(context)

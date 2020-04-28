@@ -15,3 +15,9 @@ class SaveCammunicationButtonPressed extends CommunicationEvent {
   @override
   String toString() => 'SaveCammunicationButtonPressed {data: $data}';
 }
+
+class OnFormLoadGetSaveCommunication {
+  final String typeOfErp;
+
+  OnFormLoadGetSaveCommunication({@required this.typeOfErp});
+}

@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
+import 'package:j3enterprise/src/resources/shared/widgets/dropdown_box.dart';
+import 'package:j3enterprise/src/resources/shared/widgets/text_field_nullable.dart';
 
 import 'bloc/communication_bloc.dart';
 
@@ -15,17 +17,8 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
   final formKey = new GlobalKey<FormState>();
 
   //Drop down setting
-  var _erp_selecteditem;
-  var _syncfrequency_selected_item;
-  var _erptype = ['SAP', 'ERP Next', 'Quick Books'];
-  var _syncfrequency = [
-    'Every Minet',
-    'Every 5 Minutes',
-    'Every 20 Minutes',
-    'Every Day',
-    'Every Month',
-    'Every Year'
-  ];
+  var erpSelecteditem;
+  var syncfrequencySelectedItem;
 
   //ERP Communication setting
   final _typeoferpController = TextEditingController();
@@ -39,12 +32,12 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
   void submitForm(CommunicationBloc bloc) {
     var formData = ComssetData(
       id: 0,
-      serverurl: "http",
-      username: "testflutter",
+      serverurl: _serverurlController.value.text,
+      username: _usernameController.value.text,
       newpasskey: "123hhh",
-      confirmpasskey: "667788",
-      syncfrequency: "daily",
-      typeoferp: "erp",
+      confirmpasskey: _confirmpasswordController.value.text,
+      syncfrequency: syncfrequencySelectedItem,
+      typeoferp: erpSelecteditem,
       commtype: _typeoferpController.value.text,
     );
 
@@ -101,124 +94,66 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
                 child: Column(
                   children: <Widget>[
                     Padding(
-                        padding:
-                            const EdgeInsets.only(left: 10.00, right: 10.00),
-                        child: DropdownButtonFormField<String>(
-                          decoration: InputDecoration(),
-                          hint: Text(AppLocalization.of(context)
-                              .translate('type_of_erp_label_communication')),
-                          value: _erp_selecteditem,
-                          onChanged: (String newValue) {
-                            setState(() {
-                              _erp_selecteditem = newValue;
-                            });
-                          },
-                          items: _erptype.map((String dropDownStringItem) {
-                            return new DropdownMenuItem<String>(
-                              value: dropDownStringItem,
-                              child: new Text(
-                                dropDownStringItem,
-                                style: new TextStyle(color: Colors.black),
-                              ),
-                            );
-                          }).toList(),
-                          isExpanded: true,
+                        padding: const EdgeInsets.all(0.00),
+                        child: DropdownFormFieldNormalReuse(
+                          hintText: AppLocalization.of(context)
+                              .translate('type_of_erp_label_communication'),
+                          selectedValue: erpSelecteditem,
+                          listData: ['SAP', 'ERP Next', 'Quick Books'],
                         )),
                     Padding(
-                      padding: const EdgeInsets.only(left: 10.00, right: 10.00),
-                      child: TextFormField(
-                        controller: _serverurlController,
-                        validator: (_value) {
-                          return _value.length < 3
-                              ? AppLocalization.of(context)
-                                  .translate('username_validation_text')
-                              : null;
-                        },
-                        decoration: InputDecoration(
-                          //icon: Icon(Icons.supervised_user_circle),
-                          labelText: AppLocalization.of(context)
-                              .translate('server_url_label_communication'),
-                        ),
+                      padding: const EdgeInsets.all(0.00),
+                      child: TextFromFieldNullableReusable(
+                        labelName: AppLocalization.of(context)
+                            .translate('server_url_label_communication'),
+                        controllerName: _serverurlController,
+                        validationText: 'Test',
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 10.00, right: 10.00),
-                      child: TextFormField(
-                        controller: _usernameController,
-                        validator: (_value) {
-                          return _value.length < 3
-                              ? AppLocalization.of(context)
-                                  .translate('username_validation_text')
-                              : null;
-                        },
-                        decoration: InputDecoration(
-                          //icon: Icon(Icons.supervised_user_circle),
-                          labelText: AppLocalization.of(context)
-                              .translate('username_label_communication'),
-                        ),
+                      padding: const EdgeInsets.all(0.00),
+                      child: TextFromFieldNullableReusable(
+                        labelName: AppLocalization.of(context)
+                            .translate('username_label_communication'),
+                        controllerName: _usernameController,
+                        validationText: 'Test',
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 10.00, right: 10.00),
-                      child: TextFormField(
-                        //ontroller: ,
-                        validator: (_value) {
-                          return _value.length < 3
-                              ? AppLocalization.of(context)
-                                  .translate('username_validation_text')
-                              : null;
-                        },
-                        decoration: InputDecoration(
-                          //icon: Icon(Icons.supervised_user_circle),
-                          labelText: AppLocalization.of(context)
-                              .translate('new_password_label_communication'),
-                        ),
+                      padding: const EdgeInsets.all(0.00),
+                      child: TextFromFieldNullableReusable(
+                        labelName: AppLocalization.of(context)
+                            .translate('new_password_label_communication'),
+                        validationText: 'Test',
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 10.00, right: 10.00),
-                      child: TextFormField(
-                        controller: _confirmpasswordController,
-                        validator: (_value) {
-                          return _value.length < 3
-                              ? AppLocalization.of(context)
-                                  .translate('username_validation_text')
-                              : null;
-                        },
-                        decoration: InputDecoration(
-                          //icon: Icon(Icons.supervised_user_circle),
-                          labelText: AppLocalization.of(context).translate(
-                              'confirm_password_label_communication'),
-                        ),
+                      padding: const EdgeInsets.all(0.00),
+                      child: TextFromFieldNullableReusable(
+                        labelName: AppLocalization.of(context)
+                            .translate('confirm_password_label_communication'),
+                        controllerName: _confirmpasswordController,
+                        validationText: 'Test',
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 10.00, right: 10.00),
-                      child: DropdownButtonFormField<String>(
-                        decoration: InputDecoration(),
-                        hint: Text(AppLocalization.of(context)
-                            .translate('sync_frequency_label_communication')),
-                        value: _syncfrequency_selected_item,
-                        onChanged: (String newValue) {
-                          setState(() {
-                            _syncfrequency_selected_item = newValue;
-                          });
-                        },
-                        items: _syncfrequency.map((String dropDownStringItem) {
-                          return new DropdownMenuItem<String>(
-                            value: dropDownStringItem,
-                            child: new Text(
-                              dropDownStringItem,
-                              style: new TextStyle(color: Colors.black),
-                            ),
-                          );
-                        }).toList(),
-                        isExpanded: true,
+                      padding: const EdgeInsets.all(10.00),
+                      child: DropdownFormFieldNormalReuse(
+                        hintText: AppLocalization.of(context)
+                            .translate('sync_frequency_label_communication'),
+                        selectedValue: syncfrequencySelectedItem,
+                        listData: [
+                          'Every Minet',
+                          'Every 5 Minutes',
+                          'Every 20 Minutes',
+                          'Every Day',
+                          'Every Month',
+                          'Every Year'
+                        ],
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
-                          left: 16, right: 16, top: 10.00),
+                      padding: const EdgeInsets.all(20.00),
                       child: ButtonTheme(
                         height: 50,
                         child: FlatButton(

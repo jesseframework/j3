@@ -6,10 +6,11 @@ import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
+// import 'dart:io' show Platform;
+// import 'dart:io' as io;
 
 part 'moor_database.g.dart';
 //part 'Comsset_crud.g.dart';
-
 
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
@@ -26,7 +27,3 @@ class AppDatabase extends _$AppDatabase {
   @override
   int get schemaVersion => 1;
 }
-
-
-
-

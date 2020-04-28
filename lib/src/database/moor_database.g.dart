@@ -647,7 +647,7 @@ class ComssetCompanion extends UpdateCompanion<ComssetData> {
     this.typeoferp = const Value.absent(),
   });
   ComssetCompanion.insert({
-    @required int id,
+    this.id = const Value.absent(),
     @required String serverurl,
     @required String username,
     @required String newpasskey,
@@ -655,8 +655,7 @@ class ComssetCompanion extends UpdateCompanion<ComssetData> {
     @required String syncfrequency,
     @required String commtype,
     @required String typeoferp,
-  })  : id = Value(id),
-        serverurl = Value(serverurl),
+  })  : serverurl = Value(serverurl),
         username = Value(username),
         newpasskey = Value(newpasskey),
         confirmpasskey = Value(confirmpasskey),
@@ -694,11 +693,8 @@ class $ComssetTable extends Comsset with TableInfo<$ComssetTable, ComssetData> {
   @override
   GeneratedIntColumn get id => _id ??= _constructId();
   GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn(
-      'id',
-      $tableName,
-      false,
-    );
+    return GeneratedIntColumn('id', $tableName, false,
+        hasAutoIncrement: true, declaredAsPrimaryKey: true);
   }
 
   final VerificationMeta _serverurlMeta = const VerificationMeta('serverurl');
@@ -812,8 +808,6 @@ class $ComssetTable extends Comsset with TableInfo<$ComssetTable, ComssetData> {
     final context = VerificationContext();
     if (d.id.present) {
       context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (d.serverurl.present) {
       context.handle(_serverurlMeta,
@@ -865,7 +859,7 @@ class $ComssetTable extends Comsset with TableInfo<$ComssetTable, ComssetData> {
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   ComssetData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -920,12 +914,4 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [users, comsset];
-}
-
-// **************************************************************************
-// DaoGenerator
-// **************************************************************************
-
-mixin _$ComssetDaoMixin on DatabaseAccessor<AppDatabase> {
-  $ComssetTable get comsset => db.comsset;
 }

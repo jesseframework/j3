@@ -88,41 +88,36 @@ class App extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       routes: routes,
-
       supportedLocales: [
         Locale('en', 'US'),
         Locale('es', 'ES'),
         Locale('sk', 'SK'),
       ],
-
       localizationsDelegates: [
         AppLocalization.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-
-       localeResolutionCallback: (locale, supportedLocales) {
+      localeResolutionCallback: (locale, supportedLocales) {
         // Check if the current device locale is supported
         if (Platform.isAndroid) {
-        for (var supportedLocale in supportedLocales) {
-          if (supportedLocale.languageCode == locale.languageCode &&
-              supportedLocale.countryCode == locale.countryCode) {
-            return supportedLocale;
+          for (var supportedLocale in supportedLocales) {
+            if (supportedLocale.languageCode == locale.languageCode &&
+                supportedLocale.countryCode == locale.countryCode) {
+              return supportedLocale;
+            }
+          }
+        } else if (Platform.isIOS) {
+          for (var supportedLocale in supportedLocales) {
+            if (supportedLocale.languageCode == locale.languageCode &&
+                supportedLocale.countryCode == locale.countryCode) {
+              return supportedLocale;
+            }
           }
         }
-      } else if (Platform.isIOS) {
-        for (var supportedLocale in supportedLocales) {
-          if (supportedLocale.languageCode == locale.languageCode &&
-              supportedLocale.countryCode == locale.countryCode) {
-            return supportedLocale;
-          }
-        }
-      }
-        
-         return supportedLocales.first;
-       },       
-      
+
+        return supportedLocales.first;
+      },
     );
   }
-
 }

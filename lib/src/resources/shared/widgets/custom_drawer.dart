@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/ui/about/about.dart';
 import 'package:j3enterprise/src/ui/background_jobs/btasks.dart';
-import 'package:j3enterprise/src/ui/communication/setup_communication.dart';
 import 'package:j3enterprise/src/ui/communication/server_setup.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/src/resources/shared/utils/langcustomdialogbox.dart';
@@ -31,7 +30,8 @@ class CustomDrawer extends StatelessWidget {
                       width: 27,
                     ),
                     Text(
-                      AppLocalization.of(context).translate('setting_label_appdraw'),
+                      AppLocalization.of(context)
+                          .translate('setting_label_appdraw'),
                       style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
@@ -62,7 +62,8 @@ class CustomDrawer extends StatelessWidget {
                   color: Colors.blue,
                 ),
                 title: Text(
-                  AppLocalization.of(context).translate('set_communication_appdraw'),
+                  AppLocalization.of(context)
+                      .translate('set_communication_appdraw'),
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
               ),
@@ -82,31 +83,29 @@ class CustomDrawer extends StatelessWidget {
                   color: Colors.blue,
                 ),
                 title: Text(
-                  AppLocalization.of(context).translate('background_job_appdraw'),
+                  AppLocalization.of(context)
+                      .translate('background_job_appdraw'),
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
               ),
             ),
           ),
           Align(
-                   
             alignment: Alignment.bottomLeft,
-            
             child: GestureDetector(
-              
               onTap: () {
                 Navigator.of(context).pop();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => LocalServer()));
-              },              
+              },
               child: ListTile(
                 leading: Icon(
                   CustomIcons.database_solid,
                   color: Colors.blue,
                 ),
                 title: Text(
-                  
-                  AppLocalization.of(context).translate('local_server_setup_appdraw'),
+                  AppLocalization.of(context)
+                      .translate('local_server_setup_appdraw'),
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
               ),
@@ -129,7 +128,7 @@ class CustomDrawer extends StatelessWidget {
                   color: Colors.blue,
                 ),
                 title: Text(
-                 AppLocalization.of(context).translate('language_appdraw'),
+                  AppLocalization.of(context).translate('language_appdraw'),
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
               ),
@@ -149,7 +148,7 @@ class CustomDrawer extends StatelessWidget {
                   color: Colors.blue,
                 ),
                 title: Text(
-                 AppLocalization.of(context).translate('about_appdraw'),
+                  AppLocalization.of(context).translate('about_appdraw'),
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
               ),
