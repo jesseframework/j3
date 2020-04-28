@@ -1,5 +1,5 @@
 import 'package:j3enterprise/src/database/moor_database.dart';
-import 'package:j3enterprise/src/models/user_models.dart';
+import 'package:j3enterprise/src/models/user_model.dart';
 import 'package:moor/moor.dart';
 
 part 'user_crud.g.dart';

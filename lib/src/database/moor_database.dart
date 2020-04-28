@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:j3enterprise/src/models/user_models.dart';
+import 'package:j3enterprise/src/models/user_model.dart';
 import 'package:j3enterprise/src/models/communication_model.dart';
 import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
