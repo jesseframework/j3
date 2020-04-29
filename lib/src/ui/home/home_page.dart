@@ -118,7 +118,8 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Text(
                         AppLocalization.of(context)
-                            .translate('home_prefrence_icon_label'),
+                                .translate('home_prefrence_icon_label') ??
+                            'Prefrence',
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/ui/about/about.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication.dart';
+import 'package:j3enterprise/src/ui/background_jobs/backgroundjobs_pages.dart';
 import 'package:j3enterprise/src/ui/background_jobs/btasks.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/src/resources/shared/utils/langcustomdialogbox.dart';
@@ -30,7 +31,8 @@ class CustomDrawer extends StatelessWidget {
                     ),
                     Text(
                       AppLocalization.of(context)
-                          .translate('setting_label_appdraw'),
+                              .translate('setting_label_appdraw') ??
+                          'Setting',
                       style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
@@ -62,7 +64,8 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 title: Text(
                   AppLocalization.of(context)
-                      .translate('set_communication_appdraw'),
+                          .translate('set_communication_appdraw') ??
+                      'Set Communication',
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
               ),
@@ -73,8 +76,10 @@ class CustomDrawer extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => BackgroundTasks()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BackgroundJobsPage()));
               },
               child: ListTile(
                 leading: Icon(
@@ -83,7 +88,8 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 title: Text(
                   AppLocalization.of(context)
-                      .translate('background_job_appdraw'),
+                          .translate('background_job_appdraw') ??
+                      'Background Jobs',
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
               ),
@@ -106,7 +112,8 @@ class CustomDrawer extends StatelessWidget {
                   color: Colors.blue,
                 ),
                 title: Text(
-                  AppLocalization.of(context).translate('language_appdraw'),
+                  AppLocalization.of(context).translate('language_appdraw') ??
+                      'Language',
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
               ),
@@ -126,7 +133,8 @@ class CustomDrawer extends StatelessWidget {
                   color: Colors.blue,
                 ),
                 title: Text(
-                  AppLocalization.of(context).translate('about_appdraw'),
+                  AppLocalization.of(context).translate('about_appdraw') ??
+                      'About',
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
               ),
@@ -141,7 +149,8 @@ class CustomDrawer extends StatelessWidget {
               child: ListTile(
                 leading: Icon(Icons.exit_to_app, color: Colors.blue),
                 title: Text(
-                  AppLocalization.of(context).translate('logout_appdraw'),
+                  AppLocalization.of(context).translate('logout_appdraw') ??
+                      'Logout',
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
               ),
@@ -159,7 +168,8 @@ class CustomDrawer extends StatelessWidget {
                   thickness: 2,
                 ),
                 Text(
-                  AppLocalization.of(context).translate('version_appdraw'),
+                  AppLocalization.of(context).translate('version_appdraw') ??
+                      'Version',
                   style: TextStyle(color: Colors.black, fontSize: 12),
                 ),
                 SizedBox(

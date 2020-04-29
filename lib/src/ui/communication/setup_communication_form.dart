@@ -100,23 +100,26 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
                 Tab(
                   icon: Icon(CustomIcons.wrench_solid),
                   text: AppLocalization.of(context)
-                      .translate('tab_communication_communication'),
+                          .translate('tab_communication_communication') ??
+                      'Communication',
                 ),
                 Tab(
                   icon: Icon(CustomIcons.cog_regular),
                   text: AppLocalization.of(context)
-                      .translate('tab_api_communication'),
+                          .translate('tab_api_communication') ??
+                      'API',
                 )
               ],
             ),
             title: Text(
-                AppLocalization.of(context).translate('title_communication')),
+                AppLocalization.of(context).translate('title_communication') ??
+                    'Set Communication'),
             actions: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: Row(
                   children: <Widget>[
-                    Icon(Icons.file_download, size: 40, color: Colors.yellow),
+                    Icon(Icons.cloud_download, size: 40, color: Colors.white),
                   ],
                 ),
               )
@@ -131,8 +134,9 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
                         padding: const EdgeInsets.all(0.00),
                         child: DropdownFormFieldNormalReuse(
                           _onUpdateERBSelection,
-                          hintText: AppLocalization.of(context)
-                              .translate('type_of_erp_label_communication'),
+                          hintText: AppLocalization.of(context).translate(
+                                  'type_of_erp_label_communication') ??
+                              'Type of ERP',
                           selectedValue: erpSelecteditem,
                           listData: ['SAP', 'ERP Next', 'Quick Books'],
                         )),
@@ -140,7 +144,8 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
                       padding: const EdgeInsets.all(0.00),
                       child: TextFromFieldNullableReusable(
                         labelName: AppLocalization.of(context)
-                            .translate('server_url_label_communication'),
+                                .translate('server_url_label_communication') ??
+                            'Server Url',
                         controllerName: _serverurlController,
                         validationText: 'Test',
                       ),
@@ -149,7 +154,8 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
                       padding: const EdgeInsets.all(0.00),
                       child: TextFromFieldNullableReusable(
                         labelName: AppLocalization.of(context)
-                            .translate('username_label_communication'),
+                                .translate('username_label_communication') ??
+                            'Username',
                         controllerName: _usernameController,
                         validationText: 'Test',
                       ),
@@ -157,16 +163,18 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
                     Padding(
                       padding: const EdgeInsets.all(0.00),
                       child: TextFromFieldPasswordReusable(
-                        labelName: AppLocalization.of(context)
-                            .translate('new_password_label_communication'),
+                        labelName: AppLocalization.of(context).translate(
+                                'new_password_label_communication') ??
+                            'New Password',
                         validationText: 'Test',
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(0.00),
                       child: TextFromFieldPasswordReusable(
-                        labelName: AppLocalization.of(context)
-                            .translate('confirm_password_label_communication'),
+                        labelName: AppLocalization.of(context).translate(
+                                'confirm_password_label_communication') ??
+                            'Confirm Password',
                         controllerName: _confirmpasswordController,
                         validationText: 'Test',
                       ),
@@ -175,8 +183,9 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
                       padding: const EdgeInsets.all(0.00),
                       child: DropdownFormFieldNormalReuse(
                         _onUpdateeFrequencySelection,
-                        hintText: AppLocalization.of(context)
-                            .translate('sync_frequency_label_communication'),
+                        hintText: AppLocalization.of(context).translate(
+                                'sync_frequency_label_communication') ??
+                            'Sync Frequency',
                         selectedValue: syncfrequencySelectedItem,
                         listData: [
                           'Every Minet',
@@ -199,8 +208,9 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
                           },
                           child: Center(
                               child: Text(
-                            AppLocalization.of(context)
-                                .translate('save_changes_button_serversetup'),
+                            AppLocalization.of(context).translate(
+                                    'save_changes_button_serversetup') ??
+                                'Save Changes',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
@@ -218,7 +228,8 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
                       padding: const EdgeInsets.all(0.00),
                       child: TextFromFieldNullableReusable(
                         labelName: AppLocalization.of(context)
-                            .translate('server_url_label_communication'),
+                                .translate('server_url_label_communication') ??
+                            'Server Url',
                         controllerName: _apiserverurlController,
                         validationText: 'Test',
                       ),
@@ -227,7 +238,8 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
                       padding: const EdgeInsets.all(0.00),
                       child: TextFromFieldNullableReusable(
                         labelName: AppLocalization.of(context)
-                            .translate('username_label_communication'),
+                                .translate('username_label_communication') ??
+                            'Username',
                         controllerName: _apiusernameController,
                         validationText: 'Test',
                       ),
@@ -235,16 +247,18 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
                     Padding(
                       padding: const EdgeInsets.all(0.00),
                       child: TextFromFieldPasswordReusable(
-                        labelName: AppLocalization.of(context)
-                            .translate('new_password_label_communication'),
+                        labelName: AppLocalization.of(context).translate(
+                                'new_password_label_communication') ??
+                            'New Password',
                         validationText: 'Test',
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(0.00),
                       child: TextFromFieldPasswordReusable(
-                        labelName: AppLocalization.of(context)
-                            .translate('confirm_password_label_communication'),
+                        labelName: AppLocalization.of(context).translate(
+                                'confirm_password_label_communication') ??
+                            'Confirm Password',
                         controllerName: _apiConfirmPasswordController,
                         validationText: 'Test',
                       ),
@@ -253,8 +267,9 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
                       padding: const EdgeInsets.all(0.00),
                       child: DropdownFormFieldNormalReuse(
                         _onUpdateeApiFrequencySelection,
-                        hintText: AppLocalization.of(context)
-                            .translate('sync_frequency_label_communication'),
+                        hintText: AppLocalization.of(context).translate(
+                                'sync_frequency_label_communication') ??
+                            'Sync Frequency',
                         selectedValue: syncApifrequencySelectedItem,
                         listData: [
                           'Every Minet',
@@ -277,8 +292,9 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
                           },
                           child: Center(
                               child: Text(
-                            AppLocalization.of(context)
-                                .translate('save_changes_button_serversetup'),
+                            AppLocalization.of(context).translate(
+                                    'save_changes_button_serversetup') ??
+                                'Save Changes',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
@@ -294,10 +310,5 @@ class _SetupCommunicationForm extends State<SetupCommunicationForm> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

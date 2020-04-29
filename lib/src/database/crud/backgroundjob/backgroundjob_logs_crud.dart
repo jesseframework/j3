@@ -11,22 +11,20 @@ class BackgroundJobLogsDao extends DatabaseAccessor<AppDatabase>
   final AppDatabase db;
   BackgroundJobLogsDao(this.db) : super(db);
 
-  // Future<List<BackgroundJobLogs>> getAllJobs() {
-  //   return (select(db.backgroundJobSchedule).get());
-  // }
+  Future<List<BackgroundJobLog>> getAllJobsLog() {
+    return (select(db.backgroundJobLogs).get());
+  }
 
-  // Stream<List<BackgroundJobScheduleData>> watchAllJobs() {
-  //   return (select(db.backgroundJobSchedule).watch());
-  // }
+  Stream<List<BackgroundJobLog>> watchAllJobsLog() {
+    return (select(db.backgroundJobLogs).watch());
+  }
 
-  // Future insertJobSchudule(BackgroundJobScheduleData backgroundJobSchedule) =>
-  //     into(db.backgroundJobSchedule).insert(backgroundJobSchedule);
+  Future insertJobLog(BackgroundJobLog backgroundJoblog) =>
+      into(db.backgroundJobLogs).insert(backgroundJoblog);
 
-  // Future updateBackgroundJob(
-  //         BackgroundJobScheduleData backgroundJobScheduleData) =>
-  //     update(db.backgroundJobSchedule).replace(backgroundJobScheduleData);
+  Future updateBackgroundJobLog(BackgroundJobLog backgroundJoblog) =>
+      update(db.backgroundJobLogs).replace(backgroundJoblog);
 
-  // Future deleteBackgroundJobs(
-  //         BackgroundJobScheduleData backgroundJobScheduleData) =>
-  //     delete(db.backgroundJobSchedule).delete(backgroundJobScheduleData);
+  Future deleteBackgroundJobsLog(BackgroundJobLog backgroundJoblog) =>
+      delete(db.backgroundJobLogs).delete(backgroundJoblog);
 }

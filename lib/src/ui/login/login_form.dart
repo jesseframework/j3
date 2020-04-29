@@ -61,15 +61,17 @@ class _LoginFormState extends State<LoginForm> {
                               controller: _usernameController,
                               validator: (_value) {
                                 return _value.length < 3
-                                    ? AppLocalization.of(context)
-                                        .translate('username_validation_text')
+                                    ? AppLocalization.of(context).translate(
+                                            'username_validation_text') ??
+                                        'Enter valid username'
                                     : null;
                               },
                               decoration: InputDecoration(
                                 filled: true,
                                 icon: Icon(Icons.person),
                                 labelText: AppLocalization.of(context)
-                                    .translate('username_label'),
+                                        .translate('username_label') ??
+                                    'Username',
                               ),
                             ),
                           ),
@@ -87,7 +89,8 @@ class _LoginFormState extends State<LoginForm> {
                                   onPressed: () {},
                                 ),
                                 labelText: AppLocalization.of(context)
-                                    .translate('password_label'),
+                                        .translate('password_label') ??
+                                    'Password',
                               ),
                               obscureText: pass, // Hide password
                             ),
@@ -100,7 +103,8 @@ class _LoginFormState extends State<LoginForm> {
                                 icon: Icon(Icons.home),
                                 alignLabelWithHint: false,
                                 labelText: AppLocalization.of(context)
-                                    .translate('tenant_label'),
+                                        .translate('tenant_label') ??
+                                    'Tenant',
                               ),
                               value: selected,
                               items: ["Host", "Admin", "Guest"]
@@ -128,7 +132,8 @@ class _LoginFormState extends State<LoginForm> {
                               Expanded(
                                 child: Text(
                                   AppLocalization.of(context)
-                                      .translate('pin_only_label'),
+                                          .translate('pin_only_label') ??
+                                      'Ping Only',
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w300,
@@ -155,7 +160,8 @@ class _LoginFormState extends State<LoginForm> {
                               color: Colors.blue.shade500,
                               child: Text(
                                 AppLocalization.of(context)
-                                    .translate('login_button'),
+                                        .translate('login_button') ??
+                                    'Login',
                                 style: TextStyle(color: Colors.white),
                               ),
                               onPressed: state is! LoginLoading
@@ -177,7 +183,9 @@ class _LoginFormState extends State<LoginForm> {
                               ),
                               SizedBox(width: 10.0, height: 10),
                               Text(
-                                'or',
+                                AppLocalization.of(context)
+                                        .translate('login_or') ??
+                                    'Or',
                                 style: TextStyle(
                                     color: Colors.black.withOpacity(.5)),
                               ),
