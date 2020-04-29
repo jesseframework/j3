@@ -1,14 +1,11 @@
-class  Audit{
-DateTime creationtime;
-DateTime deletetime;
-String createuserid;
-String deleteuserid;
+import 'package:flutter/cupertino.dart';
 
-Audit(this.createuserid,
-this.creationtime,
-this.deletetime,
-this.deleteuserid);
+class Audit {
+  DateTime creationtime;
+  DateTime deletetime;
+  String createuserid;
+  String deleteuserid;
 
-
-
+  Audit(
+      this.createuserid, this.creationtime, this.deletetime, this.deleteuserid);
 }
