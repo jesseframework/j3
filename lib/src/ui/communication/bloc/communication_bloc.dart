@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:j3enterprise/src/database/crud/communication/comset_crud.dart';
+import 'package:j3enterprise/src/database/crud/communication/communication_setup_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:meta/meta.dart';
 import 'package:moor/moor.dart';
