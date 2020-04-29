@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:j3enterprise/src/models/background_job_schedule_model.dart';
+import 'package:j3enterprise/src/models/background_jobs_logs_model.dart';
 import 'package:j3enterprise/src/models/user_model.dart';
 import 'package:j3enterprise/src/models/communication_model.dart';
 import 'package:moor/moor.dart';
@@ -20,7 +22,8 @@ LazyDatabase _openConnection() {
   });
 }
 
-@UseMoor(tables: [Users, Communication])
+@UseMoor(
+    tables: [Users, Communication, BackgroundJobSchedule, BackgroundJobLogs])
 class AppDatabase extends _$AppDatabase {
   static AppDatabase _db = AppDatabase._internal();
 

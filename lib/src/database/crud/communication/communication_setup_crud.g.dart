@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'comset_crud.dart';
+part of 'communication_setup_crud.dart';
 
 // **************************************************************************
 // DaoGenerator

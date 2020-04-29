@@ -902,6 +902,623 @@ class $CommunicationTable extends Communication
   }
 }
 
+class BackgroundJobScheduleData extends DataClass
+    implements Insertable<BackgroundJobScheduleData> {
+  final int id;
+  final String jobname;
+  final DateTime startdatetime;
+  final String syncfrequency;
+  final bool enablejob;
+  BackgroundJobScheduleData(
+      {@required this.id,
+      @required this.jobname,
+      @required this.startdatetime,
+      @required this.syncfrequency,
+      @required this.enablejob});
+  factory BackgroundJobScheduleData.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    return BackgroundJobScheduleData(
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      jobname:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}jobname']),
+      startdatetime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}startdatetime']),
+      syncfrequency: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}syncfrequency']),
+      enablejob:
+          boolType.mapFromDatabaseResponse(data['${effectivePrefix}enablejob']),
+    );
+  }
+  factory BackgroundJobScheduleData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return BackgroundJobScheduleData(
+      id: serializer.fromJson<int>(json['id']),
+      jobname: serializer.fromJson<String>(json['jobname']),
+      startdatetime: serializer.fromJson<DateTime>(json['startdatetime']),
+      syncfrequency: serializer.fromJson<String>(json['syncfrequency']),
+      enablejob: serializer.fromJson<bool>(json['enablejob']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'jobname': serializer.toJson<String>(jobname),
+      'startdatetime': serializer.toJson<DateTime>(startdatetime),
+      'syncfrequency': serializer.toJson<String>(syncfrequency),
+      'enablejob': serializer.toJson<bool>(enablejob),
+    };
+  }
+
+  @override
+  BackgroundJobScheduleCompanion createCompanion(bool nullToAbsent) {
+    return BackgroundJobScheduleCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      jobname: jobname == null && nullToAbsent
+          ? const Value.absent()
+          : Value(jobname),
+      startdatetime: startdatetime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(startdatetime),
+      syncfrequency: syncfrequency == null && nullToAbsent
+          ? const Value.absent()
+          : Value(syncfrequency),
+      enablejob: enablejob == null && nullToAbsent
+          ? const Value.absent()
+          : Value(enablejob),
+    );
+  }
+
+  BackgroundJobScheduleData copyWith(
+          {int id,
+          String jobname,
+          DateTime startdatetime,
+          String syncfrequency,
+          bool enablejob}) =>
+      BackgroundJobScheduleData(
+        id: id ?? this.id,
+        jobname: jobname ?? this.jobname,
+        startdatetime: startdatetime ?? this.startdatetime,
+        syncfrequency: syncfrequency ?? this.syncfrequency,
+        enablejob: enablejob ?? this.enablejob,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('BackgroundJobScheduleData(')
+          ..write('id: $id, ')
+          ..write('jobname: $jobname, ')
+          ..write('startdatetime: $startdatetime, ')
+          ..write('syncfrequency: $syncfrequency, ')
+          ..write('enablejob: $enablejob')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      id.hashCode,
+      $mrjc(
+          jobname.hashCode,
+          $mrjc(startdatetime.hashCode,
+              $mrjc(syncfrequency.hashCode, enablejob.hashCode)))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is BackgroundJobScheduleData &&
+          other.id == this.id &&
+          other.jobname == this.jobname &&
+          other.startdatetime == this.startdatetime &&
+          other.syncfrequency == this.syncfrequency &&
+          other.enablejob == this.enablejob);
+}
+
+class BackgroundJobScheduleCompanion
+    extends UpdateCompanion<BackgroundJobScheduleData> {
+  final Value<int> id;
+  final Value<String> jobname;
+  final Value<DateTime> startdatetime;
+  final Value<String> syncfrequency;
+  final Value<bool> enablejob;
+  const BackgroundJobScheduleCompanion({
+    this.id = const Value.absent(),
+    this.jobname = const Value.absent(),
+    this.startdatetime = const Value.absent(),
+    this.syncfrequency = const Value.absent(),
+    this.enablejob = const Value.absent(),
+  });
+  BackgroundJobScheduleCompanion.insert({
+    @required int id,
+    @required String jobname,
+    @required DateTime startdatetime,
+    @required String syncfrequency,
+    this.enablejob = const Value.absent(),
+  })  : id = Value(id),
+        jobname = Value(jobname),
+        startdatetime = Value(startdatetime),
+        syncfrequency = Value(syncfrequency);
+  BackgroundJobScheduleCompanion copyWith(
+      {Value<int> id,
+      Value<String> jobname,
+      Value<DateTime> startdatetime,
+      Value<String> syncfrequency,
+      Value<bool> enablejob}) {
+    return BackgroundJobScheduleCompanion(
+      id: id ?? this.id,
+      jobname: jobname ?? this.jobname,
+      startdatetime: startdatetime ?? this.startdatetime,
+      syncfrequency: syncfrequency ?? this.syncfrequency,
+      enablejob: enablejob ?? this.enablejob,
+    );
+  }
+}
+
+class $BackgroundJobScheduleTable extends BackgroundJobSchedule
+    with TableInfo<$BackgroundJobScheduleTable, BackgroundJobScheduleData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $BackgroundJobScheduleTable(this._db, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _jobnameMeta = const VerificationMeta('jobname');
+  GeneratedTextColumn _jobname;
+  @override
+  GeneratedTextColumn get jobname => _jobname ??= _constructJobname();
+  GeneratedTextColumn _constructJobname() {
+    return GeneratedTextColumn(
+      'jobname',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _startdatetimeMeta =
+      const VerificationMeta('startdatetime');
+  GeneratedDateTimeColumn _startdatetime;
+  @override
+  GeneratedDateTimeColumn get startdatetime =>
+      _startdatetime ??= _constructStartdatetime();
+  GeneratedDateTimeColumn _constructStartdatetime() {
+    return GeneratedDateTimeColumn(
+      'startdatetime',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _syncfrequencyMeta =
+      const VerificationMeta('syncfrequency');
+  GeneratedTextColumn _syncfrequency;
+  @override
+  GeneratedTextColumn get syncfrequency =>
+      _syncfrequency ??= _constructSyncfrequency();
+  GeneratedTextColumn _constructSyncfrequency() {
+    return GeneratedTextColumn(
+      'syncfrequency',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _enablejobMeta = const VerificationMeta('enablejob');
+  GeneratedBoolColumn _enablejob;
+  @override
+  GeneratedBoolColumn get enablejob => _enablejob ??= _constructEnablejob();
+  GeneratedBoolColumn _constructEnablejob() {
+    return GeneratedBoolColumn('enablejob', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, jobname, startdatetime, syncfrequency, enablejob];
+  @override
+  $BackgroundJobScheduleTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'background_job_schedule';
+  @override
+  final String actualTableName = 'background_job_schedule';
+  @override
+  VerificationContext validateIntegrity(BackgroundJobScheduleCompanion d,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    if (d.id.present) {
+      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (d.jobname.present) {
+      context.handle(_jobnameMeta,
+          jobname.isAcceptableValue(d.jobname.value, _jobnameMeta));
+    } else if (isInserting) {
+      context.missing(_jobnameMeta);
+    }
+    if (d.startdatetime.present) {
+      context.handle(
+          _startdatetimeMeta,
+          startdatetime.isAcceptableValue(
+              d.startdatetime.value, _startdatetimeMeta));
+    } else if (isInserting) {
+      context.missing(_startdatetimeMeta);
+    }
+    if (d.syncfrequency.present) {
+      context.handle(
+          _syncfrequencyMeta,
+          syncfrequency.isAcceptableValue(
+              d.syncfrequency.value, _syncfrequencyMeta));
+    } else if (isInserting) {
+      context.missing(_syncfrequencyMeta);
+    }
+    if (d.enablejob.present) {
+      context.handle(_enablejobMeta,
+          enablejob.isAcceptableValue(d.enablejob.value, _enablejobMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  @override
+  BackgroundJobScheduleData map(Map<String, dynamic> data,
+      {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return BackgroundJobScheduleData.fromData(data, _db,
+        prefix: effectivePrefix);
+  }
+
+  @override
+  Map<String, Variable> entityToSql(BackgroundJobScheduleCompanion d) {
+    final map = <String, Variable>{};
+    if (d.id.present) {
+      map['id'] = Variable<int, IntType>(d.id.value);
+    }
+    if (d.jobname.present) {
+      map['jobname'] = Variable<String, StringType>(d.jobname.value);
+    }
+    if (d.startdatetime.present) {
+      map['startdatetime'] =
+          Variable<DateTime, DateTimeType>(d.startdatetime.value);
+    }
+    if (d.syncfrequency.present) {
+      map['syncfrequency'] =
+          Variable<String, StringType>(d.syncfrequency.value);
+    }
+    if (d.enablejob.present) {
+      map['enablejob'] = Variable<bool, BoolType>(d.enablejob.value);
+    }
+    return map;
+  }
+
+  @override
+  $BackgroundJobScheduleTable createAlias(String alias) {
+    return $BackgroundJobScheduleTable(_db, alias);
+  }
+}
+
+class BackgroundJobLog extends DataClass
+    implements Insertable<BackgroundJobLog> {
+  final int id;
+  final String jobname;
+  final DateTime lastrun;
+  final String jobstatus;
+  final String jobdescription;
+  BackgroundJobLog(
+      {@required this.id,
+      @required this.jobname,
+      @required this.lastrun,
+      @required this.jobstatus,
+      @required this.jobdescription});
+  factory BackgroundJobLog.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    return BackgroundJobLog(
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      jobname:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}jobname']),
+      lastrun: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}lastrun']),
+      jobstatus: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}jobstatus']),
+      jobdescription: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}jobdescription']),
+    );
+  }
+  factory BackgroundJobLog.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return BackgroundJobLog(
+      id: serializer.fromJson<int>(json['id']),
+      jobname: serializer.fromJson<String>(json['jobname']),
+      lastrun: serializer.fromJson<DateTime>(json['lastrun']),
+      jobstatus: serializer.fromJson<String>(json['jobstatus']),
+      jobdescription: serializer.fromJson<String>(json['jobdescription']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'jobname': serializer.toJson<String>(jobname),
+      'lastrun': serializer.toJson<DateTime>(lastrun),
+      'jobstatus': serializer.toJson<String>(jobstatus),
+      'jobdescription': serializer.toJson<String>(jobdescription),
+    };
+  }
+
+  @override
+  BackgroundJobLogsCompanion createCompanion(bool nullToAbsent) {
+    return BackgroundJobLogsCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      jobname: jobname == null && nullToAbsent
+          ? const Value.absent()
+          : Value(jobname),
+      lastrun: lastrun == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastrun),
+      jobstatus: jobstatus == null && nullToAbsent
+          ? const Value.absent()
+          : Value(jobstatus),
+      jobdescription: jobdescription == null && nullToAbsent
+          ? const Value.absent()
+          : Value(jobdescription),
+    );
+  }
+
+  BackgroundJobLog copyWith(
+          {int id,
+          String jobname,
+          DateTime lastrun,
+          String jobstatus,
+          String jobdescription}) =>
+      BackgroundJobLog(
+        id: id ?? this.id,
+        jobname: jobname ?? this.jobname,
+        lastrun: lastrun ?? this.lastrun,
+        jobstatus: jobstatus ?? this.jobstatus,
+        jobdescription: jobdescription ?? this.jobdescription,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('BackgroundJobLog(')
+          ..write('id: $id, ')
+          ..write('jobname: $jobname, ')
+          ..write('lastrun: $lastrun, ')
+          ..write('jobstatus: $jobstatus, ')
+          ..write('jobdescription: $jobdescription')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      id.hashCode,
+      $mrjc(
+          jobname.hashCode,
+          $mrjc(lastrun.hashCode,
+              $mrjc(jobstatus.hashCode, jobdescription.hashCode)))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is BackgroundJobLog &&
+          other.id == this.id &&
+          other.jobname == this.jobname &&
+          other.lastrun == this.lastrun &&
+          other.jobstatus == this.jobstatus &&
+          other.jobdescription == this.jobdescription);
+}
+
+class BackgroundJobLogsCompanion extends UpdateCompanion<BackgroundJobLog> {
+  final Value<int> id;
+  final Value<String> jobname;
+  final Value<DateTime> lastrun;
+  final Value<String> jobstatus;
+  final Value<String> jobdescription;
+  const BackgroundJobLogsCompanion({
+    this.id = const Value.absent(),
+    this.jobname = const Value.absent(),
+    this.lastrun = const Value.absent(),
+    this.jobstatus = const Value.absent(),
+    this.jobdescription = const Value.absent(),
+  });
+  BackgroundJobLogsCompanion.insert({
+    @required int id,
+    @required String jobname,
+    @required DateTime lastrun,
+    @required String jobstatus,
+    @required String jobdescription,
+  })  : id = Value(id),
+        jobname = Value(jobname),
+        lastrun = Value(lastrun),
+        jobstatus = Value(jobstatus),
+        jobdescription = Value(jobdescription);
+  BackgroundJobLogsCompanion copyWith(
+      {Value<int> id,
+      Value<String> jobname,
+      Value<DateTime> lastrun,
+      Value<String> jobstatus,
+      Value<String> jobdescription}) {
+    return BackgroundJobLogsCompanion(
+      id: id ?? this.id,
+      jobname: jobname ?? this.jobname,
+      lastrun: lastrun ?? this.lastrun,
+      jobstatus: jobstatus ?? this.jobstatus,
+      jobdescription: jobdescription ?? this.jobdescription,
+    );
+  }
+}
+
+class $BackgroundJobLogsTable extends BackgroundJobLogs
+    with TableInfo<$BackgroundJobLogsTable, BackgroundJobLog> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $BackgroundJobLogsTable(this._db, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _jobnameMeta = const VerificationMeta('jobname');
+  GeneratedTextColumn _jobname;
+  @override
+  GeneratedTextColumn get jobname => _jobname ??= _constructJobname();
+  GeneratedTextColumn _constructJobname() {
+    return GeneratedTextColumn(
+      'jobname',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _lastrunMeta = const VerificationMeta('lastrun');
+  GeneratedDateTimeColumn _lastrun;
+  @override
+  GeneratedDateTimeColumn get lastrun => _lastrun ??= _constructLastrun();
+  GeneratedDateTimeColumn _constructLastrun() {
+    return GeneratedDateTimeColumn(
+      'lastrun',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _jobstatusMeta = const VerificationMeta('jobstatus');
+  GeneratedTextColumn _jobstatus;
+  @override
+  GeneratedTextColumn get jobstatus => _jobstatus ??= _constructJobstatus();
+  GeneratedTextColumn _constructJobstatus() {
+    return GeneratedTextColumn(
+      'jobstatus',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _jobdescriptionMeta =
+      const VerificationMeta('jobdescription');
+  GeneratedTextColumn _jobdescription;
+  @override
+  GeneratedTextColumn get jobdescription =>
+      _jobdescription ??= _constructJobdescription();
+  GeneratedTextColumn _constructJobdescription() {
+    return GeneratedTextColumn(
+      'jobdescription',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, jobname, lastrun, jobstatus, jobdescription];
+  @override
+  $BackgroundJobLogsTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'background_job_logs';
+  @override
+  final String actualTableName = 'background_job_logs';
+  @override
+  VerificationContext validateIntegrity(BackgroundJobLogsCompanion d,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    if (d.id.present) {
+      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (d.jobname.present) {
+      context.handle(_jobnameMeta,
+          jobname.isAcceptableValue(d.jobname.value, _jobnameMeta));
+    } else if (isInserting) {
+      context.missing(_jobnameMeta);
+    }
+    if (d.lastrun.present) {
+      context.handle(_lastrunMeta,
+          lastrun.isAcceptableValue(d.lastrun.value, _lastrunMeta));
+    } else if (isInserting) {
+      context.missing(_lastrunMeta);
+    }
+    if (d.jobstatus.present) {
+      context.handle(_jobstatusMeta,
+          jobstatus.isAcceptableValue(d.jobstatus.value, _jobstatusMeta));
+    } else if (isInserting) {
+      context.missing(_jobstatusMeta);
+    }
+    if (d.jobdescription.present) {
+      context.handle(
+          _jobdescriptionMeta,
+          jobdescription.isAcceptableValue(
+              d.jobdescription.value, _jobdescriptionMeta));
+    } else if (isInserting) {
+      context.missing(_jobdescriptionMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  @override
+  BackgroundJobLog map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return BackgroundJobLog.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  Map<String, Variable> entityToSql(BackgroundJobLogsCompanion d) {
+    final map = <String, Variable>{};
+    if (d.id.present) {
+      map['id'] = Variable<int, IntType>(d.id.value);
+    }
+    if (d.jobname.present) {
+      map['jobname'] = Variable<String, StringType>(d.jobname.value);
+    }
+    if (d.lastrun.present) {
+      map['lastrun'] = Variable<DateTime, DateTimeType>(d.lastrun.value);
+    }
+    if (d.jobstatus.present) {
+      map['jobstatus'] = Variable<String, StringType>(d.jobstatus.value);
+    }
+    if (d.jobdescription.present) {
+      map['jobdescription'] =
+          Variable<String, StringType>(d.jobdescription.value);
+    }
+    return map;
+  }
+
+  @override
+  $BackgroundJobLogsTable createAlias(String alias) {
+    return $BackgroundJobLogsTable(_db, alias);
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $UsersTable _users;
@@ -909,8 +1526,15 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $CommunicationTable _communication;
   $CommunicationTable get communication =>
       _communication ??= $CommunicationTable(this);
+  $BackgroundJobScheduleTable _backgroundJobSchedule;
+  $BackgroundJobScheduleTable get backgroundJobSchedule =>
+      _backgroundJobSchedule ??= $BackgroundJobScheduleTable(this);
+  $BackgroundJobLogsTable _backgroundJobLogs;
+  $BackgroundJobLogsTable get backgroundJobLogs =>
+      _backgroundJobLogs ??= $BackgroundJobLogsTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [users, communication];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [users, communication, backgroundJobSchedule, backgroundJobLogs];
 }
