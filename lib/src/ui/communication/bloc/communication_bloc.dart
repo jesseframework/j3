@@ -12,7 +12,7 @@ part 'communication_state.dart';
 
 class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
   CommunicationDao communicationDao;
-  CommunicationData communicationData;
+  List<CommunicationData> communicationData;
   final String comunicationtype;
   var db;
 
@@ -40,9 +40,15 @@ class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
     if (event is OnFormLoadGetSaveCommunication) {
       yield CommunicationLoading();
 
-      await communicationDao.getAllComsetData(communicationData);
+      var viewCommunicationDataByType = await communicationDao
+          .getCommunicationDataByType(event.communicationType);
+
+      var _viewCommunicationDataByType = viewCommunicationDataByType.length > 0;
+      var data =
+          _viewCommunicationDataByType ? viewCommunicationDataByType : null;
+
       // set the success state
-      yield CommunicationSuccess();
+      yield CommunicationLoadSuccess(data: data);
     }
   }
 }

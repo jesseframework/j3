@@ -10,9 +10,10 @@ class CommunicationDao extends DatabaseAccessor<AppDatabase>
   final AppDatabase db;
   CommunicationDao(this.db) : super(db);
 
-  Future<List<CommunicationData>> getAllComsetData(CommunicationData c) {
+  Future<List<CommunicationData>> getCommunicationDataByType(
+      String communicationType) {
     return (select(db.communication)
-          ..where((t) => t.communicationtype.equals(c.communicationtype)))
+          ..where((t) => t.communicationtype.equals(communicationType)))
         .get();
   }
 

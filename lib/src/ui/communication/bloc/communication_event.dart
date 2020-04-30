@@ -17,13 +17,14 @@ class SaveCammunicationButtonPressed extends CommunicationEvent {
 }
 
 class OnFormLoadGetSaveCommunication extends CommunicationEvent {
-  final CommunicationCompanion data;
+  final String communicationType;
 
-  OnFormLoadGetSaveCommunication({@required this.data});
-
-  @override
-  List<Object> get props => [data];
+  OnFormLoadGetSaveCommunication({@required this.communicationType});
 
   @override
-  String toString() => 'OnFormLoadGetSaveCommunication {data: $data}';
+  List<Object> get props => [communicationType];
+
+  @override
+  String toString() =>
+      'OnFormLoadGetSaveCommunication {communicationType: $communicationType}';
 }

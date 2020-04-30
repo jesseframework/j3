@@ -15,6 +15,18 @@ class CommunicationInserting extends CommunicationState {}
 
 class CommunicationSuccess extends CommunicationState {}
 
+class CommunicationLoadSuccess extends CommunicationState {
+  final List<CommunicationData> data;
+
+  const CommunicationLoadSuccess({@required this.data});
+
+  @override
+  List<Object> get props => [data];
+
+  @override
+  String toString() => 'CommunicationFailure { data: $data }';
+}
+
 class CommunicationFailure extends CommunicationState {
   final String error;
 
