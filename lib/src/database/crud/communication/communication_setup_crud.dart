@@ -9,7 +9,7 @@ class CommunicationDao extends DatabaseAccessor<AppDatabase>
     with _$CommunicationDaoMixin {
   final AppDatabase db;
   CommunicationDao(this.db) : super(db);
-
+//Get communication
   Future<List<CommunicationData>> getCommunicationDataByType(
       String communicationType) {
     return (select(db.communication)
@@ -17,6 +17,11 @@ class CommunicationDao extends DatabaseAccessor<AppDatabase>
         .get();
   }
 
+//Create communication
   Future insertCommunnication(CommunicationCompanion comsset) =>
       into(db.communication).insert(comsset);
+
+//Wipe communication table
+  Future deleteAllCommuniction(CommunicationCompanion comsset) =>
+      delete(db.communication).delete(comsset);
 }

@@ -25,6 +25,7 @@ class BackgroundJobLogsDao extends DatabaseAccessor<AppDatabase>
   Future updateBackgroundJobLog(BackgroundJobLog backgroundJoblog) =>
       update(db.backgroundJobLogs).replace(backgroundJoblog);
 
+  //Wipe backgroun job table
   Future deleteBackgroundJobsLog(BackgroundJobLog backgroundJoblog) =>
       delete(db.backgroundJobLogs).delete(backgroundJoblog);
 }
