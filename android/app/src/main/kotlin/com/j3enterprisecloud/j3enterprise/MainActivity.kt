@@ -1,4 +1,4 @@
-package com.example.j3enterprise
+package com.j3enterprisecloud.j3enterprise
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

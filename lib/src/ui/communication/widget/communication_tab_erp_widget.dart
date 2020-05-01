@@ -43,15 +43,15 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
 
   Future<void> submitERPTab(CommunicationBloc bloc) async {
     var formData = CommunicationCompanion(
-      serverurl: moor.Value(_serverurlController.value.text),
-      username: moor.Value(_usernameController.value.text),
-      confirmpasskey: moor.Value(_confirmpasswordController.value.text),
-      syncfrequency: moor.Value(syncfrequencySelectedItem),
-      typeoferp: moor.Value(erpSelecteditem),
-      communicationtype: moor.Value(erpConnection),
+      serverUrl: moor.Value(_serverurlController.value.text),
+      userName: moor.Value(_usernameController.value.text),
+      confirmPasskey: moor.Value(_confirmpasswordController.value.text),
+      syncFrequency: moor.Value(syncfrequencySelectedItem),
+      typeofErp: moor.Value(erpSelecteditem),
+      communicationType: moor.Value(erpConnection),
     );
 
-    var event = SaveCammunicationButtonPressed(data: formData);
+    var event = SaveCommunicationButtonPressed(data: formData);
     bloc.add(event);
   }
 
@@ -91,11 +91,11 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
   void _setupControllers() {
     if (_communicationData != null) {
       _serverurlController =
-          TextEditingController(text: _communicationData[0].serverurl);
+          TextEditingController(text: _communicationData[0].serverUrl);
       _usernameController =
-          TextEditingController(text: _communicationData[0].username);
+          TextEditingController(text: _communicationData[0].userName);
       _confirmpasswordController =
-          TextEditingController(text: _communicationData[0].confirmpasskey);
+          TextEditingController(text: _communicationData[0].confirmPasskey);
     }
   }
 

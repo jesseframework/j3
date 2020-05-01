@@ -13,7 +13,7 @@ class CommunicationDao extends DatabaseAccessor<AppDatabase>
   Future<List<CommunicationData>> getCommunicationDataByType(
       String communicationType) {
     return (select(db.communication)
-          ..where((t) => t.communicationtype.equals(communicationType)))
+          ..where((t) => t.communicationType.equals(communicationType)))
         .get();
   }
 

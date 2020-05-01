@@ -36,14 +36,14 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
   //API comeunication Setting
   Future<void> submitAPITab(CommunicationBloc bloc) async {
     var formData = CommunicationCompanion(
-      serverurl: moor.Value(_apiserverurlController.value.text),
-      username: moor.Value(_apiusernameController.value.text),
-      confirmpasskey: moor.Value(_apiConfirmPasswordController.value.text),
-      syncfrequency: moor.Value(syncApifrequencySelectedItem),
-      communicationtype: moor.Value(apiConnection),
+      serverUrl: moor.Value(_apiserverurlController.value.text),
+      userName: moor.Value(_apiusernameController.value.text),
+      confirmPasskey: moor.Value(_apiConfirmPasswordController.value.text),
+      syncFrequency: moor.Value(syncApifrequencySelectedItem),
+      communicationType: moor.Value(apiConnection),
     );
 
-    var event = SaveCammunicationButtonPressed(data: formData);
+    var event = SaveCommunicationButtonPressed(data: formData);
     bloc.add(event);
   }
 
@@ -83,11 +83,11 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
   void _setupControllers() {
     if (_communicationData != null) {
       _apiserverurlController =
-          TextEditingController(text: _communicationData[0].serverurl);
+          TextEditingController(text: _communicationData[0].serverUrl);
       _apiusernameController =
-          TextEditingController(text: _communicationData[0].username);
+          TextEditingController(text: _communicationData[0].userName);
       _apiConfirmPasswordController =
-          TextEditingController(text: _communicationData[0].confirmpasskey);
+          TextEditingController(text: _communicationData[0].confirmPasskey);
     }
   }
 

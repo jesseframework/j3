@@ -4,10 +4,10 @@ abstract class CommunicationEvent extends Equatable {
   const CommunicationEvent();
 }
 
-class SaveCammunicationButtonPressed extends CommunicationEvent {
+class SaveCommunicationButtonPressed extends CommunicationEvent {
   final CommunicationCompanion data;
 
-  const SaveCammunicationButtonPressed({@required this.data});
+  const SaveCommunicationButtonPressed({@required this.data});
 
   @override
   List<Object> get props => [data];

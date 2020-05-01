@@ -13,10 +13,10 @@ part 'communication_state.dart';
 class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
   CommunicationDao communicationDao;
   List<CommunicationData> communicationData;
-  final String comunicationtype;
+  final String communicationType;
   var db;
 
-  CommunicationBloc({this.comunicationtype}) {
+  CommunicationBloc({this.communicationType}) {
     db = AppDatabase();
     communicationDao = CommunicationDao(db);
   }
@@ -28,7 +28,7 @@ class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
   Stream<CommunicationState> mapEventToState(
     CommunicationEvent event,
   ) async* {
-    if (event is SaveCammunicationButtonPressed) {
+    if (event is SaveCommunicationButtonPressed) {
       // set state as loading
       yield CommunicationInserting();
       // save data to db
