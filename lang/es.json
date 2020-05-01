@@ -21,7 +21,7 @@
   "type_of_erp_label_communication": "Tipo de ERP",
   "server_url_label_communication": "URL del servidor",
   "username_label_communication": "Nombre de usuario",
-  "new_password_label_communication": "Nueva contraseña",
+  "new_password_label_communication": "Su clave de acceso",
   "confirm_password_label_communication": "Confirmar contraseña",
   "sync_frequency_label_communication": "Frecuencia de sincronización",
   "title_backgroundjob": "Trabajos en segundo plano",
