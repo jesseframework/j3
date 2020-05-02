@@ -56,46 +56,54 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
   }
 
   List<CommunicationData> _communicationData;
+  final erpList = ['SAP', 'ERP Next', 'Quick Books'];
 
   @override
   Widget build(BuildContext context) {
-    var bloc = BlocProvider.of<CommunicationBloc>(context);
+    return BlocProvider(
+      create: (context) {
+        return CommunicationBloc();
+      },
+      child: BlocConsumer<CommunicationBloc, CommunicationState>(
+        listener: (context, state) {
+          // TODO show loader if needed
+        },
+        buildWhen: (previous, current) {
+          var wasLoading = previous is CommunicationLoading;
+          return wasLoading;
+        },
+        builder: (context, state) {
+          var bloc = BlocProvider.of<CommunicationBloc>(context);
+          // check what state we are in
+          if (state is CommunicationLoadSuccess) {
+            // if data was loaded set it
+            _communicationData = state.data;
+            _setupControllers();
+          } else if (_communicationData == null) {
+            // else if data is not present retrieve it
+            var event = OnFormLoadGetSaveCommunication(
+                communicationType: erpConnection);
+            bloc.add(event);
+          }
 
-    return BlocConsumer<CommunicationBloc, CommunicationState>(
-      listener: (context, state) {
-        // TODO show loader if needed
-      },
-      buildWhen: (previous, current) {
-        var wasLoading = previous is CommunicationLoading;
-        return wasLoading;
-      },
-      builder: (context, state) {
-        // check what state we are in
-        if (state is CommunicationLoadSuccess) {
-          // if data was loaded set it
-          _communicationData = state.data;
-          _setupControllers();
-        } else if (_communicationData == null) {
-          // else if data is not present retrieve it
-          var event =
-              OnFormLoadGetSaveCommunication(communicationType: erpConnection);
-          bloc.add(event);
-        }
-
-        // return form
-        return _buildForm(bloc);
-      },
+          // return form
+          return _buildForm(bloc);
+        },
+      ),
     );
   }
 
   void _setupControllers() {
-    if (_communicationData != null) {
+    if (_communicationData != null && _communicationData.length > 0) {
       _serverurlController =
           TextEditingController(text: _communicationData[0].serverUrl);
       _usernameController =
           TextEditingController(text: _communicationData[0].userName);
       _confirmpasswordController =
           TextEditingController(text: _communicationData[0].confirmPasskey);
+
+      erpSelecteditem = _communicationData[0].typeofErp;
+      syncfrequencySelectedItem = _communicationData[0].syncFrequency;
     }
   }
 
@@ -113,7 +121,7 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
                           .translate('type_of_erp_label_communication') ??
                       'Type of ERP',
                   selectedValue: erpSelecteditem,
-                  listData: ['SAP', 'ERP Next', 'Quick Books'],
+                  listData: erpList,
                 )),
             Padding(
               padding: const EdgeInsets.all(0.00),

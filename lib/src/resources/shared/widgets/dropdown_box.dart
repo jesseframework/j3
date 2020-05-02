@@ -5,7 +5,7 @@ class DropdownFormFieldNormalReuse extends StatefulWidget {
   final dynamic selectedValue;
   final List<String> listData;
 
-  var onUpdateSelectionValue;
+  final onUpdateSelectionValue;
 
   DropdownFormFieldNormalReuse(this.onUpdateSelectionValue,
       {@required this.hintText,
@@ -25,15 +25,18 @@ class _DropdownFormFieldNormalReuseState
 
   @override
   Widget build(BuildContext context) {
+    print("dropdown valuue: ${widget.selectedValue}");
+    setselectedValue = widget.selectedValue;
+
     return Container(
         child: Column(
       children: [
         Padding(
             padding: const EdgeInsets.all(10.00),
-            child: DropdownButtonFormField<String>(
-              decoration: InputDecoration(filled: true),
+            child: DropdownButton<String>(
+              //decoration: InputDecoration(filled: true),
               hint: Text(widget.hintText),
-              value: widget.selectedValue,
+              value: setselectedValue,
               onChanged: (String newValue) {
                 setState(() {
                   setselectedValue = newValue;

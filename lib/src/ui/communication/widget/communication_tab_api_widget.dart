@@ -51,43 +51,49 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var bloc = BlocProvider.of<CommunicationBloc>(context);
+    return BlocProvider(
+      create: (context) {
+        return CommunicationBloc();
+      },
+      child: BlocConsumer<CommunicationBloc, CommunicationState>(
+        listener: (context, state) {
+          // TODO show loader if needed
+        },
+        buildWhen: (previous, current) {
+          var wasLoading = previous is CommunicationLoading;
+          return wasLoading;
+        },
+        builder: (context, state) {
+          var bloc = BlocProvider.of<CommunicationBloc>(context);
+          // check what state we are in
+          if (state is CommunicationLoadSuccess) {
+            // if data was loaded set it
+            _communicationData = state.data;
+            _setupControllers();
+          } else if (_communicationData == null) {
+            // else if data is not present retrieve it
+            var event = OnFormLoadGetSaveCommunication(
+                communicationType: apiConnection);
+            bloc.add(event);
+          }
 
-    return BlocConsumer<CommunicationBloc, CommunicationState>(
-      listener: (context, state) {
-        // TODO show loader if needed
-      },
-      buildWhen: (previous, current) {
-        var wasLoading = previous is CommunicationLoading;
-        return wasLoading;
-      },
-      builder: (context, state) {
-        // check what state we are in
-        if (state is CommunicationLoadSuccess) {
-          // if data was loaded set it
-          _communicationData = state.data;
-          _setupControllers();
-        } else if (_communicationData == null) {
-          // else if data is not present retrieve it
-          var event =
-              OnFormLoadGetSaveCommunication(communicationType: apiConnection);
-          bloc.add(event);
-        }
-
-        // return form
-        return _buildForm(bloc);
-      },
+          // return form
+          return _buildForm(bloc);
+        },
+      ),
     );
   }
 
   void _setupControllers() {
-    if (_communicationData != null) {
+    if (_communicationData != null && _communicationData.length > 0) {
       _apiserverurlController =
           TextEditingController(text: _communicationData[0].serverUrl);
       _apiusernameController =
           TextEditingController(text: _communicationData[0].userName);
       _apiConfirmPasswordController =
           TextEditingController(text: _communicationData[0].confirmPasskey);
+
+      syncApifrequencySelectedItem = _communicationData[0].syncFrequency;
     }
   }
 
