@@ -33,8 +33,8 @@ class _DropdownFormFieldNormalReuseState
       children: [
         Padding(
             padding: const EdgeInsets.all(10.00),
-            child: DropdownButton<String>(
-              //decoration: InputDecoration(filled: true),
+            child: DropdownButtonFormField<String>(
+              decoration: InputDecoration(filled: true),
               hint: Text(widget.hintText),
               value: setselectedValue,
               onChanged: (String newValue) {

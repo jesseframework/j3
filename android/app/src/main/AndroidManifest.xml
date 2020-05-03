@@ -11,6 +11,7 @@
        android:name="com.j3enterprisecloud.j3enterprise.Application"
         android:label="J3 Enterprise Solution"
         android:icon="@mipmap/ic_launcher">
+        <service android:name="BackgroundJob" android:exported="true" android:enabled="true"/>
         <activity
             android:name="com.j3enterprisecloud.j3enterprise.MainActivity"
             android:launchMode="singleTop"

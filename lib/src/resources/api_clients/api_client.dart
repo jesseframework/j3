@@ -1,8 +1,11 @@
 import 'package:chopper/chopper.dart';
 import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:j3enterprise/src/ui/communication/bloc/communication_bloc.dart';
 
 class ApiClient {
+  final String apiConnection = 'API';
+
   static const String URL = 'http://app.j3enterprisecloud.com';
 
   static final chopper = ChopperClient(
