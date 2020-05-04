@@ -62,7 +62,12 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
       },
       child: BlocConsumer<CommunicationBloc, CommunicationState>(
         listener: (context, state) {
-          // TODO show loader if needed
+          if (state is CommunicationLoadSuccess) {
+            // if data was loaded set it
+            _communicationData = state.data;
+
+            _setupControllers();
+          }
         },
         buildWhen: (previous, current) {
           var wasLoading = previous is CommunicationLoading;
@@ -75,7 +80,7 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
             // if data was loaded set it
             _communicationData = state.data;
 
-            _setupControllers();
+            //_setupControllers();
           } else if (_communicationData == null) {
             // else if data is not present retrieve it
             var loadEvent = OnFormLoadGetSaveCommunication(

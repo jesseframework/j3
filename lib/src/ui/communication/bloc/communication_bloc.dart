@@ -57,10 +57,8 @@ class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
     if (event is UpdateERPCommunicationButtonPressed) {
       yield CommunicationUpdate();
 
-      await communicationDao.updateAPICommunnication(event.data);
+      await communicationDao.updateERPCommunnication(event.data);
 
-      var url = event.data.serverUrl;
-      ApiClient.updateClient(url.value);
       // set the success state
       //yield CommunicationSuccess();
       yield CommunicationUpdateuccess(data: event.data);
