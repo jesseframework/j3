@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:j3enterprise/src/resources/services/init_services.dart';
+// import 'package:j3enterprise/src/database/crud/communication/communication_setup_crud.dart';
+// import 'package:j3enterprise/src/database/moor_database.dart';
+// import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
+// import 'package:j3enterprise/src/resources/services/bloc_deligate.dart';
 import 'package:j3enterprise/src/resources/shared/utils/routes.dart';
 import 'package:j3enterprise/src/ui/splash/splash_page.dart';
-import 'package:logging/logging.dart';
+//import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'src/resources/repositories/user_repository.dart';
@@ -19,37 +24,11 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 
 import 'dart:io' show Platform;
 
-void _setupLogging() {
-  Logger.root.level = Level.ALL;
-  Logger.root.onRecord.listen((rec) {
-    print('${rec.level.name}: ${rec.time} : ${rec.message}');
-  });
-}
-
-class SimpleBlocDelegate extends BlocDelegate {
-  @override
-  void onEvent(Bloc bloc, Object event) {
-    super.onEvent(bloc, event);
-    print(event);
-  }
-
-  @override
-  void onTransition(Bloc bloc, Transition transition) {
-    super.onTransition(bloc, transition);
-    print(transition);
-  }
-
-  @override
-  void onError(Bloc bloc, Object error, StackTrace stacktrace) {
-    super.onError(bloc, error, stacktrace);
-    print(error);
-  }
-}
-
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // intiailize services
+  await initServices();
   SharedPreferences.setMockInitialValues({});
-  _setupLogging();
-  BlocSupervisor.delegate = SimpleBlocDelegate();
   final userRepository = UserRepository();
   runApp(
     BlocProvider<AuthenticationBloc>(

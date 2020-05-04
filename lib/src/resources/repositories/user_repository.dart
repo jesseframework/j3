@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:chopper/chopper.dart';
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
@@ -8,7 +7,7 @@ import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserRepository {
-  final api = ApiClient.chopper.getService<RestApiService>();
+  var api = ApiClient.chopper.getService<RestApiService>();
 
   Future<Response> authenticate({
     @required String username,

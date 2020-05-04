@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:j3enterprise/src/database/crud/communication/communication_setup_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
 import 'package:meta/meta.dart';
 import 'package:moor/moor.dart';
 
@@ -33,6 +34,9 @@ class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
       yield CommunicationInserting();
       // save data to db
       await communicationDao.insertCommunnication(event.data);
+
+      var url = event.data.serverUrl;
+      ApiClient.updateClient(url.value);
       // set the success state
       yield CommunicationSuccess();
     }
