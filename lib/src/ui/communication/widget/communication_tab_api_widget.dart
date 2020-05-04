@@ -33,6 +33,8 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
     });
   }
 
+  List<CommunicationData> _communicationData;
+
   //API comeunication Setting
   Future<void> submitAPITab(CommunicationBloc bloc) async {
     var formData = CommunicationCompanion(
@@ -43,11 +45,14 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
       communicationType: moor.Value(apiConnection),
     );
 
-    var event = SaveCommunicationButtonPressed(data: formData);
-    bloc.add(event);
+    var createEvent = SaveCommunicationButtonPressed(data: formData);
+    if (_communicationData != null) {
+      var updateEvent = UpdateAPICommunicationButtonPressed(data: formData);
+      bloc.add(updateEvent);
+    } else {
+      bloc.add(createEvent);
+    }
   }
-
-  List<CommunicationData> _communicationData;
 
   @override
   Widget build(BuildContext context) {
@@ -69,14 +74,14 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
           if (state is CommunicationLoadSuccess) {
             // if data was loaded set it
             _communicationData = state.data;
+
             _setupControllers();
           } else if (_communicationData == null) {
             // else if data is not present retrieve it
-            var event = OnFormLoadGetSaveCommunication(
+            var loadEvent = OnFormLoadGetSaveCommunication(
                 communicationType: apiConnection);
-            bloc.add(event);
+            bloc.add(loadEvent);
           }
-
           // return form
           return _buildForm(bloc);
         },

@@ -51,8 +51,13 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
       communicationType: moor.Value(erpConnection),
     );
 
-    var event = SaveCommunicationButtonPressed(data: formData);
-    bloc.add(event);
+    var createEvent = SaveCommunicationButtonPressed(data: formData);
+    if (_communicationData != null) {
+      var updateEvent = UpdateERPCommunicationButtonPressed(data: formData);
+      bloc.add(updateEvent);
+    } else {
+      bloc.add(createEvent);
+    }
   }
 
   List<CommunicationData> _communicationData;

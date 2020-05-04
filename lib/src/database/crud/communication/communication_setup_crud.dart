@@ -17,6 +17,34 @@ class CommunicationDao extends DatabaseAccessor<AppDatabase>
         .get();
   }
 
+  //Update communication
+  Future updateERPCommunnication(CommunicationCompanion comsset) {
+    return (update(db.communication)
+          ..where((t) => t.communicationType.equals('ERP')))
+        .write(
+      CommunicationCompanion(
+          typeofErp: comsset.typeofErp,
+          serverUrl: comsset.serverUrl,
+          userName: comsset.userName,
+          newPasskey: comsset.newPasskey,
+          confirmPasskey: comsset.confirmPasskey,
+          syncFrequency: comsset.syncFrequency),
+    );
+  }
+
+  Future updateAPICommunnication(CommunicationCompanion comsset) {
+    return (update(db.communication)
+          ..where((t) => t.communicationType.equals('API')))
+        .write(
+      CommunicationCompanion(
+          serverUrl: comsset.serverUrl,
+          userName: comsset.userName,
+          newPasskey: comsset.newPasskey,
+          confirmPasskey: comsset.confirmPasskey,
+          syncFrequency: comsset.syncFrequency),
+    );
+  }
+
 //Create communication
   Future insertCommunnication(CommunicationCompanion comsset) =>
       into(db.communication).insert(comsset);
