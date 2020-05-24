@@ -3,12 +3,13 @@ import 'package:moor/moor.dart';
 
 class Users extends Table implements FullAudited {
   IntColumn get id => integer()();
-  TextColumn get userName => text().withLength(min:1,max: 100)();
-  TextColumn get name => text().withLength(min:1,max: 300)();
-  TextColumn get surname => text().withLength(min:1,max: 150)();
-  TextColumn get emailAddress => text().withLength(min:5, max:400)() ;
+  TextColumn get userName => text().withLength(min: 1, max: 100)();
+  TextColumn get name => text().withLength(min: 1, max: 300)();
+  TextColumn get surname => text().withLength(min: 1, max: 150)();
+  TextColumn get emailAddress => text().withLength(min: 5, max: 400)();
   BoolColumn get isActive => boolean().withDefault(Constant(false))();
-  TextColumn get fullName => text().withLength(min:1, max:300)();
+  TextColumn get fullName => text().withLength(min: 1, max: 300)();
+  TextColumn get mobileHash => text().withLength(min: 1, max: 300)();
   IntColumn get createUserId => integer().nullable()();
   DateTimeColumn get creationTime => dateTime().nullable()();
   DateTimeColumn get deleteTime => dateTime().nullable()();
@@ -18,7 +19,4 @@ class Users extends Table implements FullAudited {
   BoolColumn get isDeleted => boolean().withDefault(Constant(false))();
   TextColumn get lastModifierUser => text().nullable()();
   IntColumn get lastModifierUserId => integer().nullable()();
-
-
-
 }

@@ -39,7 +39,8 @@ dependencies:
   moor_ffi: ^0.4.0
   path_provider:
   path:
-  firebase_messaging: ^6.0.13  
+  firebase_messaging: ^6.0.13
+  overlay_support: ^1.0.3  
 
 dev_dependencies:
   flutter_test:

@@ -33,6 +33,7 @@ class ApiClient {
           (Request request) async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             String token = await prefs.get("access_token");
+
             Map<String, String> map = {"Authorization": "Bearer $token"};
 
             request.headers.addAll(map);

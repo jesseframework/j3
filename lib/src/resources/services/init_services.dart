@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/database/crud/communication/communication_setup_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
