@@ -10,6 +10,7 @@ class Users extends Table implements FullAudited {
   BoolColumn get isActive => boolean().withDefault(Constant(false))();
   TextColumn get fullName => text().withLength(min: 1, max: 300)();
   TextColumn get mobileHash => text().withLength(min: 1, max: 300)();
+  BoolColumn get enableOfflineLogin => boolean().withDefault(Constant(false))();
   IntColumn get createUserId => integer().nullable()();
   DateTimeColumn get creationTime => dateTime().nullable()();
   DateTimeColumn get deleteTime => dateTime().nullable()();

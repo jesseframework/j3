@@ -2,7 +2,7 @@
     "name": "j3",
     "short_name": "j3",
     "start_url": ".",
-    "display": "minimal-ui",
+    "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
     "description": "A new Flutter project.",
