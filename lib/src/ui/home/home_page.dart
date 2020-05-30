@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    if (!Platform.isWindows) {
+    if (!Platform.isWindows && !Platform.isMacOS) {
       print('Init firebase');
       _firebaseMessaging.getToken().then((value) => print('fcm : ' + value));
       _firebaseMessaging.configure(
