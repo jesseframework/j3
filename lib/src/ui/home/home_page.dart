@@ -26,7 +26,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     if (!Platform.isWindows && !Platform.isMacOS) {
       print('Init firebase');
+
       _firebaseMessaging.getToken().then((value) => print('fcm : ' + value));
+      _firebaseMessaging.requestNotificationPermissions();
       _firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
           print("onMessage: $message");

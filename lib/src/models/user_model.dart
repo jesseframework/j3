@@ -11,6 +11,7 @@ class Users extends Table implements FullAudited {
   TextColumn get fullName => text().withLength(min: 1, max: 300)();
   TextColumn get mobileHash => text().nullable()();
   BoolColumn get enableOfflineLogin => boolean().withDefault(Constant(false))();
+  TextColumn get firebaseToken => text().nullable()();
   IntColumn get createUserId => integer().nullable()();
   DateTimeColumn get creationTime => dateTime().nullable()();
   DateTimeColumn get deleteTime => dateTime().nullable()();
