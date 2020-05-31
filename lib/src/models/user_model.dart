@@ -9,7 +9,7 @@ class Users extends Table implements FullAudited {
   TextColumn get emailAddress => text().withLength(min: 5, max: 400)();
   BoolColumn get isActive => boolean().withDefault(Constant(false))();
   TextColumn get fullName => text().withLength(min: 1, max: 300)();
-  TextColumn get mobileHash => text().withLength(min: 1, max: 300)();
+  TextColumn get mobileHash => text().nullable()();
   BoolColumn get enableOfflineLogin => boolean().withDefault(Constant(false))();
   IntColumn get createUserId => integer().nullable()();
   DateTimeColumn get creationTime => dateTime().nullable()();

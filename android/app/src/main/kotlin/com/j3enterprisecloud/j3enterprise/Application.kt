@@ -14,11 +14,11 @@ class Application:FlutterApplication(), PluginRegistrantCallback {
     super.onCreate()
     FlutterFirebaseMessagingService.setPluginRegistrant(this)
 
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      val channel = NotificationChannel("messages", "Messages", NotificationManager.IMPORTANCE_LOW)
-      val manager = getSystemService(NotificationManager::class.java)
-      manager.createNotificationChannel(channel)
-    }
+//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//      val channel = NotificationChannel("messages", "Messages", NotificationManager.IMPORTANCE_LOW)
+//      val manager = getSystemService(NotificationManager::class.java)
+//      manager.createNotificationChannel(channel)
+//    }
   }
   override fun registerWith(registry: PluginRegistry?) {
     io.flutter.plugins.firebasemessaging.FirebaseMessagingPlugin.registerWith(registry?.registrarFor("io.flutter.plugins.firebasemessaging.FirebaseMessagingPlugin"));
