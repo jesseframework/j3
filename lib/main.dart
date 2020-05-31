@@ -17,7 +17,6 @@ import 'src/ui/login/login_page.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
-import 'package:overlay_support/overlay_support.dart';
 
 import 'dart:io' show Platform;
 
