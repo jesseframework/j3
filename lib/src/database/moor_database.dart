@@ -6,7 +6,6 @@ import 'package:j3enterprise/src/models/background_jobs_logs_model.dart';
 import 'package:j3enterprise/src/models/user_model.dart';
 import 'package:j3enterprise/src/models/communication_model.dart';
 import 'package:moor/moor.dart';
-import 'package:moor_ffi/database.dart';
 import 'package:moor_ffi/moor_ffi.dart';
 import 'package:path_provider/path_provider.dart' as paths;
 import 'package:path_provider/path_provider.dart';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/resources/services/message_stream.dart';
+import 'package:bot_toast/bot_toast.dart';
 
 class FirebaseMessageWrapper extends StatefulWidget {
   final Widget child;
@@ -11,6 +12,13 @@ class FirebaseMessageWrapper extends StatefulWidget {
 
 class _FirebaseMessageWrapperState extends State<FirebaseMessageWrapper> {
   MessageStream _messageStream = MessageStream.instance;
+  bool enableSlideOff = true;
+  bool hideCloseButton = false;
+  bool onlyOne = true;
+  bool crossPage = true;
+  int seconds = 2;
+  int animationMilliseconds = 200;
+  int animationReverseMilliseconds = 200;
 
   @override
   void dispose() {
@@ -64,4 +72,25 @@ class _FirebaseMessageWrapperState extends State<FirebaseMessageWrapper> {
       ..hideCurrentSnackBar()
       ..showSnackBar(bar);
   }
+  // void initState() {
+  //   BotToast.showSimpleNotification(
+  //       title: message['notification']["title"],
+  //       subTitle: message['notification']["body"],
+  //       enableSlideOff: enableSlideOff,
+  //       hideCloseButton: hideCloseButton,
+  //       onTap: () {
+  //         BotToast.showText(text: 'Tap toast');
+  //       },
+  //       onLongPress: () {
+  //         BotToast.showText(text: 'Long press toast');
+  //       },
+  //       onlyOne: onlyOne,
+  //       crossPage: crossPage,
+  //       animationDuration: Duration(milliseconds: animationMilliseconds),
+  //       animationReverseDuration:
+  //           Duration(milliseconds: animationReverseMilliseconds),
+  //       duration: Duration(seconds: seconds));
+  //   super.initState();
+  // }
+
 }
