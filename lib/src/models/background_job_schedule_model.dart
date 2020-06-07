@@ -6,4 +6,5 @@ class BackgroundJobSchedule extends Table {
   DateTimeColumn get startDateTime => dateTime()();
   TextColumn get syncFrequency => text()();
   BoolColumn get enableJob => boolean().withDefault(Constant(false))();
+  IntColumn get nid => integer()();
 }

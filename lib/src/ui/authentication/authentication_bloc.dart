@@ -61,6 +61,8 @@ class AuthenticationBloc
             userName: moor.Value(result['userName']),
             id: moor.Value(result['id']),
             name: moor.Value(result['name']),
+            enableOfflineLogin: moor.Value(result['enableOfflineLogin']),
+            isActive: moor.Value(result['isActive']),
             creationTime: moor.Value(DateTime.parse(result['creationTime'])));
 
         userDao.insertUser(formData);

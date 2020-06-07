@@ -1,20 +1,28 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:j3enterprise/src/models/background_job_schedule_model.dart';
 import 'package:j3enterprise/src/models/background_jobs_logs_model.dart';
+import 'package:j3enterprise/src/models/mobile_device_model.dart';
+import 'package:j3enterprise/src/models/prefrence_model.dart';
 import 'package:j3enterprise/src/models/user_model.dart';
 import 'package:j3enterprise/src/models/communication_model.dart';
 import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
 import 'package:path_provider/path_provider.dart' as paths;
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 // import 'dart:io' show Platform;
 // import 'dart:io' as io;
 
 part 'moor_database.g.dart';
 
+@UseMoor(tables: [
+  Users,
+  Communication,
+  BackgroundJobSchedule,
+  BackgroundJobLogs,
+  Prefrence,
+  MobileDevice
+])
 class AppDatabase extends _$AppDatabase {
   static AppDatabase _db = _constructDb();
 
