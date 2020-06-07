@@ -17,10 +17,12 @@ class LoggedIn extends AuthenticationEvent {
   const LoggedIn({@required this.token, @required this.userID});
 
   @override
-  List<Object> get props => [token,userID];
+  List<Object> get props => [token, userID];
 
   @override
   String toString() => 'LoggedIn { token: $token  userID : $userID}';
 }
 
 class LoggedOut extends AuthenticationEvent {}
+
+class SaveUserData extends AuthenticationEvent {}
