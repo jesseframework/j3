@@ -52,8 +52,7 @@ class AuthenticationBloc
         Map<String, dynamic> result = map['result'];
         //var saveDb = User.fromJson(result);
         //yield AuthenticationAndSaveUser();
-        //DateTime today = DateTime.now();
-
+//ToDo Implement LastLoOn from APB
         var formData = UsersCompanion(
             fullName: moor.Value(result['fullName']),
             emailAddress: moor.Value(result['emailAddress']),
@@ -65,7 +64,14 @@ class AuthenticationBloc
             isActive: moor.Value(result['isActive']),
             creationTime: moor.Value(DateTime.parse(result['creationTime'])));
 
-        userDao.insertUser(formData);
+        var isUserInDb = await userDao.getSingleUser(event.userID);
+        if (isUserInDb != null) {
+          print('User Already in Db');
+          await userDao.updateUser(formData);
+        } else {
+          print('Create new user');
+          await userDao.insertUser(formData);
+        }
       }
     }
 
