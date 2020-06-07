@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/resources/services/init_services.dart';
 
 import 'package:j3enterprise/src/resources/shared/utils/routes.dart';
+import 'package:j3enterprise/src/ui/login_offline/offline_login_page.dart';
 import 'package:j3enterprise/src/ui/splash/splash_page.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,7 +50,8 @@ class App extends StatelessWidget {
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
           if (state is AuthenticationAuthenticated) {
-            return HomePage();
+            //return HomePage();
+            return OfflineLoginPage(userRepository: userRepository);
           }
           if (state is AuthenticationUnauthenticated) {
             return LoginPage(userRepository: userRepository);

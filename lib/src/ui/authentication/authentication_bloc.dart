@@ -42,7 +42,12 @@ class AuthenticationBloc
       await userRepository.persistToken(event.token);
       yield AuthenticationAuthenticated();
 
-      await userFromServer.validateUser(event.userID);
+      var offlineready = await userFromServer.validateUser(event.userID);
+      if (offlineready == true) {
+        print('Offline Ready');
+      } else {
+        print('offline not ready');
+      }
     }
 
     if (event is LoggedOut) {

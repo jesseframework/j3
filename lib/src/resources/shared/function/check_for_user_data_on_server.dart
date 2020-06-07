@@ -10,13 +10,14 @@ class UserFromServer {
   final UserRepository userRepository;
 
   var db;
+  bool isofflineready = false;
   UserDao userDao;
   UserFromServer({this.userRepository}) {
     assert(userRepository != null);
     db = AppDatabase();
     userDao = UserDao(db);
   }
-  Future<void> validateUser(int id) async {
+  Future<bool> validateUser(int id) async {
     final Response response = await userRepository.getUser(userID: id);
     Map<String, dynamic> map = json.decode(response.bodyString);
     if (response.isSuccessful && map['success']) {
@@ -38,11 +39,19 @@ class UserFromServer {
       var isUserInDb = await userDao.getSingleUser(id);
       if (isUserInDb != null) {
         print('User Already in Db');
+
+        if (isUserInDb.mobileHash == null &&
+            isUserInDb.enableOfflineLogin == true) {
+          isofflineready = true;
+        }
+
         await userDao.updateUser(formData, id);
       } else {
         print('Create new user');
         await userDao.insertUser(formData);
       }
     }
+
+    return isofflineready;
   }
 }
