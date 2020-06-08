@@ -22,7 +22,7 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalization.of(context).translate('app_title')),
-        backgroundColor: const Color(0xFF1A202E),
+        backgroundColor: const Color(0xff5362b7),
       ),
       body: SafeArea(
         child: BlocProvider(
@@ -49,7 +49,7 @@ class LoginPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Flexible(
-                          //Works like bootstrap with 12 columns (works for rows as well) max 10
+                          //Works like bootstrap with 12 columns (works for rows as well) max 6
                           flex: 3,
                           child: Container(
                             child: Image.asset(
