@@ -60,8 +60,9 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            'Warning!!! You are about to enable mobile offline login for admin. This option will allow the device to store encrypted username and password in the device local storage. If the user device is stolen, hackers may be able to crack encryption and retrieved username and password for this user. By clicking login you are accepting this risk.',
-                            // textAlign: TextAlign.center,
+                            AppLocalization.of(context)
+                                    .translate('offline_login_message') ??
+                                'Warning!!! You are about to enable mobile offline login on this device. This option will allow this device to store encrypted data for your profile. If this device is stolen, hackers may be able to crack encryption and retrieved profile data. By completing this step you agree to accept this risk.',
                             style: TextStyle(
                                 color: Colors.red.shade900,
                                 fontWeight: FontWeight.bold),

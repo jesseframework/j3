@@ -38,5 +38,6 @@
   "device_id_label_about": "ID del dispositivo",
   "device_status_label_about": "version del producto",
   "home_prefrence_icon_label": "Preferencia",
-  "title_offline_login": "Configuración de inicio de sesión sin conexión"
+  "title_offline_login": "Configuración de inicio de sesión sin conexión",
+  "offline_login_message": "¡¡¡Advertencia!!! Está a punto de habilitar el inicio de sesión móvil sin conexión en este dispositivo. Esta opción permitirá que este dispositivo almacene datos cifrados para su perfil. Si se roba este dispositivo, los piratas informáticos pueden descifrar el cifrado y recuperar los datos del perfil. Al completar este paso, acepta aceptar este riesgo."
 }
