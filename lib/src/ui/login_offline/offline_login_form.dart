@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
-
-import 'bloc/offline_bloc.dart';
+import 'package:j3enterprise/src/ui/authentication/authentication.dart';
+import 'package:j3enterprise/src/ui/login/bloc/login_bloc.dart';
 
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 
@@ -23,23 +23,23 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
   @override
   Widget build(BuildContext context) {
     _onLoginButtonPressed() {
-      BlocProvider.of<OfflineBloc>(context).add(
+      BlocProvider.of<AuthenticationBloc>(context).add(
         OfflineLoginButtonPressed(
-            userName: _usernameController.text,
+            userName: 'admin',
             password: _passwordController.text,
             tenant: 1,
             id: 1),
       );
     }
 
-    return BlocListener<OfflineBloc, OfflineBlocState>(
+    return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
-        if (state is OfflineLoginFailure) {
+        if (state is LoginFailure) {
           Scaffold.of(context)
               .showSnackBar(new SnackBar(content: new Text(state.error)));
         }
       },
-      child: BlocBuilder<OfflineBloc, OfflineBlocState>(
+      child: BlocBuilder<LoginBloc, LoginState>(
         builder: (context, state) {
           return Form(
             key: formKey,
@@ -168,13 +168,13 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
                                           'Complete offline setup',
                                       style: TextStyle(color: Colors.white),
                                     ),
-                                    onPressed: state is! OfflineLoginLoading
+                                    onPressed: state is! LinearProgressIndicator
                                         ? _onLoginButtonPressed
                                         : null,
                                   ),
                                 ),
                                 Container(
-                                  child: state is OfflineLoginLoading
+                                  child: state is LinearProgressIndicator
                                       ? LinearProgressIndicator()
                                       : null,
                                 )

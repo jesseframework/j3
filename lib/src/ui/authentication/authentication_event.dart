@@ -1,3 +1,4 @@
+import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 
@@ -21,6 +22,28 @@ class LoggedIn extends AuthenticationEvent {
 
   @override
   String toString() => 'LoggedIn { token: $token  userID : $userID}';
+}
+
+class OfflineLoginButtonPressed extends AuthenticationEvent {
+  final String userName;
+  final String password;
+  final int tenant;
+  final int id;
+  final UserRepository userRepository;
+
+  const OfflineLoginButtonPressed(
+      {@required this.userName,
+      @required this.password,
+      @required this.tenant,
+      @required this.id,
+      this.userRepository});
+
+  @override
+  List<Object> get props => [userName, password, tenant, id];
+
+  @override
+  String toString() =>
+      'OfflineLoginButtonPressed { username: $userName, password: $password, tenant: $tenant, id: $id  }';
 }
 
 class LoggedOut extends AuthenticationEvent {}

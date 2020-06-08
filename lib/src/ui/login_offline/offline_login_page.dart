@@ -3,11 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
-import 'package:j3enterprise/src/resources/shared/widgets/custom_drawer.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication_bloc.dart';
-import 'package:j3enterprise/src/ui/login/login_page.dart';
-import 'package:j3enterprise/src/ui/login_offline/bloc/offline_bloc.dart';
+import 'package:j3enterprise/src/ui/login/bloc/login_bloc.dart';
 
 import 'offline_login_form.dart';
 
@@ -36,10 +34,10 @@ class OfflineLoginPage extends StatelessWidget {
       body: SafeArea(
         child: BlocProvider(
           create: (context) {
-            return OfflineBloc(
-                //authenticationBloc: BlocProvider.of<AuthenticationBloc>(context),
-                //userRepository: userRepository,
-                );
+            return LoginBloc(
+              authenticationBloc: BlocProvider.of<AuthenticationBloc>(context),
+              userRepository: userRepository,
+            );
           },
           child: Stack(
             children: <Widget>[

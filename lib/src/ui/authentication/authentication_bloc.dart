@@ -18,6 +18,7 @@ class AuthenticationBloc
   AuthenticationBloc({@required this.userRepository}) {
     assert(userRepository != null);
     userFromServer = new UserFromServer(userRepository: userRepository);
+    userHash = new UserHash(userRepository: userRepository);
   }
 
   @override
@@ -47,6 +48,12 @@ class AuthenticationBloc
       if (offlineready == true) {
         yield AuthenticationCreateMobileHash();
       }
+    }
+
+    if (event is OfflineLoginButtonPressed) {
+      await userHash.hashuserdata(
+          event.userName, event.password, event.tenant, event.id);
+      yield AuthenticationAuthenticated();
     }
 
     if (event is LoggedOut) {

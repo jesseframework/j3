@@ -42,6 +42,8 @@ class UserFromServer {
         if (isUserInDb.mobileHash == null &&
             isUserInDb.enableOfflineLogin == true) {
           isofflineready = true;
+        } else {
+          isofflineready = false;
         }
 
         await userDao.updateUser(formData, id);

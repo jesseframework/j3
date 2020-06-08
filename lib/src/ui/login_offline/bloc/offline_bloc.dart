@@ -32,10 +32,10 @@ class OfflineBloc extends Bloc<OfflineBlocEvent, OfflineBlocState> {
   Stream<OfflineBlocState> mapEventToState(
     OfflineBlocEvent event,
   ) async* {
-    if (event is OfflineLoginButtonPressed) {
-      userHash.hashuserdata(
-          event.userName, event.password, event.tenant, event.id);
-      yield OfflineLoginSetupSave();
-    }
+    // if (event is OfflineLoginButtonPressed) {
+    //   userHash.hashuserdata(
+    //       event.userName, event.password, event.tenant, event.id);
+    //   yield OfflineLoginSetupSave();
+    // }
   }
 }
