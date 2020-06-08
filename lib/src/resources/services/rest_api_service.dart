@@ -8,11 +8,15 @@ abstract class RestApiService extends ChopperService {
   @Post(path: '/TokenAuth/Authenticate')
   Future<Response> login(@Body() Map<String, dynamic> body);
 
- @Get(path: '/services/app/User/Get')
+  @Post(path: '/services/app/UserHashService/Create')
+  Future<Response> createUserHash(@Body() Map<String, dynamic> body);
+
+  @Get(path: '/services/app/User/Get')
   Future<Response> getUser(@Query() int id);
 
   @Post(path: '/{url}')
-  Future<Response> sampleWithUrlAndQuery(@Path() String url, @Query() String page);
+  Future<Response> sampleWithUrlAndQuery(
+      @Path() String url, @Query() String page);
 
   @Get(path: '/get')
   Future<Response> sampleGet();

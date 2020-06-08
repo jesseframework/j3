@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication.dart';
 import 'package:j3enterprise/src/ui/login/bloc/login_bloc.dart';
@@ -12,23 +13,27 @@ class OfflineLoginForm extends StatefulWidget {
 }
 
 class _OfflineLoginFormState extends State<OfflineLoginForm> {
+  //final UserRepository userRepository;
   final formKey = new GlobalKey<FormState>();
   bool pass = true;
   String selected;
   bool isSwitched = false;
+  Map<String, String> mappref = Map();
+  UserRepository userRepository = new UserRepository();
 
-  final _usernameController = TextEditingController();
+  //final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    _onLoginButtonPressed() {
+    _onLoginButtonPressed() async {
+      mappref = await userRepository.getPrefrenceData();
       BlocProvider.of<AuthenticationBloc>(context).add(
         OfflineLoginButtonPressed(
-            userName: 'admin',
+            userName: mappref['id'],
             password: _passwordController.text,
-            tenant: 1,
-            id: 1),
+            tenant: int.tryParse(mappref['tenantid']),
+            id: int.tryParse(mappref['id'])),
       );
     }
 

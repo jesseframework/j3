@@ -26,7 +26,7 @@ class UserHash {
     userDao = UserDao(db);
   }
 
-  Future<void> hashuserdata(
+  Future<void> hashashdata(
       String userName, String password, int tenant, int id) async {
     final key = Key.fromUtf8('my32lengthsupersecretnooneknows1');
     final b64key = Key.fromUtf8(base64Url.encode(key.bytes));
@@ -54,6 +54,8 @@ class UserHash {
     var formData = UsersCompanion(mobileHash: moor.Value(_result));
 
     await userDao.saveMobileHash(formData, id);
+    await userRepository.putUserhasg(
+        userName: userName, hashCode: _result, tenantId: 1);
 
     print('Result: $result');
   }
