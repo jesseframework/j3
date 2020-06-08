@@ -3,9 +3,11 @@
   "username_label": "Username",
   "username_validation_text": "Username must have at lease 4 charactor",
   "password_label": "Password",
+  "confirm_password_label": "Confirm Password",
   "tenant_label": "Tenant",
   "tenant_default_text": "Select applicable tenant...",
   "login_button": "Login",
+  "offline_login_button": "Complete Offline Setup",
   "pin_only_label": "Pin Only",
   "setting_label_appdraw": "Setting",
   "set_communication_appdraw": "Set Communication",
@@ -36,6 +38,7 @@
   "preduct_version_label_about": "Product Version",
   "device_id_label_about": "Device ID",
   "device_status_label_about": "Device Status",
-  "home_prefrence_icon_label": "Preference"
+  "home_prefrence_icon_label": "Preference",
+  "title_offline_login": "Offline Login Setup"
   
 }
