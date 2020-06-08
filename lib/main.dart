@@ -49,9 +49,12 @@ class App extends StatelessWidget {
     return MaterialApp(
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
-          if (state is AuthenticationAuthenticated) {
-            //return HomePage();
+          if(state is AuthenticationCreateMobileHash){
             return OfflineLoginPage(userRepository: userRepository);
+          }
+          if (state is AuthenticationAuthenticated) {
+            return HomePage();
+            
           }
           if (state is AuthenticationUnauthenticated) {
             return LoginPage(userRepository: userRepository);

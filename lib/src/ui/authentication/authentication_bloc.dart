@@ -44,9 +44,7 @@ class AuthenticationBloc
 
       var offlineready = await userFromServer.validateUser(event.userID);
       if (offlineready == true) {
-        print('Offline Ready');
-      } else {
-        print('offline not ready');
+        yield AuthenticationCreateMobileHash();
       }
     }
 
