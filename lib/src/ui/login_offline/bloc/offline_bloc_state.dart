@@ -14,6 +14,8 @@ class BlocInitial extends OfflineBlocState {
 
 class OfflineLoginLoading extends OfflineBlocState {}
 
+class OfflineLoginSetupSave extends OfflineBlocState {}
+
 class OfflineLoginFailure extends OfflineBlocState {
   final String error;
 

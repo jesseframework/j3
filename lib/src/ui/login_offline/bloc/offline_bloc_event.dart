@@ -5,19 +5,23 @@ abstract class OfflineBlocEvent extends Equatable {
 }
 
 class OfflineLoginButtonPressed extends OfflineBlocEvent {
-  final String username;
+  final String userName;
   final String password;
   final int tenant;
+  final int id;
+  final UserRepository userRepository;
 
   const OfflineLoginButtonPressed(
-      {@required this.username,
+      {@required this.userName,
       @required this.password,
-      @required this.tenant});
+      @required this.tenant,
+      @required this.id,
+      this.userRepository});
 
   @override
-  List<Object> get props => [username, password, tenant];
+  List<Object> get props => [userName, password, tenant, id];
 
   @override
   String toString() =>
-      'OfflineLoginButtonPressed { username: $username, password: $password, tenant: $tenant }';
+      'OfflineLoginButtonPressed { username: $userName, password: $password, tenant: $tenant, id: $id  }';
 }

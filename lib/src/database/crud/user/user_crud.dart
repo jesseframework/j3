@@ -29,6 +29,14 @@ class UserDao extends DatabaseAccessor<AppDatabase> with _$UserDaoMixin {
     );
   }
 
+  Future saveMobileHash(UsersCompanion u, int id) {
+    return (update(db.users)..where((t) => t.id.equals(id))).write(
+      UsersCompanion(
+        mobileHash: u.mobileHash,
+      ),
+    );
+  }
+
   Future<List<User>> getAllUsers() => select(db.users).get();
   Stream<List<User>> watchAllUsers() => select(db.users).watch();
   Future insertUser(UsersCompanion user) => into(db.users).insert(user);

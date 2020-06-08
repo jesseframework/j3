@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/shared/function/check_for_user_data_on_server.dart';
+import 'package:j3enterprise/src/resources/shared/utils/user_hashdigest.dart';
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
 
@@ -12,11 +13,11 @@ class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   final UserRepository userRepository;
   UserFromServer userFromServer;
+  UserHash userHash;
 
   AuthenticationBloc({@required this.userRepository}) {
     assert(userRepository != null);
     userFromServer = new UserFromServer(userRepository: userRepository);
-    //assert(userFromServer != null);
   }
 
   @override

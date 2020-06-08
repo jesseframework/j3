@@ -8,7 +8,6 @@ import 'package:moor/moor.dart' as moor;
 
 class UserFromServer {
   final UserRepository userRepository;
-
   var db;
   bool isofflineready = false;
   UserDao userDao;

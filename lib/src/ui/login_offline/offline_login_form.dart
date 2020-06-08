@@ -25,9 +25,10 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
     _onLoginButtonPressed() {
       BlocProvider.of<OfflineBloc>(context).add(
         OfflineLoginButtonPressed(
-            username: _usernameController.text,
+            userName: _usernameController.text,
             password: _passwordController.text,
-            tenant: 1),
+            tenant: 1,
+            id: 1),
       );
     }
 
