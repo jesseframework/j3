@@ -30,10 +30,9 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
       mappref = await userRepository.getPrefrenceData();
       BlocProvider.of<AuthenticationBloc>(context).add(
         OfflineLoginButtonPressed(
-            userName: mappref['id'],
+            userId: int.tryParse(mappref['id']),
             password: _passwordController.text,
-            tenant: int.tryParse(mappref['tenantid']),
-            id: int.tryParse(mappref['id'])),
+            tenant: int.tryParse(mappref['tenantid'])),
       );
     }
 

@@ -25,7 +25,7 @@ class UserRepository {
   }
 
   Future<Response> putUserhasg({
-    @required String userId,
+    @required int userId,
     @required String hashCode,
     @required int tenantId,
   }) async {
@@ -36,15 +36,15 @@ class UserRepository {
   Future<void> deleteToken() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     await _prefs.remove('access_token');
-    await _prefs.remove('id');
+    await _prefs.remove('userId');
     await _prefs.remove('tenantid');
     return;
   }
 
-  Future<void> persistToken(String token, int id, int tenantid) async {
+  Future<void> persistToken(String token, int userId, int tenantid) async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     await _prefs.setString("access_token", token);
-    await _prefs.setString("id", id.toString());
+    await _prefs.setString("userId", userId.toString());
     await _prefs.setString("tenantid", tenantid.toString());
     return;
   }
@@ -57,12 +57,12 @@ class UserRepository {
   Future<Map> getPrefrenceData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = await prefs.get("access_token");
-    int id = int.tryParse(await prefs.get("id"));
+    int userId = int.tryParse(await prefs.get("userId"));
     int tenantid = int.tryParse(await prefs.get("tenantid"));
 
     Map<String, String> map = {
       "token": "$token",
-      "id": "$id",
+      "userId": "$userId",
       "tenantid": "$tenantid",
     };
 

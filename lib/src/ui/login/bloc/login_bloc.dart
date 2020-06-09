@@ -39,7 +39,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         //decode the response body
         Map<String, dynamic> result = map['result'];
         authenticationBloc.add(
-            LoggedIn(token: result['accessToken'], userID: result['userId']));
+            LoggedIn(token: result['accessToken'], userId: result['userId']));
         yield LoginInitial();
       } else {
         //display errors

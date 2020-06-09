@@ -41,18 +41,17 @@ class AuthenticationBloc
     //ToDo Implement tenantid
     if (event is LoggedIn) {
       yield AuthenticationLoading();
-      await userRepository.persistToken(event.token, event.userID, 1);
+      await userRepository.persistToken(event.token, event.userId, 1);
       yield AuthenticationAuthenticated();
 
-      var offlineready = await userFromServer.validateUser(event.userID);
+      var offlineready = await userFromServer.validateUser(event.userId);
       if (offlineready == true) {
         yield AuthenticationCreateMobileHash();
       }
     }
 
     if (event is OfflineLoginButtonPressed) {
-      await userHash.hashashdata(
-          event.userName, event.password, event.tenant, event.id);
+      await userHash.hashashdata(event.password, event.tenant, event.userId);
       yield AuthenticationAuthenticated();
     }
 

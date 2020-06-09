@@ -26,15 +26,14 @@ class UserHash {
     userDao = UserDao(db);
   }
 
-  Future<void> hashashdata(
-      String userID, String password, int tenant, int id) async {
+  Future<void> hashashdata(String password, int tenant, int userId) async {
     final key = Key.fromUtf8('my32lengthsupersecretnooneknows1');
     final b64key = Key.fromUtf8(base64Url.encode(key.bytes));
     final fernet = Fernet(b64key);
     final encrypter = Encrypter(fernet);
 
     List<List<int>> bytesChunks = [
-      utf8.encode(encrypter.encrypt(userID).toString()),
+      utf8.encode(encrypter.encrypt(userId.toString()).toString()),
       utf8.encode(encrypter.encrypt(password).toString()),
       utf8.encode(encrypter.encrypt(tenant.toString()).toString())
     ];
@@ -53,9 +52,9 @@ class UserHash {
 
     var formData = UsersCompanion(mobileHash: moor.Value(_result));
 
-    await userDao.saveMobileHash(formData, id);
+    await userDao.saveMobileHash(formData, userId);
     await userRepository.putUserhasg(
-        userId: userID, hashCode: _result, tenantId: 1);
+        userId: userId, hashCode: _result, tenantId: 1);
 
     print('Result: $result');
   }
