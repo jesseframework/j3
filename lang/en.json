@@ -40,6 +40,9 @@
   "device_status_label_about": "Device Status",
   "home_prefrence_icon_label": "Preference",
   "title_offline_login": "Offline Login Setup",
+  "offline_password_error_message": "Password is required",
+  "offline_password_Confirm_error_message": "Confirm password is required",
+  "offline_password_Not_Match_error_message": "Password not macth",
   "offline_login_message": "Warning!!! You are about to enable mobile offline login on this device. This option will allow this device to store encrypted data for your profile. If this device is stolen, hackers may be able to crack encryption and retrieved profile data. By completing this step you agree to accept this risk."
   
 }

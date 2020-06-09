@@ -20,17 +20,22 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
   bool isSwitched = false;
   Map<String, String> mappref = Map();
   UserRepository userRepository = new UserRepository();
+  bool showPassword = true;
 
-  //final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
+  //ToDo Iplment global passowrd box and setup from validation
+
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _passwordConfimController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     _onLoginButtonPressed() async {
+      formKey.currentState.validate();
+
       mappref = await userRepository.getPrefrenceData();
       BlocProvider.of<AuthenticationBloc>(context).add(
         OfflineLoginButtonPressed(
-            userId: int.tryParse(mappref['id']),
+            userId: int.tryParse(mappref['userId']),
             password: _passwordController.text,
             tenant: int.tryParse(mappref['tenantid'])),
       );
@@ -99,69 +104,76 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
                                 Expanded(
                                   //Fit and size widgets widgets according to container size
                                   child: TextFormField(
+                                    validator: (val) {
+                                      if (val.isEmpty) {
+                                        return AppLocalization.of(context)
+                                                .translate(
+                                                    'offline_password_error_message') ??
+                                            'Password';
+                                      }
+                                      return null;
+                                    },
                                     controller: _passwordController,
                                     decoration: InputDecoration(
                                       filled: true,
                                       icon: Icon(Icons.lock),
                                       suffixIcon: IconButton(
-                                        icon: !pass
+                                        icon: !showPassword
                                             ? Icon(CustomIcons.eye_off)
                                             : Icon(CustomIcons.eye),
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          setState(() {
+                                            showPassword = !showPassword;
+                                          });
+                                        },
                                       ),
                                       labelText: AppLocalization.of(context)
                                               .translate('password_label') ??
                                           'Password',
                                     ),
-                                    obscureText: pass, // Hide password
+                                    obscureText: showPassword, // Hide password
                                   ),
                                 ),
                                 Expanded(
                                   //Fit and size widgets widgets according to container size
                                   child: TextFormField(
-                                    controller: _passwordController,
+                                    validator: (val) {
+                                      if (val.isEmpty) {
+                                        return AppLocalization.of(context)
+                                                .translate(
+                                                    'offline_password_Confirm_error_message') ??
+                                            'Password';
+                                      }
+                                      if (val != _passwordController.text) {
+                                        return AppLocalization.of(context)
+                                                .translate(
+                                                    'offline_password_Not_Match_error_message') ??
+                                            'Password';
+                                      }
+                                      return null;
+                                    },
+                                    controller: _passwordConfimController,
                                     decoration: InputDecoration(
                                       filled: true,
                                       icon: Icon(Icons.lock),
                                       suffixIcon: IconButton(
-                                        icon: !pass
+                                        icon: !showPassword
                                             ? Icon(CustomIcons.eye_off)
                                             : Icon(CustomIcons.eye),
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          setState(() {
+                                            showPassword = !showPassword;
+                                          });
+                                        },
                                       ),
                                       labelText: AppLocalization.of(context)
                                               .translate(
                                                   'confirm_password_label') ??
                                           'Confirm Password',
                                     ),
-                                    obscureText: pass, // Hide password
+                                    obscureText: showPassword, // Hide password
                                   ),
                                 ),
-                                // Expanded(
-                                //   child: DropdownButtonFormField<String>(
-                                //     // hint: Text(AppLocalization.of(context).translate('tenant_default_text')),
-                                //     decoration: InputDecoration(
-                                //       filled: true,
-                                //       icon: Icon(Icons.home),
-                                //       alignLabelWithHint: false,
-                                //       labelText: AppLocalization.of(context)
-                                //               .translate('tenant_label') ??
-                                //           'Tenant',
-                                //     ),
-                                //     value: selected,
-                                //     items: ["Host", "Admin", "Guest"]
-                                //         .map((label) => DropdownMenuItem<String>(
-                                //               child: Text(label),
-                                //               value: label,
-                                //             ))
-                                //         .toList(),
-                                //     onChanged: (value) {
-                                //       setState(() {
-                                //         selected = value;
-                                //       });
-                                //     },
-                                //   ),
-                                // ),
                                 ButtonTheme(
                                   minWidth: double.infinity,
                                   child: RaisedButton(

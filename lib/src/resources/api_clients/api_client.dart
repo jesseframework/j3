@@ -1,7 +1,7 @@
 import 'package:chopper/chopper.dart';
+import 'package:j3enterprise/src/resources/services/check_internet_connection.dart';
 import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:j3enterprise/src/ui/communication/bloc/communication_bloc.dart';
 
 class ApiClient {
   final String apiConnection = 'API';
@@ -18,6 +18,7 @@ class ApiClient {
           RestApiService.create()
         ],
         interceptors: [
+          MobileDataInterceptor(),
           HeadersInterceptor({
             'content-type': 'application/json',
             'Accept': 'application/json'

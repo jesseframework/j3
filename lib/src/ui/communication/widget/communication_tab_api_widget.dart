@@ -37,6 +37,7 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
 
   //API comeunication Setting
   Future<void> submitAPITab(CommunicationBloc bloc) async {
+    formKey.currentState.validate();
     var formData = CommunicationCompanion(
       serverUrl: moor.Value(_apiserverurlController.value.text),
       userName: moor.Value(_apiusernameController.value.text),
