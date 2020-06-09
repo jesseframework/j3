@@ -27,14 +27,14 @@ class UserHash {
   }
 
   Future<void> hashashdata(
-      String userName, String password, int tenant, int id) async {
+      String userID, String password, int tenant, int id) async {
     final key = Key.fromUtf8('my32lengthsupersecretnooneknows1');
     final b64key = Key.fromUtf8(base64Url.encode(key.bytes));
     final fernet = Fernet(b64key);
     final encrypter = Encrypter(fernet);
 
     List<List<int>> bytesChunks = [
-      utf8.encode(encrypter.encrypt(userName).toString()),
+      utf8.encode(encrypter.encrypt(userID).toString()),
       utf8.encode(encrypter.encrypt(password).toString()),
       utf8.encode(encrypter.encrypt(tenant.toString()).toString())
     ];
@@ -55,7 +55,7 @@ class UserHash {
 
     await userDao.saveMobileHash(formData, id);
     await userRepository.putUserhasg(
-        userName: userName, hashCode: _result, tenantId: 1);
+        userId: userID, hashCode: _result, tenantId: 1);
 
     print('Result: $result');
   }

@@ -32,6 +32,7 @@ class UserFromServer {
           id: moor.Value(result['id']),
           name: moor.Value(result['name']),
           enableOfflineLogin: moor.Value(result['enableOfflineLogin']),
+          mobileHash: moor.Value(result['mobileHashCode']),
           isActive: moor.Value(result['isActive']),
           creationTime: moor.Value(DateTime.parse(result['creationTime'])));
 
@@ -39,16 +40,17 @@ class UserFromServer {
       if (isUserInDb != null) {
         print('User Already in Db');
 
-        if (isUserInDb.mobileHash == null &&
-            isUserInDb.enableOfflineLogin == true) {
+        //We will check server for mobilehash everytime user logon to mobile device.
+        if (result['mobileHashCode'] == null &&
+            result['enableOfflineLogin'] == true) {
+          await userDao.updateUser(formData, id);
           isofflineready = true;
         } else {
           isofflineready = false;
         }
-
-        await userDao.updateUser(formData, id);
       } else {
         print('Create new user');
+        //User must loging for first time for offline login to work
         await userDao.insertUser(formData);
       }
     }
