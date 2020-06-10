@@ -13,12 +13,12 @@ class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   final UserRepository userRepository;
   UserFromServer userFromServer;
-  UserHash userHash;
+  UserHashSave userHash;
 
   AuthenticationBloc({@required this.userRepository}) {
     assert(userRepository != null);
     userFromServer = new UserFromServer(userRepository: userRepository);
-    userHash = new UserHash(userRepository: userRepository);
+    userHash = new UserHashSave(userRepository: userRepository);
   }
 
   @override
@@ -51,7 +51,7 @@ class AuthenticationBloc
     }
 
     if (event is OfflineLoginButtonPressed) {
-      await userHash.hashashdata(event.password, event.tenant, event.userId);
+      await userHash.savehash(event.password, event.tenant, event.userId);
       yield AuthenticationAuthenticated();
     }
 

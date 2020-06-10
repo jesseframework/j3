@@ -48,6 +48,7 @@ dependencies:
   bot_toast: ^3.0.0
   encrypt: ^4.0.2
   connectivity: ^0.4.8+6
+  data_connection_checker: ^0.3.4
   
 
 dev_dependencies:

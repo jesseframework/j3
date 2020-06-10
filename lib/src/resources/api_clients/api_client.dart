@@ -1,5 +1,5 @@
 import 'package:chopper/chopper.dart';
-import 'package:j3enterprise/src/resources/services/check_internet_connection.dart';
+import 'package:j3enterprise/src/resources/api_clients/mobile_data_interceptor.dart';
 import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

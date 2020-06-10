@@ -42,6 +42,7 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
   }
 
   Future<void> submitERPTab(CommunicationBloc bloc) async {
+    formKey.currentState.validate();
     var formData = CommunicationCompanion(
       serverUrl: moor.Value(_serverurlController.value.text),
       userName: moor.Value(_usernameController.value.text),

@@ -1,4 +1,6 @@
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
+import 'package:j3enterprise/src/resources/services/connection_service.dart';
 import 'package:j3enterprise/src/resources/services/firebase_message_wrapper.dart';
 import 'package:j3enterprise/src/resources/services/firebase_notification_service.dart';
 
@@ -6,6 +8,8 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/ui/preferences/preferences.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/custom_drawer.dart';
 import 'dart:io' show Platform;
+
+import 'package:provider/provider.dart';
 
 // Future<dynamic> backgroundMessageHandler(Map<String, dynamic> message) {
 //   print(message);
@@ -43,6 +47,20 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  bool isOffline = false;
+
+  static void changeState(state) {
+    if (state == DataConnectionStatus.connected) {
+      
+    }
+  }
+
+  static var listener = DataConnectionChecker().onStatusChange.listen((status) {
+    print(status.toString());
+
+    changeState(status);
+  });
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,13 +68,10 @@ class _HomePageState extends State<HomePage> {
         title: Text(AppLocalization.of(context).translate('app_title')),
         actions: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(right: 18),
-            child: Icon(
-              Icons.wifi,
-              color: Colors.white,
-              size: 40.0,
-            ),
-          ),
+              padding: const EdgeInsets.only(right: 18),
+              child:  
+                  ? Icon(Icons.wifi)
+                  : Icon(Icons.signal_wifi_off)),
         ],
       ),
       drawer: CustomDrawer(),

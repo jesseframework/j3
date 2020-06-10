@@ -26,11 +26,14 @@ class UserRepository {
 
   Future<Response> putUserhasg({
     @required int userId,
-    @required String hashCode,
+    @required String mobileHashCode,
     @required int tenantId,
   }) async {
-    return await api.updateUserHash(
-        {"userID": userId, "hashCode": hashCode, "tenantId": tenantId});
+    return await api.updateUserHash({
+      "userID": userId,
+      "mobileHashCode": mobileHashCode,
+      "tenantId": tenantId
+    });
   }
 
   Future<void> deleteToken() async {
