@@ -2,9 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:chopper/chopper.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:j3enterprise/src/database/crud/user/user_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
+import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/user_hashdigest.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication_bloc.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication_event.dart';
@@ -64,7 +66,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             // can have an error class and use frommap here as well
             String error = map["error"]["details"].toString();
             if (error == null) {
-              error = "Something went wrong! Please try again";
+              error = AppLocalization.of(event.context)
+                      .translate('online_login_failed') ??
+                  "Something went wrong! Please try again";
             }
             yield LoginFailure(error: error);
           }
@@ -80,23 +84,31 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                     .add(LoggedIn(token: "", userId: userDate.id));
                 yield LoginInitial();
               } else {
-                String error =
-                    "Something went wrong! Unable to log you in offline. Please try againg";
+                String error = AppLocalization.of(event.context)
+                        .translate('offline_login_failed') ??
+                    'Something went wrong! Unable to log you in offline. Please try againg';
 
                 yield LoginFailure(error: error);
               }
             }
+          } else {
+            String error = AppLocalization.of(event.context)
+                    .translate('offline_login_failed') ??
+                'Something went wrong! Unable to log you in offline. Please try againg';
+
+            yield LoginFailure(error: error);
           }
         }
       } else {
         try {
+          //Not Android and iOS device
+          yield LoginLoading();
           final Response response = await userRepository.authenticate(
             username: event.username,
             password: event.password,
           );
           Map<String, dynamic> map = json.decode(response.bodyString);
           if (response.isSuccessful && map['success']) {
-            yield LoginLoading();
             //decode the response body
             Map<String, dynamic> result = map['result'];
             authenticationBloc.add(LoggedIn(
@@ -107,12 +119,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             // can have an error class and use frommap here as well
             String error = map["error"]["details"].toString();
             if (error == null) {
-              error = "Something went wrong! Please try again";
+              error = AppLocalization.of(event.context)
+                      .translate('online_login_failed') ??
+                  "Something went wrong! Please try again";
             }
             yield LoginFailure(error: error);
           }
         } catch (error) {
-          yield LoginFailure(error: error);
+          yield LoginFailure(error: error.toString());
         }
       }
     }

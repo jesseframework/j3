@@ -1,3 +1,4 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/resources/services/connection_service.dart';
@@ -27,39 +28,10 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     if (!Platform.isWindows && !Platform.isMacOS) {
       FirebaseNotificationService.instance.getIOSPermission();
-      //     print('Init firebase');
 
-      //     _firebaseMessaging.getToken().then((value) => print('fcm : ' + value));
-      //     _firebaseMessaging.requestNotificationPermissions();
-      //     _firebaseMessaging.configure(
-      //       onMessage: (Map<String, dynamic> message) async {
-      //         print("onMessage: $message");
-      //       },
-      //       onBackgroundMessage: backgroundMessageHandler,
-      //       onLaunch: (Map<String, dynamic> message) async {
-      //         print("onLaunch: $message");
-      //       },
-      //       onResume: (Map<String, dynamic> message) async {
-      //         print("onResume: $message");
-      //       },
-      //     );
       super.initState();
     }
   }
-
-  bool isOffline = false;
-
-  static void changeState(state) {
-    if (state == DataConnectionStatus.connected) {
-      
-    }
-  }
-
-  static var listener = DataConnectionChecker().onStatusChange.listen((status) {
-    print(status.toString());
-
-    changeState(status);
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +41,18 @@ class _HomePageState extends State<HomePage> {
         actions: <Widget>[
           Padding(
               padding: const EdgeInsets.only(right: 18),
-              child:  
-                  ? Icon(Icons.wifi)
-                  : Icon(Icons.signal_wifi_off)),
+              child: StreamBuilder<ConnectivityResult>(
+                  stream: Connectivity().onConnectivityChanged,
+                  builder: (context, data) {
+                    if (data.data == ConnectivityResult.none) {
+                      return Icon(
+                        Icons.signal_wifi_off,
+                        color: Colors.red,
+                      );
+                    } else {
+                      return Icon(Icons.wifi);
+                    }
+                  }))
         ],
       ),
       drawer: CustomDrawer(),

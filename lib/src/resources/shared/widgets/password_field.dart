@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 
 class TextFromFieldPasswordReusable extends StatefulWidget {
-  final String labelName;
+  final InputDecoration fieldDecoration;
   final TextEditingController controllerName;
   final String validationText;
 
   TextFromFieldPasswordReusable(
-      {this.labelName, this.controllerName, this.validationText});
+      {this.fieldDecoration, this.controllerName, this.validationText});
 
   @override
   _TextFromFieldPasswordReusableState createState() =>
@@ -22,38 +22,31 @@ class _TextFromFieldPasswordReusableState
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(10.00),
-            child: TextFormField(
-                validator: (val) {
-                  if (val.isEmpty) {
-                    return widget.validationText;
-                  }
-                  return null;
-                },
-                controller: widget.controllerName,
-                decoration: InputDecoration(
-                  filled: true,
-                  suffixIcon: IconButton(
-                    icon: !showPassword
-                        ? Icon(CustomIcons.eye_off)
-                        : Icon(CustomIcons.eye),
-                    onPressed: () {
-                      setState(() {
-                        showPassword = !showPassword;
-                      });
-                    },
-                  ),
-                  labelText: widget.labelName,
-                ),
-                obscureText: showPassword // Hide password
-                ),
-          )
-        ],
-      ),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextFormField(
+          validator: (val) {
+            if (val.isEmpty) {
+              return widget.validationText;
+            }
+            return null;
+          },
+          controller: widget.controllerName,
+          decoration: widget.fieldDecoration.copyWith(
+            filled: true,
+            suffixIcon: IconButton(
+              icon: !showPassword
+                  ? Icon(CustomIcons.eye_off)
+                  : Icon(CustomIcons.eye),
+              onPressed: () {
+                setState(() {
+                  showPassword = !showPassword;
+                });
+              },
+            ),
+          ),
+          obscureText: showPassword // Hide password
+          ),
     );
   }
 }

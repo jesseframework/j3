@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
+import 'package:j3enterprise/src/resources/shared/widgets/password_field.dart';
+import 'package:j3enterprise/src/resources/shared/widgets/text_field_email.dart';
+import 'package:j3enterprise/src/resources/shared/widgets/text_field_notnullable.dart';
+import 'package:j3enterprise/src/resources/shared/widgets/text_field_nullable.dart';
 
 import 'bloc/login_bloc.dart';
 
@@ -23,11 +27,12 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     _onLoginButtonPressed() {
+      formKey.currentState.validate();
       BlocProvider.of<LoginBloc>(context).add(
         LoginButtonPressed(
-          username: _usernameController.text,
-          password: _passwordController.text,
-        ),
+            username: _usernameController.text,
+            password: _passwordController.text,
+            context: context),
       );
     }
 
@@ -57,17 +62,15 @@ class _LoginFormState extends State<LoginForm> {
                       child: Column(
                         children: <Widget>[
                           Expanded(
-                            child: TextFormField(
-                              controller: _usernameController,
-                              validator: (_value) {
-                                return _value.length < 3
-                                    ? AppLocalization.of(context).translate(
-                                            'username_validation_text') ??
-                                        'Enter valid username'
-                                    : null;
-                              },
-                              decoration: InputDecoration(
-                                filled: true,
+                            child: TextFromFieldNullableReusable(
+                              controllerName: _usernameController,
+                              validationText:
+                                  _usernameController.text.length < 3
+                                      ? AppLocalization.of(context).translate(
+                                              'username_validation_text') ??
+                                          'Enter valid username'
+                                      : null,
+                              fieldDecoration: InputDecoration(
                                 icon: Icon(Icons.person),
                                 labelText: AppLocalization.of(context)
                                         .translate('username_label') ??
@@ -77,47 +80,30 @@ class _LoginFormState extends State<LoginForm> {
                           ),
                           Expanded(
                             //Fit and size widgets widgets according to container size
-                            child: TextFormField(
-                              controller: _passwordController,
-                              decoration: InputDecoration(
-                                filled: true,
+                            child: TextFromFieldPasswordReusable(
+                              controllerName: _passwordController,
+                              validationText:
+                                  _usernameController.text.length < 3
+                                      ? AppLocalization.of(context).translate(
+                                              'username_validation_password') ??
+                                          'Enter valid password'
+                                      : null,
+                              fieldDecoration: InputDecoration(
                                 icon: Icon(Icons.lock),
-                                suffixIcon: IconButton(
-                                  icon: !pass
-                                      ? Icon(CustomIcons.eye_off)
-                                      : Icon(CustomIcons.eye),
-                                  onPressed: () {},
-                                ),
                                 labelText: AppLocalization.of(context)
                                         .translate('password_label') ??
                                     'Password',
                               ),
-                              obscureText: pass, // Hide password
                             ),
                           ),
-                          Expanded(
-                            child: DropdownButtonFormField<String>(
-                              // hint: Text(AppLocalization.of(context).translate('tenant_default_text')),
-                              decoration: InputDecoration(
-                                filled: true,
-                                icon: Icon(Icons.home),
-                                alignLabelWithHint: false,
-                                labelText: AppLocalization.of(context)
-                                        .translate('tenant_label') ??
-                                    'Tenant',
-                              ),
-                              value: selected,
-                              items: ["Host", "Admin", "Guest"]
-                                  .map((label) => DropdownMenuItem<String>(
-                                        child: Text(label),
-                                        value: label,
-                                      ))
-                                  .toList(),
-                              onChanged: (value) {
-                                setState(() {
-                                  selected = value;
-                                });
-                              },
+                          TextFromFieldNullableReusable(
+                            // hint: Text(AppLocalization.of(context).translate('tenant_default_text')),
+                            fieldDecoration: InputDecoration(
+                              icon: Icon(Icons.home),
+                              alignLabelWithHint: false,
+                              labelText: AppLocalization.of(context)
+                                      .translate('tenant_label') ??
+                                  'Tenant',
                             ),
                           ),
                           Row(
