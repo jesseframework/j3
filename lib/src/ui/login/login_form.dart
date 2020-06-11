@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/password_field.dart';
-import 'package:j3enterprise/src/resources/shared/widgets/text_field_email.dart';
-import 'package:j3enterprise/src/resources/shared/widgets/text_field_notnullable.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/text_field_nullable.dart';
 
 import 'bloc/login_bloc.dart';
@@ -23,6 +21,7 @@ class _LoginFormState extends State<LoginForm> {
 
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _tenantController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +31,8 @@ class _LoginFormState extends State<LoginForm> {
         LoginButtonPressed(
             username: _usernameController.text,
             password: _passwordController.text,
-            context: context),
+            context: context,
+            tenantname: _tenantController.text),
       );
     }
 
@@ -98,6 +98,12 @@ class _LoginFormState extends State<LoginForm> {
                           ),
                           TextFromFieldNullableReusable(
                             // hint: Text(AppLocalization.of(context).translate('tenant_default_text')),
+                            controllerName: _tenantController,
+                            validationText: _usernameController.text.length < 2
+                                ? AppLocalization.of(context)
+                                        .translate('tenant_value_missing') ??
+                                    'Enter valid tenant'
+                                : null,
                             fieldDecoration: InputDecoration(
                               icon: Icon(Icons.home),
                               alignLabelWithHint: false,
@@ -106,40 +112,40 @@ class _LoginFormState extends State<LoginForm> {
                                   'Tenant',
                             ),
                           ),
-                          Row(
-                            children: <Widget>[
-                              Icon(
-                                CustomIcons.pushpin,
-                                color: Colors.grey.shade600,
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  AppLocalization.of(context)
-                                          .translate('pin_only_label') ??
-                                      'Ping Only',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.grey.shade600,
-                                  ),
-                                ),
-                              ),
-                              Switch(
-                                value: isSwitched,
-                                onChanged: (value) {
-                                  setState(() {
-                                    isSwitched = value;
-                                    if (value = true) {}
-                                    print(isSwitched);
-                                  });
-                                },
-                                activeColor: Colors.black,
-                              ),
-                            ],
-                          ),
+                          // Row(
+                          //   children: <Widget>[
+                          //     Icon(
+                          //       CustomIcons.pushpin,
+                          //       color: Colors.grey.shade600,
+                          //     ),
+                          //     SizedBox(
+                          //       width: 15,
+                          //     ),
+                          //     Expanded(
+                          //       child: Text(
+                          //         AppLocalization.of(context)
+                          //                 .translate('pin_only_label') ??
+                          //             'Ping Only',
+                          //         style: TextStyle(
+                          //           fontSize: 16,
+                          //           fontWeight: FontWeight.w300,
+                          //           color: Colors.grey.shade600,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //     Switch(
+                          //       value: isSwitched,
+                          //       onChanged: (value) {
+                          //         setState(() {
+                          //           isSwitched = value;
+                          //           if (value = true) {}
+                          //           print(isSwitched);
+                          //         });
+                          //       },
+                          //       activeColor: Colors.black,
+                          //     ),
+                          //   ],
+                          // ),
                           ButtonTheme(
                             minWidth: double.infinity,
                             child: RaisedButton(

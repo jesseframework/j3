@@ -10,6 +10,7 @@ class ApiClient {
 
   static ChopperClient chopper;
 
+
   static void updateClient(String baseUrl) {
     chopper = ChopperClient(
         baseUrl: baseUrl,
@@ -28,14 +29,16 @@ class ApiClient {
             if (response.statusCode == 401) {
               SharedPreferences prefs = await SharedPreferences.getInstance();
               await prefs.remove("access_token");
+              await prefs.remove("Abp.TenantId");
             }
             return response;
           },
           (Request request) async {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             String token = await prefs.get("access_token");
+            String tenantId = await prefs.get("tenantId");
 
-            Map<String, String> map = {"Authorization": "Bearer $token"};
+            Map<String, String> map = {"Authorization": "Bearer $token",  'Abp.TenantId': '$tenantId'};
 
             request.headers.addAll(map);
             return request;

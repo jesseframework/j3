@@ -14,14 +14,15 @@ class AppStarted extends AuthenticationEvent {}
 class LoggedIn extends AuthenticationEvent {
   final String token;
   final int userId;
+  final int tenantId;
 
-  const LoggedIn({@required this.token, @required this.userId});
-
-  @override
-  List<Object> get props => [token, userId];
+  const LoggedIn({@required this.token, @required this.userId, @required this.tenantId});
 
   @override
-  String toString() => 'LoggedIn { token: $token  userID : $userId}';
+  List<Object> get props => [token, userId, tenantId];
+
+  @override
+  String toString() => 'LoggedIn { token: $token  userID : $userId tenantId : $tenantId}';
 }
 
 class OfflineLoginButtonPressed extends AuthenticationEvent {

@@ -24,7 +24,7 @@ class UserRepository {
     return await api.getUser(userID);
   }
 
-  Future<Response> putUserhasg({
+  Future<Response> putUserHash({
     @required int userId,
     @required String mobileHashCode,
     @required int tenantId,
@@ -34,6 +34,10 @@ class UserRepository {
       "mobileHashCode": mobileHashCode,
       "tenantId": tenantId
     });
+  }
+
+  Future<Response> checkTenant({@required String tenancyName}) async {
+    return await api.isTenantAvailable({"tenancyName": tenancyName});
   }
 
   Future<void> deleteToken() async {
@@ -50,6 +54,18 @@ class UserRepository {
     await _prefs.setString("userId", userId.toString());
     await _prefs.setString("tenantid", tenantid.toString());
     return;
+  }
+
+  Future<void> setTanantIntoSharedPref(String tenatName) async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    await _prefs.setString('tenatName', tenatName);
+    return;
+  }
+
+  Future<String> getTanantFromSharedPref() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    String result = await _prefs.get('tenatName');
+    return result;
   }
 
   Future<bool> hasToken() async {

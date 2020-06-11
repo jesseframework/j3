@@ -48,6 +48,7 @@ class LoginPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
+
                         Flexible(
                           //Works like bootstrap with 12 columns (works for rows as well) max 6
                           flex: 3,
@@ -59,7 +60,9 @@ class LoginPage extends StatelessWidget {
                         ),
                         Flexible(
                           flex: 7,
-                          child: LoginForm(),
+                          child:SingleChildScrollView(
+                            child: LoginForm(),
+                          ),
                         ),
                       ],
                     ),
