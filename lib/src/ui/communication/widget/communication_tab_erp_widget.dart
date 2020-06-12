@@ -151,18 +151,22 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
             Padding(
               padding: const EdgeInsets.all(0.00),
               child: TextFromFieldPasswordReusable(
-                labelName: AppLocalization.of(context)
-                        .translate('new_password_label_communication') ??
-                    'New Password',
+                fieldDecoration: InputDecoration(
+                  labelText: AppLocalization.of(context)
+                          .translate('new_password_label_communication') ??
+                      'New Password',
+                ),
                 validationText: 'Test',
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(0.00),
               child: TextFromFieldPasswordReusable(
-                labelName: AppLocalization.of(context)
-                        .translate('confirm_password_label_communication') ??
-                    'Confirm Password',
+                fieldDecoration: InputDecoration(
+                  labelText: AppLocalization.of(context)
+                          .translate('confirm_password_label_communication') ??
+                      'Confirm Password',
+                ),
                 controllerName: _confirmpasswordController,
                 validationText: 'Test',
               ),

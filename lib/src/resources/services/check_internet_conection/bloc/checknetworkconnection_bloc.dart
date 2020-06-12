@@ -17,10 +17,12 @@ class ChecknetworkconnectionBloc
   Stream<ChecknetworkconnectionState> mapEventToState(
     ChecknetworkconnectionEvent event,
   ) async* {
-    final connectivityResult = await Connectivity().checkConnectivity();
-    bool isMobile = connectivityResult == ConnectivityResult.none;
-    if (isMobile = true) {
-      yield NoInternetState();
+    if (event is ApiRequest) {
+      final connectivityResult = await Connectivity().checkConnectivity();
+      bool isMobile = connectivityResult == ConnectivityResult.none;
+      if (isMobile = true) {
+        yield NoInternetState();
+      }
     }
   }
 }

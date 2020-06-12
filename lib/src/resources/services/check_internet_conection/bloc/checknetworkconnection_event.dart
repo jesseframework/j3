@@ -7,3 +7,5 @@ abstract class ChecknetworkconnectionEvent extends Equatable {
 }
 
 class NoInternetConnection extends ChecknetworkconnectionEvent {}
+
+class ApiRequest extends ChecknetworkconnectionEvent {}

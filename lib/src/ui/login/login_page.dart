@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
+import 'package:j3enterprise/src/resources/services/check_internet_conection/bloc/checknetworkconnection_bloc.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
-import 'package:j3enterprise/src/ui/authentication/authentication_bloc.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/custom_drawer.dart';
-import 'package:sqflite/utils/utils.dart';
+import 'package:j3enterprise/src/ui/authentication/authentication_bloc.dart';
 
 import 'bloc/login_bloc.dart';
 import 'login_form.dart';
@@ -24,7 +23,10 @@ class LoginPage extends StatelessWidget {
         title: Text(AppLocalization.of(context).translate('app_title')),
         backgroundColor: const Color(0xff5362b7),
       ),
-      body: SafeArea(
+      body: BlocProvider(
+        create: (context) {
+          return ChecknetworkconnectionBloc();
+        },
         child: BlocProvider(
           create: (context) {
             return LoginBloc(
@@ -32,45 +34,46 @@ class LoginPage extends StatelessWidget {
               userRepository: userRepository,
             );
           },
-          child: Stack(
-            children: <Widget>[
-              Positioned.fill(
-                child: Image.asset(
-                  'images/beach-background.jpg',
-                  fit: BoxFit.cover,
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Stack(
+              children: <Widget>[
+                Positioned(
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Image.asset(
+                    'images/beach-background.jpg',
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Flexible(
+                SingleChildScrollView(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Flexible(
-                          //Works like bootstrap with 12 columns (works for rows as well) max 6
-                          flex: 3,
-                          child: Container(
-                            child: Image.asset(
-                              'images/logo.png',
-                            ),
+                        Container(
+                          margin: EdgeInsets.only(bottom: 50, top: 30),
+                          height: 250,
+                          child: Image.asset(
+                            'images/logo.png',
                           ),
                         ),
-                        Flexible(
-                          flex: 7,
-                          child: LoginForm(),
-                        ),
+                        LoginForm(),
                       ],
                     ),
                   ),
-                ],
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: true,
       drawer: CustomDrawer(),
     );
   }
