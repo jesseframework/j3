@@ -16,13 +16,12 @@ class UserFromServer {
     db = AppDatabase();
     userDao = UserDao(db);
   }
-  Future<bool> validateUser(int id) async {
+  Future<bool> validateUser(int id, int tenantId) async {
     final Response response = await userRepository.getUser(userID: id);
     Map<String, dynamic> map = json.decode(response.bodyString);
     if (response.isSuccessful && map['success']) {
       Map<String, dynamic> result = map['result'];
-      //var saveDb = User.fromJson(result);
-      //yield AuthenticationAndSaveUser();
+
       //ToDo Implement LastLoOn from APB
       var formData = UsersCompanion(
           fullName: moor.Value(result['fullName']),
@@ -30,6 +29,7 @@ class UserFromServer {
           surname: moor.Value(result['surname']),
           userName: moor.Value(result['userName']),
           id: moor.Value(result['id']),
+          tenantId: moor.Value(tenantId),
           name: moor.Value(result['name']),
           enableOfflineLogin: moor.Value(result['enableOfflineLogin']),
           mobileHash: moor.Value(result['mobileHashCode']),

@@ -8,6 +8,7 @@ part of 'moor_database.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
 class User extends DataClass implements Insertable<User> {
+  final int tenantId;
   final int id;
   final String userName;
   final String name;
@@ -21,7 +22,8 @@ class User extends DataClass implements Insertable<User> {
   final DateTime creationTime;
   final DateTime lastLoginTime;
   User(
-      {@required this.id,
+      {this.tenantId,
+      @required this.id,
       @required this.userName,
       @required this.name,
       @required this.surname,
@@ -41,6 +43,8 @@ class User extends DataClass implements Insertable<User> {
     final boolType = db.typeSystem.forDartType<bool>();
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
     return User(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       userName: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}user_name']),
@@ -69,6 +73,7 @@ class User extends DataClass implements Insertable<User> {
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return User(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
       id: serializer.fromJson<int>(json['id']),
       userName: serializer.fromJson<String>(json['userName']),
       name: serializer.fromJson<String>(json['name']),
@@ -87,6 +92,7 @@ class User extends DataClass implements Insertable<User> {
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
       'id': serializer.toJson<int>(id),
       'userName': serializer.toJson<String>(userName),
       'name': serializer.toJson<String>(name),
@@ -105,6 +111,9 @@ class User extends DataClass implements Insertable<User> {
   @override
   UsersCompanion createCompanion(bool nullToAbsent) {
     return UsersCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       userName: userName == null && nullToAbsent
           ? const Value.absent()
@@ -141,7 +150,8 @@ class User extends DataClass implements Insertable<User> {
   }
 
   User copyWith(
-          {int id,
+          {int tenantId,
+          int id,
           String userName,
           String name,
           String surname,
@@ -154,6 +164,7 @@ class User extends DataClass implements Insertable<User> {
           DateTime creationTime,
           DateTime lastLoginTime}) =>
       User(
+        tenantId: tenantId ?? this.tenantId,
         id: id ?? this.id,
         userName: userName ?? this.userName,
         name: name ?? this.name,
@@ -170,6 +181,7 @@ class User extends DataClass implements Insertable<User> {
   @override
   String toString() {
     return (StringBuffer('User(')
+          ..write('tenantId: $tenantId, ')
           ..write('id: $id, ')
           ..write('userName: $userName, ')
           ..write('name: $name, ')
@@ -188,33 +200,36 @@ class User extends DataClass implements Insertable<User> {
 
   @override
   int get hashCode => $mrjf($mrjc(
-      id.hashCode,
+      tenantId.hashCode,
       $mrjc(
-          userName.hashCode,
+          id.hashCode,
           $mrjc(
-              name.hashCode,
+              userName.hashCode,
               $mrjc(
-                  surname.hashCode,
+                  name.hashCode,
                   $mrjc(
-                      emailAddress.hashCode,
+                      surname.hashCode,
                       $mrjc(
-                          isActive.hashCode,
+                          emailAddress.hashCode,
                           $mrjc(
-                              fullName.hashCode,
+                              isActive.hashCode,
                               $mrjc(
-                                  mobileHash.hashCode,
+                                  fullName.hashCode,
                                   $mrjc(
-                                      enableOfflineLogin.hashCode,
+                                      mobileHash.hashCode,
                                       $mrjc(
-                                          firebaseToken.hashCode,
+                                          enableOfflineLogin.hashCode,
                                           $mrjc(
-                                              creationTime.hashCode,
-                                              lastLoginTime
-                                                  .hashCode))))))))))));
+                                              firebaseToken.hashCode,
+                                              $mrjc(
+                                                  creationTime.hashCode,
+                                                  lastLoginTime
+                                                      .hashCode)))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is User &&
+          other.tenantId == this.tenantId &&
           other.id == this.id &&
           other.userName == this.userName &&
           other.name == this.name &&
@@ -230,6 +245,7 @@ class User extends DataClass implements Insertable<User> {
 }
 
 class UsersCompanion extends UpdateCompanion<User> {
+  final Value<int> tenantId;
   final Value<int> id;
   final Value<String> userName;
   final Value<String> name;
@@ -243,6 +259,7 @@ class UsersCompanion extends UpdateCompanion<User> {
   final Value<DateTime> creationTime;
   final Value<DateTime> lastLoginTime;
   const UsersCompanion({
+    this.tenantId = const Value.absent(),
     this.id = const Value.absent(),
     this.userName = const Value.absent(),
     this.name = const Value.absent(),
@@ -257,6 +274,7 @@ class UsersCompanion extends UpdateCompanion<User> {
     this.lastLoginTime = const Value.absent(),
   });
   UsersCompanion.insert({
+    this.tenantId = const Value.absent(),
     @required int id,
     @required String userName,
     @required String name,
@@ -276,7 +294,8 @@ class UsersCompanion extends UpdateCompanion<User> {
         emailAddress = Value(emailAddress),
         fullName = Value(fullName);
   UsersCompanion copyWith(
-      {Value<int> id,
+      {Value<int> tenantId,
+      Value<int> id,
       Value<String> userName,
       Value<String> name,
       Value<String> surname,
@@ -289,6 +308,7 @@ class UsersCompanion extends UpdateCompanion<User> {
       Value<DateTime> creationTime,
       Value<DateTime> lastLoginTime}) {
     return UsersCompanion(
+      tenantId: tenantId ?? this.tenantId,
       id: id ?? this.id,
       userName: userName ?? this.userName,
       name: name ?? this.name,
@@ -309,6 +329,18 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   final GeneratedDatabase _db;
   final String _alias;
   $UsersTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedIntColumn _id;
   @override
@@ -444,6 +476,7 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
 
   @override
   List<GeneratedColumn> get $columns => [
+        tenantId,
         id,
         userName,
         name,
@@ -467,6 +500,10 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   VerificationContext validateIntegrity(UsersCompanion d,
       {bool isInserting = false}) {
     final context = VerificationContext();
+    if (d.tenantId.present) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableValue(d.tenantId.value, _tenantIdMeta));
+    }
     if (d.id.present) {
       context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
     } else if (isInserting) {
@@ -550,6 +587,9 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   @override
   Map<String, Variable> entityToSql(UsersCompanion d) {
     final map = <String, Variable>{};
+    if (d.tenantId.present) {
+      map['tenant_id'] = Variable<int, IntType>(d.tenantId.value);
+    }
     if (d.id.present) {
       map['id'] = Variable<int, IntType>(d.id.value);
     }

@@ -42,7 +42,6 @@ dependencies:
   firebase_core: ^0.4.0+9
   firebase_analytics: ^5.0.2
   firebase_auth: ^0.14.0+5
-  cloud_firestore: ^0.12.9+5
   firebase_messaging: ^6.0.13
   overlay_support: ^1.0.3 
   bot_toast: ^3.0.0
@@ -50,6 +49,7 @@ dependencies:
   cryptor: ^0.1.6
   connectivity: ^0.4.8+6
   data_connection_checker: ^0.3.4
+  keyboard_avoider: ^0.1.2
   
 
 dev_dependencies:

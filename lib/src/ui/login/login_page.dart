@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
-import 'package:j3enterprise/src/ui/authentication/authentication_bloc.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/custom_drawer.dart';
-import 'package:sqflite/utils/utils.dart';
+import 'package:j3enterprise/src/ui/authentication/authentication_bloc.dart';
 
 import 'bloc/login_bloc.dart';
 import 'login_form.dart';
@@ -48,7 +46,6 @@ class LoginPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-
                         Flexible(
                           //Works like bootstrap with 12 columns (works for rows as well) max 6
                           flex: 3,
@@ -60,7 +57,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         Flexible(
                           flex: 7,
-                          child:SingleChildScrollView(
+                          child: SingleChildScrollView(
                             child: LoginForm(),
                           ),
                         ),

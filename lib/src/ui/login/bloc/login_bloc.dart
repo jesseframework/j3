@@ -107,7 +107,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               yield LoginInitial();
             } else {
               //display errors
-              // can have an error class and use frommap here as well
               String error = map["error"]["details"].toString();
               if (error == null) {
                 error = AppLocalization.of(event.context)
@@ -121,8 +120,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             var userDate =
                 await userDao.getSingleUserByUserName(event.username);
             if (userDate != null) {
+//              if (tenantId?.isEmpty ?? true) {
+//                tenantId = 0.toString();
+//              }
               String _userHash = await userHash.createHash(
-                  event.password, userDate.id, int.tryParse(tenantId));
+                  event.password, userDate.id, userDate.tenantId);
               if (_userHash != null) {
                 if (userDate.mobileHash == _userHash.toString()) {
                   authenticationBloc.add(LoggedIn(
