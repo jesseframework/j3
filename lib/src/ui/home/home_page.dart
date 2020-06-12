@@ -1,5 +1,5 @@
 import 'package:connectivity/connectivity.dart';
-import 'package:data_connection_checker/data_connection_checker.dart';
+
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/resources/services/connection_service.dart';
 import 'package:j3enterprise/src/resources/services/firebase_message_wrapper.dart';

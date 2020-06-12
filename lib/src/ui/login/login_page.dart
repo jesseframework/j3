@@ -41,9 +41,9 @@ class LoginPage extends StatelessWidget {
               children: <Widget>[
                 Positioned(
                   top: 0,
-                  bottom: 0,
                   left: 0,
                   right: 0,
+                  bottom: 0,
                   child: Image.asset(
                     'images/beach-background.jpg',
                     fit: BoxFit.cover,
@@ -63,11 +63,8 @@ class LoginPage extends StatelessWidget {
                             'images/logo.png',
                           ),
                         ),
-                        Flexible(
-                          flex: 7,
-                          child: SingleChildScrollView(
-                            child: LoginForm(),
-                          ),
+                        SingleChildScrollView(
+                          child: LoginForm(),
                         ),
                       ],
                     ),

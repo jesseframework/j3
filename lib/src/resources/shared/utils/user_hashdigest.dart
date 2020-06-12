@@ -1,6 +1,6 @@
 import 'package:crypto/crypto.dart';
 import 'package:convert/convert.dart';
-import 'package:cryptor/cryptor.dart';
+
 import 'package:encrypt/encrypt.dart';
 import 'package:j3enterprise/src/database/crud/user/user_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
@@ -23,7 +23,6 @@ class UserHash {
   }
 
   Future<String> createHash(String password, int tenant, int userId) async {
-
 //    final plainText = password + tenant.toString() + userId.toString();
 //    final key = Key.fromUtf8('rel01x6kfctgcwbffhu9tnr3s88uyhrv');
 //
@@ -52,8 +51,8 @@ class UserHash {
 
     List<List<int>> bytesChunks = [
       utf8.encode(password),
-     utf8.encode(userId.toString()),
-     utf8.encode(tenant.toString())
+      utf8.encode(userId.toString()),
+      utf8.encode(tenant.toString())
     ];
 
     var output = new AccumulatorSink<Digest>();

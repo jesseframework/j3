@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:j3enterprise/src/resources/services/check_internet_conection/bloc/checknetworkconnection_bloc.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/password_field.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/text_field_nullable.dart';
-
 import 'bloc/login_bloc.dart';
+import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 
 class LoginForm extends StatefulWidget {
   @override
@@ -17,11 +16,9 @@ class _LoginFormState extends State<LoginForm> {
   bool pass = true;
   String selected;
   bool isSwitched = false;
-
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _tenantController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     _onLoginButtonPressed() {
@@ -48,7 +45,7 @@ class _LoginFormState extends State<LoginForm> {
             key: formKey,
             child: Container(
               constraints: BoxConstraints(
-                  minWidth: 100, maxWidth: 400, minHeight: 100, maxHeight: 450),
+                  minWidth: 100, maxWidth: 400, minHeight: 200, maxHeight: 430),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: ClipRRect(
@@ -95,20 +92,23 @@ class _LoginFormState extends State<LoginForm> {
                               ),
                             ),
                           ),
-                          TextFromFieldNullableReusable(
-                            // hint: Text(AppLocalization.of(context).translate('tenant_default_text')),
-                            controllerName: _tenantController,
-                            validationText: _usernameController.text.length < 2
-                                ? AppLocalization.of(context)
-                                        .translate('tenant_value_missing') ??
-                                    'Enter valid tenant'
-                                : null,
-                            fieldDecoration: InputDecoration(
-                              icon: Icon(Icons.home),
-                              alignLabelWithHint: false,
-                              labelText: AppLocalization.of(context)
-                                      .translate('tenant_label') ??
-                                  'Tenant',
+                          Expanded(
+                            child: TextFromFieldNullableReusable(
+                              // hint: Text(AppLocalization.of(context).translate('tenant_default_text')),
+                              controllerName: _tenantController,
+                              validationText: _usernameController.text.length <
+                                      2
+                                  ? AppLocalization.of(context)
+                                          .translate('tenant_value_missing') ??
+                                      'Enter valid tenant'
+                                  : null,
+                              fieldDecoration: InputDecoration(
+                                icon: Icon(Icons.home),
+                                alignLabelWithHint: false,
+                                labelText: AppLocalization.of(context)
+                                        .translate('tenant_label') ??
+                                    'Tenant',
+                              ),
                             ),
                           ),
                           // Row(
@@ -155,71 +155,75 @@ class _LoginFormState extends State<LoginForm> {
                                     'Login',
                                 style: TextStyle(color: Colors.white),
                               ),
-                            ),
-                            Container(
-                              child: state is LoginLoading
-                                  ? LinearProgressIndicator()
+                              onPressed: state is! LoginLoading
+                                  ? _onLoginButtonPressed
                                   : null,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Expanded(
-                                  child: Divider(
-                                      color: Colors.black.withOpacity(0.2)),
+                          ),
+                          Container(
+                            child: state is LoginLoading
+                                ? LinearProgressIndicator()
+                                : null,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Expanded(
+                                child: Divider(
+                                    color: Colors.black.withOpacity(0.2)),
+                              ),
+                              SizedBox(width: 10.0, height: 10),
+                              Text(
+                                AppLocalization.of(context)
+                                        .translate('login_or') ??
+                                    'Or',
+                                style: TextStyle(
+                                    color: Colors.black.withOpacity(.5)),
+                              ),
+                              SizedBox(
+                                width: 10.0,
+                                height: 10,
+                              ),
+                              Expanded(
+                                child: Divider(
+                                    color: Colors.black.withOpacity(0.2)),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Icon(
+                                  CustomIcons.google_brands,
+                                  color: Colors.red,
                                 ),
-                                SizedBox(width: 10.0, height: 10),
-                                Text(
-                                  AppLocalization.of(context)
-                                          .translate('login_or') ??
-                                      'Or',
-                                  style: TextStyle(
-                                      color: Colors.black.withOpacity(.5)),
+                              ),
+                              Expanded(
+                                child: Icon(CustomIcons.facebook_square_brands,
+                                    color: Colors.blue.shade900),
+                              ),
+                              Expanded(
+                                child: Icon(
+                                  CustomIcons.twitter_square_brands,
+                                  color: Colors.blue.shade500,
                                 ),
-                                SizedBox(
-                                  width: 10.0,
-                                  height: 10,
-                                ),
-                                Expanded(
-                                  child: Divider(
-                                      color: Colors.black.withOpacity(0.2)),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Icon(
-                                    CustomIcons.google_brands,
-                                    color: Colors.red,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Icon(
-                                      CustomIcons.facebook_square_brands,
-                                      color: Colors.blue.shade900),
-                                ),
-                                Expanded(
-                                  child: Icon(
-                                    CustomIcons.twitter_square_brands,
-                                    color: Colors.blue.shade500,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Icon(CustomIcons.envelope_solid,
-                                      color: Colors.orange),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
+                              ),
+                              Expanded(
+                                child: Icon(CustomIcons.envelope_solid,
+                                    color: Colors.orange),
+                              ),
+                            ],
+                          )
+                        ],
                       ),
                     ),
                   ),
                 ),
               ),
-            );
-          },
-        )));
+            ),
+          );
+        },
+      ),
+    );
   }
 }
