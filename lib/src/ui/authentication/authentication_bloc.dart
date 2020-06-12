@@ -47,13 +47,14 @@ class AuthenticationBloc
 
       var offlineReady =
           await userFromServer.validateUser(event.userId, event.tenantId);
+      print(offlineReady);
       if (offlineReady == true) {
         yield AuthenticationCreateMobileHash();
       }
     }
 
     if (event is OfflineLoginButtonPressed) {
-      await userHash.saveHash(event.password, event.tenant, event.userId);
+      await userHash.saveHash(event.password, event.tenantId, event.userId);
       yield AuthenticationAuthenticated();
     }
 

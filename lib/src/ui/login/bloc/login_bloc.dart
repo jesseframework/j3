@@ -57,6 +57,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           var isConnected = await ConnectionService().isConnected();
           print(isConnected);
           if (isConnected) {
+            //Loging with tenant - check for tenant before loging. If no tenant dont validate user and password
             yield LoginLoading();
             final Response tenantResponse =
                 await userRepository.checkTenant(tenancyName: event.tenantname);
@@ -74,7 +75,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                 if (error == null) {
                   error = AppLocalization.of(event.context)
                           .translate('tenant_validation_message') ??
-                      "Something went wrong! Please try again";
+                      "There is no tenant defined with name";
                 }
                 yield LoginFailure(error: error);
                 return;
@@ -116,15 +117,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               yield LoginFailure(error: error);
             }
           } else {
+            //Loging offline with hash
             yield LoginLoading();
             var userDate =
                 await userDao.getSingleUserByUserName(event.username);
             if (userDate != null) {
-//              if (tenantId?.isEmpty ?? true) {
-//                tenantId = 0.toString();
-//              }
+              final int _tenantId = userDate.tenantId;
+
               String _userHash = await userHash.createHash(
-                  event.password, userDate.id, userDate.tenantId);
+                  event.password, _tenantId, userDate.id);
+
               if (_userHash != null) {
                 if (userDate.mobileHash == _userHash.toString()) {
                   authenticationBloc.add(LoggedIn(
@@ -167,7 +169,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               if (error == null) {
                 error = AppLocalization.of(event.context)
                         .translate('tenant_validation_message') ??
-                    "Something went wrong! Please try again";
+                    "There is no tenant defined with name";
               }
               yield LoginFailure(error: error);
               return;

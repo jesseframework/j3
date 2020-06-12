@@ -37,7 +37,7 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
         OfflineLoginButtonPressed(
             userId: int.tryParse(mappref['userId']),
             password: _passwordController.text,
-            tenant: int.tryParse(mappref['tenantid'])),
+            tenantId: int.tryParse(mappref['tenantid'])),
       );
     }
 

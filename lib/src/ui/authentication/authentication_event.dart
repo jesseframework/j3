@@ -16,33 +16,35 @@ class LoggedIn extends AuthenticationEvent {
   final int userId;
   final int tenantId;
 
-  const LoggedIn({@required this.token, @required this.userId, @required this.tenantId});
+  const LoggedIn(
+      {@required this.token, @required this.userId, @required this.tenantId});
 
   @override
   List<Object> get props => [token, userId, tenantId];
 
   @override
-  String toString() => 'LoggedIn { token: $token  userID : $userId tenantId : $tenantId}';
+  String toString() =>
+      'LoggedIn { token: $token  userID : $userId tenantId : $tenantId}';
 }
 
 class OfflineLoginButtonPressed extends AuthenticationEvent {
   final String password;
-  final int tenant;
+  final int tenantId;
   final int userId;
   final UserRepository userRepository;
 
   const OfflineLoginButtonPressed(
       {@required this.password,
-      @required this.tenant,
+      @required this.tenantId,
       @required this.userId,
       this.userRepository});
 
   @override
-  List<Object> get props => [password, tenant, userId];
+  List<Object> get props => [password, tenantId, userId];
 
   @override
   String toString() =>
-      'OfflineLoginButtonPressed { password: $password, tenant: $tenant, id: $userId  }';
+      'OfflineLoginButtonPressed { password: $password, tenant: $tenantId, id: $userId  }';
 }
 
 class LoggedOut extends AuthenticationEvent {}

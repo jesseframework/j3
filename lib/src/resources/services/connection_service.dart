@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:connectivity/connectivity.dart';
+import 'dart:io' show Platform;
 
 enum ConnectivityStatus { WiFi, Cellular, Offline }
 
 class ConnectionService {
   final Connectivity _connectivity = Connectivity();
+
   Future<bool> isConnected() async =>
       (await _connectivity.checkConnectivity() != ConnectivityResult.none);
 }

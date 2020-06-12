@@ -4,6 +4,7 @@ import 'package:chopper/chopper.dart';
 import 'package:j3enterprise/src/database/crud/user/user_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
+import 'package:quiver/strings.dart';
 import 'package:moor/moor.dart' as moor;
 
 class UserFromServer {
@@ -41,8 +42,9 @@ class UserFromServer {
         print('User Already in Db');
 
         //We will check server for mobilehash everytime user logon to mobile device.
-        if (result['mobileHashCode'] == null &&
-            result['enableOfflineLogin'] == true) {
+        //if (routeinfo["no_route"]?.isEmpty ?? true)
+        if (isBlank(isUserInDb.mobileHash) &&
+            isUserInDb.enableOfflineLogin == true) {
           await userDao.updateUser(formData, id);
           isofflineready = true;
         } else {
@@ -52,6 +54,7 @@ class UserFromServer {
         print('Create new user');
         //User must loging for first time for offline login to work
         await userDao.insertUser(formData);
+        print('insert uerr success');
       }
     }
 
