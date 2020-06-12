@@ -577,7 +577,7 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   User map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -1682,14 +1682,12 @@ class BackgroundJobScheduleData extends DataClass
   final DateTime startDateTime;
   final String syncFrequency;
   final bool enableJob;
-  final int nid;
   BackgroundJobScheduleData(
       {@required this.id,
       @required this.jobName,
       @required this.startDateTime,
       @required this.syncFrequency,
-      @required this.enableJob,
-      @required this.nid});
+      @required this.enableJob});
   factory BackgroundJobScheduleData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -1708,7 +1706,6 @@ class BackgroundJobScheduleData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}sync_frequency']),
       enableJob: boolType
           .mapFromDatabaseResponse(data['${effectivePrefix}enable_job']),
-      nid: intType.mapFromDatabaseResponse(data['${effectivePrefix}nid']),
     );
   }
   factory BackgroundJobScheduleData.fromJson(Map<String, dynamic> json,
@@ -1720,7 +1717,6 @@ class BackgroundJobScheduleData extends DataClass
       startDateTime: serializer.fromJson<DateTime>(json['startDateTime']),
       syncFrequency: serializer.fromJson<String>(json['syncFrequency']),
       enableJob: serializer.fromJson<bool>(json['enableJob']),
-      nid: serializer.fromJson<int>(json['nid']),
     );
   }
   @override
@@ -1732,7 +1728,6 @@ class BackgroundJobScheduleData extends DataClass
       'startDateTime': serializer.toJson<DateTime>(startDateTime),
       'syncFrequency': serializer.toJson<String>(syncFrequency),
       'enableJob': serializer.toJson<bool>(enableJob),
-      'nid': serializer.toJson<int>(nid),
     };
   }
 
@@ -1752,7 +1747,6 @@ class BackgroundJobScheduleData extends DataClass
       enableJob: enableJob == null && nullToAbsent
           ? const Value.absent()
           : Value(enableJob),
-      nid: nid == null && nullToAbsent ? const Value.absent() : Value(nid),
     );
   }
 
@@ -1761,15 +1755,13 @@ class BackgroundJobScheduleData extends DataClass
           String jobName,
           DateTime startDateTime,
           String syncFrequency,
-          bool enableJob,
-          int nid}) =>
+          bool enableJob}) =>
       BackgroundJobScheduleData(
         id: id ?? this.id,
         jobName: jobName ?? this.jobName,
         startDateTime: startDateTime ?? this.startDateTime,
         syncFrequency: syncFrequency ?? this.syncFrequency,
         enableJob: enableJob ?? this.enableJob,
-        nid: nid ?? this.nid,
       );
   @override
   String toString() {
@@ -1778,8 +1770,7 @@ class BackgroundJobScheduleData extends DataClass
           ..write('jobName: $jobName, ')
           ..write('startDateTime: $startDateTime, ')
           ..write('syncFrequency: $syncFrequency, ')
-          ..write('enableJob: $enableJob, ')
-          ..write('nid: $nid')
+          ..write('enableJob: $enableJob')
           ..write(')'))
         .toString();
   }
@@ -1789,10 +1780,8 @@ class BackgroundJobScheduleData extends DataClass
       id.hashCode,
       $mrjc(
           jobName.hashCode,
-          $mrjc(
-              startDateTime.hashCode,
-              $mrjc(syncFrequency.hashCode,
-                  $mrjc(enableJob.hashCode, nid.hashCode))))));
+          $mrjc(startDateTime.hashCode,
+              $mrjc(syncFrequency.hashCode, enableJob.hashCode)))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -1801,8 +1790,7 @@ class BackgroundJobScheduleData extends DataClass
           other.jobName == this.jobName &&
           other.startDateTime == this.startDateTime &&
           other.syncFrequency == this.syncFrequency &&
-          other.enableJob == this.enableJob &&
-          other.nid == this.nid);
+          other.enableJob == this.enableJob);
 }
 
 class BackgroundJobScheduleCompanion
@@ -1812,14 +1800,12 @@ class BackgroundJobScheduleCompanion
   final Value<DateTime> startDateTime;
   final Value<String> syncFrequency;
   final Value<bool> enableJob;
-  final Value<int> nid;
   const BackgroundJobScheduleCompanion({
     this.id = const Value.absent(),
     this.jobName = const Value.absent(),
     this.startDateTime = const Value.absent(),
     this.syncFrequency = const Value.absent(),
     this.enableJob = const Value.absent(),
-    this.nid = const Value.absent(),
   });
   BackgroundJobScheduleCompanion.insert({
     @required int id,
@@ -1827,26 +1813,22 @@ class BackgroundJobScheduleCompanion
     @required DateTime startDateTime,
     @required String syncFrequency,
     this.enableJob = const Value.absent(),
-    @required int nid,
   })  : id = Value(id),
         jobName = Value(jobName),
         startDateTime = Value(startDateTime),
-        syncFrequency = Value(syncFrequency),
-        nid = Value(nid);
+        syncFrequency = Value(syncFrequency);
   BackgroundJobScheduleCompanion copyWith(
       {Value<int> id,
       Value<String> jobName,
       Value<DateTime> startDateTime,
       Value<String> syncFrequency,
-      Value<bool> enableJob,
-      Value<int> nid}) {
+      Value<bool> enableJob}) {
     return BackgroundJobScheduleCompanion(
       id: id ?? this.id,
       jobName: jobName ?? this.jobName,
       startDateTime: startDateTime ?? this.startDateTime,
       syncFrequency: syncFrequency ?? this.syncFrequency,
       enableJob: enableJob ?? this.enableJob,
-      nid: nid ?? this.nid,
     );
   }
 }
@@ -1917,21 +1899,9 @@ class $BackgroundJobScheduleTable extends BackgroundJobSchedule
         defaultValue: Constant(false));
   }
 
-  final VerificationMeta _nidMeta = const VerificationMeta('nid');
-  GeneratedIntColumn _nid;
-  @override
-  GeneratedIntColumn get nid => _nid ??= _constructNid();
-  GeneratedIntColumn _constructNid() {
-    return GeneratedIntColumn(
-      'nid',
-      $tableName,
-      false,
-    );
-  }
-
   @override
   List<GeneratedColumn> get $columns =>
-      [id, jobName, startDateTime, syncFrequency, enableJob, nid];
+      [id, jobName, startDateTime, syncFrequency, enableJob];
   @override
   $BackgroundJobScheduleTable get asDslTable => this;
   @override
@@ -1973,16 +1943,11 @@ class $BackgroundJobScheduleTable extends BackgroundJobSchedule
       context.handle(_enableJobMeta,
           enableJob.isAcceptableValue(d.enableJob.value, _enableJobMeta));
     }
-    if (d.nid.present) {
-      context.handle(_nidMeta, nid.isAcceptableValue(d.nid.value, _nidMeta));
-    } else if (isInserting) {
-      context.missing(_nidMeta);
-    }
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   BackgroundJobScheduleData map(Map<String, dynamic> data,
       {String tablePrefix}) {
@@ -2010,9 +1975,6 @@ class $BackgroundJobScheduleTable extends BackgroundJobSchedule
     }
     if (d.enableJob.present) {
       map['enable_job'] = Variable<bool, BoolType>(d.enableJob.value);
-    }
-    if (d.nid.present) {
-      map['nid'] = Variable<int, IntType>(d.nid.value);
     }
     return map;
   }
@@ -2295,7 +2257,7 @@ class $BackgroundJobLogsTable extends BackgroundJobLogs
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   BackgroundJobLog map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -3158,7 +3120,7 @@ class $PrefrenceTable extends Prefrence
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  Set<GeneratedColumn> get $primaryKey => {code};
   @override
   PrefrenceData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -4693,7 +4655,7 @@ class $MobileDeviceTable extends MobileDevice
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  Set<GeneratedColumn> get $primaryKey => {deviceId};
   @override
   MobileDeviceData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -4831,6 +4793,2408 @@ class $MobileDeviceTable extends MobileDevice
   }
 }
 
+class BusinessRuleData extends DataClass
+    implements Insertable<BusinessRuleData> {
+  final DateTime creationTime;
+  final DateTime deleteTime;
+  final int createUserId;
+  final String creatorUser;
+  final String lastModifierUser;
+  final int lastModifierUserId;
+  final int deleteUserId;
+  final String deleterUserId;
+  final bool isDeleted;
+  final DateTime importDateTime;
+  final DateTime exportDateTime;
+  final String exportStatus;
+  final String importStatus;
+  final String syncError;
+  final String code;
+  final String ruleName;
+  final String value;
+  final String description;
+  final bool isGlobalRule;
+  final String deviceRule;
+  final String userRule;
+  final String domain;
+  BusinessRuleData(
+      {this.creationTime,
+      this.deleteTime,
+      this.createUserId,
+      this.creatorUser,
+      this.lastModifierUser,
+      this.lastModifierUserId,
+      this.deleteUserId,
+      this.deleterUserId,
+      @required this.isDeleted,
+      this.importDateTime,
+      this.exportDateTime,
+      @required this.exportStatus,
+      @required this.importStatus,
+      this.syncError,
+      @required this.code,
+      this.ruleName,
+      @required this.value,
+      this.description,
+      @required this.isGlobalRule,
+      this.deviceRule,
+      this.userRule,
+      this.domain});
+  factory BusinessRuleData.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    return BusinessRuleData(
+      creationTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
+      deleteTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
+      createUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
+      creatorUser: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
+      lastModifierUser: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user']),
+      lastModifierUserId: intType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user_id']),
+      deleteUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
+      deleterUserId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
+      importDateTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}import_date_time']),
+      exportDateTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}export_date_time']),
+      exportStatus: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}export_status']),
+      importStatus: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}import_status']),
+      syncError: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}sync_error']),
+      code: stringType.mapFromDatabaseResponse(data['${effectivePrefix}code']),
+      ruleName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}rule_name']),
+      value:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}value']),
+      description: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}description']),
+      isGlobalRule: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_global_rule']),
+      deviceRule: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}device_rule']),
+      userRule: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}user_rule']),
+      domain:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}domain']),
+    );
+  }
+  factory BusinessRuleData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return BusinessRuleData(
+      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
+      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
+      createUserId: serializer.fromJson<int>(json['createUserId']),
+      creatorUser: serializer.fromJson<String>(json['creatorUser']),
+      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
+      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
+      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
+      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      importDateTime: serializer.fromJson<DateTime>(json['importDateTime']),
+      exportDateTime: serializer.fromJson<DateTime>(json['exportDateTime']),
+      exportStatus: serializer.fromJson<String>(json['exportStatus']),
+      importStatus: serializer.fromJson<String>(json['importStatus']),
+      syncError: serializer.fromJson<String>(json['syncError']),
+      code: serializer.fromJson<String>(json['code']),
+      ruleName: serializer.fromJson<String>(json['ruleName']),
+      value: serializer.fromJson<String>(json['value']),
+      description: serializer.fromJson<String>(json['description']),
+      isGlobalRule: serializer.fromJson<bool>(json['isGlobalRule']),
+      deviceRule: serializer.fromJson<String>(json['deviceRule']),
+      userRule: serializer.fromJson<String>(json['userRule']),
+      domain: serializer.fromJson<String>(json['domain']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'creationTime': serializer.toJson<DateTime>(creationTime),
+      'deleteTime': serializer.toJson<DateTime>(deleteTime),
+      'createUserId': serializer.toJson<int>(createUserId),
+      'creatorUser': serializer.toJson<String>(creatorUser),
+      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
+      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
+      'deleteUserId': serializer.toJson<int>(deleteUserId),
+      'deleterUserId': serializer.toJson<String>(deleterUserId),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'importDateTime': serializer.toJson<DateTime>(importDateTime),
+      'exportDateTime': serializer.toJson<DateTime>(exportDateTime),
+      'exportStatus': serializer.toJson<String>(exportStatus),
+      'importStatus': serializer.toJson<String>(importStatus),
+      'syncError': serializer.toJson<String>(syncError),
+      'code': serializer.toJson<String>(code),
+      'ruleName': serializer.toJson<String>(ruleName),
+      'value': serializer.toJson<String>(value),
+      'description': serializer.toJson<String>(description),
+      'isGlobalRule': serializer.toJson<bool>(isGlobalRule),
+      'deviceRule': serializer.toJson<String>(deviceRule),
+      'userRule': serializer.toJson<String>(userRule),
+      'domain': serializer.toJson<String>(domain),
+    };
+  }
+
+  @override
+  BusinessRuleCompanion createCompanion(bool nullToAbsent) {
+    return BusinessRuleCompanion(
+      creationTime: creationTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creationTime),
+      deleteTime: deleteTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteTime),
+      createUserId: createUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createUserId),
+      creatorUser: creatorUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creatorUser),
+      lastModifierUser: lastModifierUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUser),
+      lastModifierUserId: lastModifierUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUserId),
+      deleteUserId: deleteUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteUserId),
+      deleterUserId: deleterUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleterUserId),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
+      importDateTime: importDateTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(importDateTime),
+      exportDateTime: exportDateTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(exportDateTime),
+      exportStatus: exportStatus == null && nullToAbsent
+          ? const Value.absent()
+          : Value(exportStatus),
+      importStatus: importStatus == null && nullToAbsent
+          ? const Value.absent()
+          : Value(importStatus),
+      syncError: syncError == null && nullToAbsent
+          ? const Value.absent()
+          : Value(syncError),
+      code: code == null && nullToAbsent ? const Value.absent() : Value(code),
+      ruleName: ruleName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(ruleName),
+      value:
+          value == null && nullToAbsent ? const Value.absent() : Value(value),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      isGlobalRule: isGlobalRule == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isGlobalRule),
+      deviceRule: deviceRule == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deviceRule),
+      userRule: userRule == null && nullToAbsent
+          ? const Value.absent()
+          : Value(userRule),
+      domain:
+          domain == null && nullToAbsent ? const Value.absent() : Value(domain),
+    );
+  }
+
+  BusinessRuleData copyWith(
+          {DateTime creationTime,
+          DateTime deleteTime,
+          int createUserId,
+          String creatorUser,
+          String lastModifierUser,
+          int lastModifierUserId,
+          int deleteUserId,
+          String deleterUserId,
+          bool isDeleted,
+          DateTime importDateTime,
+          DateTime exportDateTime,
+          String exportStatus,
+          String importStatus,
+          String syncError,
+          String code,
+          String ruleName,
+          String value,
+          String description,
+          bool isGlobalRule,
+          String deviceRule,
+          String userRule,
+          String domain}) =>
+      BusinessRuleData(
+        creationTime: creationTime ?? this.creationTime,
+        deleteTime: deleteTime ?? this.deleteTime,
+        createUserId: createUserId ?? this.createUserId,
+        creatorUser: creatorUser ?? this.creatorUser,
+        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+        deleteUserId: deleteUserId ?? this.deleteUserId,
+        deleterUserId: deleterUserId ?? this.deleterUserId,
+        isDeleted: isDeleted ?? this.isDeleted,
+        importDateTime: importDateTime ?? this.importDateTime,
+        exportDateTime: exportDateTime ?? this.exportDateTime,
+        exportStatus: exportStatus ?? this.exportStatus,
+        importStatus: importStatus ?? this.importStatus,
+        syncError: syncError ?? this.syncError,
+        code: code ?? this.code,
+        ruleName: ruleName ?? this.ruleName,
+        value: value ?? this.value,
+        description: description ?? this.description,
+        isGlobalRule: isGlobalRule ?? this.isGlobalRule,
+        deviceRule: deviceRule ?? this.deviceRule,
+        userRule: userRule ?? this.userRule,
+        domain: domain ?? this.domain,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('BusinessRuleData(')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('importDateTime: $importDateTime, ')
+          ..write('exportDateTime: $exportDateTime, ')
+          ..write('exportStatus: $exportStatus, ')
+          ..write('importStatus: $importStatus, ')
+          ..write('syncError: $syncError, ')
+          ..write('code: $code, ')
+          ..write('ruleName: $ruleName, ')
+          ..write('value: $value, ')
+          ..write('description: $description, ')
+          ..write('isGlobalRule: $isGlobalRule, ')
+          ..write('deviceRule: $deviceRule, ')
+          ..write('userRule: $userRule, ')
+          ..write('domain: $domain')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      creationTime.hashCode,
+      $mrjc(
+          deleteTime.hashCode,
+          $mrjc(
+              createUserId.hashCode,
+              $mrjc(
+                  creatorUser.hashCode,
+                  $mrjc(
+                      lastModifierUser.hashCode,
+                      $mrjc(
+                          lastModifierUserId.hashCode,
+                          $mrjc(
+                              deleteUserId.hashCode,
+                              $mrjc(
+                                  deleterUserId.hashCode,
+                                  $mrjc(
+                                      isDeleted.hashCode,
+                                      $mrjc(
+                                          importDateTime.hashCode,
+                                          $mrjc(
+                                              exportDateTime.hashCode,
+                                              $mrjc(
+                                                  exportStatus.hashCode,
+                                                  $mrjc(
+                                                      importStatus.hashCode,
+                                                      $mrjc(
+                                                          syncError.hashCode,
+                                                          $mrjc(
+                                                              code.hashCode,
+                                                              $mrjc(
+                                                                  ruleName
+                                                                      .hashCode,
+                                                                  $mrjc(
+                                                                      value
+                                                                          .hashCode,
+                                                                      $mrjc(
+                                                                          description
+                                                                              .hashCode,
+                                                                          $mrjc(
+                                                                              isGlobalRule.hashCode,
+                                                                              $mrjc(deviceRule.hashCode, $mrjc(userRule.hashCode, domain.hashCode))))))))))))))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is BusinessRuleData &&
+          other.creationTime == this.creationTime &&
+          other.deleteTime == this.deleteTime &&
+          other.createUserId == this.createUserId &&
+          other.creatorUser == this.creatorUser &&
+          other.lastModifierUser == this.lastModifierUser &&
+          other.lastModifierUserId == this.lastModifierUserId &&
+          other.deleteUserId == this.deleteUserId &&
+          other.deleterUserId == this.deleterUserId &&
+          other.isDeleted == this.isDeleted &&
+          other.importDateTime == this.importDateTime &&
+          other.exportDateTime == this.exportDateTime &&
+          other.exportStatus == this.exportStatus &&
+          other.importStatus == this.importStatus &&
+          other.syncError == this.syncError &&
+          other.code == this.code &&
+          other.ruleName == this.ruleName &&
+          other.value == this.value &&
+          other.description == this.description &&
+          other.isGlobalRule == this.isGlobalRule &&
+          other.deviceRule == this.deviceRule &&
+          other.userRule == this.userRule &&
+          other.domain == this.domain);
+}
+
+class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
+  final Value<DateTime> creationTime;
+  final Value<DateTime> deleteTime;
+  final Value<int> createUserId;
+  final Value<String> creatorUser;
+  final Value<String> lastModifierUser;
+  final Value<int> lastModifierUserId;
+  final Value<int> deleteUserId;
+  final Value<String> deleterUserId;
+  final Value<bool> isDeleted;
+  final Value<DateTime> importDateTime;
+  final Value<DateTime> exportDateTime;
+  final Value<String> exportStatus;
+  final Value<String> importStatus;
+  final Value<String> syncError;
+  final Value<String> code;
+  final Value<String> ruleName;
+  final Value<String> value;
+  final Value<String> description;
+  final Value<bool> isGlobalRule;
+  final Value<String> deviceRule;
+  final Value<String> userRule;
+  final Value<String> domain;
+  const BusinessRuleCompanion({
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.importDateTime = const Value.absent(),
+    this.exportDateTime = const Value.absent(),
+    this.exportStatus = const Value.absent(),
+    this.importStatus = const Value.absent(),
+    this.syncError = const Value.absent(),
+    this.code = const Value.absent(),
+    this.ruleName = const Value.absent(),
+    this.value = const Value.absent(),
+    this.description = const Value.absent(),
+    this.isGlobalRule = const Value.absent(),
+    this.deviceRule = const Value.absent(),
+    this.userRule = const Value.absent(),
+    this.domain = const Value.absent(),
+  });
+  BusinessRuleCompanion.insert({
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.importDateTime = const Value.absent(),
+    this.exportDateTime = const Value.absent(),
+    this.exportStatus = const Value.absent(),
+    this.importStatus = const Value.absent(),
+    this.syncError = const Value.absent(),
+    @required String code,
+    this.ruleName = const Value.absent(),
+    @required String value,
+    this.description = const Value.absent(),
+    this.isGlobalRule = const Value.absent(),
+    this.deviceRule = const Value.absent(),
+    this.userRule = const Value.absent(),
+    this.domain = const Value.absent(),
+  })  : code = Value(code),
+        value = Value(value);
+  BusinessRuleCompanion copyWith(
+      {Value<DateTime> creationTime,
+      Value<DateTime> deleteTime,
+      Value<int> createUserId,
+      Value<String> creatorUser,
+      Value<String> lastModifierUser,
+      Value<int> lastModifierUserId,
+      Value<int> deleteUserId,
+      Value<String> deleterUserId,
+      Value<bool> isDeleted,
+      Value<DateTime> importDateTime,
+      Value<DateTime> exportDateTime,
+      Value<String> exportStatus,
+      Value<String> importStatus,
+      Value<String> syncError,
+      Value<String> code,
+      Value<String> ruleName,
+      Value<String> value,
+      Value<String> description,
+      Value<bool> isGlobalRule,
+      Value<String> deviceRule,
+      Value<String> userRule,
+      Value<String> domain}) {
+    return BusinessRuleCompanion(
+      creationTime: creationTime ?? this.creationTime,
+      deleteTime: deleteTime ?? this.deleteTime,
+      createUserId: createUserId ?? this.createUserId,
+      creatorUser: creatorUser ?? this.creatorUser,
+      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+      deleteUserId: deleteUserId ?? this.deleteUserId,
+      deleterUserId: deleterUserId ?? this.deleterUserId,
+      isDeleted: isDeleted ?? this.isDeleted,
+      importDateTime: importDateTime ?? this.importDateTime,
+      exportDateTime: exportDateTime ?? this.exportDateTime,
+      exportStatus: exportStatus ?? this.exportStatus,
+      importStatus: importStatus ?? this.importStatus,
+      syncError: syncError ?? this.syncError,
+      code: code ?? this.code,
+      ruleName: ruleName ?? this.ruleName,
+      value: value ?? this.value,
+      description: description ?? this.description,
+      isGlobalRule: isGlobalRule ?? this.isGlobalRule,
+      deviceRule: deviceRule ?? this.deviceRule,
+      userRule: userRule ?? this.userRule,
+      domain: domain ?? this.domain,
+    );
+  }
+}
+
+class $BusinessRuleTable extends BusinessRule
+    with TableInfo<$BusinessRuleTable, BusinessRuleData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $BusinessRuleTable(this._db, [this._alias]);
+  final VerificationMeta _creationTimeMeta =
+      const VerificationMeta('creationTime');
+  GeneratedDateTimeColumn _creationTime;
+  @override
+  GeneratedDateTimeColumn get creationTime =>
+      _creationTime ??= _constructCreationTime();
+  GeneratedDateTimeColumn _constructCreationTime() {
+    return GeneratedDateTimeColumn(
+      'creation_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
+  GeneratedDateTimeColumn _deleteTime;
+  @override
+  GeneratedDateTimeColumn get deleteTime =>
+      _deleteTime ??= _constructDeleteTime();
+  GeneratedDateTimeColumn _constructDeleteTime() {
+    return GeneratedDateTimeColumn(
+      'delete_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _createUserIdMeta =
+      const VerificationMeta('createUserId');
+  GeneratedIntColumn _createUserId;
+  @override
+  GeneratedIntColumn get createUserId =>
+      _createUserId ??= _constructCreateUserId();
+  GeneratedIntColumn _constructCreateUserId() {
+    return GeneratedIntColumn(
+      'create_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creatorUserMeta =
+      const VerificationMeta('creatorUser');
+  GeneratedTextColumn _creatorUser;
+  @override
+  GeneratedTextColumn get creatorUser =>
+      _creatorUser ??= _constructCreatorUser();
+  GeneratedTextColumn _constructCreatorUser() {
+    return GeneratedTextColumn(
+      'creator_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserMeta =
+      const VerificationMeta('lastModifierUser');
+  GeneratedTextColumn _lastModifierUser;
+  @override
+  GeneratedTextColumn get lastModifierUser =>
+      _lastModifierUser ??= _constructLastModifierUser();
+  GeneratedTextColumn _constructLastModifierUser() {
+    return GeneratedTextColumn(
+      'last_modifier_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserIdMeta =
+      const VerificationMeta('lastModifierUserId');
+  GeneratedIntColumn _lastModifierUserId;
+  @override
+  GeneratedIntColumn get lastModifierUserId =>
+      _lastModifierUserId ??= _constructLastModifierUserId();
+  GeneratedIntColumn _constructLastModifierUserId() {
+    return GeneratedIntColumn(
+      'last_modifier_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteUserIdMeta =
+      const VerificationMeta('deleteUserId');
+  GeneratedIntColumn _deleteUserId;
+  @override
+  GeneratedIntColumn get deleteUserId =>
+      _deleteUserId ??= _constructDeleteUserId();
+  GeneratedIntColumn _constructDeleteUserId() {
+    return GeneratedIntColumn(
+      'delete_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleterUserIdMeta =
+      const VerificationMeta('deleterUserId');
+  GeneratedTextColumn _deleterUserId;
+  @override
+  GeneratedTextColumn get deleterUserId =>
+      _deleterUserId ??= _constructDeleterUserId();
+  GeneratedTextColumn _constructDeleterUserId() {
+    return GeneratedTextColumn(
+      'deleter_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _importDateTimeMeta =
+      const VerificationMeta('importDateTime');
+  GeneratedDateTimeColumn _importDateTime;
+  @override
+  GeneratedDateTimeColumn get importDateTime =>
+      _importDateTime ??= _constructImportDateTime();
+  GeneratedDateTimeColumn _constructImportDateTime() {
+    return GeneratedDateTimeColumn(
+      'import_date_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _exportDateTimeMeta =
+      const VerificationMeta('exportDateTime');
+  GeneratedDateTimeColumn _exportDateTime;
+  @override
+  GeneratedDateTimeColumn get exportDateTime =>
+      _exportDateTime ??= _constructExportDateTime();
+  GeneratedDateTimeColumn _constructExportDateTime() {
+    return GeneratedDateTimeColumn(
+      'export_date_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _exportStatusMeta =
+      const VerificationMeta('exportStatus');
+  GeneratedTextColumn _exportStatus;
+  @override
+  GeneratedTextColumn get exportStatus =>
+      _exportStatus ??= _constructExportStatus();
+  GeneratedTextColumn _constructExportStatus() {
+    return GeneratedTextColumn('export_status', $tableName, false,
+        defaultValue: Constant('Pending'));
+  }
+
+  final VerificationMeta _importStatusMeta =
+      const VerificationMeta('importStatus');
+  GeneratedTextColumn _importStatus;
+  @override
+  GeneratedTextColumn get importStatus =>
+      _importStatus ??= _constructImportStatus();
+  GeneratedTextColumn _constructImportStatus() {
+    return GeneratedTextColumn('import_status', $tableName, false,
+        defaultValue: Constant('Pending'));
+  }
+
+  final VerificationMeta _syncErrorMeta = const VerificationMeta('syncError');
+  GeneratedTextColumn _syncError;
+  @override
+  GeneratedTextColumn get syncError => _syncError ??= _constructSyncError();
+  GeneratedTextColumn _constructSyncError() {
+    return GeneratedTextColumn(
+      'sync_error',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _codeMeta = const VerificationMeta('code');
+  GeneratedTextColumn _code;
+  @override
+  GeneratedTextColumn get code => _code ??= _constructCode();
+  GeneratedTextColumn _constructCode() {
+    return GeneratedTextColumn(
+      'code',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _ruleNameMeta = const VerificationMeta('ruleName');
+  GeneratedTextColumn _ruleName;
+  @override
+  GeneratedTextColumn get ruleName => _ruleName ??= _constructRuleName();
+  GeneratedTextColumn _constructRuleName() {
+    return GeneratedTextColumn(
+      'rule_name',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _valueMeta = const VerificationMeta('value');
+  GeneratedTextColumn _value;
+  @override
+  GeneratedTextColumn get value => _value ??= _constructValue();
+  GeneratedTextColumn _constructValue() {
+    return GeneratedTextColumn(
+      'value',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  GeneratedTextColumn _description;
+  @override
+  GeneratedTextColumn get description =>
+      _description ??= _constructDescription();
+  GeneratedTextColumn _constructDescription() {
+    return GeneratedTextColumn(
+      'description',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _isGlobalRuleMeta =
+      const VerificationMeta('isGlobalRule');
+  GeneratedBoolColumn _isGlobalRule;
+  @override
+  GeneratedBoolColumn get isGlobalRule =>
+      _isGlobalRule ??= _constructIsGlobalRule();
+  GeneratedBoolColumn _constructIsGlobalRule() {
+    return GeneratedBoolColumn('is_global_rule', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _deviceRuleMeta = const VerificationMeta('deviceRule');
+  GeneratedTextColumn _deviceRule;
+  @override
+  GeneratedTextColumn get deviceRule => _deviceRule ??= _constructDeviceRule();
+  GeneratedTextColumn _constructDeviceRule() {
+    return GeneratedTextColumn(
+      'device_rule',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _userRuleMeta = const VerificationMeta('userRule');
+  GeneratedTextColumn _userRule;
+  @override
+  GeneratedTextColumn get userRule => _userRule ??= _constructUserRule();
+  GeneratedTextColumn _constructUserRule() {
+    return GeneratedTextColumn(
+      'user_rule',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _domainMeta = const VerificationMeta('domain');
+  GeneratedTextColumn _domain;
+  @override
+  GeneratedTextColumn get domain => _domain ??= _constructDomain();
+  GeneratedTextColumn _constructDomain() {
+    return GeneratedTextColumn(
+      'domain',
+      $tableName,
+      true,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        creationTime,
+        deleteTime,
+        createUserId,
+        creatorUser,
+        lastModifierUser,
+        lastModifierUserId,
+        deleteUserId,
+        deleterUserId,
+        isDeleted,
+        importDateTime,
+        exportDateTime,
+        exportStatus,
+        importStatus,
+        syncError,
+        code,
+        ruleName,
+        value,
+        description,
+        isGlobalRule,
+        deviceRule,
+        userRule,
+        domain
+      ];
+  @override
+  $BusinessRuleTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'business_rule';
+  @override
+  final String actualTableName = 'business_rule';
+  @override
+  VerificationContext validateIntegrity(BusinessRuleCompanion d,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    if (d.creationTime.present) {
+      context.handle(
+          _creationTimeMeta,
+          creationTime.isAcceptableValue(
+              d.creationTime.value, _creationTimeMeta));
+    }
+    if (d.deleteTime.present) {
+      context.handle(_deleteTimeMeta,
+          deleteTime.isAcceptableValue(d.deleteTime.value, _deleteTimeMeta));
+    }
+    if (d.createUserId.present) {
+      context.handle(
+          _createUserIdMeta,
+          createUserId.isAcceptableValue(
+              d.createUserId.value, _createUserIdMeta));
+    }
+    if (d.creatorUser.present) {
+      context.handle(_creatorUserMeta,
+          creatorUser.isAcceptableValue(d.creatorUser.value, _creatorUserMeta));
+    }
+    if (d.lastModifierUser.present) {
+      context.handle(
+          _lastModifierUserMeta,
+          lastModifierUser.isAcceptableValue(
+              d.lastModifierUser.value, _lastModifierUserMeta));
+    }
+    if (d.lastModifierUserId.present) {
+      context.handle(
+          _lastModifierUserIdMeta,
+          lastModifierUserId.isAcceptableValue(
+              d.lastModifierUserId.value, _lastModifierUserIdMeta));
+    }
+    if (d.deleteUserId.present) {
+      context.handle(
+          _deleteUserIdMeta,
+          deleteUserId.isAcceptableValue(
+              d.deleteUserId.value, _deleteUserIdMeta));
+    }
+    if (d.deleterUserId.present) {
+      context.handle(
+          _deleterUserIdMeta,
+          deleterUserId.isAcceptableValue(
+              d.deleterUserId.value, _deleterUserIdMeta));
+    }
+    if (d.isDeleted.present) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableValue(d.isDeleted.value, _isDeletedMeta));
+    }
+    if (d.importDateTime.present) {
+      context.handle(
+          _importDateTimeMeta,
+          importDateTime.isAcceptableValue(
+              d.importDateTime.value, _importDateTimeMeta));
+    }
+    if (d.exportDateTime.present) {
+      context.handle(
+          _exportDateTimeMeta,
+          exportDateTime.isAcceptableValue(
+              d.exportDateTime.value, _exportDateTimeMeta));
+    }
+    if (d.exportStatus.present) {
+      context.handle(
+          _exportStatusMeta,
+          exportStatus.isAcceptableValue(
+              d.exportStatus.value, _exportStatusMeta));
+    }
+    if (d.importStatus.present) {
+      context.handle(
+          _importStatusMeta,
+          importStatus.isAcceptableValue(
+              d.importStatus.value, _importStatusMeta));
+    }
+    if (d.syncError.present) {
+      context.handle(_syncErrorMeta,
+          syncError.isAcceptableValue(d.syncError.value, _syncErrorMeta));
+    }
+    if (d.code.present) {
+      context.handle(
+          _codeMeta, code.isAcceptableValue(d.code.value, _codeMeta));
+    } else if (isInserting) {
+      context.missing(_codeMeta);
+    }
+    if (d.ruleName.present) {
+      context.handle(_ruleNameMeta,
+          ruleName.isAcceptableValue(d.ruleName.value, _ruleNameMeta));
+    }
+    if (d.value.present) {
+      context.handle(
+          _valueMeta, value.isAcceptableValue(d.value.value, _valueMeta));
+    } else if (isInserting) {
+      context.missing(_valueMeta);
+    }
+    if (d.description.present) {
+      context.handle(_descriptionMeta,
+          description.isAcceptableValue(d.description.value, _descriptionMeta));
+    }
+    if (d.isGlobalRule.present) {
+      context.handle(
+          _isGlobalRuleMeta,
+          isGlobalRule.isAcceptableValue(
+              d.isGlobalRule.value, _isGlobalRuleMeta));
+    }
+    if (d.deviceRule.present) {
+      context.handle(_deviceRuleMeta,
+          deviceRule.isAcceptableValue(d.deviceRule.value, _deviceRuleMeta));
+    }
+    if (d.userRule.present) {
+      context.handle(_userRuleMeta,
+          userRule.isAcceptableValue(d.userRule.value, _userRuleMeta));
+    }
+    if (d.domain.present) {
+      context.handle(
+          _domainMeta, domain.isAcceptableValue(d.domain.value, _domainMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {code};
+  @override
+  BusinessRuleData map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return BusinessRuleData.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  Map<String, Variable> entityToSql(BusinessRuleCompanion d) {
+    final map = <String, Variable>{};
+    if (d.creationTime.present) {
+      map['creation_time'] =
+          Variable<DateTime, DateTimeType>(d.creationTime.value);
+    }
+    if (d.deleteTime.present) {
+      map['delete_time'] = Variable<DateTime, DateTimeType>(d.deleteTime.value);
+    }
+    if (d.createUserId.present) {
+      map['create_user_id'] = Variable<int, IntType>(d.createUserId.value);
+    }
+    if (d.creatorUser.present) {
+      map['creator_user'] = Variable<String, StringType>(d.creatorUser.value);
+    }
+    if (d.lastModifierUser.present) {
+      map['last_modifier_user'] =
+          Variable<String, StringType>(d.lastModifierUser.value);
+    }
+    if (d.lastModifierUserId.present) {
+      map['last_modifier_user_id'] =
+          Variable<int, IntType>(d.lastModifierUserId.value);
+    }
+    if (d.deleteUserId.present) {
+      map['delete_user_id'] = Variable<int, IntType>(d.deleteUserId.value);
+    }
+    if (d.deleterUserId.present) {
+      map['deleter_user_id'] =
+          Variable<String, StringType>(d.deleterUserId.value);
+    }
+    if (d.isDeleted.present) {
+      map['is_deleted'] = Variable<bool, BoolType>(d.isDeleted.value);
+    }
+    if (d.importDateTime.present) {
+      map['import_date_time'] =
+          Variable<DateTime, DateTimeType>(d.importDateTime.value);
+    }
+    if (d.exportDateTime.present) {
+      map['export_date_time'] =
+          Variable<DateTime, DateTimeType>(d.exportDateTime.value);
+    }
+    if (d.exportStatus.present) {
+      map['export_status'] = Variable<String, StringType>(d.exportStatus.value);
+    }
+    if (d.importStatus.present) {
+      map['import_status'] = Variable<String, StringType>(d.importStatus.value);
+    }
+    if (d.syncError.present) {
+      map['sync_error'] = Variable<String, StringType>(d.syncError.value);
+    }
+    if (d.code.present) {
+      map['code'] = Variable<String, StringType>(d.code.value);
+    }
+    if (d.ruleName.present) {
+      map['rule_name'] = Variable<String, StringType>(d.ruleName.value);
+    }
+    if (d.value.present) {
+      map['value'] = Variable<String, StringType>(d.value.value);
+    }
+    if (d.description.present) {
+      map['description'] = Variable<String, StringType>(d.description.value);
+    }
+    if (d.isGlobalRule.present) {
+      map['is_global_rule'] = Variable<bool, BoolType>(d.isGlobalRule.value);
+    }
+    if (d.deviceRule.present) {
+      map['device_rule'] = Variable<String, StringType>(d.deviceRule.value);
+    }
+    if (d.userRule.present) {
+      map['user_rule'] = Variable<String, StringType>(d.userRule.value);
+    }
+    if (d.domain.present) {
+      map['domain'] = Variable<String, StringType>(d.domain.value);
+    }
+    return map;
+  }
+
+  @override
+  $BusinessRuleTable createAlias(String alias) {
+    return $BusinessRuleTable(_db, alias);
+  }
+}
+
+class ApplicationLoggerData extends DataClass
+    implements Insertable<ApplicationLoggerData> {
+  final int tenantId;
+  final String uerName;
+  final int userId;
+  final DateTime importDateTime;
+  final DateTime exportDateTime;
+  final String exportStatus;
+  final String importStatus;
+  final String syncError;
+  final int id;
+  final String functionName;
+  final DateTime startDateTime;
+  final String syncFrequency;
+  final String logDescription;
+  final String documentNo;
+  final String logCode;
+  final String logSeverity;
+  final int createUserId;
+  final DateTime creationTime;
+  final DateTime deleteTime;
+  final int deleteUserId;
+  final String creatorUser;
+  final String deleterUserId;
+  final bool isDeleted;
+  final String lastModifierUser;
+  final int lastModifierUserId;
+  ApplicationLoggerData(
+      {this.tenantId,
+      this.uerName,
+      this.userId,
+      this.importDateTime,
+      this.exportDateTime,
+      @required this.exportStatus,
+      @required this.importStatus,
+      this.syncError,
+      @required this.id,
+      @required this.functionName,
+      @required this.startDateTime,
+      @required this.syncFrequency,
+      @required this.logDescription,
+      @required this.documentNo,
+      @required this.logCode,
+      @required this.logSeverity,
+      this.createUserId,
+      this.creationTime,
+      this.deleteTime,
+      this.deleteUserId,
+      this.creatorUser,
+      this.deleterUserId,
+      @required this.isDeleted,
+      this.lastModifierUser,
+      this.lastModifierUserId});
+  factory ApplicationLoggerData.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    return ApplicationLoggerData(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      uerName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}uer_name']),
+      userId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}user_id']),
+      importDateTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}import_date_time']),
+      exportDateTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}export_date_time']),
+      exportStatus: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}export_status']),
+      importStatus: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}import_status']),
+      syncError: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}sync_error']),
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      functionName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}function_name']),
+      startDateTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}start_date_time']),
+      syncFrequency: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}sync_frequency']),
+      logDescription: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}log_description']),
+      documentNo: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}document_no']),
+      logCode: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}log_code']),
+      logSeverity: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}log_severity']),
+      createUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
+      creationTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
+      deleteTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
+      deleteUserId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
+      creatorUser: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
+      deleterUserId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
+      isDeleted: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
+      lastModifierUser: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user']),
+      lastModifierUserId: intType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_user_id']),
+    );
+  }
+  factory ApplicationLoggerData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return ApplicationLoggerData(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      uerName: serializer.fromJson<String>(json['uerName']),
+      userId: serializer.fromJson<int>(json['userId']),
+      importDateTime: serializer.fromJson<DateTime>(json['importDateTime']),
+      exportDateTime: serializer.fromJson<DateTime>(json['exportDateTime']),
+      exportStatus: serializer.fromJson<String>(json['exportStatus']),
+      importStatus: serializer.fromJson<String>(json['importStatus']),
+      syncError: serializer.fromJson<String>(json['syncError']),
+      id: serializer.fromJson<int>(json['id']),
+      functionName: serializer.fromJson<String>(json['functionName']),
+      startDateTime: serializer.fromJson<DateTime>(json['startDateTime']),
+      syncFrequency: serializer.fromJson<String>(json['syncFrequency']),
+      logDescription: serializer.fromJson<String>(json['logDescription']),
+      documentNo: serializer.fromJson<String>(json['documentNo']),
+      logCode: serializer.fromJson<String>(json['logCode']),
+      logSeverity: serializer.fromJson<String>(json['logSeverity']),
+      createUserId: serializer.fromJson<int>(json['createUserId']),
+      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
+      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
+      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
+      creatorUser: serializer.fromJson<String>(json['creatorUser']),
+      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
+      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'uerName': serializer.toJson<String>(uerName),
+      'userId': serializer.toJson<int>(userId),
+      'importDateTime': serializer.toJson<DateTime>(importDateTime),
+      'exportDateTime': serializer.toJson<DateTime>(exportDateTime),
+      'exportStatus': serializer.toJson<String>(exportStatus),
+      'importStatus': serializer.toJson<String>(importStatus),
+      'syncError': serializer.toJson<String>(syncError),
+      'id': serializer.toJson<int>(id),
+      'functionName': serializer.toJson<String>(functionName),
+      'startDateTime': serializer.toJson<DateTime>(startDateTime),
+      'syncFrequency': serializer.toJson<String>(syncFrequency),
+      'logDescription': serializer.toJson<String>(logDescription),
+      'documentNo': serializer.toJson<String>(documentNo),
+      'logCode': serializer.toJson<String>(logCode),
+      'logSeverity': serializer.toJson<String>(logSeverity),
+      'createUserId': serializer.toJson<int>(createUserId),
+      'creationTime': serializer.toJson<DateTime>(creationTime),
+      'deleteTime': serializer.toJson<DateTime>(deleteTime),
+      'deleteUserId': serializer.toJson<int>(deleteUserId),
+      'creatorUser': serializer.toJson<String>(creatorUser),
+      'deleterUserId': serializer.toJson<String>(deleterUserId),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
+      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
+    };
+  }
+
+  @override
+  ApplicationLoggerCompanion createCompanion(bool nullToAbsent) {
+    return ApplicationLoggerCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      uerName: uerName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(uerName),
+      userId:
+          userId == null && nullToAbsent ? const Value.absent() : Value(userId),
+      importDateTime: importDateTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(importDateTime),
+      exportDateTime: exportDateTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(exportDateTime),
+      exportStatus: exportStatus == null && nullToAbsent
+          ? const Value.absent()
+          : Value(exportStatus),
+      importStatus: importStatus == null && nullToAbsent
+          ? const Value.absent()
+          : Value(importStatus),
+      syncError: syncError == null && nullToAbsent
+          ? const Value.absent()
+          : Value(syncError),
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      functionName: functionName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(functionName),
+      startDateTime: startDateTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(startDateTime),
+      syncFrequency: syncFrequency == null && nullToAbsent
+          ? const Value.absent()
+          : Value(syncFrequency),
+      logDescription: logDescription == null && nullToAbsent
+          ? const Value.absent()
+          : Value(logDescription),
+      documentNo: documentNo == null && nullToAbsent
+          ? const Value.absent()
+          : Value(documentNo),
+      logCode: logCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(logCode),
+      logSeverity: logSeverity == null && nullToAbsent
+          ? const Value.absent()
+          : Value(logSeverity),
+      createUserId: createUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createUserId),
+      creationTime: creationTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creationTime),
+      deleteTime: deleteTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteTime),
+      deleteUserId: deleteUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleteUserId),
+      creatorUser: creatorUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creatorUser),
+      deleterUserId: deleterUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deleterUserId),
+      isDeleted: isDeleted == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isDeleted),
+      lastModifierUser: lastModifierUser == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUser),
+      lastModifierUserId: lastModifierUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierUserId),
+    );
+  }
+
+  ApplicationLoggerData copyWith(
+          {int tenantId,
+          String uerName,
+          int userId,
+          DateTime importDateTime,
+          DateTime exportDateTime,
+          String exportStatus,
+          String importStatus,
+          String syncError,
+          int id,
+          String functionName,
+          DateTime startDateTime,
+          String syncFrequency,
+          String logDescription,
+          String documentNo,
+          String logCode,
+          String logSeverity,
+          int createUserId,
+          DateTime creationTime,
+          DateTime deleteTime,
+          int deleteUserId,
+          String creatorUser,
+          String deleterUserId,
+          bool isDeleted,
+          String lastModifierUser,
+          int lastModifierUserId}) =>
+      ApplicationLoggerData(
+        tenantId: tenantId ?? this.tenantId,
+        uerName: uerName ?? this.uerName,
+        userId: userId ?? this.userId,
+        importDateTime: importDateTime ?? this.importDateTime,
+        exportDateTime: exportDateTime ?? this.exportDateTime,
+        exportStatus: exportStatus ?? this.exportStatus,
+        importStatus: importStatus ?? this.importStatus,
+        syncError: syncError ?? this.syncError,
+        id: id ?? this.id,
+        functionName: functionName ?? this.functionName,
+        startDateTime: startDateTime ?? this.startDateTime,
+        syncFrequency: syncFrequency ?? this.syncFrequency,
+        logDescription: logDescription ?? this.logDescription,
+        documentNo: documentNo ?? this.documentNo,
+        logCode: logCode ?? this.logCode,
+        logSeverity: logSeverity ?? this.logSeverity,
+        createUserId: createUserId ?? this.createUserId,
+        creationTime: creationTime ?? this.creationTime,
+        deleteTime: deleteTime ?? this.deleteTime,
+        deleteUserId: deleteUserId ?? this.deleteUserId,
+        creatorUser: creatorUser ?? this.creatorUser,
+        deleterUserId: deleterUserId ?? this.deleterUserId,
+        isDeleted: isDeleted ?? this.isDeleted,
+        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('ApplicationLoggerData(')
+          ..write('tenantId: $tenantId, ')
+          ..write('uerName: $uerName, ')
+          ..write('userId: $userId, ')
+          ..write('importDateTime: $importDateTime, ')
+          ..write('exportDateTime: $exportDateTime, ')
+          ..write('exportStatus: $exportStatus, ')
+          ..write('importStatus: $importStatus, ')
+          ..write('syncError: $syncError, ')
+          ..write('id: $id, ')
+          ..write('functionName: $functionName, ')
+          ..write('startDateTime: $startDateTime, ')
+          ..write('syncFrequency: $syncFrequency, ')
+          ..write('logDescription: $logDescription, ')
+          ..write('documentNo: $documentNo, ')
+          ..write('logCode: $logCode, ')
+          ..write('logSeverity: $logSeverity, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode,
+      $mrjc(
+          uerName.hashCode,
+          $mrjc(
+              userId.hashCode,
+              $mrjc(
+                  importDateTime.hashCode,
+                  $mrjc(
+                      exportDateTime.hashCode,
+                      $mrjc(
+                          exportStatus.hashCode,
+                          $mrjc(
+                              importStatus.hashCode,
+                              $mrjc(
+                                  syncError.hashCode,
+                                  $mrjc(
+                                      id.hashCode,
+                                      $mrjc(
+                                          functionName.hashCode,
+                                          $mrjc(
+                                              startDateTime.hashCode,
+                                              $mrjc(
+                                                  syncFrequency.hashCode,
+                                                  $mrjc(
+                                                      logDescription.hashCode,
+                                                      $mrjc(
+                                                          documentNo.hashCode,
+                                                          $mrjc(
+                                                              logCode.hashCode,
+                                                              $mrjc(
+                                                                  logSeverity
+                                                                      .hashCode,
+                                                                  $mrjc(
+                                                                      createUserId
+                                                                          .hashCode,
+                                                                      $mrjc(
+                                                                          creationTime
+                                                                              .hashCode,
+                                                                          $mrjc(
+                                                                              deleteTime.hashCode,
+                                                                              $mrjc(deleteUserId.hashCode, $mrjc(creatorUser.hashCode, $mrjc(deleterUserId.hashCode, $mrjc(isDeleted.hashCode, $mrjc(lastModifierUser.hashCode, lastModifierUserId.hashCode)))))))))))))))))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is ApplicationLoggerData &&
+          other.tenantId == this.tenantId &&
+          other.uerName == this.uerName &&
+          other.userId == this.userId &&
+          other.importDateTime == this.importDateTime &&
+          other.exportDateTime == this.exportDateTime &&
+          other.exportStatus == this.exportStatus &&
+          other.importStatus == this.importStatus &&
+          other.syncError == this.syncError &&
+          other.id == this.id &&
+          other.functionName == this.functionName &&
+          other.startDateTime == this.startDateTime &&
+          other.syncFrequency == this.syncFrequency &&
+          other.logDescription == this.logDescription &&
+          other.documentNo == this.documentNo &&
+          other.logCode == this.logCode &&
+          other.logSeverity == this.logSeverity &&
+          other.createUserId == this.createUserId &&
+          other.creationTime == this.creationTime &&
+          other.deleteTime == this.deleteTime &&
+          other.deleteUserId == this.deleteUserId &&
+          other.creatorUser == this.creatorUser &&
+          other.deleterUserId == this.deleterUserId &&
+          other.isDeleted == this.isDeleted &&
+          other.lastModifierUser == this.lastModifierUser &&
+          other.lastModifierUserId == this.lastModifierUserId);
+}
+
+class ApplicationLoggerCompanion
+    extends UpdateCompanion<ApplicationLoggerData> {
+  final Value<int> tenantId;
+  final Value<String> uerName;
+  final Value<int> userId;
+  final Value<DateTime> importDateTime;
+  final Value<DateTime> exportDateTime;
+  final Value<String> exportStatus;
+  final Value<String> importStatus;
+  final Value<String> syncError;
+  final Value<int> id;
+  final Value<String> functionName;
+  final Value<DateTime> startDateTime;
+  final Value<String> syncFrequency;
+  final Value<String> logDescription;
+  final Value<String> documentNo;
+  final Value<String> logCode;
+  final Value<String> logSeverity;
+  final Value<int> createUserId;
+  final Value<DateTime> creationTime;
+  final Value<DateTime> deleteTime;
+  final Value<int> deleteUserId;
+  final Value<String> creatorUser;
+  final Value<String> deleterUserId;
+  final Value<bool> isDeleted;
+  final Value<String> lastModifierUser;
+  final Value<int> lastModifierUserId;
+  const ApplicationLoggerCompanion({
+    this.tenantId = const Value.absent(),
+    this.uerName = const Value.absent(),
+    this.userId = const Value.absent(),
+    this.importDateTime = const Value.absent(),
+    this.exportDateTime = const Value.absent(),
+    this.exportStatus = const Value.absent(),
+    this.importStatus = const Value.absent(),
+    this.syncError = const Value.absent(),
+    this.id = const Value.absent(),
+    this.functionName = const Value.absent(),
+    this.startDateTime = const Value.absent(),
+    this.syncFrequency = const Value.absent(),
+    this.logDescription = const Value.absent(),
+    this.documentNo = const Value.absent(),
+    this.logCode = const Value.absent(),
+    this.logSeverity = const Value.absent(),
+    this.createUserId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+  });
+  ApplicationLoggerCompanion.insert({
+    this.tenantId = const Value.absent(),
+    this.uerName = const Value.absent(),
+    this.userId = const Value.absent(),
+    this.importDateTime = const Value.absent(),
+    this.exportDateTime = const Value.absent(),
+    this.exportStatus = const Value.absent(),
+    this.importStatus = const Value.absent(),
+    this.syncError = const Value.absent(),
+    this.id = const Value.absent(),
+    @required String functionName,
+    @required DateTime startDateTime,
+    @required String syncFrequency,
+    @required String logDescription,
+    @required String documentNo,
+    @required String logCode,
+    @required String logSeverity,
+    this.createUserId = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.deleteTime = const Value.absent(),
+    this.deleteUserId = const Value.absent(),
+    this.creatorUser = const Value.absent(),
+    this.deleterUserId = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.lastModifierUser = const Value.absent(),
+    this.lastModifierUserId = const Value.absent(),
+  })  : functionName = Value(functionName),
+        startDateTime = Value(startDateTime),
+        syncFrequency = Value(syncFrequency),
+        logDescription = Value(logDescription),
+        documentNo = Value(documentNo),
+        logCode = Value(logCode),
+        logSeverity = Value(logSeverity);
+  ApplicationLoggerCompanion copyWith(
+      {Value<int> tenantId,
+      Value<String> uerName,
+      Value<int> userId,
+      Value<DateTime> importDateTime,
+      Value<DateTime> exportDateTime,
+      Value<String> exportStatus,
+      Value<String> importStatus,
+      Value<String> syncError,
+      Value<int> id,
+      Value<String> functionName,
+      Value<DateTime> startDateTime,
+      Value<String> syncFrequency,
+      Value<String> logDescription,
+      Value<String> documentNo,
+      Value<String> logCode,
+      Value<String> logSeverity,
+      Value<int> createUserId,
+      Value<DateTime> creationTime,
+      Value<DateTime> deleteTime,
+      Value<int> deleteUserId,
+      Value<String> creatorUser,
+      Value<String> deleterUserId,
+      Value<bool> isDeleted,
+      Value<String> lastModifierUser,
+      Value<int> lastModifierUserId}) {
+    return ApplicationLoggerCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      uerName: uerName ?? this.uerName,
+      userId: userId ?? this.userId,
+      importDateTime: importDateTime ?? this.importDateTime,
+      exportDateTime: exportDateTime ?? this.exportDateTime,
+      exportStatus: exportStatus ?? this.exportStatus,
+      importStatus: importStatus ?? this.importStatus,
+      syncError: syncError ?? this.syncError,
+      id: id ?? this.id,
+      functionName: functionName ?? this.functionName,
+      startDateTime: startDateTime ?? this.startDateTime,
+      syncFrequency: syncFrequency ?? this.syncFrequency,
+      logDescription: logDescription ?? this.logDescription,
+      documentNo: documentNo ?? this.documentNo,
+      logCode: logCode ?? this.logCode,
+      logSeverity: logSeverity ?? this.logSeverity,
+      createUserId: createUserId ?? this.createUserId,
+      creationTime: creationTime ?? this.creationTime,
+      deleteTime: deleteTime ?? this.deleteTime,
+      deleteUserId: deleteUserId ?? this.deleteUserId,
+      creatorUser: creatorUser ?? this.creatorUser,
+      deleterUserId: deleterUserId ?? this.deleterUserId,
+      isDeleted: isDeleted ?? this.isDeleted,
+      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
+      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+    );
+  }
+}
+
+class $ApplicationLoggerTable extends ApplicationLogger
+    with TableInfo<$ApplicationLoggerTable, ApplicationLoggerData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $ApplicationLoggerTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _uerNameMeta = const VerificationMeta('uerName');
+  GeneratedTextColumn _uerName;
+  @override
+  GeneratedTextColumn get uerName => _uerName ??= _constructUerName();
+  GeneratedTextColumn _constructUerName() {
+    return GeneratedTextColumn(
+      'uer_name',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _userIdMeta = const VerificationMeta('userId');
+  GeneratedIntColumn _userId;
+  @override
+  GeneratedIntColumn get userId => _userId ??= _constructUserId();
+  GeneratedIntColumn _constructUserId() {
+    return GeneratedIntColumn(
+      'user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _importDateTimeMeta =
+      const VerificationMeta('importDateTime');
+  GeneratedDateTimeColumn _importDateTime;
+  @override
+  GeneratedDateTimeColumn get importDateTime =>
+      _importDateTime ??= _constructImportDateTime();
+  GeneratedDateTimeColumn _constructImportDateTime() {
+    return GeneratedDateTimeColumn(
+      'import_date_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _exportDateTimeMeta =
+      const VerificationMeta('exportDateTime');
+  GeneratedDateTimeColumn _exportDateTime;
+  @override
+  GeneratedDateTimeColumn get exportDateTime =>
+      _exportDateTime ??= _constructExportDateTime();
+  GeneratedDateTimeColumn _constructExportDateTime() {
+    return GeneratedDateTimeColumn(
+      'export_date_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _exportStatusMeta =
+      const VerificationMeta('exportStatus');
+  GeneratedTextColumn _exportStatus;
+  @override
+  GeneratedTextColumn get exportStatus =>
+      _exportStatus ??= _constructExportStatus();
+  GeneratedTextColumn _constructExportStatus() {
+    return GeneratedTextColumn('export_status', $tableName, false,
+        defaultValue: Constant('Pending'));
+  }
+
+  final VerificationMeta _importStatusMeta =
+      const VerificationMeta('importStatus');
+  GeneratedTextColumn _importStatus;
+  @override
+  GeneratedTextColumn get importStatus =>
+      _importStatus ??= _constructImportStatus();
+  GeneratedTextColumn _constructImportStatus() {
+    return GeneratedTextColumn('import_status', $tableName, false,
+        defaultValue: Constant('Pending'));
+  }
+
+  final VerificationMeta _syncErrorMeta = const VerificationMeta('syncError');
+  GeneratedTextColumn _syncError;
+  @override
+  GeneratedTextColumn get syncError => _syncError ??= _constructSyncError();
+  GeneratedTextColumn _constructSyncError() {
+    return GeneratedTextColumn(
+      'sync_error',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn('id', $tableName, false,
+        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+  }
+
+  final VerificationMeta _functionNameMeta =
+      const VerificationMeta('functionName');
+  GeneratedTextColumn _functionName;
+  @override
+  GeneratedTextColumn get functionName =>
+      _functionName ??= _constructFunctionName();
+  GeneratedTextColumn _constructFunctionName() {
+    return GeneratedTextColumn(
+      'function_name',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _startDateTimeMeta =
+      const VerificationMeta('startDateTime');
+  GeneratedDateTimeColumn _startDateTime;
+  @override
+  GeneratedDateTimeColumn get startDateTime =>
+      _startDateTime ??= _constructStartDateTime();
+  GeneratedDateTimeColumn _constructStartDateTime() {
+    return GeneratedDateTimeColumn(
+      'start_date_time',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _syncFrequencyMeta =
+      const VerificationMeta('syncFrequency');
+  GeneratedTextColumn _syncFrequency;
+  @override
+  GeneratedTextColumn get syncFrequency =>
+      _syncFrequency ??= _constructSyncFrequency();
+  GeneratedTextColumn _constructSyncFrequency() {
+    return GeneratedTextColumn(
+      'sync_frequency',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _logDescriptionMeta =
+      const VerificationMeta('logDescription');
+  GeneratedTextColumn _logDescription;
+  @override
+  GeneratedTextColumn get logDescription =>
+      _logDescription ??= _constructLogDescription();
+  GeneratedTextColumn _constructLogDescription() {
+    return GeneratedTextColumn(
+      'log_description',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _documentNoMeta = const VerificationMeta('documentNo');
+  GeneratedTextColumn _documentNo;
+  @override
+  GeneratedTextColumn get documentNo => _documentNo ??= _constructDocumentNo();
+  GeneratedTextColumn _constructDocumentNo() {
+    return GeneratedTextColumn(
+      'document_no',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _logCodeMeta = const VerificationMeta('logCode');
+  GeneratedTextColumn _logCode;
+  @override
+  GeneratedTextColumn get logCode => _logCode ??= _constructLogCode();
+  GeneratedTextColumn _constructLogCode() {
+    return GeneratedTextColumn(
+      'log_code',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _logSeverityMeta =
+      const VerificationMeta('logSeverity');
+  GeneratedTextColumn _logSeverity;
+  @override
+  GeneratedTextColumn get logSeverity =>
+      _logSeverity ??= _constructLogSeverity();
+  GeneratedTextColumn _constructLogSeverity() {
+    return GeneratedTextColumn(
+      'log_severity',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _createUserIdMeta =
+      const VerificationMeta('createUserId');
+  GeneratedIntColumn _createUserId;
+  @override
+  GeneratedIntColumn get createUserId =>
+      _createUserId ??= _constructCreateUserId();
+  GeneratedIntColumn _constructCreateUserId() {
+    return GeneratedIntColumn(
+      'create_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creationTimeMeta =
+      const VerificationMeta('creationTime');
+  GeneratedDateTimeColumn _creationTime;
+  @override
+  GeneratedDateTimeColumn get creationTime =>
+      _creationTime ??= _constructCreationTime();
+  GeneratedDateTimeColumn _constructCreationTime() {
+    return GeneratedDateTimeColumn(
+      'creation_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
+  GeneratedDateTimeColumn _deleteTime;
+  @override
+  GeneratedDateTimeColumn get deleteTime =>
+      _deleteTime ??= _constructDeleteTime();
+  GeneratedDateTimeColumn _constructDeleteTime() {
+    return GeneratedDateTimeColumn(
+      'delete_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleteUserIdMeta =
+      const VerificationMeta('deleteUserId');
+  GeneratedIntColumn _deleteUserId;
+  @override
+  GeneratedIntColumn get deleteUserId =>
+      _deleteUserId ??= _constructDeleteUserId();
+  GeneratedIntColumn _constructDeleteUserId() {
+    return GeneratedIntColumn(
+      'delete_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creatorUserMeta =
+      const VerificationMeta('creatorUser');
+  GeneratedTextColumn _creatorUser;
+  @override
+  GeneratedTextColumn get creatorUser =>
+      _creatorUser ??= _constructCreatorUser();
+  GeneratedTextColumn _constructCreatorUser() {
+    return GeneratedTextColumn(
+      'creator_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deleterUserIdMeta =
+      const VerificationMeta('deleterUserId');
+  GeneratedTextColumn _deleterUserId;
+  @override
+  GeneratedTextColumn get deleterUserId =>
+      _deleterUserId ??= _constructDeleterUserId();
+  GeneratedTextColumn _constructDeleterUserId() {
+    return GeneratedTextColumn(
+      'deleter_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
+  GeneratedBoolColumn _isDeleted;
+  @override
+  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
+  GeneratedBoolColumn _constructIsDeleted() {
+    return GeneratedBoolColumn('is_deleted', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _lastModifierUserMeta =
+      const VerificationMeta('lastModifierUser');
+  GeneratedTextColumn _lastModifierUser;
+  @override
+  GeneratedTextColumn get lastModifierUser =>
+      _lastModifierUser ??= _constructLastModifierUser();
+  GeneratedTextColumn _constructLastModifierUser() {
+    return GeneratedTextColumn(
+      'last_modifier_user',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierUserIdMeta =
+      const VerificationMeta('lastModifierUserId');
+  GeneratedIntColumn _lastModifierUserId;
+  @override
+  GeneratedIntColumn get lastModifierUserId =>
+      _lastModifierUserId ??= _constructLastModifierUserId();
+  GeneratedIntColumn _constructLastModifierUserId() {
+    return GeneratedIntColumn(
+      'last_modifier_user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        tenantId,
+        uerName,
+        userId,
+        importDateTime,
+        exportDateTime,
+        exportStatus,
+        importStatus,
+        syncError,
+        id,
+        functionName,
+        startDateTime,
+        syncFrequency,
+        logDescription,
+        documentNo,
+        logCode,
+        logSeverity,
+        createUserId,
+        creationTime,
+        deleteTime,
+        deleteUserId,
+        creatorUser,
+        deleterUserId,
+        isDeleted,
+        lastModifierUser,
+        lastModifierUserId
+      ];
+  @override
+  $ApplicationLoggerTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'application_logger';
+  @override
+  final String actualTableName = 'application_logger';
+  @override
+  VerificationContext validateIntegrity(ApplicationLoggerCompanion d,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    if (d.tenantId.present) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableValue(d.tenantId.value, _tenantIdMeta));
+    }
+    if (d.uerName.present) {
+      context.handle(_uerNameMeta,
+          uerName.isAcceptableValue(d.uerName.value, _uerNameMeta));
+    }
+    if (d.userId.present) {
+      context.handle(
+          _userIdMeta, userId.isAcceptableValue(d.userId.value, _userIdMeta));
+    }
+    if (d.importDateTime.present) {
+      context.handle(
+          _importDateTimeMeta,
+          importDateTime.isAcceptableValue(
+              d.importDateTime.value, _importDateTimeMeta));
+    }
+    if (d.exportDateTime.present) {
+      context.handle(
+          _exportDateTimeMeta,
+          exportDateTime.isAcceptableValue(
+              d.exportDateTime.value, _exportDateTimeMeta));
+    }
+    if (d.exportStatus.present) {
+      context.handle(
+          _exportStatusMeta,
+          exportStatus.isAcceptableValue(
+              d.exportStatus.value, _exportStatusMeta));
+    }
+    if (d.importStatus.present) {
+      context.handle(
+          _importStatusMeta,
+          importStatus.isAcceptableValue(
+              d.importStatus.value, _importStatusMeta));
+    }
+    if (d.syncError.present) {
+      context.handle(_syncErrorMeta,
+          syncError.isAcceptableValue(d.syncError.value, _syncErrorMeta));
+    }
+    if (d.id.present) {
+      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    }
+    if (d.functionName.present) {
+      context.handle(
+          _functionNameMeta,
+          functionName.isAcceptableValue(
+              d.functionName.value, _functionNameMeta));
+    } else if (isInserting) {
+      context.missing(_functionNameMeta);
+    }
+    if (d.startDateTime.present) {
+      context.handle(
+          _startDateTimeMeta,
+          startDateTime.isAcceptableValue(
+              d.startDateTime.value, _startDateTimeMeta));
+    } else if (isInserting) {
+      context.missing(_startDateTimeMeta);
+    }
+    if (d.syncFrequency.present) {
+      context.handle(
+          _syncFrequencyMeta,
+          syncFrequency.isAcceptableValue(
+              d.syncFrequency.value, _syncFrequencyMeta));
+    } else if (isInserting) {
+      context.missing(_syncFrequencyMeta);
+    }
+    if (d.logDescription.present) {
+      context.handle(
+          _logDescriptionMeta,
+          logDescription.isAcceptableValue(
+              d.logDescription.value, _logDescriptionMeta));
+    } else if (isInserting) {
+      context.missing(_logDescriptionMeta);
+    }
+    if (d.documentNo.present) {
+      context.handle(_documentNoMeta,
+          documentNo.isAcceptableValue(d.documentNo.value, _documentNoMeta));
+    } else if (isInserting) {
+      context.missing(_documentNoMeta);
+    }
+    if (d.logCode.present) {
+      context.handle(_logCodeMeta,
+          logCode.isAcceptableValue(d.logCode.value, _logCodeMeta));
+    } else if (isInserting) {
+      context.missing(_logCodeMeta);
+    }
+    if (d.logSeverity.present) {
+      context.handle(_logSeverityMeta,
+          logSeverity.isAcceptableValue(d.logSeverity.value, _logSeverityMeta));
+    } else if (isInserting) {
+      context.missing(_logSeverityMeta);
+    }
+    if (d.createUserId.present) {
+      context.handle(
+          _createUserIdMeta,
+          createUserId.isAcceptableValue(
+              d.createUserId.value, _createUserIdMeta));
+    }
+    if (d.creationTime.present) {
+      context.handle(
+          _creationTimeMeta,
+          creationTime.isAcceptableValue(
+              d.creationTime.value, _creationTimeMeta));
+    }
+    if (d.deleteTime.present) {
+      context.handle(_deleteTimeMeta,
+          deleteTime.isAcceptableValue(d.deleteTime.value, _deleteTimeMeta));
+    }
+    if (d.deleteUserId.present) {
+      context.handle(
+          _deleteUserIdMeta,
+          deleteUserId.isAcceptableValue(
+              d.deleteUserId.value, _deleteUserIdMeta));
+    }
+    if (d.creatorUser.present) {
+      context.handle(_creatorUserMeta,
+          creatorUser.isAcceptableValue(d.creatorUser.value, _creatorUserMeta));
+    }
+    if (d.deleterUserId.present) {
+      context.handle(
+          _deleterUserIdMeta,
+          deleterUserId.isAcceptableValue(
+              d.deleterUserId.value, _deleterUserIdMeta));
+    }
+    if (d.isDeleted.present) {
+      context.handle(_isDeletedMeta,
+          isDeleted.isAcceptableValue(d.isDeleted.value, _isDeletedMeta));
+    }
+    if (d.lastModifierUser.present) {
+      context.handle(
+          _lastModifierUserMeta,
+          lastModifierUser.isAcceptableValue(
+              d.lastModifierUser.value, _lastModifierUserMeta));
+    }
+    if (d.lastModifierUserId.present) {
+      context.handle(
+          _lastModifierUserIdMeta,
+          lastModifierUserId.isAcceptableValue(
+              d.lastModifierUserId.value, _lastModifierUserIdMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ApplicationLoggerData map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return ApplicationLoggerData.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  Map<String, Variable> entityToSql(ApplicationLoggerCompanion d) {
+    final map = <String, Variable>{};
+    if (d.tenantId.present) {
+      map['tenant_id'] = Variable<int, IntType>(d.tenantId.value);
+    }
+    if (d.uerName.present) {
+      map['uer_name'] = Variable<String, StringType>(d.uerName.value);
+    }
+    if (d.userId.present) {
+      map['user_id'] = Variable<int, IntType>(d.userId.value);
+    }
+    if (d.importDateTime.present) {
+      map['import_date_time'] =
+          Variable<DateTime, DateTimeType>(d.importDateTime.value);
+    }
+    if (d.exportDateTime.present) {
+      map['export_date_time'] =
+          Variable<DateTime, DateTimeType>(d.exportDateTime.value);
+    }
+    if (d.exportStatus.present) {
+      map['export_status'] = Variable<String, StringType>(d.exportStatus.value);
+    }
+    if (d.importStatus.present) {
+      map['import_status'] = Variable<String, StringType>(d.importStatus.value);
+    }
+    if (d.syncError.present) {
+      map['sync_error'] = Variable<String, StringType>(d.syncError.value);
+    }
+    if (d.id.present) {
+      map['id'] = Variable<int, IntType>(d.id.value);
+    }
+    if (d.functionName.present) {
+      map['function_name'] = Variable<String, StringType>(d.functionName.value);
+    }
+    if (d.startDateTime.present) {
+      map['start_date_time'] =
+          Variable<DateTime, DateTimeType>(d.startDateTime.value);
+    }
+    if (d.syncFrequency.present) {
+      map['sync_frequency'] =
+          Variable<String, StringType>(d.syncFrequency.value);
+    }
+    if (d.logDescription.present) {
+      map['log_description'] =
+          Variable<String, StringType>(d.logDescription.value);
+    }
+    if (d.documentNo.present) {
+      map['document_no'] = Variable<String, StringType>(d.documentNo.value);
+    }
+    if (d.logCode.present) {
+      map['log_code'] = Variable<String, StringType>(d.logCode.value);
+    }
+    if (d.logSeverity.present) {
+      map['log_severity'] = Variable<String, StringType>(d.logSeverity.value);
+    }
+    if (d.createUserId.present) {
+      map['create_user_id'] = Variable<int, IntType>(d.createUserId.value);
+    }
+    if (d.creationTime.present) {
+      map['creation_time'] =
+          Variable<DateTime, DateTimeType>(d.creationTime.value);
+    }
+    if (d.deleteTime.present) {
+      map['delete_time'] = Variable<DateTime, DateTimeType>(d.deleteTime.value);
+    }
+    if (d.deleteUserId.present) {
+      map['delete_user_id'] = Variable<int, IntType>(d.deleteUserId.value);
+    }
+    if (d.creatorUser.present) {
+      map['creator_user'] = Variable<String, StringType>(d.creatorUser.value);
+    }
+    if (d.deleterUserId.present) {
+      map['deleter_user_id'] =
+          Variable<String, StringType>(d.deleterUserId.value);
+    }
+    if (d.isDeleted.present) {
+      map['is_deleted'] = Variable<bool, BoolType>(d.isDeleted.value);
+    }
+    if (d.lastModifierUser.present) {
+      map['last_modifier_user'] =
+          Variable<String, StringType>(d.lastModifierUser.value);
+    }
+    if (d.lastModifierUserId.present) {
+      map['last_modifier_user_id'] =
+          Variable<int, IntType>(d.lastModifierUserId.value);
+    }
+    return map;
+  }
+
+  @override
+  $ApplicationLoggerTable createAlias(String alias) {
+    return $ApplicationLoggerTable(_db, alias);
+  }
+}
+
+class TenantData extends DataClass implements Insertable<TenantData> {
+  final int tenantId;
+  final String tenantName;
+  final int tenantState;
+  TenantData(
+      {@required this.tenantId,
+      @required this.tenantName,
+      @required this.tenantState});
+  factory TenantData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    return TenantData(
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
+      tenantName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}tenant_name']),
+      tenantState: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}tenant_state']),
+    );
+  }
+  factory TenantData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return TenantData(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      tenantName: serializer.fromJson<String>(json['tenantName']),
+      tenantState: serializer.fromJson<int>(json['tenantState']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'tenantName': serializer.toJson<String>(tenantName),
+      'tenantState': serializer.toJson<int>(tenantState),
+    };
+  }
+
+  @override
+  TenantCompanion createCompanion(bool nullToAbsent) {
+    return TenantCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      tenantName: tenantName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantName),
+      tenantState: tenantState == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantState),
+    );
+  }
+
+  TenantData copyWith({int tenantId, String tenantName, int tenantState}) =>
+      TenantData(
+        tenantId: tenantId ?? this.tenantId,
+        tenantName: tenantName ?? this.tenantName,
+        tenantState: tenantState ?? this.tenantState,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('TenantData(')
+          ..write('tenantId: $tenantId, ')
+          ..write('tenantName: $tenantName, ')
+          ..write('tenantState: $tenantState')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      tenantId.hashCode, $mrjc(tenantName.hashCode, tenantState.hashCode)));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is TenantData &&
+          other.tenantId == this.tenantId &&
+          other.tenantName == this.tenantName &&
+          other.tenantState == this.tenantState);
+}
+
+class TenantCompanion extends UpdateCompanion<TenantData> {
+  final Value<int> tenantId;
+  final Value<String> tenantName;
+  final Value<int> tenantState;
+  const TenantCompanion({
+    this.tenantId = const Value.absent(),
+    this.tenantName = const Value.absent(),
+    this.tenantState = const Value.absent(),
+  });
+  TenantCompanion.insert({
+    @required int tenantId,
+    @required String tenantName,
+    @required int tenantState,
+  })  : tenantId = Value(tenantId),
+        tenantName = Value(tenantName),
+        tenantState = Value(tenantState);
+  TenantCompanion copyWith(
+      {Value<int> tenantId, Value<String> tenantName, Value<int> tenantState}) {
+    return TenantCompanion(
+      tenantId: tenantId ?? this.tenantId,
+      tenantName: tenantName ?? this.tenantName,
+      tenantState: tenantState ?? this.tenantState,
+    );
+  }
+}
+
+class $TenantTable extends Tenant with TableInfo<$TenantTable, TenantData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $TenantTable(this._db, [this._alias]);
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _tenantNameMeta = const VerificationMeta('tenantName');
+  GeneratedTextColumn _tenantName;
+  @override
+  GeneratedTextColumn get tenantName => _tenantName ??= _constructTenantName();
+  GeneratedTextColumn _constructTenantName() {
+    return GeneratedTextColumn('tenant_name', $tableName, false,
+        minTextLength: 1, maxTextLength: 100);
+  }
+
+  final VerificationMeta _tenantStateMeta =
+      const VerificationMeta('tenantState');
+  GeneratedIntColumn _tenantState;
+  @override
+  GeneratedIntColumn get tenantState =>
+      _tenantState ??= _constructTenantState();
+  GeneratedIntColumn _constructTenantState() {
+    return GeneratedIntColumn(
+      'tenant_state',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [tenantId, tenantName, tenantState];
+  @override
+  $TenantTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'tenant';
+  @override
+  final String actualTableName = 'tenant';
+  @override
+  VerificationContext validateIntegrity(TenantCompanion d,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    if (d.tenantId.present) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableValue(d.tenantId.value, _tenantIdMeta));
+    } else if (isInserting) {
+      context.missing(_tenantIdMeta);
+    }
+    if (d.tenantName.present) {
+      context.handle(_tenantNameMeta,
+          tenantName.isAcceptableValue(d.tenantName.value, _tenantNameMeta));
+    } else if (isInserting) {
+      context.missing(_tenantNameMeta);
+    }
+    if (d.tenantState.present) {
+      context.handle(_tenantStateMeta,
+          tenantState.isAcceptableValue(d.tenantState.value, _tenantStateMeta));
+    } else if (isInserting) {
+      context.missing(_tenantStateMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {tenantId};
+  @override
+  TenantData map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return TenantData.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  Map<String, Variable> entityToSql(TenantCompanion d) {
+    final map = <String, Variable>{};
+    if (d.tenantId.present) {
+      map['tenant_id'] = Variable<int, IntType>(d.tenantId.value);
+    }
+    if (d.tenantName.present) {
+      map['tenant_name'] = Variable<String, StringType>(d.tenantName.value);
+    }
+    if (d.tenantState.present) {
+      map['tenant_state'] = Variable<int, IntType>(d.tenantState.value);
+    }
+    return map;
+  }
+
+  @override
+  $TenantTable createAlias(String alias) {
+    return $TenantTable(_db, alias);
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $UsersTable _users;
@@ -4849,6 +7213,14 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $MobileDeviceTable _mobileDevice;
   $MobileDeviceTable get mobileDevice =>
       _mobileDevice ??= $MobileDeviceTable(this);
+  $BusinessRuleTable _businessRule;
+  $BusinessRuleTable get businessRule =>
+      _businessRule ??= $BusinessRuleTable(this);
+  $ApplicationLoggerTable _applicationLogger;
+  $ApplicationLoggerTable get applicationLogger =>
+      _applicationLogger ??= $ApplicationLoggerTable(this);
+  $TenantTable _tenant;
+  $TenantTable get tenant => _tenant ??= $TenantTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
@@ -4858,6 +7230,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         backgroundJobSchedule,
         backgroundJobLogs,
         prefrence,
-        mobileDevice
+        mobileDevice,
+        businessRule,
+        applicationLogger,
+        tenant
       ];
 }

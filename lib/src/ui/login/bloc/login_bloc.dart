@@ -132,7 +132,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                   authenticationBloc.add(LoggedIn(
                       token: "",
                       userId: userDate.id,
-                      tenantId: int.tryParse(tenantId)));
+                      tenantId: int.tryParse(_tenantId.toString())));
                   yield LoginInitial();
                 } else {
                   String error = AppLocalization.of(event.context)

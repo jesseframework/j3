@@ -47,5 +47,5 @@ class UserDao extends DatabaseAccessor<AppDatabase> with _$UserDaoMixin {
   Future insertUser(UsersCompanion user) => into(db.users).insert(user);
 
   //Wipe user table
-  Future deleteUser(User user) => delete(db.users).delete(user);
+  Future deleteAllUser() =>  delete(db.users).go();
 }

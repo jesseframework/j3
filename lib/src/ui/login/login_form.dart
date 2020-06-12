@@ -3,9 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/password_field.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/text_field_nullable.dart';
-
 import 'bloc/login_bloc.dart';
-
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 
 class LoginForm extends StatefulWidget {
@@ -18,11 +16,9 @@ class _LoginFormState extends State<LoginForm> {
   bool pass = true;
   String selected;
   bool isSwitched = false;
-
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _tenantController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     _onLoginButtonPressed() {
@@ -49,7 +45,7 @@ class _LoginFormState extends State<LoginForm> {
             key: formKey,
             child: Container(
               constraints: BoxConstraints(
-                  minWidth: 100, maxWidth: 400, minHeight: 100, maxHeight: 450),
+                  minWidth: 100, maxWidth: 400, minHeight: 200, maxHeight: 430),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: ClipRRect(
@@ -96,20 +92,23 @@ class _LoginFormState extends State<LoginForm> {
                               ),
                             ),
                           ),
-                          TextFromFieldNullableReusable(
-                            // hint: Text(AppLocalization.of(context).translate('tenant_default_text')),
-                            controllerName: _tenantController,
-                            validationText: _usernameController.text.length < 2
-                                ? AppLocalization.of(context)
-                                        .translate('tenant_value_missing') ??
-                                    'Enter valid tenant'
-                                : null,
-                            fieldDecoration: InputDecoration(
-                              icon: Icon(Icons.home),
-                              alignLabelWithHint: false,
-                              labelText: AppLocalization.of(context)
-                                      .translate('tenant_label') ??
-                                  'Tenant',
+                          Expanded(
+                            child: TextFromFieldNullableReusable(
+                              // hint: Text(AppLocalization.of(context).translate('tenant_default_text')),
+                              controllerName: _tenantController,
+                              validationText: _usernameController.text.length <
+                                      2
+                                  ? AppLocalization.of(context)
+                                          .translate('tenant_value_missing') ??
+                                      'Enter valid tenant'
+                                  : null,
+                              fieldDecoration: InputDecoration(
+                                icon: Icon(Icons.home),
+                                alignLabelWithHint: false,
+                                labelText: AppLocalization.of(context)
+                                        .translate('tenant_label') ??
+                                    'Tenant',
+                              ),
                             ),
                           ),
                           // Row(

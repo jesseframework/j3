@@ -18,15 +18,12 @@ class BackgroundJobScheduleDao extends DatabaseAccessor<AppDatabase>
     return (select(db.backgroundJobSchedule).watch());
   }
 
-  Future insertJobSchudule(BackgroundJobScheduleData backgroundJobSchedule) =>
+  Future insertJobSchedule(BackgroundJobScheduleData backgroundJobSchedule) =>
       into(db.backgroundJobSchedule).insert(backgroundJobSchedule);
 
   Future updateBackgroundJob(
           BackgroundJobScheduleData backgroundJobScheduleData) =>
       update(db.backgroundJobSchedule).replace(backgroundJobScheduleData);
 
-  //Wipe backgroun job table
-  Future deleteBackgroundJobs(
-          BackgroundJobScheduleData backgroundJobScheduleData) =>
-      delete(db.backgroundJobSchedule).delete(backgroundJobScheduleData);
+  Future deleteBackgroundJobs() => delete(db.backgroundJobSchedule).go();
 }

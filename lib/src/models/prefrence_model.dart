@@ -1,6 +1,6 @@
-import 'package:moor/moor.dart';
 import 'package:j3enterprise/src/resources/shared/extension/full_audited.dart';
 import 'package:j3enterprise/src/resources/shared/extension/sync_trigger.dart';
+import 'package:moor/moor.dart';
 
 class Prefrence extends Table implements FullAudited, SyncTrigger {
   TextColumn get code => text()();
@@ -23,4 +23,7 @@ class Prefrence extends Table implements FullAudited, SyncTrigger {
   DateTimeColumn get importDateTime => dateTime().nullable()();
   TextColumn get importStatus => text().withDefault(Constant('Pending'))();
   TextColumn get syncError => text().nullable()();
+
+  @override
+  Set<Column> get primaryKey => {code};
 }

@@ -50,6 +50,5 @@ class CommunicationDao extends DatabaseAccessor<AppDatabase>
       into(db.communication).insert(comsset);
 
 //Wipe communication table
-  Future deleteAllCommuniction(CommunicationCompanion comsset) =>
-      delete(db.communication).delete(comsset);
+  Future deleteAllCommuniction() => delete(db.communication).go();
 }

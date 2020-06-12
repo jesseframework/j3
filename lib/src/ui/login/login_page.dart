@@ -22,55 +22,55 @@ class LoginPage extends StatelessWidget {
         title: Text(AppLocalization.of(context).translate('app_title')),
         backgroundColor: const Color(0xff5362b7),
       ),
-      body: SafeArea(
-        child: BlocProvider(
-          create: (context) {
-            return LoginBloc(
-              authenticationBloc: BlocProvider.of<AuthenticationBloc>(context),
-              userRepository: userRepository,
-            );
-          },
+      body: BlocProvider(
+        create: (context) {
+          return LoginBloc(
+            authenticationBloc: BlocProvider.of<AuthenticationBloc>(context),
+            userRepository: userRepository,
+          );
+        },
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
           child: Stack(
             children: <Widget>[
-              Positioned.fill(
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
                 child: Image.asset(
                   'images/beach-background.jpg',
                   fit: BoxFit.cover,
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Flexible(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Flexible(
-                          //Works like bootstrap with 12 columns (works for rows as well) max 6
-                          flex: 3,
-                          child: Container(
-                            child: Image.asset(
-                              'images/logo.png',
-                            ),
-                          ),
+              SingleChildScrollView(
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(bottom: 50, top: 30),
+                        height: 250,
+                        child: Image.asset(
+                          'images/logo.png',
                         ),
-                        Flexible(
-                          flex: 7,
-                          child: SingleChildScrollView(
-                            child: LoginForm(),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                      SingleChildScrollView(
+                        child: LoginForm(),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               )
             ],
           ),
         ),
       ),
-      resizeToAvoidBottomInset: false,
+
+      // resizeToAvoidBottomInset: true,
       drawer: CustomDrawer(),
     );
   }

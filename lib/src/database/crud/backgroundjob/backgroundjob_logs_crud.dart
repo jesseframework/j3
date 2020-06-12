@@ -1,6 +1,5 @@
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/models/background_jobs_logs_model.dart';
-
 import 'package:moor/moor.dart';
 
 part 'backgroundjob_logs_crud.g.dart';
@@ -26,6 +25,5 @@ class BackgroundJobLogsDao extends DatabaseAccessor<AppDatabase>
       update(db.backgroundJobLogs).replace(backgroundJoblog);
 
   //Wipe backgroun job table
-  Future deleteBackgroundJobsLog(BackgroundJobLog backgroundJoblog) =>
-      delete(db.backgroundJobLogs).delete(backgroundJoblog);
+  Future deleteAllBackgroundJobsLog() => delete(db.backgroundJobLogs).go();
 }
