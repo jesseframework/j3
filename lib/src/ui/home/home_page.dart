@@ -1,4 +1,7 @@
+import 'package:connectivity/connectivity.dart';
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
+import 'package:j3enterprise/src/resources/services/connection_service.dart';
 import 'package:j3enterprise/src/resources/services/firebase_message_wrapper.dart';
 import 'package:j3enterprise/src/resources/services/firebase_notification_service.dart';
 
@@ -6,6 +9,8 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/ui/preferences/preferences.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/custom_drawer.dart';
 import 'dart:io' show Platform;
+
+import 'package:provider/provider.dart';
 
 // Future<dynamic> backgroundMessageHandler(Map<String, dynamic> message) {
 //   print(message);
@@ -23,22 +28,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     if (!Platform.isWindows && !Platform.isMacOS) {
       FirebaseNotificationService.instance.getIOSPermission();
-      //     print('Init firebase');
 
-      //     _firebaseMessaging.getToken().then((value) => print('fcm : ' + value));
-      //     _firebaseMessaging.requestNotificationPermissions();
-      //     _firebaseMessaging.configure(
-      //       onMessage: (Map<String, dynamic> message) async {
-      //         print("onMessage: $message");
-      //       },
-      //       onBackgroundMessage: backgroundMessageHandler,
-      //       onLaunch: (Map<String, dynamic> message) async {
-      //         print("onLaunch: $message");
-      //       },
-      //       onResume: (Map<String, dynamic> message) async {
-      //         print("onResume: $message");
-      //       },
-      //     );
       super.initState();
     }
   }
@@ -50,13 +40,19 @@ class _HomePageState extends State<HomePage> {
         title: Text(AppLocalization.of(context).translate('app_title')),
         actions: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(right: 18),
-            child: Icon(
-              Icons.wifi,
-              color: Colors.white,
-              size: 40.0,
-            ),
-          ),
+              padding: const EdgeInsets.only(right: 18),
+              child: StreamBuilder<ConnectivityResult>(
+                  stream: Connectivity().onConnectivityChanged,
+                  builder: (context, data) {
+                    if (data.data == ConnectivityResult.none) {
+                      return Icon(
+                        Icons.signal_wifi_off,
+                        color: Colors.red,
+                      );
+                    } else {
+                      return Icon(Icons.wifi);
+                    }
+                  }))
         ],
       ),
       drawer: CustomDrawer(),

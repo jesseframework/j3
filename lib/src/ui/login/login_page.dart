@@ -63,7 +63,12 @@ class LoginPage extends StatelessWidget {
                             'images/logo.png',
                           ),
                         ),
-                        LoginForm(),
+                        Flexible(
+                          flex: 7,
+                          child: SingleChildScrollView(
+                            child: LoginForm(),
+                          ),
+                        ),
                       ],
                     ),
                   ),

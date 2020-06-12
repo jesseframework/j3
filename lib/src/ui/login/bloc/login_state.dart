@@ -7,9 +7,34 @@ abstract class LoginState extends Equatable {
   List<Object> get props => [];
 }
 
-class LoginInitial extends LoginState {}
+class LoginInitial extends LoginState {
+  final String tenantName;
+  const LoginInitial({this.tenantName});
 
-class LoginLoading extends LoginState {}
+  @override
+  List<Object> get props => [tenantName];
+
+  @override
+  String toString() => 'LoginInitial { tenantName: $tenantName }';
+}
+
+class LoginTenantState extends LoginState {
+  final String tenantName;
+  const LoginTenantState({this.tenantName});
+
+  @override
+  List<Object> get props => [tenantName];
+
+  @override
+  String toString() => 'LoginInitial { tenantName: $tenantName }';
+}
+
+class LoginLoading extends LoginState {
+  const LoginLoading();
+
+  @override
+  List<Object> get props => [];
+}
 
 class LoginFailure extends LoginState {
   final String error;

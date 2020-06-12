@@ -25,6 +25,14 @@ class _$RestApiService extends RestApiService {
   }
 
   @override
+  Future<Response<dynamic>> isTenantAvailable(Map<String, dynamic> body) {
+    final $url = '/api/services/app/Account/IsTenantAvailable';
+    final $body = body;
+    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<dynamic>> getUser(int id) {
     final $url = '/api/services/app/User/Get';
     final $params = <String, dynamic>{'id': id};
@@ -34,7 +42,7 @@ class _$RestApiService extends RestApiService {
 
   @override
   Future<Response<dynamic>> updateUserHash(Map<String, dynamic> body) {
-    final $url = '/api/api/services/app/User/Update';
+    final $url = '/api/services/app/User/UpdateMobileHash';
     final $body = body;
     final $request = Request('PUT', $url, client.baseUrl, body: $body);
     return client.send<dynamic, dynamic>($request);

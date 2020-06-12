@@ -13,6 +13,11 @@ class UserDao extends DatabaseAccessor<AppDatabase> with _$UserDaoMixin {
     return (select(db.users)..where((u) => u.id.equals(id))).getSingle();
   }
 
+  Future<User> getSingleUserByUserName(String userName) {
+    return (select(db.users)..where((u) => u.userName.equals(userName)))
+        .getSingle();
+  }
+
   Future updateUser(UsersCompanion u, int id) {
     return (update(db.users)..where((t) => t.id.equals(id))).write(
       UsersCompanion(

@@ -38,6 +38,7 @@ class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
       //update server url in chapper instant after save
       var url = event.data.serverUrl;
       ApiClient.updateClient(url.value);
+
       // set the success state
       yield CommunicationSuccess();
     }
@@ -58,6 +59,8 @@ class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
       yield CommunicationUpdate();
 
       await communicationDao.updateERPCommunnication(event.data);
+      var url = event.data.serverUrl;
+      ApiClient.updateClient(url.value);
 
       // set the success state
       //yield CommunicationSuccess();

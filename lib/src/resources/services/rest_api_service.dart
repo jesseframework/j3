@@ -1,5 +1,4 @@
 import 'package:chopper/chopper.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'rest_api_service.chopper.dart';
 
@@ -8,12 +7,15 @@ abstract class RestApiService extends ChopperService {
   @Post(path: '/TokenAuth/Authenticate')
   Future<Response> login(@Body() Map<String, dynamic> body);
 
+  @Post(path: '/services/app/Account/IsTenantAvailable')
+  Future<Response> isTenantAvailable(@Body() Map<String, dynamic> body);
+
   //User End Point
 
   @Get(path: '/services/app/User/Get')
   Future<Response> getUser(@Query() int id);
 
-  @Put(path: '/api/services/app/User/Update')
+  @Put(path: '/services/app/User/UpdateMobileHash')
   Future<Response> updateUserHash(@Body() Map<String, dynamic> body);
 
   //End user Point

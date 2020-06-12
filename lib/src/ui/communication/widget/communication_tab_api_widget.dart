@@ -6,7 +6,6 @@ import 'package:j3enterprise/src/resources/shared/widgets/dropdown_box.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/password_field.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/text_field_nullable.dart';
 import 'package:j3enterprise/src/ui/communication/bloc/communication_bloc.dart';
-
 import 'package:moor/moor.dart' as moor;
 
 class CommunicationTabTwoWidget extends StatefulWidget {
@@ -117,9 +116,11 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
             Padding(
               padding: const EdgeInsets.all(0.00),
               child: TextFromFieldNullableReusable(
-                labelName: AppLocalization.of(context)
-                        .translate('server_url_label_communication') ??
-                    'Server Url',
+                fieldDecoration: InputDecoration(
+                  labelText: AppLocalization.of(context)
+                          .translate('server_url_label_communication') ??
+                      'Server Url',
+                ),
                 controllerName: _apiserverurlController,
                 validationText: 'Test',
               ),
@@ -127,9 +128,11 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
             Padding(
               padding: const EdgeInsets.all(0.00),
               child: TextFromFieldNullableReusable(
-                labelName: AppLocalization.of(context)
-                        .translate('username_label_communication') ??
-                    'Username',
+                fieldDecoration: InputDecoration(
+                  labelText: AppLocalization.of(context)
+                          .translate('username_label_communication') ??
+                      'Username',
+                ),
                 controllerName: _apiusernameController,
                 validationText: 'Test',
               ),

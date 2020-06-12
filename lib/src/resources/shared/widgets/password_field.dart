@@ -22,28 +22,31 @@ class _TextFromFieldPasswordReusableState
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-        validator: (val) {
-          if (val.isEmpty) {
-            return widget.validationText;
-          }
-          return null;
-        },
-        controller: widget.controllerName,
-        decoration: widget.fieldDecoration.copyWith(
-          filled: true,
-          suffixIcon: IconButton(
-            icon: !showPassword
-                ? Icon(CustomIcons.eye_off)
-                : Icon(CustomIcons.eye),
-            onPressed: () {
-              setState(() {
-                showPassword = !showPassword;
-              });
-            },
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextFormField(
+          validator: (val) {
+            if (val.isEmpty) {
+              return widget.validationText;
+            }
+            return null;
+          },
+          controller: widget.controllerName,
+          decoration: widget.fieldDecoration.copyWith(
+            filled: true,
+            suffixIcon: IconButton(
+              icon: !showPassword
+                  ? Icon(CustomIcons.eye_off)
+                  : Icon(CustomIcons.eye),
+              onPressed: () {
+                setState(() {
+                  showPassword = !showPassword;
+                });
+              },
+            ),
           ),
-        ),
-        obscureText: showPassword // Hide password
-        );
+          obscureText: showPassword // Hide password
+          ),
+    );
   }
 }

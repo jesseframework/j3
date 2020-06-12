@@ -42,6 +42,7 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
   }
 
   Future<void> submitERPTab(CommunicationBloc bloc) async {
+    formKey.currentState.validate();
     var formData = CommunicationCompanion(
       serverUrl: moor.Value(_serverurlController.value.text),
       userName: moor.Value(_usernameController.value.text),
@@ -131,9 +132,11 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
             Padding(
               padding: const EdgeInsets.all(0.00),
               child: TextFromFieldNullableReusable(
-                labelName: AppLocalization.of(context)
-                        .translate('server_url_label_communication') ??
-                    'Server Url',
+                fieldDecoration: InputDecoration(
+                  labelText: AppLocalization.of(context)
+                          .translate('server_url_label_communication') ??
+                      'Server Url',
+                ),
                 controllerName: _serverurlController,
                 validationText: 'Test',
               ),
@@ -141,9 +144,11 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
             Padding(
               padding: const EdgeInsets.all(0.00),
               child: TextFromFieldNullableReusable(
-                labelName: AppLocalization.of(context)
-                        .translate('username_label_communication') ??
-                    'Username',
+                fieldDecoration: InputDecoration(
+                  labelText: AppLocalization.of(context)
+                          .translate('username_label_communication') ??
+                      'Username',
+                ),
                 controllerName: _usernameController,
                 validationText: 'Test',
               ),
