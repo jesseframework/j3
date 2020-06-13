@@ -8,10 +8,10 @@ import 'package:moor/moor.dart';
 
 class AppLogger {
   ApplicationLoggerDao applicationLoggerDao;
-  AppLoggerRepository appLoggerRepository;
+  final AppLoggerRepository appLoggerRepository;
   var db;
-  AppLogger() {
-    appLoggerRepository = new AppLoggerRepository();
+  AppLogger({this.appLoggerRepository}) {
+    //assert(appLoggerRepository != null);
     db = AppDatabase();
     applicationLoggerDao = ApplicationLoggerDao(db);
   }

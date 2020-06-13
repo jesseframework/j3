@@ -11,12 +11,11 @@ import 'package:j3enterprise/src/database/crud/user/user_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/services/connection_service.dart';
-import 'package:j3enterprise/src/resources/shared/function/application_logger.dart';
-import 'package:j3enterprise/src/resources/shared/function/get_logger_data.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/user_hashdigest.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication_bloc.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication_event.dart';
+import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
 part 'login_event.dart';
@@ -25,9 +24,10 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final UserRepository userRepository;
   final AuthenticationBloc authenticationBloc;
-  final log = getLogger('LoginBloc');
+  //final log = getLogger('LoginBloc');
+  static final _log = Logger('LoginBloc');
 
-  AppLogger appLogger;
+  //AppLogger appLogger;
   UserHash userHash;
   String tenantName;
 
@@ -37,13 +37,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc(
       {@required this.userRepository, @required this.authenticationBloc}) {
     userHash = new UserHash(userRepository: userRepository);
-    appLogger = new AppLogger();
+    //appLogger = new AppLogger();
     assert(userRepository != null);
     assert(authenticationBloc != null);
 
     getData();
     db = AppDatabase();
     userDao = UserDao(db);
+    _log.finest('LoginBloc constructer call');
   }
 
   getData() async {
@@ -55,52 +56,48 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
+    _log.finest('Bloc mapEventToState call');
     try {
       String tenantId;
       if (event is LoginButtonPressed) {
         if (Platform.isAndroid || Platform.isIOS) {
           var isConnected = await ConnectionService().isConnected();
+          _log.finest('Connection check call');
           print(isConnected);
           if (isConnected) {
+            _log.info(isConnected);
             //Loging with tenant - check for tenant before loging. If no tenant dont validate user and password
             yield LoginLoading();
+            _log.finest('Bloc state change to LoginLoading');
             final Response tenantResponse =
                 await userRepository.checkTenant(tenancyName: event.tenantname);
             Map<String, dynamic> tenantMap =
                 json.decode(tenantResponse.bodyString);
             if (tenantResponse.isSuccessful && tenantMap['success']) {
+              _log.finest('Tenant response check in LoginLoading state');
               Map<String, dynamic> tenantResult = tenantMap['result'];
+              _log.finest('Tenant result in LoginLoading state : ' +
+                  tenantResult.toString());
               print(tenantResult);
               await userRepository.setTanantIntoSharedPref(event.tenantname);
 
               tenantId = tenantResult['tenantId'].toString();
+              _log.finest(
+                  'Tenant tenant result assign to virable tenant LoginLoading state');
               if (tenantResult['tenantId'] == null) {
                 tenantId = 0.toString();
-
                 String error = "There is no tenant defined with name";
-
-                log.e(error);
-                log.v(error);
-                log.w(error);
-                await appLogger.saveAppLog(
-                    "LoginLoading",
-                    DateTime.now(),
-                    "NA",
-                    error,
-                    "NA",
-                    "NA",
-                    "NA",
-                    "Low",
-                    int.tryParse(tenantId),
-                    event.username,
-                    0);
+                _log.info(error);
 
                 if (error == null) {
+                  _log.info(
+                      'Transulate tenant error message and show message to user. LoginLoading state');
                   error = AppLocalization.of(event.context)
                           .translate('tenant_validation_message') ??
                       "There is no tenant defined with name";
                 }
                 yield LoginFailure(error: error);
+                _log.info('Bloc state change to LoginFailure');
 
                 return;
               }

@@ -1,9 +1,11 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'prefrence_crud.dart';
+part of 'preference_crud.dart';
 
 // **************************************************************************
 // DaoGenerator
 // **************************************************************************
 
-mixin _$PreferencesDaoMixin on DatabaseAccessor<AppDatabase> {}
+mixin _$PreferenceDaoMixin on DatabaseAccessor<AppDatabase> {
+  $PreferenceTable get preference => db.preference;
+}

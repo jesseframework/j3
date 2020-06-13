@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
-import 'package:j3enterprise/src/resources/shared/widgets/custom_drawer.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication_bloc.dart';
 
 import 'bloc/login_bloc.dart';
@@ -34,33 +33,29 @@ class LoginPage extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           child: Stack(
             children: <Widget>[
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
+              Positioned.fill(
                 child: Image.asset(
                   'images/beach-background.jpg',
                   fit: BoxFit.cover,
                 ),
               ),
-              SingleChildScrollView(
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                alignment: Alignment.center,
+                child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Container(
-                        margin: EdgeInsets.only(bottom: 50, top: 30),
-                        height: 250,
+                        margin: EdgeInsets.only(bottom: 30, top: 30),
+                        height: MediaQuery.of(context).size.height * 0.2,
                         child: Image.asset(
                           'images/logo.png',
                         ),
                       ),
-                      SingleChildScrollView(
-                        child: LoginForm(),
-                      ),
+                      LoginForm(),
                     ],
                   ),
                 ),
@@ -69,9 +64,6 @@ class LoginPage extends StatelessWidget {
           ),
         ),
       ),
-
-      // resizeToAvoidBottomInset: true,
-      drawer: CustomDrawer(),
     );
   }
 }

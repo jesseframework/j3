@@ -4,7 +4,7 @@ import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_sched
 import 'package:j3enterprise/src/database/crud/business_rule/business_rule_crud.dart';
 import 'package:j3enterprise/src/database/crud/communication/communication_setup_crud.dart';
 import 'package:j3enterprise/src/database/crud/mobile_device/mobile_device_crud.dart';
-import 'package:j3enterprise/src/database/crud/prefrence/prefrence_crud.dart';
+import 'package:j3enterprise/src/database/crud/prefrence/preference_crud.dart';
 import 'package:j3enterprise/src/database/crud/tenant/tenant_crud.dart';
 import 'package:j3enterprise/src/database/crud/user/user_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
@@ -16,7 +16,7 @@ class ResetDatabase {
   BackgroundJobLogsDao backgroundJobLogsDao;
   ApplicationLoggerDao applicationLoggerDao;
   MobileDeviceDao mobileDeviceDao;
-  PreferencesDao preferencesDao;
+  PreferenceDao preferencesDao;
   BusinessRuleDao businessRuleDao;
   TenantDao tenantDao;
   var db;
@@ -39,7 +39,7 @@ class ResetDatabase {
     applicationLoggerDao = ApplicationLoggerDao(db);
     tenantDao = TenantDao(db);
     businessRuleDao = BusinessRuleDao(db);
-    preferencesDao = PreferencesDao(db);
+    preferencesDao = PreferenceDao(db);
     mobileDeviceDao = MobileDeviceDao(db);
   }
 

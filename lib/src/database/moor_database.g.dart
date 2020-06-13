@@ -2292,194 +2292,113 @@ class $BackgroundJobLogsTable extends BackgroundJobLogs
   }
 }
 
-class PrefrenceData extends DataClass implements Insertable<PrefrenceData> {
-  final DateTime creationTime;
-  final DateTime deleteTime;
-  final int createUserId;
-  final String creatorUser;
-  final String lastModifierUser;
-  final int lastModifierUserId;
-  final int deleteUserId;
-  final String deleterUserId;
-  final bool isDeleted;
-  final DateTime importDateTime;
-  final DateTime exportDateTime;
-  final String exportStatus;
-  final String importStatus;
-  final String syncError;
+class PreferenceData extends DataClass implements Insertable<PreferenceData> {
+  final int id;
+  final int tenantId;
   final String code;
-  final String prefrenceName;
+  final String preferenceName;
   final String value;
   final String description;
   final String domain;
-  PrefrenceData(
-      {this.creationTime,
-      this.deleteTime,
-      this.createUserId,
-      this.creatorUser,
-      this.lastModifierUser,
-      this.lastModifierUserId,
-      this.deleteUserId,
-      this.deleterUserId,
-      @required this.isDeleted,
-      this.importDateTime,
-      this.exportDateTime,
-      @required this.exportStatus,
-      @required this.importStatus,
-      this.syncError,
+  final bool isGlobal;
+  final DateTime expiredDateTime;
+  final DateTime creationTime;
+  final String lastModifierTime;
+  final String syncError;
+  PreferenceData(
+      {@required this.id,
+      @required this.tenantId,
       @required this.code,
-      this.prefrenceName,
+      this.preferenceName,
       @required this.value,
       this.description,
-      this.domain});
-  factory PrefrenceData.fromData(
+      this.domain,
+      @required this.isGlobal,
+      this.expiredDateTime,
+      this.creationTime,
+      this.lastModifierTime,
+      this.syncError});
+  factory PreferenceData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
-    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
     final boolType = db.typeSystem.forDartType<bool>();
-    return PrefrenceData(
-      creationTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
-      deleteTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
-      createUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
-      creatorUser: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
-      lastModifierUser: stringType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user']),
-      lastModifierUserId: intType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user_id']),
-      deleteUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
-      deleterUserId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
-      isDeleted: boolType
-          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
-      importDateTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}import_date_time']),
-      exportDateTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}export_date_time']),
-      exportStatus: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}export_status']),
-      importStatus: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}import_status']),
-      syncError: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}sync_error']),
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    return PreferenceData(
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
       code: stringType.mapFromDatabaseResponse(data['${effectivePrefix}code']),
-      prefrenceName: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}prefrence_name']),
+      preferenceName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}preference_name']),
       value:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}value']),
       description: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}description']),
       domain:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}domain']),
+      isGlobal:
+          boolType.mapFromDatabaseResponse(data['${effectivePrefix}is_global']),
+      expiredDateTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}expired_date_time']),
+      creationTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
+      lastModifierTime: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}last_modifier_time']),
+      syncError: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}sync_error']),
     );
   }
-  factory PrefrenceData.fromJson(Map<String, dynamic> json,
+  factory PreferenceData.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
-    return PrefrenceData(
-      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
-      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
-      createUserId: serializer.fromJson<int>(json['createUserId']),
-      creatorUser: serializer.fromJson<String>(json['creatorUser']),
-      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
-      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
-      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
-      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
-      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
-      importDateTime: serializer.fromJson<DateTime>(json['importDateTime']),
-      exportDateTime: serializer.fromJson<DateTime>(json['exportDateTime']),
-      exportStatus: serializer.fromJson<String>(json['exportStatus']),
-      importStatus: serializer.fromJson<String>(json['importStatus']),
-      syncError: serializer.fromJson<String>(json['syncError']),
+    return PreferenceData(
+      id: serializer.fromJson<int>(json['id']),
+      tenantId: serializer.fromJson<int>(json['tenantId']),
       code: serializer.fromJson<String>(json['code']),
-      prefrenceName: serializer.fromJson<String>(json['prefrenceName']),
+      preferenceName: serializer.fromJson<String>(json['preferenceName']),
       value: serializer.fromJson<String>(json['value']),
       description: serializer.fromJson<String>(json['description']),
       domain: serializer.fromJson<String>(json['domain']),
+      isGlobal: serializer.fromJson<bool>(json['isGlobal']),
+      expiredDateTime: serializer.fromJson<DateTime>(json['expiredDateTime']),
+      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
+      lastModifierTime: serializer.fromJson<String>(json['lastModifierTime']),
+      syncError: serializer.fromJson<String>(json['syncError']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'creationTime': serializer.toJson<DateTime>(creationTime),
-      'deleteTime': serializer.toJson<DateTime>(deleteTime),
-      'createUserId': serializer.toJson<int>(createUserId),
-      'creatorUser': serializer.toJson<String>(creatorUser),
-      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
-      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
-      'deleteUserId': serializer.toJson<int>(deleteUserId),
-      'deleterUserId': serializer.toJson<String>(deleterUserId),
-      'isDeleted': serializer.toJson<bool>(isDeleted),
-      'importDateTime': serializer.toJson<DateTime>(importDateTime),
-      'exportDateTime': serializer.toJson<DateTime>(exportDateTime),
-      'exportStatus': serializer.toJson<String>(exportStatus),
-      'importStatus': serializer.toJson<String>(importStatus),
-      'syncError': serializer.toJson<String>(syncError),
+      'id': serializer.toJson<int>(id),
+      'tenantId': serializer.toJson<int>(tenantId),
       'code': serializer.toJson<String>(code),
-      'prefrenceName': serializer.toJson<String>(prefrenceName),
+      'preferenceName': serializer.toJson<String>(preferenceName),
       'value': serializer.toJson<String>(value),
       'description': serializer.toJson<String>(description),
       'domain': serializer.toJson<String>(domain),
+      'isGlobal': serializer.toJson<bool>(isGlobal),
+      'expiredDateTime': serializer.toJson<DateTime>(expiredDateTime),
+      'creationTime': serializer.toJson<DateTime>(creationTime),
+      'lastModifierTime': serializer.toJson<String>(lastModifierTime),
+      'syncError': serializer.toJson<String>(syncError),
     };
   }
 
   @override
-  PrefrenceCompanion createCompanion(bool nullToAbsent) {
-    return PrefrenceCompanion(
-      creationTime: creationTime == null && nullToAbsent
+  PreferenceCompanion createCompanion(bool nullToAbsent) {
+    return PreferenceCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
-          : Value(creationTime),
-      deleteTime: deleteTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteTime),
-      createUserId: createUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createUserId),
-      creatorUser: creatorUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creatorUser),
-      lastModifierUser: lastModifierUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUser),
-      lastModifierUserId: lastModifierUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUserId),
-      deleteUserId: deleteUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteUserId),
-      deleterUserId: deleterUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleterUserId),
-      isDeleted: isDeleted == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isDeleted),
-      importDateTime: importDateTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(importDateTime),
-      exportDateTime: exportDateTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(exportDateTime),
-      exportStatus: exportStatus == null && nullToAbsent
-          ? const Value.absent()
-          : Value(exportStatus),
-      importStatus: importStatus == null && nullToAbsent
-          ? const Value.absent()
-          : Value(importStatus),
-      syncError: syncError == null && nullToAbsent
-          ? const Value.absent()
-          : Value(syncError),
+          : Value(tenantId),
       code: code == null && nullToAbsent ? const Value.absent() : Value(code),
-      prefrenceName: prefrenceName == null && nullToAbsent
+      preferenceName: preferenceName == null && nullToAbsent
           ? const Value.absent()
-          : Value(prefrenceName),
+          : Value(preferenceName),
       value:
           value == null && nullToAbsent ? const Value.absent() : Value(value),
       description: description == null && nullToAbsent
@@ -2487,434 +2406,207 @@ class PrefrenceData extends DataClass implements Insertable<PrefrenceData> {
           : Value(description),
       domain:
           domain == null && nullToAbsent ? const Value.absent() : Value(domain),
+      isGlobal: isGlobal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isGlobal),
+      expiredDateTime: expiredDateTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(expiredDateTime),
+      creationTime: creationTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creationTime),
+      lastModifierTime: lastModifierTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierTime),
+      syncError: syncError == null && nullToAbsent
+          ? const Value.absent()
+          : Value(syncError),
     );
   }
 
-  PrefrenceData copyWith(
-          {DateTime creationTime,
-          DateTime deleteTime,
-          int createUserId,
-          String creatorUser,
-          String lastModifierUser,
-          int lastModifierUserId,
-          int deleteUserId,
-          String deleterUserId,
-          bool isDeleted,
-          DateTime importDateTime,
-          DateTime exportDateTime,
-          String exportStatus,
-          String importStatus,
-          String syncError,
+  PreferenceData copyWith(
+          {int id,
+          int tenantId,
           String code,
-          String prefrenceName,
+          String preferenceName,
           String value,
           String description,
-          String domain}) =>
-      PrefrenceData(
-        creationTime: creationTime ?? this.creationTime,
-        deleteTime: deleteTime ?? this.deleteTime,
-        createUserId: createUserId ?? this.createUserId,
-        creatorUser: creatorUser ?? this.creatorUser,
-        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-        deleteUserId: deleteUserId ?? this.deleteUserId,
-        deleterUserId: deleterUserId ?? this.deleterUserId,
-        isDeleted: isDeleted ?? this.isDeleted,
-        importDateTime: importDateTime ?? this.importDateTime,
-        exportDateTime: exportDateTime ?? this.exportDateTime,
-        exportStatus: exportStatus ?? this.exportStatus,
-        importStatus: importStatus ?? this.importStatus,
-        syncError: syncError ?? this.syncError,
+          String domain,
+          bool isGlobal,
+          DateTime expiredDateTime,
+          DateTime creationTime,
+          String lastModifierTime,
+          String syncError}) =>
+      PreferenceData(
+        id: id ?? this.id,
+        tenantId: tenantId ?? this.tenantId,
         code: code ?? this.code,
-        prefrenceName: prefrenceName ?? this.prefrenceName,
+        preferenceName: preferenceName ?? this.preferenceName,
         value: value ?? this.value,
         description: description ?? this.description,
         domain: domain ?? this.domain,
+        isGlobal: isGlobal ?? this.isGlobal,
+        expiredDateTime: expiredDateTime ?? this.expiredDateTime,
+        creationTime: creationTime ?? this.creationTime,
+        lastModifierTime: lastModifierTime ?? this.lastModifierTime,
+        syncError: syncError ?? this.syncError,
       );
   @override
   String toString() {
-    return (StringBuffer('PrefrenceData(')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
-          ..write('importDateTime: $importDateTime, ')
-          ..write('exportDateTime: $exportDateTime, ')
-          ..write('exportStatus: $exportStatus, ')
-          ..write('importStatus: $importStatus, ')
-          ..write('syncError: $syncError, ')
+    return (StringBuffer('PreferenceData(')
+          ..write('id: $id, ')
+          ..write('tenantId: $tenantId, ')
           ..write('code: $code, ')
-          ..write('prefrenceName: $prefrenceName, ')
+          ..write('preferenceName: $preferenceName, ')
           ..write('value: $value, ')
           ..write('description: $description, ')
-          ..write('domain: $domain')
+          ..write('domain: $domain, ')
+          ..write('isGlobal: $isGlobal, ')
+          ..write('expiredDateTime: $expiredDateTime, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('lastModifierTime: $lastModifierTime, ')
+          ..write('syncError: $syncError')
           ..write(')'))
         .toString();
   }
 
   @override
   int get hashCode => $mrjf($mrjc(
-      creationTime.hashCode,
+      id.hashCode,
       $mrjc(
-          deleteTime.hashCode,
+          tenantId.hashCode,
           $mrjc(
-              createUserId.hashCode,
+              code.hashCode,
               $mrjc(
-                  creatorUser.hashCode,
+                  preferenceName.hashCode,
                   $mrjc(
-                      lastModifierUser.hashCode,
+                      value.hashCode,
                       $mrjc(
-                          lastModifierUserId.hashCode,
+                          description.hashCode,
                           $mrjc(
-                              deleteUserId.hashCode,
+                              domain.hashCode,
                               $mrjc(
-                                  deleterUserId.hashCode,
+                                  isGlobal.hashCode,
                                   $mrjc(
-                                      isDeleted.hashCode,
+                                      expiredDateTime.hashCode,
                                       $mrjc(
-                                          importDateTime.hashCode,
-                                          $mrjc(
-                                              exportDateTime.hashCode,
-                                              $mrjc(
-                                                  exportStatus.hashCode,
-                                                  $mrjc(
-                                                      importStatus.hashCode,
-                                                      $mrjc(
-                                                          syncError.hashCode,
-                                                          $mrjc(
-                                                              code.hashCode,
-                                                              $mrjc(
-                                                                  prefrenceName
-                                                                      .hashCode,
-                                                                  $mrjc(
-                                                                      value
-                                                                          .hashCode,
-                                                                      $mrjc(
-                                                                          description
-                                                                              .hashCode,
-                                                                          domain
-                                                                              .hashCode)))))))))))))))))));
+                                          creationTime.hashCode,
+                                          $mrjc(lastModifierTime.hashCode,
+                                              syncError.hashCode))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
-      (other is PrefrenceData &&
-          other.creationTime == this.creationTime &&
-          other.deleteTime == this.deleteTime &&
-          other.createUserId == this.createUserId &&
-          other.creatorUser == this.creatorUser &&
-          other.lastModifierUser == this.lastModifierUser &&
-          other.lastModifierUserId == this.lastModifierUserId &&
-          other.deleteUserId == this.deleteUserId &&
-          other.deleterUserId == this.deleterUserId &&
-          other.isDeleted == this.isDeleted &&
-          other.importDateTime == this.importDateTime &&
-          other.exportDateTime == this.exportDateTime &&
-          other.exportStatus == this.exportStatus &&
-          other.importStatus == this.importStatus &&
-          other.syncError == this.syncError &&
+      (other is PreferenceData &&
+          other.id == this.id &&
+          other.tenantId == this.tenantId &&
           other.code == this.code &&
-          other.prefrenceName == this.prefrenceName &&
+          other.preferenceName == this.preferenceName &&
           other.value == this.value &&
           other.description == this.description &&
-          other.domain == this.domain);
+          other.domain == this.domain &&
+          other.isGlobal == this.isGlobal &&
+          other.expiredDateTime == this.expiredDateTime &&
+          other.creationTime == this.creationTime &&
+          other.lastModifierTime == this.lastModifierTime &&
+          other.syncError == this.syncError);
 }
 
-class PrefrenceCompanion extends UpdateCompanion<PrefrenceData> {
-  final Value<DateTime> creationTime;
-  final Value<DateTime> deleteTime;
-  final Value<int> createUserId;
-  final Value<String> creatorUser;
-  final Value<String> lastModifierUser;
-  final Value<int> lastModifierUserId;
-  final Value<int> deleteUserId;
-  final Value<String> deleterUserId;
-  final Value<bool> isDeleted;
-  final Value<DateTime> importDateTime;
-  final Value<DateTime> exportDateTime;
-  final Value<String> exportStatus;
-  final Value<String> importStatus;
-  final Value<String> syncError;
+class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
+  final Value<int> id;
+  final Value<int> tenantId;
   final Value<String> code;
-  final Value<String> prefrenceName;
+  final Value<String> preferenceName;
   final Value<String> value;
   final Value<String> description;
   final Value<String> domain;
-  const PrefrenceCompanion({
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
-    this.importDateTime = const Value.absent(),
-    this.exportDateTime = const Value.absent(),
-    this.exportStatus = const Value.absent(),
-    this.importStatus = const Value.absent(),
-    this.syncError = const Value.absent(),
+  final Value<bool> isGlobal;
+  final Value<DateTime> expiredDateTime;
+  final Value<DateTime> creationTime;
+  final Value<String> lastModifierTime;
+  final Value<String> syncError;
+  const PreferenceCompanion({
+    this.id = const Value.absent(),
+    this.tenantId = const Value.absent(),
     this.code = const Value.absent(),
-    this.prefrenceName = const Value.absent(),
+    this.preferenceName = const Value.absent(),
     this.value = const Value.absent(),
     this.description = const Value.absent(),
     this.domain = const Value.absent(),
-  });
-  PrefrenceCompanion.insert({
+    this.isGlobal = const Value.absent(),
+    this.expiredDateTime = const Value.absent(),
     this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
-    this.importDateTime = const Value.absent(),
-    this.exportDateTime = const Value.absent(),
-    this.exportStatus = const Value.absent(),
-    this.importStatus = const Value.absent(),
+    this.lastModifierTime = const Value.absent(),
     this.syncError = const Value.absent(),
+  });
+  PreferenceCompanion.insert({
+    this.id = const Value.absent(),
+    @required int tenantId,
     @required String code,
-    this.prefrenceName = const Value.absent(),
+    this.preferenceName = const Value.absent(),
     @required String value,
     this.description = const Value.absent(),
     this.domain = const Value.absent(),
-  })  : code = Value(code),
+    this.isGlobal = const Value.absent(),
+    this.expiredDateTime = const Value.absent(),
+    this.creationTime = const Value.absent(),
+    this.lastModifierTime = const Value.absent(),
+    this.syncError = const Value.absent(),
+  })  : tenantId = Value(tenantId),
+        code = Value(code),
         value = Value(value);
-  PrefrenceCompanion copyWith(
-      {Value<DateTime> creationTime,
-      Value<DateTime> deleteTime,
-      Value<int> createUserId,
-      Value<String> creatorUser,
-      Value<String> lastModifierUser,
-      Value<int> lastModifierUserId,
-      Value<int> deleteUserId,
-      Value<String> deleterUserId,
-      Value<bool> isDeleted,
-      Value<DateTime> importDateTime,
-      Value<DateTime> exportDateTime,
-      Value<String> exportStatus,
-      Value<String> importStatus,
-      Value<String> syncError,
+  PreferenceCompanion copyWith(
+      {Value<int> id,
+      Value<int> tenantId,
       Value<String> code,
-      Value<String> prefrenceName,
+      Value<String> preferenceName,
       Value<String> value,
       Value<String> description,
-      Value<String> domain}) {
-    return PrefrenceCompanion(
-      creationTime: creationTime ?? this.creationTime,
-      deleteTime: deleteTime ?? this.deleteTime,
-      createUserId: createUserId ?? this.createUserId,
-      creatorUser: creatorUser ?? this.creatorUser,
-      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-      deleteUserId: deleteUserId ?? this.deleteUserId,
-      deleterUserId: deleterUserId ?? this.deleterUserId,
-      isDeleted: isDeleted ?? this.isDeleted,
-      importDateTime: importDateTime ?? this.importDateTime,
-      exportDateTime: exportDateTime ?? this.exportDateTime,
-      exportStatus: exportStatus ?? this.exportStatus,
-      importStatus: importStatus ?? this.importStatus,
-      syncError: syncError ?? this.syncError,
+      Value<String> domain,
+      Value<bool> isGlobal,
+      Value<DateTime> expiredDateTime,
+      Value<DateTime> creationTime,
+      Value<String> lastModifierTime,
+      Value<String> syncError}) {
+    return PreferenceCompanion(
+      id: id ?? this.id,
+      tenantId: tenantId ?? this.tenantId,
       code: code ?? this.code,
-      prefrenceName: prefrenceName ?? this.prefrenceName,
+      preferenceName: preferenceName ?? this.preferenceName,
       value: value ?? this.value,
       description: description ?? this.description,
       domain: domain ?? this.domain,
+      isGlobal: isGlobal ?? this.isGlobal,
+      expiredDateTime: expiredDateTime ?? this.expiredDateTime,
+      creationTime: creationTime ?? this.creationTime,
+      lastModifierTime: lastModifierTime ?? this.lastModifierTime,
+      syncError: syncError ?? this.syncError,
     );
   }
 }
 
-class $PrefrenceTable extends Prefrence
-    with TableInfo<$PrefrenceTable, PrefrenceData> {
+class $PreferenceTable extends Preference
+    with TableInfo<$PreferenceTable, PreferenceData> {
   final GeneratedDatabase _db;
   final String _alias;
-  $PrefrenceTable(this._db, [this._alias]);
-  final VerificationMeta _creationTimeMeta =
-      const VerificationMeta('creationTime');
-  GeneratedDateTimeColumn _creationTime;
+  $PreferenceTable(this._db, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
   @override
-  GeneratedDateTimeColumn get creationTime =>
-      _creationTime ??= _constructCreationTime();
-  GeneratedDateTimeColumn _constructCreationTime() {
-    return GeneratedDateTimeColumn(
-      'creation_time',
-      $tableName,
-      true,
-    );
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn('id', $tableName, false,
+        hasAutoIncrement: true, declaredAsPrimaryKey: true);
   }
 
-  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
-  GeneratedDateTimeColumn _deleteTime;
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
   @override
-  GeneratedDateTimeColumn get deleteTime =>
-      _deleteTime ??= _constructDeleteTime();
-  GeneratedDateTimeColumn _constructDeleteTime() {
-    return GeneratedDateTimeColumn(
-      'delete_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _createUserIdMeta =
-      const VerificationMeta('createUserId');
-  GeneratedIntColumn _createUserId;
-  @override
-  GeneratedIntColumn get createUserId =>
-      _createUserId ??= _constructCreateUserId();
-  GeneratedIntColumn _constructCreateUserId() {
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
     return GeneratedIntColumn(
-      'create_user_id',
+      'tenant_id',
       $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _creatorUserMeta =
-      const VerificationMeta('creatorUser');
-  GeneratedTextColumn _creatorUser;
-  @override
-  GeneratedTextColumn get creatorUser =>
-      _creatorUser ??= _constructCreatorUser();
-  GeneratedTextColumn _constructCreatorUser() {
-    return GeneratedTextColumn(
-      'creator_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserMeta =
-      const VerificationMeta('lastModifierUser');
-  GeneratedTextColumn _lastModifierUser;
-  @override
-  GeneratedTextColumn get lastModifierUser =>
-      _lastModifierUser ??= _constructLastModifierUser();
-  GeneratedTextColumn _constructLastModifierUser() {
-    return GeneratedTextColumn(
-      'last_modifier_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserIdMeta =
-      const VerificationMeta('lastModifierUserId');
-  GeneratedIntColumn _lastModifierUserId;
-  @override
-  GeneratedIntColumn get lastModifierUserId =>
-      _lastModifierUserId ??= _constructLastModifierUserId();
-  GeneratedIntColumn _constructLastModifierUserId() {
-    return GeneratedIntColumn(
-      'last_modifier_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteUserIdMeta =
-      const VerificationMeta('deleteUserId');
-  GeneratedIntColumn _deleteUserId;
-  @override
-  GeneratedIntColumn get deleteUserId =>
-      _deleteUserId ??= _constructDeleteUserId();
-  GeneratedIntColumn _constructDeleteUserId() {
-    return GeneratedIntColumn(
-      'delete_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleterUserIdMeta =
-      const VerificationMeta('deleterUserId');
-  GeneratedTextColumn _deleterUserId;
-  @override
-  GeneratedTextColumn get deleterUserId =>
-      _deleterUserId ??= _constructDeleterUserId();
-  GeneratedTextColumn _constructDeleterUserId() {
-    return GeneratedTextColumn(
-      'deleter_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
-  GeneratedBoolColumn _isDeleted;
-  @override
-  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
-  GeneratedBoolColumn _constructIsDeleted() {
-    return GeneratedBoolColumn('is_deleted', $tableName, false,
-        defaultValue: Constant(false));
-  }
-
-  final VerificationMeta _importDateTimeMeta =
-      const VerificationMeta('importDateTime');
-  GeneratedDateTimeColumn _importDateTime;
-  @override
-  GeneratedDateTimeColumn get importDateTime =>
-      _importDateTime ??= _constructImportDateTime();
-  GeneratedDateTimeColumn _constructImportDateTime() {
-    return GeneratedDateTimeColumn(
-      'import_date_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _exportDateTimeMeta =
-      const VerificationMeta('exportDateTime');
-  GeneratedDateTimeColumn _exportDateTime;
-  @override
-  GeneratedDateTimeColumn get exportDateTime =>
-      _exportDateTime ??= _constructExportDateTime();
-  GeneratedDateTimeColumn _constructExportDateTime() {
-    return GeneratedDateTimeColumn(
-      'export_date_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _exportStatusMeta =
-      const VerificationMeta('exportStatus');
-  GeneratedTextColumn _exportStatus;
-  @override
-  GeneratedTextColumn get exportStatus =>
-      _exportStatus ??= _constructExportStatus();
-  GeneratedTextColumn _constructExportStatus() {
-    return GeneratedTextColumn('export_status', $tableName, false,
-        defaultValue: Constant('Pending'));
-  }
-
-  final VerificationMeta _importStatusMeta =
-      const VerificationMeta('importStatus');
-  GeneratedTextColumn _importStatus;
-  @override
-  GeneratedTextColumn get importStatus =>
-      _importStatus ??= _constructImportStatus();
-  GeneratedTextColumn _constructImportStatus() {
-    return GeneratedTextColumn('import_status', $tableName, false,
-        defaultValue: Constant('Pending'));
-  }
-
-  final VerificationMeta _syncErrorMeta = const VerificationMeta('syncError');
-  GeneratedTextColumn _syncError;
-  @override
-  GeneratedTextColumn get syncError => _syncError ??= _constructSyncError();
-  GeneratedTextColumn _constructSyncError() {
-    return GeneratedTextColumn(
-      'sync_error',
-      $tableName,
-      true,
+      false,
     );
   }
 
@@ -2930,15 +2622,15 @@ class $PrefrenceTable extends Prefrence
     );
   }
 
-  final VerificationMeta _prefrenceNameMeta =
-      const VerificationMeta('prefrenceName');
-  GeneratedTextColumn _prefrenceName;
+  final VerificationMeta _preferenceNameMeta =
+      const VerificationMeta('preferenceName');
+  GeneratedTextColumn _preferenceName;
   @override
-  GeneratedTextColumn get prefrenceName =>
-      _prefrenceName ??= _constructPrefrenceName();
-  GeneratedTextColumn _constructPrefrenceName() {
+  GeneratedTextColumn get preferenceName =>
+      _preferenceName ??= _constructPreferenceName();
+  GeneratedTextColumn _constructPreferenceName() {
     return GeneratedTextColumn(
-      'prefrence_name',
+      'preference_name',
       $tableName,
       true,
     );
@@ -2982,113 +2674,102 @@ class $PrefrenceTable extends Prefrence
     );
   }
 
+  final VerificationMeta _isGlobalMeta = const VerificationMeta('isGlobal');
+  GeneratedBoolColumn _isGlobal;
+  @override
+  GeneratedBoolColumn get isGlobal => _isGlobal ??= _constructIsGlobal();
+  GeneratedBoolColumn _constructIsGlobal() {
+    return GeneratedBoolColumn('is_global', $tableName, false,
+        defaultValue: Constant(true));
+  }
+
+  final VerificationMeta _expiredDateTimeMeta =
+      const VerificationMeta('expiredDateTime');
+  GeneratedDateTimeColumn _expiredDateTime;
+  @override
+  GeneratedDateTimeColumn get expiredDateTime =>
+      _expiredDateTime ??= _constructExpiredDateTime();
+  GeneratedDateTimeColumn _constructExpiredDateTime() {
+    return GeneratedDateTimeColumn(
+      'expired_date_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _creationTimeMeta =
+      const VerificationMeta('creationTime');
+  GeneratedDateTimeColumn _creationTime;
+  @override
+  GeneratedDateTimeColumn get creationTime =>
+      _creationTime ??= _constructCreationTime();
+  GeneratedDateTimeColumn _constructCreationTime() {
+    return GeneratedDateTimeColumn(
+      'creation_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _lastModifierTimeMeta =
+      const VerificationMeta('lastModifierTime');
+  GeneratedTextColumn _lastModifierTime;
+  @override
+  GeneratedTextColumn get lastModifierTime =>
+      _lastModifierTime ??= _constructLastModifierTime();
+  GeneratedTextColumn _constructLastModifierTime() {
+    return GeneratedTextColumn(
+      'last_modifier_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _syncErrorMeta = const VerificationMeta('syncError');
+  GeneratedTextColumn _syncError;
+  @override
+  GeneratedTextColumn get syncError => _syncError ??= _constructSyncError();
+  GeneratedTextColumn _constructSyncError() {
+    return GeneratedTextColumn(
+      'sync_error',
+      $tableName,
+      true,
+    );
+  }
+
   @override
   List<GeneratedColumn> get $columns => [
-        creationTime,
-        deleteTime,
-        createUserId,
-        creatorUser,
-        lastModifierUser,
-        lastModifierUserId,
-        deleteUserId,
-        deleterUserId,
-        isDeleted,
-        importDateTime,
-        exportDateTime,
-        exportStatus,
-        importStatus,
-        syncError,
+        id,
+        tenantId,
         code,
-        prefrenceName,
+        preferenceName,
         value,
         description,
-        domain
+        domain,
+        isGlobal,
+        expiredDateTime,
+        creationTime,
+        lastModifierTime,
+        syncError
       ];
   @override
-  $PrefrenceTable get asDslTable => this;
+  $PreferenceTable get asDslTable => this;
   @override
-  String get $tableName => _alias ?? 'prefrence';
+  String get $tableName => _alias ?? 'preference';
   @override
-  final String actualTableName = 'prefrence';
+  final String actualTableName = 'preference';
   @override
-  VerificationContext validateIntegrity(PrefrenceCompanion d,
+  VerificationContext validateIntegrity(PreferenceCompanion d,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.creationTime.present) {
-      context.handle(
-          _creationTimeMeta,
-          creationTime.isAcceptableValue(
-              d.creationTime.value, _creationTimeMeta));
+    if (d.id.present) {
+      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
     }
-    if (d.deleteTime.present) {
-      context.handle(_deleteTimeMeta,
-          deleteTime.isAcceptableValue(d.deleteTime.value, _deleteTimeMeta));
-    }
-    if (d.createUserId.present) {
-      context.handle(
-          _createUserIdMeta,
-          createUserId.isAcceptableValue(
-              d.createUserId.value, _createUserIdMeta));
-    }
-    if (d.creatorUser.present) {
-      context.handle(_creatorUserMeta,
-          creatorUser.isAcceptableValue(d.creatorUser.value, _creatorUserMeta));
-    }
-    if (d.lastModifierUser.present) {
-      context.handle(
-          _lastModifierUserMeta,
-          lastModifierUser.isAcceptableValue(
-              d.lastModifierUser.value, _lastModifierUserMeta));
-    }
-    if (d.lastModifierUserId.present) {
-      context.handle(
-          _lastModifierUserIdMeta,
-          lastModifierUserId.isAcceptableValue(
-              d.lastModifierUserId.value, _lastModifierUserIdMeta));
-    }
-    if (d.deleteUserId.present) {
-      context.handle(
-          _deleteUserIdMeta,
-          deleteUserId.isAcceptableValue(
-              d.deleteUserId.value, _deleteUserIdMeta));
-    }
-    if (d.deleterUserId.present) {
-      context.handle(
-          _deleterUserIdMeta,
-          deleterUserId.isAcceptableValue(
-              d.deleterUserId.value, _deleterUserIdMeta));
-    }
-    if (d.isDeleted.present) {
-      context.handle(_isDeletedMeta,
-          isDeleted.isAcceptableValue(d.isDeleted.value, _isDeletedMeta));
-    }
-    if (d.importDateTime.present) {
-      context.handle(
-          _importDateTimeMeta,
-          importDateTime.isAcceptableValue(
-              d.importDateTime.value, _importDateTimeMeta));
-    }
-    if (d.exportDateTime.present) {
-      context.handle(
-          _exportDateTimeMeta,
-          exportDateTime.isAcceptableValue(
-              d.exportDateTime.value, _exportDateTimeMeta));
-    }
-    if (d.exportStatus.present) {
-      context.handle(
-          _exportStatusMeta,
-          exportStatus.isAcceptableValue(
-              d.exportStatus.value, _exportStatusMeta));
-    }
-    if (d.importStatus.present) {
-      context.handle(
-          _importStatusMeta,
-          importStatus.isAcceptableValue(
-              d.importStatus.value, _importStatusMeta));
-    }
-    if (d.syncError.present) {
-      context.handle(_syncErrorMeta,
-          syncError.isAcceptableValue(d.syncError.value, _syncErrorMeta));
+    if (d.tenantId.present) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableValue(d.tenantId.value, _tenantIdMeta));
+    } else if (isInserting) {
+      context.missing(_tenantIdMeta);
     }
     if (d.code.present) {
       context.handle(
@@ -3096,11 +2777,11 @@ class $PrefrenceTable extends Prefrence
     } else if (isInserting) {
       context.missing(_codeMeta);
     }
-    if (d.prefrenceName.present) {
+    if (d.preferenceName.present) {
       context.handle(
-          _prefrenceNameMeta,
-          prefrenceName.isAcceptableValue(
-              d.prefrenceName.value, _prefrenceNameMeta));
+          _preferenceNameMeta,
+          preferenceName.isAcceptableValue(
+              d.preferenceName.value, _preferenceNameMeta));
     }
     if (d.value.present) {
       context.handle(
@@ -3116,74 +2797,58 @@ class $PrefrenceTable extends Prefrence
       context.handle(
           _domainMeta, domain.isAcceptableValue(d.domain.value, _domainMeta));
     }
+    if (d.isGlobal.present) {
+      context.handle(_isGlobalMeta,
+          isGlobal.isAcceptableValue(d.isGlobal.value, _isGlobalMeta));
+    }
+    if (d.expiredDateTime.present) {
+      context.handle(
+          _expiredDateTimeMeta,
+          expiredDateTime.isAcceptableValue(
+              d.expiredDateTime.value, _expiredDateTimeMeta));
+    }
+    if (d.creationTime.present) {
+      context.handle(
+          _creationTimeMeta,
+          creationTime.isAcceptableValue(
+              d.creationTime.value, _creationTimeMeta));
+    }
+    if (d.lastModifierTime.present) {
+      context.handle(
+          _lastModifierTimeMeta,
+          lastModifierTime.isAcceptableValue(
+              d.lastModifierTime.value, _lastModifierTimeMeta));
+    }
+    if (d.syncError.present) {
+      context.handle(_syncErrorMeta,
+          syncError.isAcceptableValue(d.syncError.value, _syncErrorMeta));
+    }
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {code};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  PrefrenceData map(Map<String, dynamic> data, {String tablePrefix}) {
+  PreferenceData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
-    return PrefrenceData.fromData(data, _db, prefix: effectivePrefix);
+    return PreferenceData.fromData(data, _db, prefix: effectivePrefix);
   }
 
   @override
-  Map<String, Variable> entityToSql(PrefrenceCompanion d) {
+  Map<String, Variable> entityToSql(PreferenceCompanion d) {
     final map = <String, Variable>{};
-    if (d.creationTime.present) {
-      map['creation_time'] =
-          Variable<DateTime, DateTimeType>(d.creationTime.value);
+    if (d.id.present) {
+      map['id'] = Variable<int, IntType>(d.id.value);
     }
-    if (d.deleteTime.present) {
-      map['delete_time'] = Variable<DateTime, DateTimeType>(d.deleteTime.value);
-    }
-    if (d.createUserId.present) {
-      map['create_user_id'] = Variable<int, IntType>(d.createUserId.value);
-    }
-    if (d.creatorUser.present) {
-      map['creator_user'] = Variable<String, StringType>(d.creatorUser.value);
-    }
-    if (d.lastModifierUser.present) {
-      map['last_modifier_user'] =
-          Variable<String, StringType>(d.lastModifierUser.value);
-    }
-    if (d.lastModifierUserId.present) {
-      map['last_modifier_user_id'] =
-          Variable<int, IntType>(d.lastModifierUserId.value);
-    }
-    if (d.deleteUserId.present) {
-      map['delete_user_id'] = Variable<int, IntType>(d.deleteUserId.value);
-    }
-    if (d.deleterUserId.present) {
-      map['deleter_user_id'] =
-          Variable<String, StringType>(d.deleterUserId.value);
-    }
-    if (d.isDeleted.present) {
-      map['is_deleted'] = Variable<bool, BoolType>(d.isDeleted.value);
-    }
-    if (d.importDateTime.present) {
-      map['import_date_time'] =
-          Variable<DateTime, DateTimeType>(d.importDateTime.value);
-    }
-    if (d.exportDateTime.present) {
-      map['export_date_time'] =
-          Variable<DateTime, DateTimeType>(d.exportDateTime.value);
-    }
-    if (d.exportStatus.present) {
-      map['export_status'] = Variable<String, StringType>(d.exportStatus.value);
-    }
-    if (d.importStatus.present) {
-      map['import_status'] = Variable<String, StringType>(d.importStatus.value);
-    }
-    if (d.syncError.present) {
-      map['sync_error'] = Variable<String, StringType>(d.syncError.value);
+    if (d.tenantId.present) {
+      map['tenant_id'] = Variable<int, IntType>(d.tenantId.value);
     }
     if (d.code.present) {
       map['code'] = Variable<String, StringType>(d.code.value);
     }
-    if (d.prefrenceName.present) {
-      map['prefrence_name'] =
-          Variable<String, StringType>(d.prefrenceName.value);
+    if (d.preferenceName.present) {
+      map['preference_name'] =
+          Variable<String, StringType>(d.preferenceName.value);
     }
     if (d.value.present) {
       map['value'] = Variable<String, StringType>(d.value.value);
@@ -3194,12 +2859,30 @@ class $PrefrenceTable extends Prefrence
     if (d.domain.present) {
       map['domain'] = Variable<String, StringType>(d.domain.value);
     }
+    if (d.isGlobal.present) {
+      map['is_global'] = Variable<bool, BoolType>(d.isGlobal.value);
+    }
+    if (d.expiredDateTime.present) {
+      map['expired_date_time'] =
+          Variable<DateTime, DateTimeType>(d.expiredDateTime.value);
+    }
+    if (d.creationTime.present) {
+      map['creation_time'] =
+          Variable<DateTime, DateTimeType>(d.creationTime.value);
+    }
+    if (d.lastModifierTime.present) {
+      map['last_modifier_time'] =
+          Variable<String, StringType>(d.lastModifierTime.value);
+    }
+    if (d.syncError.present) {
+      map['sync_error'] = Variable<String, StringType>(d.syncError.value);
+    }
     return map;
   }
 
   @override
-  $PrefrenceTable createAlias(String alias) {
-    return $PrefrenceTable(_db, alias);
+  $PreferenceTable createAlias(String alias) {
+    return $PreferenceTable(_db, alias);
   }
 }
 
@@ -6769,6 +6452,561 @@ class $TenantTable extends Tenant with TableInfo<$TenantTable, TenantData> {
   }
 }
 
+class NonGlobalSettingData extends DataClass
+    implements Insertable<NonGlobalSettingData> {
+  final int id;
+  final String parentCode;
+  final String code;
+  final String value;
+  final String settingType;
+  final String deviceId;
+  final String userName;
+  final String screen;
+  final bool isApply;
+  final DateTime expiredDateTime;
+  final String syncError;
+  NonGlobalSettingData(
+      {@required this.id,
+      @required this.parentCode,
+      @required this.code,
+      @required this.value,
+      @required this.settingType,
+      this.deviceId,
+      @required this.userName,
+      @required this.screen,
+      @required this.isApply,
+      this.expiredDateTime,
+      this.syncError});
+  factory NonGlobalSettingData.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    return NonGlobalSettingData(
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      parentCode: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}parent_code']),
+      code: stringType.mapFromDatabaseResponse(data['${effectivePrefix}code']),
+      value:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}value']),
+      settingType: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}setting_type']),
+      deviceId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}device_id']),
+      userName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}user_name']),
+      screen:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}screen']),
+      isApply:
+          boolType.mapFromDatabaseResponse(data['${effectivePrefix}is_apply']),
+      expiredDateTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}expired_date_time']),
+      syncError: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}sync_error']),
+    );
+  }
+  factory NonGlobalSettingData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return NonGlobalSettingData(
+      id: serializer.fromJson<int>(json['id']),
+      parentCode: serializer.fromJson<String>(json['parentCode']),
+      code: serializer.fromJson<String>(json['code']),
+      value: serializer.fromJson<String>(json['value']),
+      settingType: serializer.fromJson<String>(json['settingType']),
+      deviceId: serializer.fromJson<String>(json['deviceId']),
+      userName: serializer.fromJson<String>(json['userName']),
+      screen: serializer.fromJson<String>(json['screen']),
+      isApply: serializer.fromJson<bool>(json['isApply']),
+      expiredDateTime: serializer.fromJson<DateTime>(json['expiredDateTime']),
+      syncError: serializer.fromJson<String>(json['syncError']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'parentCode': serializer.toJson<String>(parentCode),
+      'code': serializer.toJson<String>(code),
+      'value': serializer.toJson<String>(value),
+      'settingType': serializer.toJson<String>(settingType),
+      'deviceId': serializer.toJson<String>(deviceId),
+      'userName': serializer.toJson<String>(userName),
+      'screen': serializer.toJson<String>(screen),
+      'isApply': serializer.toJson<bool>(isApply),
+      'expiredDateTime': serializer.toJson<DateTime>(expiredDateTime),
+      'syncError': serializer.toJson<String>(syncError),
+    };
+  }
+
+  @override
+  NonGlobalSettingCompanion createCompanion(bool nullToAbsent) {
+    return NonGlobalSettingCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      parentCode: parentCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(parentCode),
+      code: code == null && nullToAbsent ? const Value.absent() : Value(code),
+      value:
+          value == null && nullToAbsent ? const Value.absent() : Value(value),
+      settingType: settingType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(settingType),
+      deviceId: deviceId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deviceId),
+      userName: userName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(userName),
+      screen:
+          screen == null && nullToAbsent ? const Value.absent() : Value(screen),
+      isApply: isApply == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isApply),
+      expiredDateTime: expiredDateTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(expiredDateTime),
+      syncError: syncError == null && nullToAbsent
+          ? const Value.absent()
+          : Value(syncError),
+    );
+  }
+
+  NonGlobalSettingData copyWith(
+          {int id,
+          String parentCode,
+          String code,
+          String value,
+          String settingType,
+          String deviceId,
+          String userName,
+          String screen,
+          bool isApply,
+          DateTime expiredDateTime,
+          String syncError}) =>
+      NonGlobalSettingData(
+        id: id ?? this.id,
+        parentCode: parentCode ?? this.parentCode,
+        code: code ?? this.code,
+        value: value ?? this.value,
+        settingType: settingType ?? this.settingType,
+        deviceId: deviceId ?? this.deviceId,
+        userName: userName ?? this.userName,
+        screen: screen ?? this.screen,
+        isApply: isApply ?? this.isApply,
+        expiredDateTime: expiredDateTime ?? this.expiredDateTime,
+        syncError: syncError ?? this.syncError,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('NonGlobalSettingData(')
+          ..write('id: $id, ')
+          ..write('parentCode: $parentCode, ')
+          ..write('code: $code, ')
+          ..write('value: $value, ')
+          ..write('settingType: $settingType, ')
+          ..write('deviceId: $deviceId, ')
+          ..write('userName: $userName, ')
+          ..write('screen: $screen, ')
+          ..write('isApply: $isApply, ')
+          ..write('expiredDateTime: $expiredDateTime, ')
+          ..write('syncError: $syncError')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      id.hashCode,
+      $mrjc(
+          parentCode.hashCode,
+          $mrjc(
+              code.hashCode,
+              $mrjc(
+                  value.hashCode,
+                  $mrjc(
+                      settingType.hashCode,
+                      $mrjc(
+                          deviceId.hashCode,
+                          $mrjc(
+                              userName.hashCode,
+                              $mrjc(
+                                  screen.hashCode,
+                                  $mrjc(
+                                      isApply.hashCode,
+                                      $mrjc(expiredDateTime.hashCode,
+                                          syncError.hashCode)))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is NonGlobalSettingData &&
+          other.id == this.id &&
+          other.parentCode == this.parentCode &&
+          other.code == this.code &&
+          other.value == this.value &&
+          other.settingType == this.settingType &&
+          other.deviceId == this.deviceId &&
+          other.userName == this.userName &&
+          other.screen == this.screen &&
+          other.isApply == this.isApply &&
+          other.expiredDateTime == this.expiredDateTime &&
+          other.syncError == this.syncError);
+}
+
+class NonGlobalSettingCompanion extends UpdateCompanion<NonGlobalSettingData> {
+  final Value<int> id;
+  final Value<String> parentCode;
+  final Value<String> code;
+  final Value<String> value;
+  final Value<String> settingType;
+  final Value<String> deviceId;
+  final Value<String> userName;
+  final Value<String> screen;
+  final Value<bool> isApply;
+  final Value<DateTime> expiredDateTime;
+  final Value<String> syncError;
+  const NonGlobalSettingCompanion({
+    this.id = const Value.absent(),
+    this.parentCode = const Value.absent(),
+    this.code = const Value.absent(),
+    this.value = const Value.absent(),
+    this.settingType = const Value.absent(),
+    this.deviceId = const Value.absent(),
+    this.userName = const Value.absent(),
+    this.screen = const Value.absent(),
+    this.isApply = const Value.absent(),
+    this.expiredDateTime = const Value.absent(),
+    this.syncError = const Value.absent(),
+  });
+  NonGlobalSettingCompanion.insert({
+    @required int id,
+    @required String parentCode,
+    @required String code,
+    @required String value,
+    @required String settingType,
+    this.deviceId = const Value.absent(),
+    @required String userName,
+    @required String screen,
+    this.isApply = const Value.absent(),
+    this.expiredDateTime = const Value.absent(),
+    this.syncError = const Value.absent(),
+  })  : id = Value(id),
+        parentCode = Value(parentCode),
+        code = Value(code),
+        value = Value(value),
+        settingType = Value(settingType),
+        userName = Value(userName),
+        screen = Value(screen);
+  NonGlobalSettingCompanion copyWith(
+      {Value<int> id,
+      Value<String> parentCode,
+      Value<String> code,
+      Value<String> value,
+      Value<String> settingType,
+      Value<String> deviceId,
+      Value<String> userName,
+      Value<String> screen,
+      Value<bool> isApply,
+      Value<DateTime> expiredDateTime,
+      Value<String> syncError}) {
+    return NonGlobalSettingCompanion(
+      id: id ?? this.id,
+      parentCode: parentCode ?? this.parentCode,
+      code: code ?? this.code,
+      value: value ?? this.value,
+      settingType: settingType ?? this.settingType,
+      deviceId: deviceId ?? this.deviceId,
+      userName: userName ?? this.userName,
+      screen: screen ?? this.screen,
+      isApply: isApply ?? this.isApply,
+      expiredDateTime: expiredDateTime ?? this.expiredDateTime,
+      syncError: syncError ?? this.syncError,
+    );
+  }
+}
+
+class $NonGlobalSettingTable extends NonGlobalSetting
+    with TableInfo<$NonGlobalSettingTable, NonGlobalSettingData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $NonGlobalSettingTable(this._db, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _parentCodeMeta = const VerificationMeta('parentCode');
+  GeneratedTextColumn _parentCode;
+  @override
+  GeneratedTextColumn get parentCode => _parentCode ??= _constructParentCode();
+  GeneratedTextColumn _constructParentCode() {
+    return GeneratedTextColumn(
+      'parent_code',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _codeMeta = const VerificationMeta('code');
+  GeneratedTextColumn _code;
+  @override
+  GeneratedTextColumn get code => _code ??= _constructCode();
+  GeneratedTextColumn _constructCode() {
+    return GeneratedTextColumn(
+      'code',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _valueMeta = const VerificationMeta('value');
+  GeneratedTextColumn _value;
+  @override
+  GeneratedTextColumn get value => _value ??= _constructValue();
+  GeneratedTextColumn _constructValue() {
+    return GeneratedTextColumn(
+      'value',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _settingTypeMeta =
+      const VerificationMeta('settingType');
+  GeneratedTextColumn _settingType;
+  @override
+  GeneratedTextColumn get settingType =>
+      _settingType ??= _constructSettingType();
+  GeneratedTextColumn _constructSettingType() {
+    return GeneratedTextColumn(
+      'setting_type',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _deviceIdMeta = const VerificationMeta('deviceId');
+  GeneratedTextColumn _deviceId;
+  @override
+  GeneratedTextColumn get deviceId => _deviceId ??= _constructDeviceId();
+  GeneratedTextColumn _constructDeviceId() {
+    return GeneratedTextColumn(
+      'device_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _userNameMeta = const VerificationMeta('userName');
+  GeneratedTextColumn _userName;
+  @override
+  GeneratedTextColumn get userName => _userName ??= _constructUserName();
+  GeneratedTextColumn _constructUserName() {
+    return GeneratedTextColumn(
+      'user_name',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _screenMeta = const VerificationMeta('screen');
+  GeneratedTextColumn _screen;
+  @override
+  GeneratedTextColumn get screen => _screen ??= _constructScreen();
+  GeneratedTextColumn _constructScreen() {
+    return GeneratedTextColumn(
+      'screen',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _isApplyMeta = const VerificationMeta('isApply');
+  GeneratedBoolColumn _isApply;
+  @override
+  GeneratedBoolColumn get isApply => _isApply ??= _constructIsApply();
+  GeneratedBoolColumn _constructIsApply() {
+    return GeneratedBoolColumn('is_apply', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _expiredDateTimeMeta =
+      const VerificationMeta('expiredDateTime');
+  GeneratedDateTimeColumn _expiredDateTime;
+  @override
+  GeneratedDateTimeColumn get expiredDateTime =>
+      _expiredDateTime ??= _constructExpiredDateTime();
+  GeneratedDateTimeColumn _constructExpiredDateTime() {
+    return GeneratedDateTimeColumn(
+      'expired_date_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _syncErrorMeta = const VerificationMeta('syncError');
+  GeneratedTextColumn _syncError;
+  @override
+  GeneratedTextColumn get syncError => _syncError ??= _constructSyncError();
+  GeneratedTextColumn _constructSyncError() {
+    return GeneratedTextColumn(
+      'sync_error',
+      $tableName,
+      true,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        parentCode,
+        code,
+        value,
+        settingType,
+        deviceId,
+        userName,
+        screen,
+        isApply,
+        expiredDateTime,
+        syncError
+      ];
+  @override
+  $NonGlobalSettingTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'non_global_setting';
+  @override
+  final String actualTableName = 'non_global_setting';
+  @override
+  VerificationContext validateIntegrity(NonGlobalSettingCompanion d,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    if (d.id.present) {
+      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (d.parentCode.present) {
+      context.handle(_parentCodeMeta,
+          parentCode.isAcceptableValue(d.parentCode.value, _parentCodeMeta));
+    } else if (isInserting) {
+      context.missing(_parentCodeMeta);
+    }
+    if (d.code.present) {
+      context.handle(
+          _codeMeta, code.isAcceptableValue(d.code.value, _codeMeta));
+    } else if (isInserting) {
+      context.missing(_codeMeta);
+    }
+    if (d.value.present) {
+      context.handle(
+          _valueMeta, value.isAcceptableValue(d.value.value, _valueMeta));
+    } else if (isInserting) {
+      context.missing(_valueMeta);
+    }
+    if (d.settingType.present) {
+      context.handle(_settingTypeMeta,
+          settingType.isAcceptableValue(d.settingType.value, _settingTypeMeta));
+    } else if (isInserting) {
+      context.missing(_settingTypeMeta);
+    }
+    if (d.deviceId.present) {
+      context.handle(_deviceIdMeta,
+          deviceId.isAcceptableValue(d.deviceId.value, _deviceIdMeta));
+    }
+    if (d.userName.present) {
+      context.handle(_userNameMeta,
+          userName.isAcceptableValue(d.userName.value, _userNameMeta));
+    } else if (isInserting) {
+      context.missing(_userNameMeta);
+    }
+    if (d.screen.present) {
+      context.handle(
+          _screenMeta, screen.isAcceptableValue(d.screen.value, _screenMeta));
+    } else if (isInserting) {
+      context.missing(_screenMeta);
+    }
+    if (d.isApply.present) {
+      context.handle(_isApplyMeta,
+          isApply.isAcceptableValue(d.isApply.value, _isApplyMeta));
+    }
+    if (d.expiredDateTime.present) {
+      context.handle(
+          _expiredDateTimeMeta,
+          expiredDateTime.isAcceptableValue(
+              d.expiredDateTime.value, _expiredDateTimeMeta));
+    }
+    if (d.syncError.present) {
+      context.handle(_syncErrorMeta,
+          syncError.isAcceptableValue(d.syncError.value, _syncErrorMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  @override
+  NonGlobalSettingData map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return NonGlobalSettingData.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  Map<String, Variable> entityToSql(NonGlobalSettingCompanion d) {
+    final map = <String, Variable>{};
+    if (d.id.present) {
+      map['id'] = Variable<int, IntType>(d.id.value);
+    }
+    if (d.parentCode.present) {
+      map['parent_code'] = Variable<String, StringType>(d.parentCode.value);
+    }
+    if (d.code.present) {
+      map['code'] = Variable<String, StringType>(d.code.value);
+    }
+    if (d.value.present) {
+      map['value'] = Variable<String, StringType>(d.value.value);
+    }
+    if (d.settingType.present) {
+      map['setting_type'] = Variable<String, StringType>(d.settingType.value);
+    }
+    if (d.deviceId.present) {
+      map['device_id'] = Variable<String, StringType>(d.deviceId.value);
+    }
+    if (d.userName.present) {
+      map['user_name'] = Variable<String, StringType>(d.userName.value);
+    }
+    if (d.screen.present) {
+      map['screen'] = Variable<String, StringType>(d.screen.value);
+    }
+    if (d.isApply.present) {
+      map['is_apply'] = Variable<bool, BoolType>(d.isApply.value);
+    }
+    if (d.expiredDateTime.present) {
+      map['expired_date_time'] =
+          Variable<DateTime, DateTimeType>(d.expiredDateTime.value);
+    }
+    if (d.syncError.present) {
+      map['sync_error'] = Variable<String, StringType>(d.syncError.value);
+    }
+    return map;
+  }
+
+  @override
+  $NonGlobalSettingTable createAlias(String alias) {
+    return $NonGlobalSettingTable(_db, alias);
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $UsersTable _users;
@@ -6782,8 +7020,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $BackgroundJobLogsTable _backgroundJobLogs;
   $BackgroundJobLogsTable get backgroundJobLogs =>
       _backgroundJobLogs ??= $BackgroundJobLogsTable(this);
-  $PrefrenceTable _prefrence;
-  $PrefrenceTable get prefrence => _prefrence ??= $PrefrenceTable(this);
+  $PreferenceTable _preference;
+  $PreferenceTable get preference => _preference ??= $PreferenceTable(this);
   $MobileDeviceTable _mobileDevice;
   $MobileDeviceTable get mobileDevice =>
       _mobileDevice ??= $MobileDeviceTable(this);
@@ -6795,6 +7033,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       _applicationLogger ??= $ApplicationLoggerTable(this);
   $TenantTable _tenant;
   $TenantTable get tenant => _tenant ??= $TenantTable(this);
+  $NonGlobalSettingTable _nonGlobalSetting;
+  $NonGlobalSettingTable get nonGlobalSetting =>
+      _nonGlobalSetting ??= $NonGlobalSettingTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
@@ -6803,10 +7044,11 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         communication,
         backgroundJobSchedule,
         backgroundJobLogs,
-        prefrence,
+        preference,
         mobileDevice,
         businessRule,
         applicationLogger,
-        tenant
+        tenant,
+        nonGlobalSetting
       ];
 }
