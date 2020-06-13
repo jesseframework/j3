@@ -11,6 +11,8 @@ import 'package:j3enterprise/src/database/crud/user/user_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/services/connection_service.dart';
+import 'package:j3enterprise/src/resources/shared/function/application_logger.dart';
+import 'package:j3enterprise/src/resources/shared/function/get_logger_data.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/user_hashdigest.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication_bloc.dart';
@@ -23,19 +25,22 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final UserRepository userRepository;
   final AuthenticationBloc authenticationBloc;
+  final log = getLogger('LoginBloc');
+
+  AppLogger appLogger;
   UserHash userHash;
   String tenantName;
 
   var db;
   UserDao userDao;
 
-  LoginBloc({
-    @required this.userRepository,
-    @required this.authenticationBloc,
-  }) {
+  LoginBloc(
+      {@required this.userRepository, @required this.authenticationBloc}) {
     userHash = new UserHash(userRepository: userRepository);
+    appLogger = new AppLogger();
     assert(userRepository != null);
     assert(authenticationBloc != null);
+
     getData();
     db = AppDatabase();
     userDao = UserDao(db);
@@ -67,17 +72,36 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               Map<String, dynamic> tenantResult = tenantMap['result'];
               print(tenantResult);
               await userRepository.setTanantIntoSharedPref(event.tenantname);
-              //yield LoginTenantState(tenantName: event.tenant);
+
               tenantId = tenantResult['tenantId'].toString();
               if (tenantResult['tenantId'] == null) {
                 tenantId = 0.toString();
+
                 String error = "There is no tenant defined with name";
+
+                log.e(error);
+                log.v(error);
+                log.w(error);
+                await appLogger.saveAppLog(
+                    "LoginLoading",
+                    DateTime.now(),
+                    "NA",
+                    error,
+                    "NA",
+                    "NA",
+                    "NA",
+                    "Low",
+                    int.tryParse(tenantId),
+                    event.username,
+                    0);
+
                 if (error == null) {
                   error = AppLocalization.of(event.context)
                           .translate('tenant_validation_message') ??
                       "There is no tenant defined with name";
                 }
                 yield LoginFailure(error: error);
+
                 return;
               }
             } else {

@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:io' show Platform;
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +9,7 @@ import 'package:j3enterprise/src/resources/services/firebase_notification_servic
 import 'package:logging/logging.dart';
 
 void _setupLogging() {
-  Logger.root.level = Level.ALL;
+  Logger.root.level = Level.WARNING;
   Logger.root.onRecord.listen((rec) {
     print('${rec.level.name}: ${rec.time} : ${rec.message}');
   });

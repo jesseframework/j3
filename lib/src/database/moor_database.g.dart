@@ -5821,54 +5821,34 @@ class ApplicationLoggerData extends DataClass
   final int tenantId;
   final String uerName;
   final int userId;
-  final DateTime importDateTime;
-  final DateTime exportDateTime;
-  final String exportStatus;
-  final String importStatus;
-  final String syncError;
   final int id;
   final String functionName;
-  final DateTime startDateTime;
+  final DateTime logDateTime;
   final String syncFrequency;
   final String logDescription;
   final String documentNo;
+  final String deviceId;
   final String logCode;
   final String logSeverity;
-  final int createUserId;
-  final DateTime creationTime;
-  final DateTime deleteTime;
-  final int deleteUserId;
-  final String creatorUser;
-  final String deleterUserId;
-  final bool isDeleted;
-  final String lastModifierUser;
-  final int lastModifierUserId;
+  final DateTime exportDateTime;
+  final String exportStatus;
+  final String syncError;
   ApplicationLoggerData(
       {this.tenantId,
       this.uerName,
       this.userId,
-      this.importDateTime,
-      this.exportDateTime,
-      @required this.exportStatus,
-      @required this.importStatus,
-      this.syncError,
       @required this.id,
       @required this.functionName,
-      @required this.startDateTime,
+      @required this.logDateTime,
       @required this.syncFrequency,
       @required this.logDescription,
       @required this.documentNo,
+      @required this.deviceId,
       @required this.logCode,
       @required this.logSeverity,
-      this.createUserId,
-      this.creationTime,
-      this.deleteTime,
-      this.deleteUserId,
-      this.creatorUser,
-      this.deleterUserId,
-      @required this.isDeleted,
-      this.lastModifierUser,
-      this.lastModifierUserId});
+      this.exportDateTime,
+      @required this.exportStatus,
+      this.syncError});
   factory ApplicationLoggerData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -5876,7 +5856,6 @@ class ApplicationLoggerData extends DataClass
     final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
-    final boolType = db.typeSystem.forDartType<bool>();
     return ApplicationLoggerData(
       tenantId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
@@ -5884,49 +5863,29 @@ class ApplicationLoggerData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}uer_name']),
       userId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}user_id']),
-      importDateTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}import_date_time']),
-      exportDateTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}export_date_time']),
-      exportStatus: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}export_status']),
-      importStatus: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}import_status']),
-      syncError: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}sync_error']),
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       functionName: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}function_name']),
-      startDateTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}start_date_time']),
+      logDateTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}log_date_time']),
       syncFrequency: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}sync_frequency']),
       logDescription: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}log_description']),
       documentNo: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}document_no']),
+      deviceId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}device_id']),
       logCode: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}log_code']),
       logSeverity: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}log_severity']),
-      createUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
-      creationTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
-      deleteTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
-      deleteUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
-      creatorUser: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
-      deleterUserId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
-      isDeleted: boolType
-          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
-      lastModifierUser: stringType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user']),
-      lastModifierUserId: intType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user_id']),
+      exportDateTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}export_date_time']),
+      exportStatus: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}export_status']),
+      syncError: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}sync_error']),
     );
   }
   factory ApplicationLoggerData.fromJson(Map<String, dynamic> json,
@@ -5936,28 +5895,18 @@ class ApplicationLoggerData extends DataClass
       tenantId: serializer.fromJson<int>(json['tenantId']),
       uerName: serializer.fromJson<String>(json['uerName']),
       userId: serializer.fromJson<int>(json['userId']),
-      importDateTime: serializer.fromJson<DateTime>(json['importDateTime']),
-      exportDateTime: serializer.fromJson<DateTime>(json['exportDateTime']),
-      exportStatus: serializer.fromJson<String>(json['exportStatus']),
-      importStatus: serializer.fromJson<String>(json['importStatus']),
-      syncError: serializer.fromJson<String>(json['syncError']),
       id: serializer.fromJson<int>(json['id']),
       functionName: serializer.fromJson<String>(json['functionName']),
-      startDateTime: serializer.fromJson<DateTime>(json['startDateTime']),
+      logDateTime: serializer.fromJson<DateTime>(json['logDateTime']),
       syncFrequency: serializer.fromJson<String>(json['syncFrequency']),
       logDescription: serializer.fromJson<String>(json['logDescription']),
       documentNo: serializer.fromJson<String>(json['documentNo']),
+      deviceId: serializer.fromJson<String>(json['deviceId']),
       logCode: serializer.fromJson<String>(json['logCode']),
       logSeverity: serializer.fromJson<String>(json['logSeverity']),
-      createUserId: serializer.fromJson<int>(json['createUserId']),
-      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
-      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
-      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
-      creatorUser: serializer.fromJson<String>(json['creatorUser']),
-      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
-      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
-      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
-      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
+      exportDateTime: serializer.fromJson<DateTime>(json['exportDateTime']),
+      exportStatus: serializer.fromJson<String>(json['exportStatus']),
+      syncError: serializer.fromJson<String>(json['syncError']),
     );
   }
   @override
@@ -5967,28 +5916,18 @@ class ApplicationLoggerData extends DataClass
       'tenantId': serializer.toJson<int>(tenantId),
       'uerName': serializer.toJson<String>(uerName),
       'userId': serializer.toJson<int>(userId),
-      'importDateTime': serializer.toJson<DateTime>(importDateTime),
-      'exportDateTime': serializer.toJson<DateTime>(exportDateTime),
-      'exportStatus': serializer.toJson<String>(exportStatus),
-      'importStatus': serializer.toJson<String>(importStatus),
-      'syncError': serializer.toJson<String>(syncError),
       'id': serializer.toJson<int>(id),
       'functionName': serializer.toJson<String>(functionName),
-      'startDateTime': serializer.toJson<DateTime>(startDateTime),
+      'logDateTime': serializer.toJson<DateTime>(logDateTime),
       'syncFrequency': serializer.toJson<String>(syncFrequency),
       'logDescription': serializer.toJson<String>(logDescription),
       'documentNo': serializer.toJson<String>(documentNo),
+      'deviceId': serializer.toJson<String>(deviceId),
       'logCode': serializer.toJson<String>(logCode),
       'logSeverity': serializer.toJson<String>(logSeverity),
-      'createUserId': serializer.toJson<int>(createUserId),
-      'creationTime': serializer.toJson<DateTime>(creationTime),
-      'deleteTime': serializer.toJson<DateTime>(deleteTime),
-      'deleteUserId': serializer.toJson<int>(deleteUserId),
-      'creatorUser': serializer.toJson<String>(creatorUser),
-      'deleterUserId': serializer.toJson<String>(deleterUserId),
-      'isDeleted': serializer.toJson<bool>(isDeleted),
-      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
-      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
+      'exportDateTime': serializer.toJson<DateTime>(exportDateTime),
+      'exportStatus': serializer.toJson<String>(exportStatus),
+      'syncError': serializer.toJson<String>(syncError),
     };
   }
 
@@ -6003,28 +5942,13 @@ class ApplicationLoggerData extends DataClass
           : Value(uerName),
       userId:
           userId == null && nullToAbsent ? const Value.absent() : Value(userId),
-      importDateTime: importDateTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(importDateTime),
-      exportDateTime: exportDateTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(exportDateTime),
-      exportStatus: exportStatus == null && nullToAbsent
-          ? const Value.absent()
-          : Value(exportStatus),
-      importStatus: importStatus == null && nullToAbsent
-          ? const Value.absent()
-          : Value(importStatus),
-      syncError: syncError == null && nullToAbsent
-          ? const Value.absent()
-          : Value(syncError),
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       functionName: functionName == null && nullToAbsent
           ? const Value.absent()
           : Value(functionName),
-      startDateTime: startDateTime == null && nullToAbsent
+      logDateTime: logDateTime == null && nullToAbsent
           ? const Value.absent()
-          : Value(startDateTime),
+          : Value(logDateTime),
       syncFrequency: syncFrequency == null && nullToAbsent
           ? const Value.absent()
           : Value(syncFrequency),
@@ -6034,39 +5958,24 @@ class ApplicationLoggerData extends DataClass
       documentNo: documentNo == null && nullToAbsent
           ? const Value.absent()
           : Value(documentNo),
+      deviceId: deviceId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deviceId),
       logCode: logCode == null && nullToAbsent
           ? const Value.absent()
           : Value(logCode),
       logSeverity: logSeverity == null && nullToAbsent
           ? const Value.absent()
           : Value(logSeverity),
-      createUserId: createUserId == null && nullToAbsent
+      exportDateTime: exportDateTime == null && nullToAbsent
           ? const Value.absent()
-          : Value(createUserId),
-      creationTime: creationTime == null && nullToAbsent
+          : Value(exportDateTime),
+      exportStatus: exportStatus == null && nullToAbsent
           ? const Value.absent()
-          : Value(creationTime),
-      deleteTime: deleteTime == null && nullToAbsent
+          : Value(exportStatus),
+      syncError: syncError == null && nullToAbsent
           ? const Value.absent()
-          : Value(deleteTime),
-      deleteUserId: deleteUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteUserId),
-      creatorUser: creatorUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creatorUser),
-      deleterUserId: deleterUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleterUserId),
-      isDeleted: isDeleted == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isDeleted),
-      lastModifierUser: lastModifierUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUser),
-      lastModifierUserId: lastModifierUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUserId),
+          : Value(syncError),
     );
   }
 
@@ -6074,54 +5983,34 @@ class ApplicationLoggerData extends DataClass
           {int tenantId,
           String uerName,
           int userId,
-          DateTime importDateTime,
-          DateTime exportDateTime,
-          String exportStatus,
-          String importStatus,
-          String syncError,
           int id,
           String functionName,
-          DateTime startDateTime,
+          DateTime logDateTime,
           String syncFrequency,
           String logDescription,
           String documentNo,
+          String deviceId,
           String logCode,
           String logSeverity,
-          int createUserId,
-          DateTime creationTime,
-          DateTime deleteTime,
-          int deleteUserId,
-          String creatorUser,
-          String deleterUserId,
-          bool isDeleted,
-          String lastModifierUser,
-          int lastModifierUserId}) =>
+          DateTime exportDateTime,
+          String exportStatus,
+          String syncError}) =>
       ApplicationLoggerData(
         tenantId: tenantId ?? this.tenantId,
         uerName: uerName ?? this.uerName,
         userId: userId ?? this.userId,
-        importDateTime: importDateTime ?? this.importDateTime,
-        exportDateTime: exportDateTime ?? this.exportDateTime,
-        exportStatus: exportStatus ?? this.exportStatus,
-        importStatus: importStatus ?? this.importStatus,
-        syncError: syncError ?? this.syncError,
         id: id ?? this.id,
         functionName: functionName ?? this.functionName,
-        startDateTime: startDateTime ?? this.startDateTime,
+        logDateTime: logDateTime ?? this.logDateTime,
         syncFrequency: syncFrequency ?? this.syncFrequency,
         logDescription: logDescription ?? this.logDescription,
         documentNo: documentNo ?? this.documentNo,
+        deviceId: deviceId ?? this.deviceId,
         logCode: logCode ?? this.logCode,
         logSeverity: logSeverity ?? this.logSeverity,
-        createUserId: createUserId ?? this.createUserId,
-        creationTime: creationTime ?? this.creationTime,
-        deleteTime: deleteTime ?? this.deleteTime,
-        deleteUserId: deleteUserId ?? this.deleteUserId,
-        creatorUser: creatorUser ?? this.creatorUser,
-        deleterUserId: deleterUserId ?? this.deleterUserId,
-        isDeleted: isDeleted ?? this.isDeleted,
-        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+        exportDateTime: exportDateTime ?? this.exportDateTime,
+        exportStatus: exportStatus ?? this.exportStatus,
+        syncError: syncError ?? this.syncError,
       );
   @override
   String toString() {
@@ -6129,28 +6018,18 @@ class ApplicationLoggerData extends DataClass
           ..write('tenantId: $tenantId, ')
           ..write('uerName: $uerName, ')
           ..write('userId: $userId, ')
-          ..write('importDateTime: $importDateTime, ')
-          ..write('exportDateTime: $exportDateTime, ')
-          ..write('exportStatus: $exportStatus, ')
-          ..write('importStatus: $importStatus, ')
-          ..write('syncError: $syncError, ')
           ..write('id: $id, ')
           ..write('functionName: $functionName, ')
-          ..write('startDateTime: $startDateTime, ')
+          ..write('logDateTime: $logDateTime, ')
           ..write('syncFrequency: $syncFrequency, ')
           ..write('logDescription: $logDescription, ')
           ..write('documentNo: $documentNo, ')
+          ..write('deviceId: $deviceId, ')
           ..write('logCode: $logCode, ')
           ..write('logSeverity: $logSeverity, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId')
+          ..write('exportDateTime: $exportDateTime, ')
+          ..write('exportStatus: $exportStatus, ')
+          ..write('syncError: $syncError')
           ..write(')'))
         .toString();
   }
@@ -6163,41 +6042,29 @@ class ApplicationLoggerData extends DataClass
           $mrjc(
               userId.hashCode,
               $mrjc(
-                  importDateTime.hashCode,
+                  id.hashCode,
                   $mrjc(
-                      exportDateTime.hashCode,
+                      functionName.hashCode,
                       $mrjc(
-                          exportStatus.hashCode,
+                          logDateTime.hashCode,
                           $mrjc(
-                              importStatus.hashCode,
+                              syncFrequency.hashCode,
                               $mrjc(
-                                  syncError.hashCode,
+                                  logDescription.hashCode,
                                   $mrjc(
-                                      id.hashCode,
+                                      documentNo.hashCode,
                                       $mrjc(
-                                          functionName.hashCode,
+                                          deviceId.hashCode,
                                           $mrjc(
-                                              startDateTime.hashCode,
+                                              logCode.hashCode,
                                               $mrjc(
-                                                  syncFrequency.hashCode,
+                                                  logSeverity.hashCode,
                                                   $mrjc(
-                                                      logDescription.hashCode,
+                                                      exportDateTime.hashCode,
                                                       $mrjc(
-                                                          documentNo.hashCode,
-                                                          $mrjc(
-                                                              logCode.hashCode,
-                                                              $mrjc(
-                                                                  logSeverity
-                                                                      .hashCode,
-                                                                  $mrjc(
-                                                                      createUserId
-                                                                          .hashCode,
-                                                                      $mrjc(
-                                                                          creationTime
-                                                                              .hashCode,
-                                                                          $mrjc(
-                                                                              deleteTime.hashCode,
-                                                                              $mrjc(deleteUserId.hashCode, $mrjc(creatorUser.hashCode, $mrjc(deleterUserId.hashCode, $mrjc(isDeleted.hashCode, $mrjc(lastModifierUser.hashCode, lastModifierUserId.hashCode)))))))))))))))))))))))));
+                                                          exportStatus.hashCode,
+                                                          syncError
+                                                              .hashCode)))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -6205,28 +6072,18 @@ class ApplicationLoggerData extends DataClass
           other.tenantId == this.tenantId &&
           other.uerName == this.uerName &&
           other.userId == this.userId &&
-          other.importDateTime == this.importDateTime &&
-          other.exportDateTime == this.exportDateTime &&
-          other.exportStatus == this.exportStatus &&
-          other.importStatus == this.importStatus &&
-          other.syncError == this.syncError &&
           other.id == this.id &&
           other.functionName == this.functionName &&
-          other.startDateTime == this.startDateTime &&
+          other.logDateTime == this.logDateTime &&
           other.syncFrequency == this.syncFrequency &&
           other.logDescription == this.logDescription &&
           other.documentNo == this.documentNo &&
+          other.deviceId == this.deviceId &&
           other.logCode == this.logCode &&
           other.logSeverity == this.logSeverity &&
-          other.createUserId == this.createUserId &&
-          other.creationTime == this.creationTime &&
-          other.deleteTime == this.deleteTime &&
-          other.deleteUserId == this.deleteUserId &&
-          other.creatorUser == this.creatorUser &&
-          other.deleterUserId == this.deleterUserId &&
-          other.isDeleted == this.isDeleted &&
-          other.lastModifierUser == this.lastModifierUser &&
-          other.lastModifierUserId == this.lastModifierUserId);
+          other.exportDateTime == this.exportDateTime &&
+          other.exportStatus == this.exportStatus &&
+          other.syncError == this.syncError);
 }
 
 class ApplicationLoggerCompanion
@@ -6234,140 +6091,91 @@ class ApplicationLoggerCompanion
   final Value<int> tenantId;
   final Value<String> uerName;
   final Value<int> userId;
-  final Value<DateTime> importDateTime;
-  final Value<DateTime> exportDateTime;
-  final Value<String> exportStatus;
-  final Value<String> importStatus;
-  final Value<String> syncError;
   final Value<int> id;
   final Value<String> functionName;
-  final Value<DateTime> startDateTime;
+  final Value<DateTime> logDateTime;
   final Value<String> syncFrequency;
   final Value<String> logDescription;
   final Value<String> documentNo;
+  final Value<String> deviceId;
   final Value<String> logCode;
   final Value<String> logSeverity;
-  final Value<int> createUserId;
-  final Value<DateTime> creationTime;
-  final Value<DateTime> deleteTime;
-  final Value<int> deleteUserId;
-  final Value<String> creatorUser;
-  final Value<String> deleterUserId;
-  final Value<bool> isDeleted;
-  final Value<String> lastModifierUser;
-  final Value<int> lastModifierUserId;
+  final Value<DateTime> exportDateTime;
+  final Value<String> exportStatus;
+  final Value<String> syncError;
   const ApplicationLoggerCompanion({
     this.tenantId = const Value.absent(),
     this.uerName = const Value.absent(),
     this.userId = const Value.absent(),
-    this.importDateTime = const Value.absent(),
-    this.exportDateTime = const Value.absent(),
-    this.exportStatus = const Value.absent(),
-    this.importStatus = const Value.absent(),
-    this.syncError = const Value.absent(),
     this.id = const Value.absent(),
     this.functionName = const Value.absent(),
-    this.startDateTime = const Value.absent(),
+    this.logDateTime = const Value.absent(),
     this.syncFrequency = const Value.absent(),
     this.logDescription = const Value.absent(),
     this.documentNo = const Value.absent(),
+    this.deviceId = const Value.absent(),
     this.logCode = const Value.absent(),
     this.logSeverity = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
+    this.exportDateTime = const Value.absent(),
+    this.exportStatus = const Value.absent(),
+    this.syncError = const Value.absent(),
   });
   ApplicationLoggerCompanion.insert({
     this.tenantId = const Value.absent(),
     this.uerName = const Value.absent(),
     this.userId = const Value.absent(),
-    this.importDateTime = const Value.absent(),
-    this.exportDateTime = const Value.absent(),
-    this.exportStatus = const Value.absent(),
-    this.importStatus = const Value.absent(),
-    this.syncError = const Value.absent(),
     this.id = const Value.absent(),
     @required String functionName,
-    @required DateTime startDateTime,
+    @required DateTime logDateTime,
     @required String syncFrequency,
     @required String logDescription,
     @required String documentNo,
+    @required String deviceId,
     @required String logCode,
     @required String logSeverity,
-    this.createUserId = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
+    this.exportDateTime = const Value.absent(),
+    this.exportStatus = const Value.absent(),
+    this.syncError = const Value.absent(),
   })  : functionName = Value(functionName),
-        startDateTime = Value(startDateTime),
+        logDateTime = Value(logDateTime),
         syncFrequency = Value(syncFrequency),
         logDescription = Value(logDescription),
         documentNo = Value(documentNo),
+        deviceId = Value(deviceId),
         logCode = Value(logCode),
         logSeverity = Value(logSeverity);
   ApplicationLoggerCompanion copyWith(
       {Value<int> tenantId,
       Value<String> uerName,
       Value<int> userId,
-      Value<DateTime> importDateTime,
-      Value<DateTime> exportDateTime,
-      Value<String> exportStatus,
-      Value<String> importStatus,
-      Value<String> syncError,
       Value<int> id,
       Value<String> functionName,
-      Value<DateTime> startDateTime,
+      Value<DateTime> logDateTime,
       Value<String> syncFrequency,
       Value<String> logDescription,
       Value<String> documentNo,
+      Value<String> deviceId,
       Value<String> logCode,
       Value<String> logSeverity,
-      Value<int> createUserId,
-      Value<DateTime> creationTime,
-      Value<DateTime> deleteTime,
-      Value<int> deleteUserId,
-      Value<String> creatorUser,
-      Value<String> deleterUserId,
-      Value<bool> isDeleted,
-      Value<String> lastModifierUser,
-      Value<int> lastModifierUserId}) {
+      Value<DateTime> exportDateTime,
+      Value<String> exportStatus,
+      Value<String> syncError}) {
     return ApplicationLoggerCompanion(
       tenantId: tenantId ?? this.tenantId,
       uerName: uerName ?? this.uerName,
       userId: userId ?? this.userId,
-      importDateTime: importDateTime ?? this.importDateTime,
-      exportDateTime: exportDateTime ?? this.exportDateTime,
-      exportStatus: exportStatus ?? this.exportStatus,
-      importStatus: importStatus ?? this.importStatus,
-      syncError: syncError ?? this.syncError,
       id: id ?? this.id,
       functionName: functionName ?? this.functionName,
-      startDateTime: startDateTime ?? this.startDateTime,
+      logDateTime: logDateTime ?? this.logDateTime,
       syncFrequency: syncFrequency ?? this.syncFrequency,
       logDescription: logDescription ?? this.logDescription,
       documentNo: documentNo ?? this.documentNo,
+      deviceId: deviceId ?? this.deviceId,
       logCode: logCode ?? this.logCode,
       logSeverity: logSeverity ?? this.logSeverity,
-      createUserId: createUserId ?? this.createUserId,
-      creationTime: creationTime ?? this.creationTime,
-      deleteTime: deleteTime ?? this.deleteTime,
-      deleteUserId: deleteUserId ?? this.deleteUserId,
-      creatorUser: creatorUser ?? this.creatorUser,
-      deleterUserId: deleterUserId ?? this.deleterUserId,
-      isDeleted: isDeleted ?? this.isDeleted,
-      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
+      exportDateTime: exportDateTime ?? this.exportDateTime,
+      exportStatus: exportStatus ?? this.exportStatus,
+      syncError: syncError ?? this.syncError,
     );
   }
 }
@@ -6413,68 +6221,6 @@ class $ApplicationLoggerTable extends ApplicationLogger
     );
   }
 
-  final VerificationMeta _importDateTimeMeta =
-      const VerificationMeta('importDateTime');
-  GeneratedDateTimeColumn _importDateTime;
-  @override
-  GeneratedDateTimeColumn get importDateTime =>
-      _importDateTime ??= _constructImportDateTime();
-  GeneratedDateTimeColumn _constructImportDateTime() {
-    return GeneratedDateTimeColumn(
-      'import_date_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _exportDateTimeMeta =
-      const VerificationMeta('exportDateTime');
-  GeneratedDateTimeColumn _exportDateTime;
-  @override
-  GeneratedDateTimeColumn get exportDateTime =>
-      _exportDateTime ??= _constructExportDateTime();
-  GeneratedDateTimeColumn _constructExportDateTime() {
-    return GeneratedDateTimeColumn(
-      'export_date_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _exportStatusMeta =
-      const VerificationMeta('exportStatus');
-  GeneratedTextColumn _exportStatus;
-  @override
-  GeneratedTextColumn get exportStatus =>
-      _exportStatus ??= _constructExportStatus();
-  GeneratedTextColumn _constructExportStatus() {
-    return GeneratedTextColumn('export_status', $tableName, false,
-        defaultValue: Constant('Pending'));
-  }
-
-  final VerificationMeta _importStatusMeta =
-      const VerificationMeta('importStatus');
-  GeneratedTextColumn _importStatus;
-  @override
-  GeneratedTextColumn get importStatus =>
-      _importStatus ??= _constructImportStatus();
-  GeneratedTextColumn _constructImportStatus() {
-    return GeneratedTextColumn('import_status', $tableName, false,
-        defaultValue: Constant('Pending'));
-  }
-
-  final VerificationMeta _syncErrorMeta = const VerificationMeta('syncError');
-  GeneratedTextColumn _syncError;
-  @override
-  GeneratedTextColumn get syncError => _syncError ??= _constructSyncError();
-  GeneratedTextColumn _constructSyncError() {
-    return GeneratedTextColumn(
-      'sync_error',
-      $tableName,
-      true,
-    );
-  }
-
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedIntColumn _id;
   @override
@@ -6498,15 +6244,15 @@ class $ApplicationLoggerTable extends ApplicationLogger
     );
   }
 
-  final VerificationMeta _startDateTimeMeta =
-      const VerificationMeta('startDateTime');
-  GeneratedDateTimeColumn _startDateTime;
+  final VerificationMeta _logDateTimeMeta =
+      const VerificationMeta('logDateTime');
+  GeneratedDateTimeColumn _logDateTime;
   @override
-  GeneratedDateTimeColumn get startDateTime =>
-      _startDateTime ??= _constructStartDateTime();
-  GeneratedDateTimeColumn _constructStartDateTime() {
+  GeneratedDateTimeColumn get logDateTime =>
+      _logDateTime ??= _constructLogDateTime();
+  GeneratedDateTimeColumn _constructLogDateTime() {
     return GeneratedDateTimeColumn(
-      'start_date_time',
+      'log_date_time',
       $tableName,
       false,
     );
@@ -6552,6 +6298,18 @@ class $ApplicationLoggerTable extends ApplicationLogger
     );
   }
 
+  final VerificationMeta _deviceIdMeta = const VerificationMeta('deviceId');
+  GeneratedTextColumn _deviceId;
+  @override
+  GeneratedTextColumn get deviceId => _deviceId ??= _constructDeviceId();
+  GeneratedTextColumn _constructDeviceId() {
+    return GeneratedTextColumn(
+      'device_id',
+      $tableName,
+      false,
+    );
+  }
+
   final VerificationMeta _logCodeMeta = const VerificationMeta('logCode');
   GeneratedTextColumn _logCode;
   @override
@@ -6578,121 +6336,38 @@ class $ApplicationLoggerTable extends ApplicationLogger
     );
   }
 
-  final VerificationMeta _createUserIdMeta =
-      const VerificationMeta('createUserId');
-  GeneratedIntColumn _createUserId;
+  final VerificationMeta _exportDateTimeMeta =
+      const VerificationMeta('exportDateTime');
+  GeneratedDateTimeColumn _exportDateTime;
   @override
-  GeneratedIntColumn get createUserId =>
-      _createUserId ??= _constructCreateUserId();
-  GeneratedIntColumn _constructCreateUserId() {
-    return GeneratedIntColumn(
-      'create_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _creationTimeMeta =
-      const VerificationMeta('creationTime');
-  GeneratedDateTimeColumn _creationTime;
-  @override
-  GeneratedDateTimeColumn get creationTime =>
-      _creationTime ??= _constructCreationTime();
-  GeneratedDateTimeColumn _constructCreationTime() {
+  GeneratedDateTimeColumn get exportDateTime =>
+      _exportDateTime ??= _constructExportDateTime();
+  GeneratedDateTimeColumn _constructExportDateTime() {
     return GeneratedDateTimeColumn(
-      'creation_time',
+      'export_date_time',
       $tableName,
       true,
     );
   }
 
-  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
-  GeneratedDateTimeColumn _deleteTime;
+  final VerificationMeta _exportStatusMeta =
+      const VerificationMeta('exportStatus');
+  GeneratedTextColumn _exportStatus;
   @override
-  GeneratedDateTimeColumn get deleteTime =>
-      _deleteTime ??= _constructDeleteTime();
-  GeneratedDateTimeColumn _constructDeleteTime() {
-    return GeneratedDateTimeColumn(
-      'delete_time',
-      $tableName,
-      true,
-    );
+  GeneratedTextColumn get exportStatus =>
+      _exportStatus ??= _constructExportStatus();
+  GeneratedTextColumn _constructExportStatus() {
+    return GeneratedTextColumn('export_status', $tableName, false,
+        defaultValue: Constant('Pending'));
   }
 
-  final VerificationMeta _deleteUserIdMeta =
-      const VerificationMeta('deleteUserId');
-  GeneratedIntColumn _deleteUserId;
+  final VerificationMeta _syncErrorMeta = const VerificationMeta('syncError');
+  GeneratedTextColumn _syncError;
   @override
-  GeneratedIntColumn get deleteUserId =>
-      _deleteUserId ??= _constructDeleteUserId();
-  GeneratedIntColumn _constructDeleteUserId() {
-    return GeneratedIntColumn(
-      'delete_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _creatorUserMeta =
-      const VerificationMeta('creatorUser');
-  GeneratedTextColumn _creatorUser;
-  @override
-  GeneratedTextColumn get creatorUser =>
-      _creatorUser ??= _constructCreatorUser();
-  GeneratedTextColumn _constructCreatorUser() {
+  GeneratedTextColumn get syncError => _syncError ??= _constructSyncError();
+  GeneratedTextColumn _constructSyncError() {
     return GeneratedTextColumn(
-      'creator_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleterUserIdMeta =
-      const VerificationMeta('deleterUserId');
-  GeneratedTextColumn _deleterUserId;
-  @override
-  GeneratedTextColumn get deleterUserId =>
-      _deleterUserId ??= _constructDeleterUserId();
-  GeneratedTextColumn _constructDeleterUserId() {
-    return GeneratedTextColumn(
-      'deleter_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
-  GeneratedBoolColumn _isDeleted;
-  @override
-  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
-  GeneratedBoolColumn _constructIsDeleted() {
-    return GeneratedBoolColumn('is_deleted', $tableName, false,
-        defaultValue: Constant(false));
-  }
-
-  final VerificationMeta _lastModifierUserMeta =
-      const VerificationMeta('lastModifierUser');
-  GeneratedTextColumn _lastModifierUser;
-  @override
-  GeneratedTextColumn get lastModifierUser =>
-      _lastModifierUser ??= _constructLastModifierUser();
-  GeneratedTextColumn _constructLastModifierUser() {
-    return GeneratedTextColumn(
-      'last_modifier_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserIdMeta =
-      const VerificationMeta('lastModifierUserId');
-  GeneratedIntColumn _lastModifierUserId;
-  @override
-  GeneratedIntColumn get lastModifierUserId =>
-      _lastModifierUserId ??= _constructLastModifierUserId();
-  GeneratedIntColumn _constructLastModifierUserId() {
-    return GeneratedIntColumn(
-      'last_modifier_user_id',
+      'sync_error',
       $tableName,
       true,
     );
@@ -6703,28 +6378,18 @@ class $ApplicationLoggerTable extends ApplicationLogger
         tenantId,
         uerName,
         userId,
-        importDateTime,
-        exportDateTime,
-        exportStatus,
-        importStatus,
-        syncError,
         id,
         functionName,
-        startDateTime,
+        logDateTime,
         syncFrequency,
         logDescription,
         documentNo,
+        deviceId,
         logCode,
         logSeverity,
-        createUserId,
-        creationTime,
-        deleteTime,
-        deleteUserId,
-        creatorUser,
-        deleterUserId,
-        isDeleted,
-        lastModifierUser,
-        lastModifierUserId
+        exportDateTime,
+        exportStatus,
+        syncError
       ];
   @override
   $ApplicationLoggerTable get asDslTable => this;
@@ -6748,34 +6413,6 @@ class $ApplicationLoggerTable extends ApplicationLogger
       context.handle(
           _userIdMeta, userId.isAcceptableValue(d.userId.value, _userIdMeta));
     }
-    if (d.importDateTime.present) {
-      context.handle(
-          _importDateTimeMeta,
-          importDateTime.isAcceptableValue(
-              d.importDateTime.value, _importDateTimeMeta));
-    }
-    if (d.exportDateTime.present) {
-      context.handle(
-          _exportDateTimeMeta,
-          exportDateTime.isAcceptableValue(
-              d.exportDateTime.value, _exportDateTimeMeta));
-    }
-    if (d.exportStatus.present) {
-      context.handle(
-          _exportStatusMeta,
-          exportStatus.isAcceptableValue(
-              d.exportStatus.value, _exportStatusMeta));
-    }
-    if (d.importStatus.present) {
-      context.handle(
-          _importStatusMeta,
-          importStatus.isAcceptableValue(
-              d.importStatus.value, _importStatusMeta));
-    }
-    if (d.syncError.present) {
-      context.handle(_syncErrorMeta,
-          syncError.isAcceptableValue(d.syncError.value, _syncErrorMeta));
-    }
     if (d.id.present) {
       context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
     }
@@ -6787,13 +6424,11 @@ class $ApplicationLoggerTable extends ApplicationLogger
     } else if (isInserting) {
       context.missing(_functionNameMeta);
     }
-    if (d.startDateTime.present) {
-      context.handle(
-          _startDateTimeMeta,
-          startDateTime.isAcceptableValue(
-              d.startDateTime.value, _startDateTimeMeta));
+    if (d.logDateTime.present) {
+      context.handle(_logDateTimeMeta,
+          logDateTime.isAcceptableValue(d.logDateTime.value, _logDateTimeMeta));
     } else if (isInserting) {
-      context.missing(_startDateTimeMeta);
+      context.missing(_logDateTimeMeta);
     }
     if (d.syncFrequency.present) {
       context.handle(
@@ -6817,6 +6452,12 @@ class $ApplicationLoggerTable extends ApplicationLogger
     } else if (isInserting) {
       context.missing(_documentNoMeta);
     }
+    if (d.deviceId.present) {
+      context.handle(_deviceIdMeta,
+          deviceId.isAcceptableValue(d.deviceId.value, _deviceIdMeta));
+    } else if (isInserting) {
+      context.missing(_deviceIdMeta);
+    }
     if (d.logCode.present) {
       context.handle(_logCodeMeta,
           logCode.isAcceptableValue(d.logCode.value, _logCodeMeta));
@@ -6829,53 +6470,21 @@ class $ApplicationLoggerTable extends ApplicationLogger
     } else if (isInserting) {
       context.missing(_logSeverityMeta);
     }
-    if (d.createUserId.present) {
+    if (d.exportDateTime.present) {
       context.handle(
-          _createUserIdMeta,
-          createUserId.isAcceptableValue(
-              d.createUserId.value, _createUserIdMeta));
+          _exportDateTimeMeta,
+          exportDateTime.isAcceptableValue(
+              d.exportDateTime.value, _exportDateTimeMeta));
     }
-    if (d.creationTime.present) {
+    if (d.exportStatus.present) {
       context.handle(
-          _creationTimeMeta,
-          creationTime.isAcceptableValue(
-              d.creationTime.value, _creationTimeMeta));
+          _exportStatusMeta,
+          exportStatus.isAcceptableValue(
+              d.exportStatus.value, _exportStatusMeta));
     }
-    if (d.deleteTime.present) {
-      context.handle(_deleteTimeMeta,
-          deleteTime.isAcceptableValue(d.deleteTime.value, _deleteTimeMeta));
-    }
-    if (d.deleteUserId.present) {
-      context.handle(
-          _deleteUserIdMeta,
-          deleteUserId.isAcceptableValue(
-              d.deleteUserId.value, _deleteUserIdMeta));
-    }
-    if (d.creatorUser.present) {
-      context.handle(_creatorUserMeta,
-          creatorUser.isAcceptableValue(d.creatorUser.value, _creatorUserMeta));
-    }
-    if (d.deleterUserId.present) {
-      context.handle(
-          _deleterUserIdMeta,
-          deleterUserId.isAcceptableValue(
-              d.deleterUserId.value, _deleterUserIdMeta));
-    }
-    if (d.isDeleted.present) {
-      context.handle(_isDeletedMeta,
-          isDeleted.isAcceptableValue(d.isDeleted.value, _isDeletedMeta));
-    }
-    if (d.lastModifierUser.present) {
-      context.handle(
-          _lastModifierUserMeta,
-          lastModifierUser.isAcceptableValue(
-              d.lastModifierUser.value, _lastModifierUserMeta));
-    }
-    if (d.lastModifierUserId.present) {
-      context.handle(
-          _lastModifierUserIdMeta,
-          lastModifierUserId.isAcceptableValue(
-              d.lastModifierUserId.value, _lastModifierUserIdMeta));
+    if (d.syncError.present) {
+      context.handle(_syncErrorMeta,
+          syncError.isAcceptableValue(d.syncError.value, _syncErrorMeta));
     }
     return context;
   }
@@ -6900,32 +6509,15 @@ class $ApplicationLoggerTable extends ApplicationLogger
     if (d.userId.present) {
       map['user_id'] = Variable<int, IntType>(d.userId.value);
     }
-    if (d.importDateTime.present) {
-      map['import_date_time'] =
-          Variable<DateTime, DateTimeType>(d.importDateTime.value);
-    }
-    if (d.exportDateTime.present) {
-      map['export_date_time'] =
-          Variable<DateTime, DateTimeType>(d.exportDateTime.value);
-    }
-    if (d.exportStatus.present) {
-      map['export_status'] = Variable<String, StringType>(d.exportStatus.value);
-    }
-    if (d.importStatus.present) {
-      map['import_status'] = Variable<String, StringType>(d.importStatus.value);
-    }
-    if (d.syncError.present) {
-      map['sync_error'] = Variable<String, StringType>(d.syncError.value);
-    }
     if (d.id.present) {
       map['id'] = Variable<int, IntType>(d.id.value);
     }
     if (d.functionName.present) {
       map['function_name'] = Variable<String, StringType>(d.functionName.value);
     }
-    if (d.startDateTime.present) {
-      map['start_date_time'] =
-          Variable<DateTime, DateTimeType>(d.startDateTime.value);
+    if (d.logDateTime.present) {
+      map['log_date_time'] =
+          Variable<DateTime, DateTimeType>(d.logDateTime.value);
     }
     if (d.syncFrequency.present) {
       map['sync_frequency'] =
@@ -6938,42 +6530,24 @@ class $ApplicationLoggerTable extends ApplicationLogger
     if (d.documentNo.present) {
       map['document_no'] = Variable<String, StringType>(d.documentNo.value);
     }
+    if (d.deviceId.present) {
+      map['device_id'] = Variable<String, StringType>(d.deviceId.value);
+    }
     if (d.logCode.present) {
       map['log_code'] = Variable<String, StringType>(d.logCode.value);
     }
     if (d.logSeverity.present) {
       map['log_severity'] = Variable<String, StringType>(d.logSeverity.value);
     }
-    if (d.createUserId.present) {
-      map['create_user_id'] = Variable<int, IntType>(d.createUserId.value);
+    if (d.exportDateTime.present) {
+      map['export_date_time'] =
+          Variable<DateTime, DateTimeType>(d.exportDateTime.value);
     }
-    if (d.creationTime.present) {
-      map['creation_time'] =
-          Variable<DateTime, DateTimeType>(d.creationTime.value);
+    if (d.exportStatus.present) {
+      map['export_status'] = Variable<String, StringType>(d.exportStatus.value);
     }
-    if (d.deleteTime.present) {
-      map['delete_time'] = Variable<DateTime, DateTimeType>(d.deleteTime.value);
-    }
-    if (d.deleteUserId.present) {
-      map['delete_user_id'] = Variable<int, IntType>(d.deleteUserId.value);
-    }
-    if (d.creatorUser.present) {
-      map['creator_user'] = Variable<String, StringType>(d.creatorUser.value);
-    }
-    if (d.deleterUserId.present) {
-      map['deleter_user_id'] =
-          Variable<String, StringType>(d.deleterUserId.value);
-    }
-    if (d.isDeleted.present) {
-      map['is_deleted'] = Variable<bool, BoolType>(d.isDeleted.value);
-    }
-    if (d.lastModifierUser.present) {
-      map['last_modifier_user'] =
-          Variable<String, StringType>(d.lastModifierUser.value);
-    }
-    if (d.lastModifierUserId.present) {
-      map['last_modifier_user_id'] =
-          Variable<int, IntType>(d.lastModifierUserId.value);
+    if (d.syncError.present) {
+      map['sync_error'] = Variable<String, StringType>(d.syncError.value);
     }
     return map;
   }

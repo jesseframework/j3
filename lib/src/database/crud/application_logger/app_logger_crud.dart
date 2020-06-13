@@ -22,4 +22,7 @@ class ApplicationLoggerDao extends DatabaseAccessor<AppDatabase>
       into(db.applicationLogger).insert(applicationLoggerData);
 
   Future deleteAllAppLog() => delete(db.applicationLogger).go();
+
+  Future deleteAppLog(ApplicationLoggerCompanion applicationLoggerCompanion) =>
+      delete(applicationLogger).delete(applicationLoggerCompanion);
 }
