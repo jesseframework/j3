@@ -18,7 +18,7 @@ class ApplicationLoggerDao extends DatabaseAccessor<AppDatabase>
     return (select(db.applicationLogger).watch());
   }
 
-  Future insertAppLog(ApplicationLoggerData applicationLoggerData) =>
+  Future insertAppLog(ApplicationLoggerCompanion applicationLoggerData) =>
       into(db.applicationLogger).insert(applicationLoggerData);
 
   Future deleteAllAppLog() => delete(db.applicationLogger).go();
