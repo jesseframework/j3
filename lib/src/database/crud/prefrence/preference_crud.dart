@@ -1,5 +1,5 @@
 import 'package:j3enterprise/src/database/moor_database.dart';
-import 'package:j3enterprise/src/models/prefrence_model.dart';
+import 'package:j3enterprise/src/models/preference_model.dart';
 import 'package:moor/moor.dart';
 
 part 'preference_crud.g.dart';

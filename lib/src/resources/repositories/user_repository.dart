@@ -48,28 +48,62 @@ class UserRepository {
     return;
   }
 
-  Future<void> persistToken(String token, int userId, int tenantid) async {
+  Future<void> persistToken(String token, int userId, int tenantId) async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     await _prefs.setString("access_token", token);
     await _prefs.setString("userId", userId.toString());
-    await _prefs.setString("tenantid", tenantid.toString());
+    await _prefs.setString("tenantid", tenantId.toString());
     return;
   }
 
-  Future<void> setTanantIntoSharedPref(String tenatName) async {
+  Future<void> setTenantIntoSharedPref(String tenantName) async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    await _prefs.setString('tenatName', tenatName);
+    await _prefs.setString('tenatName', tenantName);
     return;
   }
 
-  Future<void> setDeviceIntoSharedPref(String deviceId, String state) async {
+  Future<void> setUserSharedPref(
+      String deviceId,
+      String deviceState,
+      String tenantState,
+      String userName,
+      String tenantName,
+      int tenantId,
+      int userId) async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     await _prefs.setString('deviceId', deviceId);
-    await _prefs.setString('state', state);
+    await _prefs.setString('deviceState', deviceState);
+    await _prefs.setString('tenantState', deviceState);
+    await _prefs.setString('userName', userName);
+    await _prefs.setString('tenantName', tenantName);
+    await _prefs.setInt('tenantId', tenantId);
+    await _prefs.setInt('userId', userId);
     return;
   }
 
-  Future<String> getTanantFromSharedPref() async {
+  Future<Map> getUserSharedPref() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    String deviceId = await _prefs.get('deviceId');
+    String deviceState = await _prefs.get('deviceState');
+    String tenantState = await _prefs.get('tenantState');
+    String userName = await _prefs.get('userName');
+    String tenantName = await _prefs.get('tenantName');
+    int tenantId = await _prefs.get('tenantId');
+    int userId = await _prefs.get('userId');
+
+    Map<String, String> map = {
+      "deviceId": "$deviceId",
+      "userId": "$userId",
+      "deviceState": "$deviceState",
+      "tenantState": "$tenantState",
+      "userName": "$userName",
+      "tenantName": "$tenantName",
+      "tenantId": "$tenantId",
+    };
+    return map;
+  }
+
+  Future<String> getTenantFromSharedPref() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     String result = await _prefs.get('tenatName');
     return result;
@@ -80,16 +114,16 @@ class UserRepository {
     return _prefs.containsKey('access_token');
   }
 
-  Future<Map> getPrefrenceData() async {
+  Future<Map> getPreferenceData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = await prefs.get("access_token");
     int userId = int.tryParse(await prefs.get("userId"));
-    int tenantid = int.tryParse(await prefs.get("tenantid"));
+    int tenantId = int.tryParse(await prefs.get("tenantid"));
 
     Map<String, String> map = {
       "token": "$token",
       "userId": "$userId",
-      "tenantid": "$tenantid",
+      "tenantid": "$tenantId",
     };
 
     return map;

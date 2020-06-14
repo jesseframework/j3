@@ -48,7 +48,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   getData() async {
-    tenantName = await userRepository.getTanantFromSharedPref();
+    tenantName = await userRepository.getTenantFromSharedPref();
   }
 
   @override
@@ -66,11 +66,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           print(isConnected);
           if (isConnected) {
             _log.info(isConnected);
-            //Loging with tenant - check for tenant before loging. If no tenant dont validate user and password
+
             yield LoginLoading();
             _log.finest('Bloc state change to LoginLoading');
             final Response tenantResponse =
-                await userRepository.checkTenant(tenancyName: event.tenantname);
+                await userRepository.checkTenant(tenancyName: event.tenantName);
             Map<String, dynamic> tenantMap =
                 json.decode(tenantResponse.bodyString);
             if (tenantResponse.isSuccessful && tenantMap['success']) {
@@ -79,7 +79,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               _log.finest('Tenant result in LoginLoading state : ' +
                   tenantResult.toString());
               print(tenantResult);
-              await userRepository.setTanantIntoSharedPref(event.tenantname);
+              await userRepository.setTenantIntoSharedPref(event.tenantName);
 
               tenantId = tenantResult['tenantId'].toString();
               _log.finest(
@@ -98,11 +98,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                 }
                 yield LoginFailure(error: error);
                 _log.info('Bloc state change to LoginFailure');
-
                 return;
               }
             } else {
               String error = tenantMap["error"]["details"].toString();
+              _log.info(error, StackTrace.current);
               if (error == null) {
                 error = AppLocalization.of(event.context)
                         .translate('online_login_failed') ??
@@ -113,6 +113,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             }
 
             //Check user and validate password
+            _log.finest('Start validate username and password');
             final Response response = await userRepository.authenticate(
               username: event.username,
               password: event.password,
@@ -120,8 +121,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             Map<String, dynamic> map = json.decode(response.bodyString);
             if (response.isSuccessful && map['success']) {
               //decode the response body
+              _log.finest('API response is successful');
               Map<String, dynamic> result = map['result'];
+              _log.finest('Create share preference for user');
+              userRepository.setUserSharedPref(
+                  event.deviceId,
+                  "",
+                  "",
+                  event.username,
+                  tenantName,
+                  int.tryParse(tenantId),
+                  result['userId']);
 
+              _log.finest('Moveing to authenticationBloc');
               authenticationBloc.add(LoggedIn(
                   token: result['accessToken'],
                   userId: result['userId'],
@@ -130,6 +142,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             } else {
               //display errors
               String error = map["error"]["details"].toString();
+              _log.info(error, StackTrace.current);
               if (error == null) {
                 error = AppLocalization.of(event.context)
                         .translate('online_login_failed') ??
@@ -139,17 +152,30 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             }
           } else {
             //Loging offline with hash
+            _log.finest('Trying to loging offline');
             yield LoginLoading();
             var userDate =
                 await userDao.getSingleUserByUserName(event.username);
             if (userDate != null) {
+              _log.finest('Get tenant from user table');
               final int _tenantId = userDate.tenantId;
 
               String _userHash = await userHash.createHash(
                   event.password, _tenantId, userDate.id);
-
+              _log.finest('Create team mobile hash $_userHash');
               if (_userHash != null) {
+                _log.finest('Validation mobile hash');
                 if (userDate.mobileHash == _userHash.toString()) {
+                  _log.finest('Moving  to authenticationBloc');
+                  _log.finest('Create share preference for user');
+                  userRepository.setUserSharedPref(
+                      event.deviceId,
+                      "",
+                      "",
+                      event.username,
+                      tenantName,
+                      int.tryParse(tenantId),
+                      userDate.id);
                   authenticationBloc.add(LoggedIn(
                       token: "",
                       userId: userDate.id,
@@ -159,7 +185,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                   String error = AppLocalization.of(event.context)
                           .translate('online_login_code_miss_match') ??
                       'Invalid User Name or Password';
-
+                  _log.info(error, StackTrace.current);
                   yield LoginFailure(error: error);
                 }
               }
@@ -167,23 +193,30 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               String error = AppLocalization.of(event.context)
                       .translate('offline_login_failed') ??
                   'Something went wrong! Unable to log you in offline. Please try againg';
-
+              _log.info(error, StackTrace.current);
               yield LoginFailure(error: error);
             }
           }
         } else {
           //Not Android and iOS device
           yield LoginLoading();
+          _log.finest('Loging on with non Android or iOS devices');
           final Response tenantResponse =
-              await userRepository.checkTenant(tenancyName: event.tenantname);
+              await userRepository.checkTenant(tenancyName: event.tenantName);
           Map<String, dynamic> tenantMap =
               json.decode(tenantResponse.bodyString);
+          _log.finest('Tenant response check in LoginLoading state');
           if (tenantResponse.isSuccessful && tenantMap['success']) {
             Map<String, dynamic> tenantResult = tenantMap['result'];
+            _log.finest('Tenant result in LoginLoading state : ' +
+                tenantResult.toString());
             print(tenantResult);
-            await userRepository.setTanantIntoSharedPref(event.tenantname);
-            //yield LoginTenantState(tenantName: event.tenant);
+            await userRepository.setTenantIntoSharedPref(event.tenantName);
+
             tenantId = tenantResult['tenantId'].toString();
+            _log.finest(
+                'Tenant tenant result assign to virable tenant LoginLoading state');
+
             if (tenantResult['tenantId'] == null) {
               tenantId = 0.toString();
               String error = "There is no tenant defined with name";
@@ -193,10 +226,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                     "There is no tenant defined with name";
               }
               yield LoginFailure(error: error);
+              _log.info('Bloc state change to LoginFailure');
               return;
             }
           } else {
             String error = tenantMap["error"]["details"].toString();
+            _log.info(error);
             if (error == null) {
               error = AppLocalization.of(event.context)
                       .translate('online_login_failed') ??
@@ -213,6 +248,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           if (response.isSuccessful && map['success']) {
             //decode the response body
             Map<String, dynamic> result = map['result'];
+            _log.finest('Moveing to authenticationBloc');
+            _log.finest('Create share preference for user');
+            userRepository.setUserSharedPref(
+                event.deviceId,
+                "",
+                "",
+                event.username,
+                tenantName,
+                int.tryParse(tenantId),
+                result['userId']);
             authenticationBloc.add(LoggedIn(
                 token: result['accessToken'],
                 userId: result['userId'],
@@ -232,6 +277,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         }
       }
     } catch (error) {
+      _log.shout(error, StackTrace.current);
       yield LoginFailure(error: error.toString());
     }
   }

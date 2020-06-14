@@ -9,19 +9,27 @@ class LoginButtonPressed extends LoginEvent {
   final String password;
   final BuildContext context;
   final int tenantId;
-  final String tenantname;
+  final String tenantName;
+  final String deviceId;
 
   const LoginButtonPressed(
       {@required this.username,
       @required this.password,
       this.context,
       this.tenantId,
-      this.tenantname});
+      this.tenantName,
+      this.deviceId});
 
   @override
-  List<Object> get props => [username, password, context, tenantId, tenantname];
+  List<Object> get props =>
+      [username, password, context, tenantId, tenantName, deviceId];
 
   @override
-  String toString() =>
-      'LoginButtonPressed { username: $username, password: $password, context: $context, tenantId: $tenantId, tenantname: $tenantname, tenant: $tenantname}';
+  String toString() => 'LoginButtonPressed { username: $username, '
+      'password: $password, '
+      'context: $context, '
+      'tenantId: $tenantId, '
+      'tenantname: $tenantName, '
+      'deviceId: $deviceId, '
+      'tenant: $tenantName}';
 }

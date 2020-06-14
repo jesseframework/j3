@@ -7,7 +7,8 @@ import 'package:j3enterprise/src/models/business_rule_model.dart';
 import 'package:j3enterprise/src/models/communication_model.dart';
 import 'package:j3enterprise/src/models/mobile_device_model.dart';
 import 'package:j3enterprise/src/models/non_global_setting.dart';
-import 'package:j3enterprise/src/models/prefrence_model.dart';
+import 'package:j3enterprise/src/models/preference_model.dart';
+
 import 'package:j3enterprise/src/models/tenant_model.dart';
 import 'package:j3enterprise/src/models/user_model.dart';
 import 'package:moor/moor.dart';

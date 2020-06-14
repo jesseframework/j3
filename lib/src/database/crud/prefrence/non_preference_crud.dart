@@ -14,13 +14,15 @@ class NonGlobalSettingDao extends DatabaseAccessor<AppDatabase>
 //    return (select(db.preference)..where((t) => t.code.equals(prefCode))).get();
 //  }
 //
-  Future<NonGlobalSettingData> getSingleNonGlobalPref(
-      String parentCode, String code, String userName, String deviceId) {
+  Future<NonGlobalSettingData> getSingleNonGlobalPref(String parentCode,
+      String code, String userName, String deviceId, String screen) {
     return (select(db.nonGlobalSetting)
           ..where((u) =>
               u.code.equals(code) &
               u.parentCode.equals(parentCode) &
-              (u.userName.like(userName) | u.deviceId.like(deviceId))))
+              (u.userName.like(userName) |
+                  u.deviceId.like(deviceId) |
+                  u.screen.like(screen))))
         .getSingle();
   }
 //

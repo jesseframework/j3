@@ -38,7 +38,7 @@ class AuthenticationBloc
         yield AuthenticationUnauthenticated();
       }
     }
-    //ToDo Implement tenantid
+
     if (event is LoggedIn) {
       yield AuthenticationLoading();
       await userRepository.persistToken(

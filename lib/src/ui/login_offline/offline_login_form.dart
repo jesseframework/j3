@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
+import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication.dart';
 import 'package:j3enterprise/src/ui/login/bloc/login_bloc.dart';
-
-import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 
 class OfflineLoginForm extends StatefulWidget {
   @override
@@ -25,14 +24,14 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
   //ToDo Iplment global passowrd box and setup from validation
 
   TextEditingController _passwordController = TextEditingController();
-  TextEditingController _passwordConfimController = TextEditingController();
+  TextEditingController _passwordConfirmController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     _onLoginButtonPressed() async {
       formKey.currentState.validate();
 
-      mappref = await userRepository.getPrefrenceData();
+      mappref = await userRepository.getPreferenceData();
       BlocProvider.of<AuthenticationBloc>(context).add(
         OfflineLoginButtonPressed(
             userId: int.tryParse(mappref['userId']),
@@ -152,7 +151,7 @@ class _OfflineLoginFormState extends State<OfflineLoginForm> {
                                       }
                                       return null;
                                     },
-                                    controller: _passwordConfimController,
+                                    controller: _passwordConfirmController,
                                     decoration: InputDecoration(
                                       filled: true,
                                       icon: Icon(Icons.lock),
