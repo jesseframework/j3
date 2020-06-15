@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/shared/function/check_for_user_data_on_server.dart';
 import 'package:j3enterprise/src/resources/shared/utils/user_hashdigest.dart';
-import 'package:meta/meta.dart';
 
 import 'authentication_event.dart';
 import 'authentication_state.dart';
@@ -15,7 +14,7 @@ class AuthenticationBloc
   UserFromServer userFromServer;
   UserHashSave userHash;
 
-  AuthenticationBloc({@required this.userRepository}) {
+  AuthenticationBloc({this.userRepository}) {
     assert(userRepository != null);
     userFromServer = new UserFromServer(userRepository: userRepository);
     userHash = new UserHashSave(userRepository: userRepository);

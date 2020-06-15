@@ -4,8 +4,8 @@ import 'package:chopper/chopper.dart';
 import 'package:j3enterprise/src/database/crud/user/user_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
-import 'package:quiver/strings.dart';
 import 'package:moor/moor.dart' as moor;
+import 'package:quiver/strings.dart';
 
 class UserFromServer {
   final UserRepository userRepository;

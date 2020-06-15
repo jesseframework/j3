@@ -19,19 +19,30 @@ import 'src/ui/home/home_page.dart';
 import 'src/ui/login/login_page.dart';
 
 Future<void> main() async {
+//Important Information
+//Don't change the order of InitServiceSetup
+//Order of class
+//1- InitalServerSetup
+//2- setMokInitalValue
+//3- setupLoggin
+
   WidgetsFlutterBinding.ensureInitialized();
   InitServiceSetup initServiceSetup = new InitServiceSetup();
-  // intiailize services
-  await initServiceSetup.initServices();
   SharedPreferences.setMockInitialValues({});
+  await initServiceSetup.systemInitelSetup();
+  await initServiceSetup.setupLogging();
+
   final userRepository = UserRepository();
+
   runApp(
     BlocProvider<AuthenticationBloc>(
       create: (context) {
         return AuthenticationBloc(userRepository: userRepository)
           ..add(AppStarted());
       },
-      child: App(userRepository: userRepository),
+      child: App(
+        userRepository: userRepository,
+      ),
     ),
   );
 }
@@ -39,7 +50,7 @@ Future<void> main() async {
 class App extends StatelessWidget {
   final UserRepository userRepository;
 
-  App({Key key, @required this.userRepository}) : super(key: key);
+  App({Key key, this.userRepository}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

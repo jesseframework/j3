@@ -12,6 +12,7 @@ import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/services/connection_service.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
+import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.dart';
 import 'package:j3enterprise/src/resources/shared/utils/user_hashdigest.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication_bloc.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication_event.dart';
@@ -24,7 +25,7 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final UserRepository userRepository;
   final AuthenticationBloc authenticationBloc;
-  //final log = getLogger('LoginBloc');
+  UserSharedData userSharedData;
   static final _log = Logger('LoginBloc');
 
   //AppLogger appLogger;
@@ -37,6 +38,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc(
       {@required this.userRepository, @required this.authenticationBloc}) {
     userHash = new UserHash(userRepository: userRepository);
+    userSharedData = new UserSharedData();
     //appLogger = new AppLogger();
     assert(userRepository != null);
     assert(authenticationBloc != null);
@@ -59,6 +61,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     _log.finest('Bloc mapEventToState call');
     try {
       String tenantId;
+      String deviceState;
+      String tenantState;
       if (event is LoginButtonPressed) {
         if (Platform.isAndroid || Platform.isIOS) {
           var isConnected = await ConnectionService().isConnected();
@@ -97,7 +101,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                       "There is no tenant defined with name";
                 }
                 yield LoginFailure(error: error);
-                _log.info('Bloc state change to LoginFailure');
+                _log.info(
+                    'Bloc state change to LoginFailure when trying to get tenant');
                 return;
               }
             } else {
@@ -124,14 +129,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               _log.finest('API response is successful');
               Map<String, dynamic> result = map['result'];
               _log.finest('Create share preference for user');
-              userRepository.setUserSharedPref(
+              int userId = int.tryParse(result['userId'].toString());
+              userSharedData.setUserSharedPref(
                   event.deviceId,
-                  "",
-                  "",
+                  deviceState,
+                  tenantState,
                   event.username,
-                  tenantName,
-                  int.tryParse(tenantId),
-                  result['userId']);
+                  event.tenantName,
+                  tenantId.toString(),
+                  userId.toString());
 
               _log.finest('Moveing to authenticationBloc');
               authenticationBloc.add(LoggedIn(
@@ -168,14 +174,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                 if (userDate.mobileHash == _userHash.toString()) {
                   _log.finest('Moving  to authenticationBloc');
                   _log.finest('Create share preference for user');
-                  userRepository.setUserSharedPref(
+                  userSharedData.setUserSharedPref(
                       event.deviceId,
                       "",
                       "",
                       event.username,
                       tenantName,
-                      int.tryParse(tenantId),
-                      userDate.id);
+                      tenantId.toString(),
+                      userDate.id.toString());
                   authenticationBloc.add(LoggedIn(
                       token: "",
                       userId: userDate.id,
@@ -250,14 +256,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             Map<String, dynamic> result = map['result'];
             _log.finest('Moveing to authenticationBloc');
             _log.finest('Create share preference for user');
-            userRepository.setUserSharedPref(
-                event.deviceId,
-                "",
-                "",
-                event.username,
-                tenantName,
-                int.tryParse(tenantId),
-                result['userId']);
+            int userId = int.tryParse(result['userId'].toString());
+            userSharedData.setUserSharedPref(event.deviceId, "", "",
+                event.username, tenantName, tenantId, userId.toString());
             authenticationBloc.add(LoggedIn(
                 token: result['accessToken'],
                 userId: result['userId'],
