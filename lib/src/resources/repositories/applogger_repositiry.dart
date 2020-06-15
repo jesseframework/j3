@@ -1,4 +1,5 @@
 import 'package:chopper/chopper.dart';
+
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
 import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
 import 'package:meta/meta.dart';

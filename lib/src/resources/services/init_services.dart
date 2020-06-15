@@ -6,17 +6,17 @@ import 'package:j3enterprise/src/database/crud/prefrence/non_preference_crud.dar
 import 'package:j3enterprise/src/database/crud/prefrence/preference_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
-import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/services/bloc_deligate.dart';
 import 'package:j3enterprise/src/resources/services/firebase_notification_service.dart';
 import 'package:j3enterprise/src/resources/shared/function/application_logger.dart';
+import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.dart';
 import 'package:logging/logging.dart';
 
 class InitServiceSetup {
   var db;
   PreferenceDao preferenceDao;
   NonGlobalSettingDao nonGlobalSettingDao;
-  UserRepository userRepository;
+  UserSharedData userSharedData;
   AppLogger appLogger;
   Map<String, String> mapDevicePref = Map();
   InitServiceSetup() {
@@ -24,10 +24,10 @@ class InitServiceSetup {
     appLogger = new AppLogger();
     preferenceDao = new PreferenceDao(db);
     nonGlobalSettingDao = new NonGlobalSettingDao(db);
-    userRepository = new UserRepository();
+    userSharedData = new UserSharedData();
   }
-  void _setupLogging() async {
-    mapDevicePref = await userRepository.getUserSharedPref();
+  Future<void> setupLogging() async {
+    mapDevicePref = await userSharedData.getUserSharedPref();
     String userName = mapDevicePref['userName'];
     String deviceID = mapDevicePref['deviceID'];
     String screen = mapDevicePref['screen'];
@@ -68,25 +68,11 @@ class InitServiceSetup {
 
     Logger.root.onRecord.listen((rec) async {
       print(
-          '${rec.loggerName} : ${rec.level.name}: ${rec.time} : ${rec.message} ');
+          '${rec.loggerName} : ${rec.level.name}: ${rec.time.toIso8601String()} : ${rec.message} ');
 
       await appLogger.saveAppLog(rec.loggerName, rec.time, "NA", rec.message,
           "NA", "NA", "NA", rec.level.name, 0, "NA", 0);
     });
-  }
-
-  Future<void> initServices() async {
-    _setupLogging();
-    BlocSupervisor.delegate = SimpleBlocDelegate();
-    var dao = CommunicationDao(AppDatabase());
-    var communicationData = await dao.getCommunicationDataByType("API");
-    var serverUrl = communicationData == null || communicationData.isEmpty
-        ? ApiClient.URL
-        : communicationData[0].serverUrl;
-    ApiClient.updateClient(serverUrl);
-    if (!Platform.isWindows && !Platform.isMacOS) {
-      FirebaseNotificationService.instance;
-    }
   }
 
   Future<void> logLevelCheck(String logLevel) async {
@@ -118,4 +104,19 @@ class InitServiceSetup {
       Logger.root.level = Level.ALL;
     }
   }
+}
+
+Future<void> systemInitelSetup() async {
+  BlocSupervisor.delegate = SimpleBlocDelegate();
+  var dao = CommunicationDao(AppDatabase());
+  var communicationData = await dao.getCommunicationDataByType("API");
+  var serverUrl = communicationData == null || communicationData.isEmpty
+      ? ApiClient.URL
+      : communicationData[0].serverUrl;
+  ApiClient.updateClient(serverUrl);
+  if (!Platform.isWindows && !Platform.isMacOS) {
+    FirebaseNotificationService.instance;
+  }
+  final int = InitServiceSetup();
+  int.setupLogging();
 }

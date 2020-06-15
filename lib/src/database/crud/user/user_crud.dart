@@ -13,6 +13,10 @@ class UserDao extends DatabaseAccessor<AppDatabase> with _$UserDaoMixin {
     return (select(db.users)..where((u) => u.id.equals(id))).getSingle();
   }
 
+  Future<User> getSingleByName(int id) {
+    return (select(db.users)..where((u) => u.id.equals(id))).getSingle();
+  }
+
   Future<User> getSingleUserByUserName(String userName) {
     return (select(db.users)..where((u) => u.userName.equals(userName)))
         .getSingle();
@@ -47,5 +51,5 @@ class UserDao extends DatabaseAccessor<AppDatabase> with _$UserDaoMixin {
   Future insertUser(UsersCompanion user) => into(db.users).insert(user);
 
   //Wipe user table
-  Future deleteAllUser() =>  delete(db.users).go();
+  Future deleteAllUser() => delete(db.users).go();
 }
