@@ -11,7 +11,17 @@ class AuthenticationUninitialized extends AuthenticationState {}
 
 class AuthenticationAuthenticated extends AuthenticationState {}
 
-class AuthenticationUnauthenticated extends AuthenticationState {}
+class AuthenticationUnauthenticated extends AuthenticationState {
+  final tenantName;
+
+  AuthenticationUnauthenticated(this.tenantName);
+
+  @override
+  List<Object> get props => [tenantName];
+
+  @override
+  String toString() => 'CommunicationLoadSuccess { data: $tenantName }';
+}
 
 class AuthenticationLoading extends AuthenticationState {}
 

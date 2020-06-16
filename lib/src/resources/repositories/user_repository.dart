@@ -64,7 +64,8 @@ class UserRepository {
 
   Future<String> getTanantFromSharedPref() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
-    String result = await _prefs.get('tenatName');
+    //await _prefs.setString('tenatName', "tenatName");
+    String result = _prefs.getString('tenatName');
     return result;
   }
 

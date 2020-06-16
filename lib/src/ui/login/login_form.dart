@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
+import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/password_field.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/text_field_nullable.dart';
+
 import 'bloc/login_bloc.dart';
-import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 
 class LoginForm extends StatefulWidget {
+  final tenantName;
+  LoginForm(this.tenantName);
   @override
   State<LoginForm> createState() => _LoginFormState();
 }
@@ -16,12 +19,18 @@ class _LoginFormState extends State<LoginForm> {
   bool pass = true;
   String selected;
   bool isSwitched = false;
-  final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _tenantController = TextEditingController();
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _tenantController;
+  @override
+  void initState() {
+    _tenantController = TextEditingController(text: widget.tenantName);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    _onLoginButtonPressed() {
+    _onLoginButtonPressed() async {
       formKey.currentState.validate();
       BlocProvider.of<LoginBloc>(context).add(
         LoginButtonPressed(
@@ -45,7 +54,7 @@ class _LoginFormState extends State<LoginForm> {
             key: formKey,
             child: Container(
               constraints: BoxConstraints(
-                  minWidth: 100, maxWidth: 400, minHeight: 200, maxHeight: 430),
+                  minWidth: 100, maxWidth: 400, minHeight: 200, maxHeight: 385),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: ClipRRect(

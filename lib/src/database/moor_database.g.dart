@@ -4831,6 +4831,165 @@ class $MobileDeviceTable extends MobileDevice
   }
 }
 
+class Tenant extends DataClass implements Insertable<Tenant> {
+  final int id;
+  final String tenant;
+  Tenant({@required this.id, this.tenant});
+  factory Tenant.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    return Tenant(
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      tenant:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}tenant']),
+    );
+  }
+  factory Tenant.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return Tenant(
+      id: serializer.fromJson<int>(json['id']),
+      tenant: serializer.fromJson<String>(json['tenant']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'tenant': serializer.toJson<String>(tenant),
+    };
+  }
+
+  @override
+  TenantsCompanion createCompanion(bool nullToAbsent) {
+    return TenantsCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      tenant:
+          tenant == null && nullToAbsent ? const Value.absent() : Value(tenant),
+    );
+  }
+
+  Tenant copyWith({int id, String tenant}) => Tenant(
+        id: id ?? this.id,
+        tenant: tenant ?? this.tenant,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('Tenant(')
+          ..write('id: $id, ')
+          ..write('tenant: $tenant')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(id.hashCode, tenant.hashCode));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is Tenant && other.id == this.id && other.tenant == this.tenant);
+}
+
+class TenantsCompanion extends UpdateCompanion<Tenant> {
+  final Value<int> id;
+  final Value<String> tenant;
+  const TenantsCompanion({
+    this.id = const Value.absent(),
+    this.tenant = const Value.absent(),
+  });
+  TenantsCompanion.insert({
+    @required int id,
+    this.tenant = const Value.absent(),
+  }) : id = Value(id);
+  TenantsCompanion copyWith({Value<int> id, Value<String> tenant}) {
+    return TenantsCompanion(
+      id: id ?? this.id,
+      tenant: tenant ?? this.tenant,
+    );
+  }
+}
+
+class $TenantsTable extends Tenants with TableInfo<$TenantsTable, Tenant> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $TenantsTable(this._db, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _tenantMeta = const VerificationMeta('tenant');
+  GeneratedTextColumn _tenant;
+  @override
+  GeneratedTextColumn get tenant => _tenant ??= _constructTenant();
+  GeneratedTextColumn _constructTenant() {
+    return GeneratedTextColumn(
+      'tenant',
+      $tableName,
+      true,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [id, tenant];
+  @override
+  $TenantsTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'tenants';
+  @override
+  final String actualTableName = 'tenants';
+  @override
+  VerificationContext validateIntegrity(TenantsCompanion d,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    if (d.id.present) {
+      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (d.tenant.present) {
+      context.handle(
+          _tenantMeta, tenant.isAcceptableValue(d.tenant.value, _tenantMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  @override
+  Tenant map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return Tenant.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  Map<String, Variable> entityToSql(TenantsCompanion d) {
+    final map = <String, Variable>{};
+    if (d.id.present) {
+      map['id'] = Variable<int, IntType>(d.id.value);
+    }
+    if (d.tenant.present) {
+      map['tenant'] = Variable<String, StringType>(d.tenant.value);
+    }
+    return map;
+  }
+
+  @override
+  $TenantsTable createAlias(String alias) {
+    return $TenantsTable(_db, alias);
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $UsersTable _users;
@@ -4849,6 +5008,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $MobileDeviceTable _mobileDevice;
   $MobileDeviceTable get mobileDevice =>
       _mobileDevice ??= $MobileDeviceTable(this);
+  $TenantsTable _tenants;
+  $TenantsTable get tenants => _tenants ??= $TenantsTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
@@ -4858,6 +5019,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         backgroundJobSchedule,
         backgroundJobLogs,
         prefrence,
-        mobileDevice
+        mobileDevice,
+        tenants
       ];
 }

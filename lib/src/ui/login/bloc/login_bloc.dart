@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show Platform;
-
 import 'package:bloc/bloc.dart';
 import 'package:chopper/chopper.dart';
 import 'package:equatable/equatable.dart';
@@ -16,7 +15,7 @@ import 'package:j3enterprise/src/resources/shared/utils/user_hashdigest.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication_bloc.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication_event.dart';
 import 'package:meta/meta.dart';
-
+import 'package:j3enterprise/src/database/crud/tenant/tenant_curd.dart';
 part 'login_event.dart';
 part 'login_state.dart';
 
@@ -28,6 +27,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   var db;
   UserDao userDao;
+  TenantDao tenantDao;
 
   LoginBloc({
     @required this.userRepository,
@@ -36,13 +36,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     userHash = new UserHash(userRepository: userRepository);
     assert(userRepository != null);
     assert(authenticationBloc != null);
-    getData();
-    db = AppDatabase();
-    userDao = UserDao(db);
-  }
 
-  getData() async {
-    tenantName = await userRepository.getTanantFromSharedPref();
+    db = AppDatabase();
+    tenantDao = TenantDao(db);
+    userDao = UserDao(db);
   }
 
   @override
@@ -53,11 +50,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       String tenantId;
       if (event is LoginButtonPressed) {
+        await tenantDao.updateTenant(event.tenantname);
         if (Platform.isAndroid || Platform.isIOS) {
           var isConnected = await ConnectionService().isConnected();
           print(isConnected);
           if (isConnected) {
             yield LoginLoading();
+
             final Response tenantResponse =
                 await userRepository.checkTenant(tenancyName: event.tenantname);
             Map<String, dynamic> tenantMap =
@@ -117,19 +116,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             }
           } else {
             yield LoginLoading();
-            var userDate =
+            var userData =
                 await userDao.getSingleUserByUserName(event.username);
-            if (userDate != null) {
-//              if (tenantId?.isEmpty ?? true) {
-//                tenantId = 0.toString();
-//              }
+            if (userData != null) {
+              //              if (tenantId?.isEmpty ?? true) {
+              //                tenantId = 0.toString();
+              //              }
               String _userHash = await userHash.createHash(
-                  event.password, userDate.id, userDate.tenantId);
+                  event.password, userData.id, userData.tenantId);
               if (_userHash != null) {
-                if (userDate.mobileHash == _userHash.toString()) {
+                if (userData.mobileHash == _userHash.toString()) {
                   authenticationBloc.add(LoggedIn(
                       token: "",
-                      userId: userDate.id,
+                      userId: userData.id,
                       tenantId: int.tryParse(tenantId)));
                   yield LoginInitial();
                 } else {

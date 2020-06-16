@@ -4,6 +4,7 @@ import 'package:j3enterprise/src/models/background_job_schedule_model.dart';
 import 'package:j3enterprise/src/models/background_jobs_logs_model.dart';
 import 'package:j3enterprise/src/models/mobile_device_model.dart';
 import 'package:j3enterprise/src/models/prefrence_model.dart';
+import 'package:j3enterprise/src/models/tenant_model.dart';
 import 'package:j3enterprise/src/models/user_model.dart';
 import 'package:j3enterprise/src/models/communication_model.dart';
 import 'package:moor/moor.dart';
@@ -21,7 +22,8 @@ part 'moor_database.g.dart';
   BackgroundJobSchedule,
   BackgroundJobLogs,
   Prefrence,
-  MobileDevice
+  MobileDevice,
+  Tenants
 ])
 class AppDatabase extends _$AppDatabase {
   static AppDatabase _db = _constructDb();
