@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:j3enterprise/src/resources/repositories/applogger_repositiry.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/shared/function/check_for_user_data_on_server.dart';
 import 'package:j3enterprise/src/resources/shared/utils/user_hashdigest.dart';
@@ -13,11 +14,13 @@ class AuthenticationBloc
   final UserRepository userRepository;
   UserFromServer userFromServer;
   UserHashSave userHash;
+  AppLoggerRepository appLoggerRepository;
 
   AuthenticationBloc({this.userRepository}) {
     assert(userRepository != null);
     userFromServer = new UserFromServer(userRepository: userRepository);
     userHash = new UserHashSave(userRepository: userRepository);
+    appLoggerRepository = new AppLoggerRepository();
   }
 
   @override
@@ -43,6 +46,10 @@ class AuthenticationBloc
       await userRepository.persistToken(
           event.token, event.userId, event.tenantId);
       yield AuthenticationAuthenticated();
+
+      const oneSec = const Duration(seconds: 60);
+      new Timer.periodic(oneSec,
+          (Timer t) async => await appLoggerRepository.putAppLogOnServer());
 
       var offlineReady =
           await userFromServer.validateUser(event.userId, event.tenantId);

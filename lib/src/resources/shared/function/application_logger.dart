@@ -1,15 +1,16 @@
-import 'dart:convert';
-
-import 'package:chopper/chopper.dart';
 import 'package:j3enterprise/src/database/crud/application_logger/app_logger_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/repositories/applogger_repositiry.dart';
+import 'package:j3enterprise/src/ui/login/bloc/login_bloc.dart';
 import 'package:logging/logging.dart';
 import 'package:moor/moor.dart';
 
 class AppLogger {
   ApplicationLoggerDao applicationLoggerDao;
   AppLoggerRepository appLoggerRepository;
+
+  LoginState loginState;
+
   var db;
   static final _log = Logger('AppLogger');
 
@@ -18,6 +19,8 @@ class AppLogger {
     db = AppDatabase();
     applicationLoggerDao = ApplicationLoggerDao(db);
     appLoggerRepository = new AppLoggerRepository();
+
+    //loginState = new LoginState();
   }
 
   //ToDo Implement connectivity and batry setting for saving log to server. Server setting must be set to allow for log save over wify and log battery
@@ -49,26 +52,8 @@ class AppLogger {
           syncError: Value(""),
           tenantId: Value(tenantId),
           userId: Value(userId));
-      //print(applicationLoggerDao.getAllAppLog());
+
       await applicationLoggerDao.insertAppLog(logData);
-
-      final Response logShipResponse =
-          await appLoggerRepository.putAppLogOnServer(
-              functionName: functionName,
-              logDateTime: logDateTime,
-              syncFrequency: syncFrequency,
-              logDescription: logDescription,
-              documentNo: logDescription,
-              logCode: logCode,
-              logSeverity: logSeverity,
-              deviceID: deviceId);
-      Map<String, dynamic> logMap = json.decode(logShipResponse.bodyString);
-      if (logShipResponse.isSuccessful && logMap['success']) {
-        Map<String, dynamic> logShipResult = logMap['result'];
-        //ToDo Allow Server Log when post to return True
-
-        await applicationLoggerDao.deleteAppLog(logData);
-      }
     } catch (error) {
       _log.shout(error, StackTrace.current);
     }

@@ -10,7 +10,6 @@ class ApiClient {
 
   static ChopperClient chopper;
 
-
   static void updateClient(String baseUrl) {
     chopper = ChopperClient(
         baseUrl: baseUrl,
@@ -38,7 +37,10 @@ class ApiClient {
             String token = await prefs.get("access_token");
             String tenantId = await prefs.get("tenantId");
 
-            Map<String, String> map = {"Authorization": "Bearer $token",  'Abp.TenantId': '$tenantId'};
+            Map<String, String> map = {
+              "Authorization": "Bearer $token",
+              'Abp.TenantId': '$tenantId'
+            };
 
             request.headers.addAll(map);
             return request;

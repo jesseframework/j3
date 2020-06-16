@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/database/crud/user/user_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/resources/repositories/applogger_repositiry.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/services/connection_service.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
@@ -39,6 +40,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       {@required this.userRepository, @required this.authenticationBloc}) {
     userHash = new UserHash(userRepository: userRepository);
     userSharedData = new UserSharedData();
+
     //appLogger = new AppLogger();
     assert(userRepository != null);
     assert(authenticationBloc != null);
@@ -144,6 +146,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                   token: result['accessToken'],
                   userId: result['userId'],
                   tenantId: int.tryParse(tenantId)));
+
               yield LoginInitial();
             } else {
               //display errors

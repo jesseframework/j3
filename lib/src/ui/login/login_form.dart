@@ -26,10 +26,10 @@ class _LoginFormState extends State<LoginForm> {
       formKey.currentState.validate();
       BlocProvider.of<LoginBloc>(context).add(
         LoginButtonPressed(
-            username: _usernameController.text,
-            password: _passwordController.text,
+            username: _usernameController.text.trim(),
+            password: _passwordController.text.trim(),
             context: context,
-            tenantName: _tenantController.text),
+            tenantName: _tenantController.text.trim()),
       );
     }
 

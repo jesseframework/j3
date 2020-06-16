@@ -10,7 +10,7 @@ abstract class RestApiService extends ChopperService {
   @Post(path: '/services/app/Account/IsTenantAvailable')
   Future<Response> isTenantAvailable(@Body() Map<String, dynamic> body);
 
-  @Post(path: '/services/app/MobileAppLogger')
+  @Post(path: '/services/app/MobileAppLogger/Create')
   Future<Response> mobileAppLogger(@Body() Map<String, dynamic> body);
 
   //User End Point
