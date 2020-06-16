@@ -1,3 +1,35 @@
+/*
+ * Jesseframework - Computer Expertz Ltd - https://cpxz.us
+ * Copyright (C) 2019-2021 Jesseframework
+ *
+ * This file is part of Jesseframework - https://github.com/jesseframework/j3.
+ *
+ * Jesseframework is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version. 
+ *
+ * Jesseframework is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Jesseframework.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * Login bloc manages all loging state before hand over to authentication bloc. 
+ * All database interaction and application logice for logince is also handle in this bloc.
+ * This bloc is alos integrated with ASP.NET ABP out of the box not major modification need to the API.
+ * Dependency implement:
+ *  - Connectivity - Check Internet connection and login user offline if no internet
+ *  - Logger - Log all code interaction with UI. This is depended on log level
+ *  - Flutter_Bloc - Main state managemeng solution. for more information on flutter_bloc see http://pub.dev
+ *  - Chopper - API integration for ABP
+ *  - Shared Prefrence - Store user data for API call
+ */
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show Platform;
@@ -9,7 +41,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/database/crud/user/user_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
-import 'package:j3enterprise/src/resources/repositories/applogger_repositiry.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/services/connection_service.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
