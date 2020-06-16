@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:chopper/chopper.dart';
-
 ///This code will allow user to set the frequency of code run in background job.
 ///Once enable dart timer will execute API call and updat date base base on timer.
 ///For more information on dart timer go to https://stackoverflow.com/questions/14946012/how-do-i-run-a-reoccurring-function-in-dart

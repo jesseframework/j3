@@ -48,7 +48,7 @@ class AppDatabase extends _$AppDatabase {
         onUpgrade: (doMigration, from, to) async {
           if (from == 1) {
             //await migrator.addColumn(tasks, tasks.tagName);
-            //await migrator.createTable(ApplicationLogger);
+            //await doMigration.createTable(ApplicationLogger);
           }
 
           // ignore: unnecessary_statements

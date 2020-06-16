@@ -47,9 +47,9 @@ class AuthenticationBloc
           event.token, event.userId, event.tenantId);
       yield AuthenticationAuthenticated();
 
-      const oneSec = const Duration(seconds: 60);
-      new Timer.periodic(oneSec,
-          (Timer t) async => await appLoggerRepository.putAppLogOnServer());
+      // const oneSec = const Duration(seconds: 60);
+      // new Timer.periodic(oneSec,
+      //     (Timer t) async => await appLoggerRepository.putAppLogOnServer());
 
       var offlineReady =
           await userFromServer.validateUser(event.userId, event.tenantId);
