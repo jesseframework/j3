@@ -1682,12 +1682,16 @@ class BackgroundJobScheduleData extends DataClass
   final DateTime startDateTime;
   final String syncFrequency;
   final bool enableJob;
+  final DateTime lastRun;
+  final String jobStatus;
   BackgroundJobScheduleData(
       {@required this.id,
       @required this.jobName,
       @required this.startDateTime,
       @required this.syncFrequency,
-      @required this.enableJob});
+      @required this.enableJob,
+      @required this.lastRun,
+      @required this.jobStatus});
   factory BackgroundJobScheduleData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -1706,6 +1710,10 @@ class BackgroundJobScheduleData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}sync_frequency']),
       enableJob: boolType
           .mapFromDatabaseResponse(data['${effectivePrefix}enable_job']),
+      lastRun: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}last_run']),
+      jobStatus: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}job_status']),
     );
   }
   factory BackgroundJobScheduleData.fromJson(Map<String, dynamic> json,
@@ -1717,6 +1725,8 @@ class BackgroundJobScheduleData extends DataClass
       startDateTime: serializer.fromJson<DateTime>(json['startDateTime']),
       syncFrequency: serializer.fromJson<String>(json['syncFrequency']),
       enableJob: serializer.fromJson<bool>(json['enableJob']),
+      lastRun: serializer.fromJson<DateTime>(json['lastRun']),
+      jobStatus: serializer.fromJson<String>(json['jobStatus']),
     );
   }
   @override
@@ -1728,6 +1738,8 @@ class BackgroundJobScheduleData extends DataClass
       'startDateTime': serializer.toJson<DateTime>(startDateTime),
       'syncFrequency': serializer.toJson<String>(syncFrequency),
       'enableJob': serializer.toJson<bool>(enableJob),
+      'lastRun': serializer.toJson<DateTime>(lastRun),
+      'jobStatus': serializer.toJson<String>(jobStatus),
     };
   }
 
@@ -1747,6 +1759,12 @@ class BackgroundJobScheduleData extends DataClass
       enableJob: enableJob == null && nullToAbsent
           ? const Value.absent()
           : Value(enableJob),
+      lastRun: lastRun == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastRun),
+      jobStatus: jobStatus == null && nullToAbsent
+          ? const Value.absent()
+          : Value(jobStatus),
     );
   }
 
@@ -1755,13 +1773,17 @@ class BackgroundJobScheduleData extends DataClass
           String jobName,
           DateTime startDateTime,
           String syncFrequency,
-          bool enableJob}) =>
+          bool enableJob,
+          DateTime lastRun,
+          String jobStatus}) =>
       BackgroundJobScheduleData(
         id: id ?? this.id,
         jobName: jobName ?? this.jobName,
         startDateTime: startDateTime ?? this.startDateTime,
         syncFrequency: syncFrequency ?? this.syncFrequency,
         enableJob: enableJob ?? this.enableJob,
+        lastRun: lastRun ?? this.lastRun,
+        jobStatus: jobStatus ?? this.jobStatus,
       );
   @override
   String toString() {
@@ -1770,7 +1792,9 @@ class BackgroundJobScheduleData extends DataClass
           ..write('jobName: $jobName, ')
           ..write('startDateTime: $startDateTime, ')
           ..write('syncFrequency: $syncFrequency, ')
-          ..write('enableJob: $enableJob')
+          ..write('enableJob: $enableJob, ')
+          ..write('lastRun: $lastRun, ')
+          ..write('jobStatus: $jobStatus')
           ..write(')'))
         .toString();
   }
@@ -1780,8 +1804,12 @@ class BackgroundJobScheduleData extends DataClass
       id.hashCode,
       $mrjc(
           jobName.hashCode,
-          $mrjc(startDateTime.hashCode,
-              $mrjc(syncFrequency.hashCode, enableJob.hashCode)))));
+          $mrjc(
+              startDateTime.hashCode,
+              $mrjc(
+                  syncFrequency.hashCode,
+                  $mrjc(enableJob.hashCode,
+                      $mrjc(lastRun.hashCode, jobStatus.hashCode)))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -1790,7 +1818,9 @@ class BackgroundJobScheduleData extends DataClass
           other.jobName == this.jobName &&
           other.startDateTime == this.startDateTime &&
           other.syncFrequency == this.syncFrequency &&
-          other.enableJob == this.enableJob);
+          other.enableJob == this.enableJob &&
+          other.lastRun == this.lastRun &&
+          other.jobStatus == this.jobStatus);
 }
 
 class BackgroundJobScheduleCompanion
@@ -1800,12 +1830,16 @@ class BackgroundJobScheduleCompanion
   final Value<DateTime> startDateTime;
   final Value<String> syncFrequency;
   final Value<bool> enableJob;
+  final Value<DateTime> lastRun;
+  final Value<String> jobStatus;
   const BackgroundJobScheduleCompanion({
     this.id = const Value.absent(),
     this.jobName = const Value.absent(),
     this.startDateTime = const Value.absent(),
     this.syncFrequency = const Value.absent(),
     this.enableJob = const Value.absent(),
+    this.lastRun = const Value.absent(),
+    this.jobStatus = const Value.absent(),
   });
   BackgroundJobScheduleCompanion.insert({
     this.id = const Value.absent(),
@@ -1813,21 +1847,29 @@ class BackgroundJobScheduleCompanion
     @required DateTime startDateTime,
     @required String syncFrequency,
     this.enableJob = const Value.absent(),
+    @required DateTime lastRun,
+    @required String jobStatus,
   })  : jobName = Value(jobName),
         startDateTime = Value(startDateTime),
-        syncFrequency = Value(syncFrequency);
+        syncFrequency = Value(syncFrequency),
+        lastRun = Value(lastRun),
+        jobStatus = Value(jobStatus);
   BackgroundJobScheduleCompanion copyWith(
       {Value<int> id,
       Value<String> jobName,
       Value<DateTime> startDateTime,
       Value<String> syncFrequency,
-      Value<bool> enableJob}) {
+      Value<bool> enableJob,
+      Value<DateTime> lastRun,
+      Value<String> jobStatus}) {
     return BackgroundJobScheduleCompanion(
       id: id ?? this.id,
       jobName: jobName ?? this.jobName,
       startDateTime: startDateTime ?? this.startDateTime,
       syncFrequency: syncFrequency ?? this.syncFrequency,
       enableJob: enableJob ?? this.enableJob,
+      lastRun: lastRun ?? this.lastRun,
+      jobStatus: jobStatus ?? this.jobStatus,
     );
   }
 }
@@ -1895,9 +1937,40 @@ class $BackgroundJobScheduleTable extends BackgroundJobSchedule
         defaultValue: Constant(false));
   }
 
+  final VerificationMeta _lastRunMeta = const VerificationMeta('lastRun');
+  GeneratedDateTimeColumn _lastRun;
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, jobName, startDateTime, syncFrequency, enableJob];
+  GeneratedDateTimeColumn get lastRun => _lastRun ??= _constructLastRun();
+  GeneratedDateTimeColumn _constructLastRun() {
+    return GeneratedDateTimeColumn(
+      'last_run',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _jobStatusMeta = const VerificationMeta('jobStatus');
+  GeneratedTextColumn _jobStatus;
+  @override
+  GeneratedTextColumn get jobStatus => _jobStatus ??= _constructJobStatus();
+  GeneratedTextColumn _constructJobStatus() {
+    return GeneratedTextColumn(
+      'job_status',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        jobName,
+        startDateTime,
+        syncFrequency,
+        enableJob,
+        lastRun,
+        jobStatus
+      ];
   @override
   $BackgroundJobScheduleTable get asDslTable => this;
   @override
@@ -1937,6 +2010,18 @@ class $BackgroundJobScheduleTable extends BackgroundJobSchedule
       context.handle(_enableJobMeta,
           enableJob.isAcceptableValue(d.enableJob.value, _enableJobMeta));
     }
+    if (d.lastRun.present) {
+      context.handle(_lastRunMeta,
+          lastRun.isAcceptableValue(d.lastRun.value, _lastRunMeta));
+    } else if (isInserting) {
+      context.missing(_lastRunMeta);
+    }
+    if (d.jobStatus.present) {
+      context.handle(_jobStatusMeta,
+          jobStatus.isAcceptableValue(d.jobStatus.value, _jobStatusMeta));
+    } else if (isInserting) {
+      context.missing(_jobStatusMeta);
+    }
     return context;
   }
 
@@ -1969,6 +2054,12 @@ class $BackgroundJobScheduleTable extends BackgroundJobSchedule
     }
     if (d.enableJob.present) {
       map['enable_job'] = Variable<bool, BoolType>(d.enableJob.value);
+    }
+    if (d.lastRun.present) {
+      map['last_run'] = Variable<DateTime, DateTimeType>(d.lastRun.value);
+    }
+    if (d.jobStatus.present) {
+      map['job_status'] = Variable<String, StringType>(d.jobStatus.value);
     }
     return map;
   }

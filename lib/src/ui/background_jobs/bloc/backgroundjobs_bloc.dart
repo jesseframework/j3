@@ -38,12 +38,22 @@ class BackgroundJobsBloc
     _log.finest('Bloc mapEventToState call');
     try {
       yield BackgroundJobsLoading();
+      // if (state is BackgroundJobsLoading) {
+      //   var data = backgroundJobScheduleDao.watchAllJobs();
+      //   print('Jobb Data Load $data');
+      //   //yield BackgroundJobsLoaded(data: data);
+      // }
+
       if (event is BackgroundJobsSaveButtonPress) {
+        var data = await backgroundJobScheduleDao.getAllJobs();
+        print('Jobb Data Load $data');
         var fromEvent = new BackgroundJobScheduleCompanion(
             jobName: moor.Value(event.jobname),
             syncFrequency: moor.Value(event.syncFrequency),
             startDateTime: moor.Value(DateTime.tryParse(event.startDateTime)),
-            enableJob: moor.Value(true));
+            enableJob: moor.Value(true),
+            jobStatus: moor.Value("Never Run"),
+            lastRun: moor.Value(DateTime.now()));
 
         var isJobNameInDb =
             await backgroundJobScheduleDao.getJob(event.jobname);
@@ -60,7 +70,7 @@ class BackgroundJobsBloc
                   "Job Added Successful";
         }
 
-        yield BackgroundJobsSuccess(data: fromEvent, userMessage: userMessage);
+        yield BackgroundJobsSuccess(userMessage: userMessage);
 
         // syncfrequency(
         //     event.syncFrequency, appLoggerRepository.putAppLogOnServer());

@@ -84,7 +84,7 @@ class LoginPage extends StatelessWidget {
           ),
         ),
       ),
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       drawer: CustomDrawer(),
     );
   }

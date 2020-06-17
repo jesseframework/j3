@@ -6,6 +6,8 @@ class BackgroundJobSchedule extends Table {
   DateTimeColumn get startDateTime => dateTime()();
   TextColumn get syncFrequency => text()();
   BoolColumn get enableJob => boolean().withDefault(Constant(false))();
+  DateTimeColumn get lastRun => dateTime()();
+  TextColumn get jobStatus => text()();
 
   @override
   Set<Column> get primaryKey => {id};

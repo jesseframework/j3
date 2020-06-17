@@ -18,6 +18,8 @@ class BackgroundJobLogsDao extends DatabaseAccessor<AppDatabase>
     return (select(db.backgroundJobLogs).watch());
   }
 
+  
+
   Future insertJobLog(BackgroundJobLog backgroundJoblog) =>
       into(db.backgroundJobLogs).insert(backgroundJoblog);
 
