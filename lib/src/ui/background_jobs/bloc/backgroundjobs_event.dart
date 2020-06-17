@@ -8,11 +8,13 @@ class BackgroundJobsSaveButtonPress extends BackgroundJobsEvent {
   final String jobname;
   final String syncFrequency;
   final String startDateTime;
+  final BuildContext context;
 
   const BackgroundJobsSaveButtonPress(
       {@required this.jobname,
       @required this.syncFrequency,
-      @required this.startDateTime});
+      @required this.startDateTime,
+      @required this.context});
 
   @override
   List<Object> get props => [jobname, syncFrequency];

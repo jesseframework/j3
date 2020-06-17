@@ -17,7 +17,7 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
   TimeOfDay time = new TimeOfDay.now();
   DateTime date = DateTime.now();
 
-  List<BackgroundJobScheduleData> _backgroundJobScheduleData;
+  BackgroundJobScheduleCompanion _backgroundJobScheduleData;
 
   var syncfrequencySelectedItem;
   var setjobname;
@@ -46,11 +46,13 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
 
   Widget build(BuildContext context) {
     _onBackGroundJobButtonPress() {
-      formKey.currentState.validate();
-      BackgroundJobsSaveButtonPress(
-          jobname: _jobnameController.value.text,
-          startDateTime: _startDateTimeContoller.value.text,
-          syncFrequency: '$date $time');
+      //formKey.currentState.validate();
+      BlocProvider.of<BackgroundJobsBloc>(context).add(
+          BackgroundJobsSaveButtonPress(
+              context: context,
+              jobname: setjobname,
+              startDateTime: DateTime.now().toString(),
+              syncFrequency: syncfrequencySelectedItem));
     }
 
     return BlocListener<BackgroundJobsBloc, BackgroundJobsState>(
@@ -63,6 +65,9 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
         _backgroundJobScheduleData = state.data;
 
         _setTimeInText();
+
+        Scaffold.of(context)
+            .showSnackBar(new SnackBar(content: new Text(state.userMessage)));
       }
     }, child: BlocBuilder<BackgroundJobsBloc, BackgroundJobsState>(
             builder: (context, state) {
@@ -231,13 +236,18 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
                 ),
                 Container(
                   decoration: BoxDecoration(),
-                  child: Text(
-                      AppLocalization.of(context)
-                          .translate('cancel_button_backgroundjob'),
-                      style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600)),
+                  child: FlatButton(
+                    onPressed: () {
+                      _onBackGroundJobButtonPress();
+                    },
+                    child: Text(
+                        AppLocalization.of(context)
+                            .translate('cancel_button_backgroundjob'),
+                        style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600)),
+                  ),
                 ),
               ],
             ),

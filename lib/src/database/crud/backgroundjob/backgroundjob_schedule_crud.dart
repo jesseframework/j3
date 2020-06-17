@@ -14,16 +14,36 @@ class BackgroundJobScheduleDao extends DatabaseAccessor<AppDatabase>
     return (select(db.backgroundJobSchedule).get());
   }
 
+  Future<BackgroundJobScheduleData> getJob(String jobName) {
+    return (select(db.backgroundJobSchedule)
+          ..where((u) => u.jobName.equals(jobName)))
+        .getSingle();
+  }
+
   Stream<List<BackgroundJobScheduleData>> watchAllJobs() {
     return (select(db.backgroundJobSchedule).watch());
   }
 
-  Future insertJobSchedule(BackgroundJobScheduleData backgroundJobSchedule) =>
+  Future insertJobSchedule(
+          BackgroundJobScheduleCompanion backgroundJobSchedule) =>
       into(db.backgroundJobSchedule).insert(backgroundJobSchedule);
 
+  // Future updateBackgroundJob(
+  //         BackgroundJobScheduleCompanion backgroundJobScheduleData) =>
+  //     update(db.backgroundJobSchedule).replace(backgroundJobScheduleData);
+
+  //Update communication
   Future updateBackgroundJob(
-          BackgroundJobScheduleData backgroundJobScheduleData) =>
-      update(db.backgroundJobSchedule).replace(backgroundJobScheduleData);
+      BackgroundJobScheduleCompanion backgroundJobScheduleCompanion,
+      String jobName) {
+    return (update(db.backgroundJobSchedule)
+          ..where((t) => t.jobName.equals(jobName)))
+        .write(BackgroundJobScheduleCompanion(
+            jobName: backgroundJobScheduleCompanion.jobName,
+            startDateTime: backgroundJobScheduleCompanion.startDateTime,
+            enableJob: backgroundJobScheduleCompanion.enableJob,
+            syncFrequency: backgroundJobScheduleCompanion.syncFrequency));
+  }
 
   Future deleteBackgroundJobs() => delete(db.backgroundJobSchedule).go();
 }

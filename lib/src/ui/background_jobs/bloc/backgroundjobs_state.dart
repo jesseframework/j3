@@ -11,14 +11,17 @@ class BackgroundJobsUninitialized extends BackgroundJobsState {}
 class BackgroundJobsLoading extends BackgroundJobsState {}
 
 class BackgroundJobsSuccess extends BackgroundJobsState {
-  final List<BackgroundJobScheduleData> data;
-  const BackgroundJobsSuccess({@required this.data});
+  final BackgroundJobScheduleCompanion data;
+  final userMessage;
+  const BackgroundJobsSuccess(
+      {@required this.data, @required this.userMessage});
 
   @override
-  List<Object> get props => [data];
+  List<Object> get props => [data, userMessage];
 
   @override
-  String toString() => 'BackgroundJobsSuccess { data: $data }';
+  String toString() =>
+      'BackgroundJobsSuccess { data: $data, userMessage: $userMessage }';
 }
 
 class BackgroundJobsSendNotification extends BackgroundJobsState {}

@@ -1808,13 +1808,12 @@ class BackgroundJobScheduleCompanion
     this.enableJob = const Value.absent(),
   });
   BackgroundJobScheduleCompanion.insert({
-    @required int id,
+    this.id = const Value.absent(),
     @required String jobName,
     @required DateTime startDateTime,
     @required String syncFrequency,
     this.enableJob = const Value.absent(),
-  })  : id = Value(id),
-        jobName = Value(jobName),
+  })  : jobName = Value(jobName),
         startDateTime = Value(startDateTime),
         syncFrequency = Value(syncFrequency);
   BackgroundJobScheduleCompanion copyWith(
@@ -1843,11 +1842,8 @@ class $BackgroundJobScheduleTable extends BackgroundJobSchedule
   @override
   GeneratedIntColumn get id => _id ??= _constructId();
   GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn(
-      'id',
-      $tableName,
-      false,
-    );
+    return GeneratedIntColumn('id', $tableName, false,
+        hasAutoIncrement: true, declaredAsPrimaryKey: true);
   }
 
   final VerificationMeta _jobNameMeta = const VerificationMeta('jobName');
@@ -1914,8 +1910,6 @@ class $BackgroundJobScheduleTable extends BackgroundJobSchedule
     final context = VerificationContext();
     if (d.id.present) {
       context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (d.jobName.present) {
       context.handle(_jobNameMeta,
