@@ -42,13 +42,9 @@ class BackgroundJobsBloc
     _log.finest('Bloc mapEventToState call');
     try {
       yield BackgroundJobsLoading();
-      // if (state is BackgroundJobsLoading) {
-      //   var data = backgroundJobScheduleDao.watchAllJobs();
-      //   print('Jobb Data Load $data');
-      //   //yield BackgroundJobsLoaded(data: data);
-      // }
 
       if (event is BackgroundJobsStart) {
+        yield BackgroundJobsStartState();
         var data = await backgroundJobScheduleDao.getAllJobs();
         print('Jobb Data Load $data');
         String formatted = await formatDate(DateTime.now().toString());
@@ -67,15 +63,13 @@ class BackgroundJobsBloc
               fromEvent, event.jobname);
           userMessage =
               AppLocalization.of(event.context).translate('user_message') ??
-                  "Update Successful";
+                  "Job Update Successful";
         } else {
           await backgroundJobScheduleDao.insertJobSchedule(fromEvent);
           userMessage =
               AppLocalization.of(event.context).translate('user_message') ??
                   "Job Added Successful";
         }
-
-        yield BackgroundJobsSuccess(userMessage: userMessage);
 
         //Set Time condition to false to start timer
         scheduleler.scheduleJobs(
@@ -84,14 +78,19 @@ class BackgroundJobsBloc
             (Timer timer) =>
                 appLoggerRepository.putAppLogOnServer(event.jobname));
 
-        //scheduleler.scheduleJobs(event.syncFrequency, appLoggerRepository.putAppLogOnServer());
-
-        // scheduleJobs(event.syncFrequency, event.jobname, false);
+        yield BackgroundJobsSuccess(userMessage: userMessage);
       }
 
       if (event is BackgroundJobsCancel) {
-        //scheduleJobs(event.syncFrequency, event.jobname, true);
+        yield BackgroundJobsStop();
         scheduleler.cancel(event.jobname);
+
+        userMessage = AppLocalization.of(event.context)
+                .translate('cancel_user_message') ??
+            "Job Cancel Successful";
+        //yield BackgroundJobsStoped(userMessage: userMessage);
+
+        yield BackgroundJobsSuccess(userMessage: userMessage);
       }
     } catch (error) {
       _log.shout(error, StackTrace.current);

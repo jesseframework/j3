@@ -41,6 +41,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/database/crud/user/user_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/resources/repositories/applogger_repositiry.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/services/connection_service.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
@@ -57,7 +58,9 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final UserRepository userRepository;
   final AuthenticationBloc authenticationBloc;
+  AppLoggerRepository appLoggerRepository;
   UserSharedData userSharedData;
+
   static final _log = Logger('LoginBloc');
 
   //AppLogger appLogger;
@@ -70,14 +73,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc(
       {@required this.userRepository, @required this.authenticationBloc}) {
     userHash = new UserHash(userRepository: userRepository);
+    db = AppDatabase();
     userSharedData = new UserSharedData();
+    appLoggerRepository = new AppLoggerRepository();
 
     //appLogger = new AppLogger();
     assert(userRepository != null);
     assert(authenticationBloc != null);
 
     getData();
-    db = AppDatabase();
+
     userDao = UserDao(db);
     _log.finest('LoginBloc constructer call');
   }
@@ -96,6 +101,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       String tenantId;
       String deviceState;
       String tenantState;
+
       if (event is LoginButtonPressed) {
         if (Platform.isAndroid || Platform.isIOS) {
           var isConnected = await ConnectionService().isConnected();

@@ -38,7 +38,17 @@ class BackgroundJobsSendNotification extends BackgroundJobsState {}
 
 class BackgroundJobsStartState extends BackgroundJobsState {}
 
-class BackgroundJobsStopState extends BackgroundJobsState {}
+class BackgroundJobsStoped extends BackgroundJobsState {
+  final userMessage;
+  const BackgroundJobsStoped({@required this.userMessage});
+
+  @override
+  List<Object> get props => [userMessage];
+
+  @override
+  String toString() => 'BackgroundJobsSuccess { userMessage: $userMessage }';
+}
+class BackgroundJobsStop extends BackgroundJobsState {}
 
 class BackgroundJobsFailure extends BackgroundJobsState {
   final String error;

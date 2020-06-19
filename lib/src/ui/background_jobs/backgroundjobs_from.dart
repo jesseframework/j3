@@ -66,7 +66,8 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
     BlocProvider.of<BackgroundJobsBloc>(context).add(
         BackgroundJobsCancel(           
             jobname: setjobname,           
-            syncFrequency: syncfrequencySelectedItem));
+            syncFrequency: syncfrequencySelectedItem,
+             context: context));
   }
 
   @override
@@ -78,6 +79,11 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
             .showSnackBar(new SnackBar(content: new Text(state.error)));
       }
       if (state is BackgroundJobsSuccess) {
+        Scaffold.of(context)
+            .showSnackBar(new SnackBar(content: new Text(state.userMessage)));
+      }
+
+      if (state is BackgroundJobsStoped) {
         Scaffold.of(context)
             .showSnackBar(new SnackBar(content: new Text(state.userMessage)));
       }
