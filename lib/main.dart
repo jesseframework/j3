@@ -1,63 +1,49 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:j3enterprise/src/resources/services/init_services.dart';
+import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/routes.dart';
+import 'package:j3enterprise/src/ui/login_offline/offline_login_page.dart';
 import 'package:j3enterprise/src/ui/splash/splash_page.dart';
-import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'src/resources/repositories/user_repository.dart';
+import 'src/resources/shared/common/loading_indicator.dart';
 import 'src/ui/authentication/authentication_bloc.dart';
 import 'src/ui/authentication/authentication_event.dart';
 import 'src/ui/authentication/authentication_state.dart';
-import 'src/resources/shared/common/loading_indicator.dart';
 import 'src/ui/home/home_page.dart';
 import 'src/ui/login/login_page.dart';
 
-import 'package:flutter_localizations/flutter_localizations.dart';
+Future<void> main() async {
+//Important Information
+//Don't change the order of InitServiceSetup
+//Order of class
+//1- InitalServerSetup
+//2- setMokInitalValue
+//3- setupLoggin
 
-import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
+  WidgetsFlutterBinding.ensureInitialized();
 
-import 'dart:io' show Platform;
-
-void _setupLogging() {
-  Logger.root.level = Level.ALL;
-  Logger.root.onRecord.listen((rec) {
-    print('${rec.level.name}: ${rec.time} : ${rec.message}');
-  });
-}
-
-class SimpleBlocDelegate extends BlocDelegate {
-  @override
-  void onEvent(Bloc bloc, Object event) {
-    super.onEvent(bloc, event);
-    print(event);
-  }
-
-  @override
-  void onTransition(Bloc bloc, Transition transition) {
-    super.onTransition(bloc, transition);
-    print(transition);
-  }
-
-  @override
-  void onError(Bloc bloc, Object error, StackTrace stacktrace) {
-    super.onError(bloc, error, stacktrace);
-    print(error);
-  }
-}
-
-void main() {
+  //InitServiceSetup initServiceSetup = new InitServiceSetup();
   SharedPreferences.setMockInitialValues({});
-  _setupLogging();
-  BlocSupervisor.delegate = SimpleBlocDelegate();
+  await systemInitelSetup();
+  //await initServiceSetup.setupLogging();
+
   final userRepository = UserRepository();
+
   runApp(
     BlocProvider<AuthenticationBloc>(
       create: (context) {
         return AuthenticationBloc(userRepository: userRepository)
           ..add(AppStarted());
       },
-      child: App(userRepository: userRepository),
+      child: App(
+        userRepository: userRepository,
+      ),
     ),
   );
 }
@@ -65,13 +51,16 @@ void main() {
 class App extends StatelessWidget {
   final UserRepository userRepository;
 
-  App({Key key, @required this.userRepository}) : super(key: key);
+  App({Key key, this.userRepository}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
+          if (state is AuthenticationCreateMobileHash) {
+            return OfflineLoginPage(userRepository: userRepository);
+          }
           if (state is AuthenticationAuthenticated) {
             return HomePage();
           }

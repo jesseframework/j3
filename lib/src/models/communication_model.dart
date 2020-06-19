@@ -25,4 +25,7 @@ class Communication extends Table implements FullAudited, SyncTrigger {
   DateTimeColumn get importDateTime => dateTime().nullable()();
   TextColumn get importStatus => text().withDefault(Constant('Pending'))();
   TextColumn get syncError => text().nullable()();
+
+  @override
+  Set<Column> get primaryKey => {id};
 }

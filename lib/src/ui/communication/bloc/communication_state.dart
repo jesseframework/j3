@@ -24,8 +24,22 @@ class CommunicationLoadSuccess extends CommunicationState {
   List<Object> get props => [data];
 
   @override
-  String toString() => 'CommunicationFailure { data: $data }';
+  String toString() => 'CommunicationLoadSuccess { data: $data }';
 }
+
+class CommunicationUpdateuccess extends CommunicationState {
+  final CommunicationCompanion data;
+
+  const CommunicationUpdateuccess({@required this.data});
+
+  @override
+  List<Object> get props => [data];
+
+  @override
+  String toString() => 'CommunicationUpdateuccess { data: $data }';
+}
+
+class CommunicationUpdate extends CommunicationState {}
 
 class CommunicationFailure extends CommunicationState {
   final String error;

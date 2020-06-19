@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:j3enterprise/src/database/crud/communication/communication_setup_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
 import 'package:meta/meta.dart';
 import 'package:moor/moor.dart';
 
@@ -12,7 +13,7 @@ part 'communication_state.dart';
 
 class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
   CommunicationDao communicationDao;
-  List<CommunicationData> communicationData;
+  CommunicationData communicationData;
   final String communicationType;
   var db;
 
@@ -33,8 +34,37 @@ class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
       yield CommunicationInserting();
       // save data to db
       await communicationDao.insertCommunnication(event.data);
+
+      //update server url in chapper instant after save
+      var url = event.data.serverUrl;
+      ApiClient.updateClient(url.value);
+
       // set the success state
       yield CommunicationSuccess();
+    }
+
+    if (event is UpdateAPICommunicationButtonPressed) {
+      yield CommunicationUpdate();
+
+      await communicationDao.updateAPICommunnication(event.data);
+
+      var url = event.data.serverUrl;
+      ApiClient.updateClient(url.value);
+      // set the success state
+      //yield CommunicationSuccess();
+      yield CommunicationUpdateuccess(data: event.data);
+    }
+
+    if (event is UpdateERPCommunicationButtonPressed) {
+      yield CommunicationUpdate();
+
+      await communicationDao.updateERPCommunnication(event.data);
+      var url = event.data.serverUrl;
+      ApiClient.updateClient(url.value);
+
+      // set the success state
+      //yield CommunicationSuccess();
+      yield CommunicationUpdateuccess(data: event.data);
     }
 
     if (event is OnFormLoadGetSaveCommunication) {

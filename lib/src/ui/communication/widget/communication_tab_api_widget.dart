@@ -6,7 +6,6 @@ import 'package:j3enterprise/src/resources/shared/widgets/dropdown_box.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/password_field.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/text_field_nullable.dart';
 import 'package:j3enterprise/src/ui/communication/bloc/communication_bloc.dart';
-
 import 'package:moor/moor.dart' as moor;
 
 class CommunicationTabTwoWidget extends StatefulWidget {
@@ -18,7 +17,7 @@ class CommunicationTabTwoWidget extends StatefulWidget {
 class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
   final formKey = new GlobalKey<FormState>();
 
-  //Drop down setting
+  //Drop down setting0
   var syncApifrequencySelectedItem;
   final String apiConnection = 'API';
 
@@ -33,8 +32,11 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
     });
   }
 
+  List<CommunicationData> _communicationData;
+
   //API comeunication Setting
   Future<void> submitAPITab(CommunicationBloc bloc) async {
+    formKey.currentState.validate();
     var formData = CommunicationCompanion(
       serverUrl: moor.Value(_apiserverurlController.value.text),
       userName: moor.Value(_apiusernameController.value.text),
@@ -43,51 +45,65 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
       communicationType: moor.Value(apiConnection),
     );
 
-    var event = SaveCommunicationButtonPressed(data: formData);
-    bloc.add(event);
+    var createEvent = SaveCommunicationButtonPressed(data: formData);
+    if (_communicationData != null) {
+      var updateEvent = UpdateAPICommunicationButtonPressed(data: formData);
+      bloc.add(updateEvent);
+    } else {
+      bloc.add(createEvent);
+    }
   }
-
-  List<CommunicationData> _communicationData;
 
   @override
   Widget build(BuildContext context) {
-    var bloc = BlocProvider.of<CommunicationBloc>(context);
+    return BlocProvider(
+      create: (context) {
+        return CommunicationBloc();
+      },
+      child: BlocConsumer<CommunicationBloc, CommunicationState>(
+        listener: (context, state) {
+          if (state is CommunicationLoadSuccess) {
+            // if data was loaded set it
+            _communicationData = state.data;
 
-    return BlocConsumer<CommunicationBloc, CommunicationState>(
-      listener: (context, state) {
-        // TODO show loader if needed
-      },
-      buildWhen: (previous, current) {
-        var wasLoading = previous is CommunicationLoading;
-        return wasLoading;
-      },
-      builder: (context, state) {
-        // check what state we are in
-        if (state is CommunicationLoadSuccess) {
-          // if data was loaded set it
-          _communicationData = state.data;
-          _setupControllers();
-        } else if (_communicationData == null) {
-          // else if data is not present retrieve it
-          var event =
-              OnFormLoadGetSaveCommunication(communicationType: apiConnection);
-          bloc.add(event);
-        }
+            _setupControllers();
+          }
+        },
+        buildWhen: (previous, current) {
+          var wasLoading = previous is CommunicationLoading;
+          return wasLoading;
+        },
+        builder: (context, state) {
+          var bloc = BlocProvider.of<CommunicationBloc>(context);
+          // check what state we are in
+          if (state is CommunicationLoadSuccess) {
+            // if data was loaded set it
+            _communicationData = state.data;
 
-        // return form
-        return _buildForm(bloc);
-      },
+            //_setupControllers();
+          } else if (_communicationData == null) {
+            // else if data is not present retrieve it
+            var loadEvent = OnFormLoadGetSaveCommunication(
+                communicationType: apiConnection);
+            bloc.add(loadEvent);
+          }
+          // return form
+          return _buildForm(bloc);
+        },
+      ),
     );
   }
 
   void _setupControllers() {
-    if (_communicationData != null) {
+    if (_communicationData != null && _communicationData.length > 0) {
       _apiserverurlController =
           TextEditingController(text: _communicationData[0].serverUrl);
       _apiusernameController =
           TextEditingController(text: _communicationData[0].userName);
       _apiConfirmPasswordController =
           TextEditingController(text: _communicationData[0].confirmPasskey);
+
+      syncApifrequencySelectedItem = _communicationData[0].syncFrequency;
     }
   }
 
@@ -100,9 +116,11 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
             Padding(
               padding: const EdgeInsets.all(0.00),
               child: TextFromFieldNullableReusable(
-                labelName: AppLocalization.of(context)
-                        .translate('server_url_label_communication') ??
-                    'Server Url',
+                fieldDecoration: InputDecoration(
+                  labelText: AppLocalization.of(context)
+                          .translate('server_url_label_communication') ??
+                      'Server Url',
+                ),
                 controllerName: _apiserverurlController,
                 validationText: 'Test',
               ),
@@ -110,9 +128,11 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
             Padding(
               padding: const EdgeInsets.all(0.00),
               child: TextFromFieldNullableReusable(
-                labelName: AppLocalization.of(context)
-                        .translate('username_label_communication') ??
-                    'Username',
+                fieldDecoration: InputDecoration(
+                  labelText: AppLocalization.of(context)
+                          .translate('username_label_communication') ??
+                      'Username',
+                ),
                 controllerName: _apiusernameController,
                 validationText: 'Test',
               ),
@@ -120,18 +140,22 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
             Padding(
               padding: const EdgeInsets.all(0.00),
               child: TextFromFieldPasswordReusable(
-                labelName: AppLocalization.of(context)
-                        .translate('new_password_label_communication') ??
-                    'New Password',
+                fieldDecoration: InputDecoration(
+                  labelText: AppLocalization.of(context)
+                          .translate('new_password_label_communication') ??
+                      'New Password',
+                ),
                 validationText: 'Test',
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(0.00),
               child: TextFromFieldPasswordReusable(
-                labelName: AppLocalization.of(context)
-                        .translate('confirm_password_label_communication') ??
-                    'Confirm Password',
+                fieldDecoration: InputDecoration(
+                  labelText: AppLocalization.of(context)
+                          .translate('confirm_password_label_communication') ??
+                      'Confirm Password',
+                ),
                 controllerName: _apiConfirmPasswordController,
                 validationText: 'Test',
               ),

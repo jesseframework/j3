@@ -3,7 +3,10 @@
   "username_label": "nombre de usuario",
   "username_validation_text": "El nombre de usuario debe tener al menos 4 caracteres",
   "password_label": "Contraseña",
+  "confirm_password_label": "Confirmar contraseña",
   "tenant_label": "Inquilino",
+  "tenant_validation_message": "No hay inquilina definida con nombre",
+  "tenant_value_missing": "Ingrese inquilina válida",
   "tenant_default_text": "Seleccione el inquilino aplicable ...",
   "login_button": "Iniciar sesión",
   "pin_only_label": "Solo pin",
@@ -36,5 +39,13 @@
   "preduct_version_label_about": "version del producto",
   "device_id_label_about": "ID del dispositivo",
   "device_status_label_about": "version del producto",
-  "home_prefrence_icon_label": "Preferencia"
+  "home_prefrence_icon_label": "Preferencia",
+  "online_login_failed": "¡Algo salió mal! Inténtalo de nuevo",
+  "online_login_code_miss_match": "Nombre de usuario y contraseña inválidos",
+  "title_offline_login": "Configuración de inicio de sesión sin conexión",
+  "offline_password_error_message": "se requiere contraseña",
+  "offline_password_Confirm_error_message": "Confirme que se requiere contraseña",
+  "offline_password_Not_Match_error_message": "La contraseña no coincide",
+  "offline_login_message": "¡¡¡Advertencia!!! Está a punto de habilitar el inicio de sesión móvil sin conexión en este dispositivo. Esta opción permitirá que este dispositivo almacene datos cifrados para su perfil. Si se roba este dispositivo, los piratas informáticos pueden descifrar el cifrado y recuperar los datos del perfil. Al completar este paso, acepta aceptar este riesgo.",
+  "offline_login_failed":"¡Algo salió mal! No se puede iniciar sesión sin conexión. Inténtalo de nuevo"
 }

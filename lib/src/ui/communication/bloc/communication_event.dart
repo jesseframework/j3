@@ -16,6 +16,30 @@ class SaveCommunicationButtonPressed extends CommunicationEvent {
   String toString() => 'SaveCammunicationButtonPressed {data: $data}';
 }
 
+class UpdateAPICommunicationButtonPressed extends CommunicationEvent {
+  final CommunicationCompanion data;
+
+  const UpdateAPICommunicationButtonPressed({@required this.data});
+
+  @override
+  List<Object> get props => [data];
+
+  @override
+  String toString() => 'UpdateCommunicationButtonPressed {data: $data}';
+}
+
+class UpdateERPCommunicationButtonPressed extends CommunicationEvent {
+  final CommunicationCompanion data;
+
+  const UpdateERPCommunicationButtonPressed({@required this.data});
+
+  @override
+  List<Object> get props => [data];
+
+  @override
+  String toString() => 'UpdateCommunicationButtonPressed {data: $data}';
+}
+
 class OnFormLoadGetSaveCommunication extends CommunicationEvent {
   final String communicationType;
 

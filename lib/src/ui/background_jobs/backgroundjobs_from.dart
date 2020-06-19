@@ -1,8 +1,29 @@
+/*
+ * Jesseframework - Computer Expertz Ltd - https://cpxz.us
+ * Copyright (C) 2019-2021 Jesseframework
+ *
+ * This file is part of Jesseframework - https://github.com/jesseframework/j3.
+ *
+ * Jesseframework is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version. 
+ *
+ * Jesseframework is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ */
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/dropdown_box.dart';
 import 'package:j3enterprise/src/ui/background_jobs/bloc/backgroundjobs_bloc.dart';
+import 'package:moor/moor.dart' as moor;
 
 class BackgroundJobsForm extends StatefulWidget {
   @override
@@ -30,8 +51,44 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
     });
   }
 
+  Future<void> _onBackGroundJobStartButtonPress() async {
+    formKey.currentState.validate();
+    BlocProvider.of<BackgroundJobsBloc>(context).add(
+        BackgroundJobsStart(
+            context: context,
+            jobname: setjobname,
+            startDateTime: DateTime.now().toString(),
+            syncFrequency: syncfrequencySelectedItem));
+  }
+
+  Future<void> _onBackGroundJobCancelButtonPress() async{
+     formKey.currentState.validate();
+    BlocProvider.of<BackgroundJobsBloc>(context).add(
+        BackgroundJobsCancel(           
+            jobname: setjobname,           
+            syncFrequency: syncfrequencySelectedItem));
+  }
+
+  @override
   Widget build(BuildContext context) {
-    var bloc = BlocProvider.of<BackgroundJobsBloc>(context);
+    return BlocListener<BackgroundJobsBloc, BackgroundJobsState>(
+        listener: (context, state) {
+      if (state is BackgroundJobsFailure) {
+        Scaffold.of(context)
+            .showSnackBar(new SnackBar(content: new Text(state.error)));
+      }
+      if (state is BackgroundJobsSuccess) {
+        Scaffold.of(context)
+            .showSnackBar(new SnackBar(content: new Text(state.userMessage)));
+      }
+    }, child: BlocBuilder<BackgroundJobsBloc, BackgroundJobsState>(
+            builder: (context, state) {
+      var bloc = BlocProvider.of<BackgroundJobsBloc>(context);
+      return _buildForm(bloc);
+    }));
+  }
+
+  Widget _buildForm(BackgroundJobsBloc bloc) {
     return Form(
       key: formKey,
       child: SingleChildScrollView(
@@ -147,6 +204,20 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
           Padding(
             padding: const EdgeInsets.all(0.00),
             child: DropdownFormFieldNormalReuse(
+              _onSetJobNameSelection,
+              hintText: AppLocalization.of(context).translate('set_job_name') ??
+                  'Selected Job',
+              selectedValue: setjobname,
+              listData: [
+                'Device Setting',
+                'Log Shipping',
+                'Validate Enrollment'
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(0.00),
+            child: DropdownFormFieldNormalReuse(
               _onUpdateeFrequencySelection,
               hintText: AppLocalization.of(context)
                       .translate('sync_frequency_label_communication') ??
@@ -162,26 +233,18 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(0.00),
-            child: DropdownFormFieldNormalReuse(
-              _onSetJobNameSelection,
-              hintText: AppLocalization.of(context).translate('set_job_name') ??
-                  'Selected Job',
-              selectedValue: setjobname,
-              listData: [
-                'Getiteminformation',
-              ],
-            ),
-          ),
           SizedBox(
-            height: 10,
+            height: 5,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Container(
                 child: Container(
+                    child: FlatButton(
+                  onPressed: () {
+                    _onBackGroundJobStartButtonPress();
+                  },
                   child: Text(
                     AppLocalization.of(context)
                         .translate('start_button_backgroundjob'),
@@ -190,59 +253,124 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
                         fontSize: 18,
                         fontWeight: FontWeight.w600),
                   ),
-                ),
+                )),
               ),
               Container(
                 decoration: BoxDecoration(),
-                child: Text(
-                    AppLocalization.of(context)
-                        .translate('cancel_button_backgroundjob'),
-                    style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600)),
+                child: FlatButton(
+                  onPressed: () {
+                    _onBackGroundJobCancelButtonPress();
+                  },
+                  child: Text(
+                      AppLocalization.of(context)
+                          .translate('cancel_button_backgroundjob'),
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600)),
+                ),
               ),
             ],
           ),
           SizedBox(
-            height: 20,
+            height: 5,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                FlatButton(
-                  child: Text(
-                    AppLocalization.of(context)
-                        .translate('running_tab_backgroundjob'),
-                    style: TextStyle(
-                        color: select == 0 ? Colors.white : Colors.black),
-                  ),
-                  color: select == 0 ? Colors.blue : Colors.white,
-                  onPressed: () {
-                    setState(() {
-                      select = 0;
-                    });
-                  },
+        padding: const EdgeInsets.symmetric(horizontal: 0.0),
+        child: Column(
+          children: <Widget>[
+            SizedBox(height:5.0),
+            ExpansionTile(
+              title: Text(
+                "System Jobs",
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold
                 ),
-                FlatButton(
-                  color: select == 1 ? Colors.blue : Colors.white,
-                  child: Text(
-                    AppLocalization.of(context)
-                        .translate('systemjobs_tab_backgroundjob'),
-                    style: TextStyle(
-                        color: select == 1 ? Colors.white : Colors.black),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      select = 1;
-                    });
-                  },
-                ),
-              ],
+              ),
+              
             ),
+          ],
+        ),
           ),
+         
+          Row(
+            children: [
+              StreamBuilder(
+                stream: bloc.backgroundJobScheduleDao.watchAllJobs(),
+                builder: (context,
+                    AsyncSnapshot<List<BackgroundJobScheduleData>> snapshot) {
+                  final jobs = snapshot.data ?? List();
+
+                  return Expanded(
+                    
+                    child: ListView.builder(
+                      
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: jobs.length,
+                      itemBuilder: (_, index) {
+                        //final itemTask = jobs[index];
+                        return Container(
+                           color: (index % 2 == 0) ? Colors.blue[50] : Colors.white,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Divider(height: 0.5),
+                                    ListTile(
+                                      title: Text(
+                                        '${jobs[index].jobName}',
+                                        style: TextStyle(
+                                            fontSize: 14.0,
+                                            color: Colors.blueAccent),
+                                      ),
+                                      subtitle: Text(
+                                        '${jobs[index].syncFrequency}',
+                                        style: new TextStyle(
+                                          fontSize: 18.0,
+                                          fontStyle: FontStyle.italic,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Divider(height: 0.5),
+                                    ListTile(
+                                      title: Text(
+                                        '${jobs[index].jobStatus}',
+                                        style: TextStyle(
+                                            fontSize: 14.0,
+                                            color: Colors.blueAccent),
+                                      ),
+                                      subtitle: Text(
+                                        '${jobs[index].lastRun}',
+                                        style: new TextStyle(
+                                          fontSize: 18.0,
+                                          fontStyle: FontStyle.italic,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+            ],
+          )
         ],
       )),
     );

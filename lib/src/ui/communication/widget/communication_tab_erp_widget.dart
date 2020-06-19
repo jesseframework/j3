@@ -42,6 +42,7 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
   }
 
   Future<void> submitERPTab(CommunicationBloc bloc) async {
+    formKey.currentState.validate();
     var formData = CommunicationCompanion(
       serverUrl: moor.Value(_serverurlController.value.text),
       userName: moor.Value(_usernameController.value.text),
@@ -51,51 +52,64 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
       communicationType: moor.Value(erpConnection),
     );
 
-    var event = SaveCommunicationButtonPressed(data: formData);
-    bloc.add(event);
+    var createEvent = SaveCommunicationButtonPressed(data: formData);
+    if (_communicationData != null) {
+      var updateEvent = UpdateERPCommunicationButtonPressed(data: formData);
+      bloc.add(updateEvent);
+    } else {
+      bloc.add(createEvent);
+    }
   }
 
   List<CommunicationData> _communicationData;
+  final erpList = ['SAP', 'ERP Next', 'Quick Books'];
 
   @override
   Widget build(BuildContext context) {
-    var bloc = BlocProvider.of<CommunicationBloc>(context);
+    return BlocProvider(
+      create: (context) {
+        return CommunicationBloc();
+      },
+      child: BlocConsumer<CommunicationBloc, CommunicationState>(
+        listener: (context, state) {
+          // TODO show loader if needed
+        },
+        buildWhen: (previous, current) {
+          var wasLoading = previous is CommunicationLoading;
+          return wasLoading;
+        },
+        builder: (context, state) {
+          var bloc = BlocProvider.of<CommunicationBloc>(context);
+          // check what state we are in
+          if (state is CommunicationLoadSuccess) {
+            // if data was loaded set it
+            _communicationData = state.data;
+            _setupControllers();
+          } else if (_communicationData == null) {
+            // else if data is not present retrieve it
+            var event = OnFormLoadGetSaveCommunication(
+                communicationType: erpConnection);
+            bloc.add(event);
+          }
 
-    return BlocConsumer<CommunicationBloc, CommunicationState>(
-      listener: (context, state) {
-        // TODO show loader if needed
-      },
-      buildWhen: (previous, current) {
-        var wasLoading = previous is CommunicationLoading;
-        return wasLoading;
-      },
-      builder: (context, state) {
-        // check what state we are in
-        if (state is CommunicationLoadSuccess) {
-          // if data was loaded set it
-          _communicationData = state.data;
-          _setupControllers();
-        } else if (_communicationData == null) {
-          // else if data is not present retrieve it
-          var event =
-              OnFormLoadGetSaveCommunication(communicationType: erpConnection);
-          bloc.add(event);
-        }
-
-        // return form
-        return _buildForm(bloc);
-      },
+          // return form
+          return _buildForm(bloc);
+        },
+      ),
     );
   }
 
   void _setupControllers() {
-    if (_communicationData != null) {
+    if (_communicationData != null && _communicationData.length > 0) {
       _serverurlController =
           TextEditingController(text: _communicationData[0].serverUrl);
       _usernameController =
           TextEditingController(text: _communicationData[0].userName);
       _confirmpasswordController =
           TextEditingController(text: _communicationData[0].confirmPasskey);
+
+      erpSelecteditem = _communicationData[0].typeofErp;
+      syncfrequencySelectedItem = _communicationData[0].syncFrequency;
     }
   }
 
@@ -113,14 +127,16 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
                           .translate('type_of_erp_label_communication') ??
                       'Type of ERP',
                   selectedValue: erpSelecteditem,
-                  listData: ['SAP', 'ERP Next', 'Quick Books'],
+                  listData: erpList,
                 )),
             Padding(
               padding: const EdgeInsets.all(0.00),
               child: TextFromFieldNullableReusable(
-                labelName: AppLocalization.of(context)
-                        .translate('server_url_label_communication') ??
-                    'Server Url',
+                fieldDecoration: InputDecoration(
+                  labelText: AppLocalization.of(context)
+                          .translate('server_url_label_communication') ??
+                      'Server Url',
+                ),
                 controllerName: _serverurlController,
                 validationText: 'Test',
               ),
@@ -128,9 +144,11 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
             Padding(
               padding: const EdgeInsets.all(0.00),
               child: TextFromFieldNullableReusable(
-                labelName: AppLocalization.of(context)
-                        .translate('username_label_communication') ??
-                    'Username',
+                fieldDecoration: InputDecoration(
+                  labelText: AppLocalization.of(context)
+                          .translate('username_label_communication') ??
+                      'Username',
+                ),
                 controllerName: _usernameController,
                 validationText: 'Test',
               ),
@@ -138,18 +156,22 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
             Padding(
               padding: const EdgeInsets.all(0.00),
               child: TextFromFieldPasswordReusable(
-                labelName: AppLocalization.of(context)
-                        .translate('new_password_label_communication') ??
-                    'New Password',
+                fieldDecoration: InputDecoration(
+                  labelText: AppLocalization.of(context)
+                          .translate('new_password_label_communication') ??
+                      'New Password',
+                ),
                 validationText: 'Test',
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(0.00),
               child: TextFromFieldPasswordReusable(
-                labelName: AppLocalization.of(context)
-                        .translate('confirm_password_label_communication') ??
-                    'Confirm Password',
+                fieldDecoration: InputDecoration(
+                  labelText: AppLocalization.of(context)
+                          .translate('confirm_password_label_communication') ??
+                      'Confirm Password',
+                ),
                 controllerName: _confirmpasswordController,
                 validationText: 'Test',
               ),

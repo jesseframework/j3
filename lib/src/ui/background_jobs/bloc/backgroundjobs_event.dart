@@ -4,23 +4,53 @@ abstract class BackgroundJobsEvent extends Equatable {
   const BackgroundJobsEvent();
 }
 
-class BackgroundJobsExecute extends BackgroundJobsEvent {
+class BackgroundJobsStart extends BackgroundJobsEvent {
   final String jobname;
-  final DateTime rundate;
-  final bool jobenable;
+  final String syncFrequency;
+  final String startDateTime;
+  final BuildContext context;
 
-  const BackgroundJobsExecute({
-    @required this.jobenable,
-    @required this.jobname,
-    @required this.rundate
-  });
-
-  @override
-  List<Object> get props => [jobname,rundate,jobenable];
+  const BackgroundJobsStart(
+      {@required this.jobname,
+      @required this.syncFrequency,
+      @required this.startDateTime,
+      @required this.context});
 
   @override
-  String toString() => 'BackgroundJobsExecute {jobenable: $jobname, jobname: $jobname, jobenable: $jobenable';
+  List<Object> get props => [jobname, syncFrequency];
 
-
+  @override
+  String toString() =>
+      'BackgroundJobsStart {jobenable: $jobname, syncFrequency: $syncFrequency';
 }
 
+class BackgroundJobsCancel extends BackgroundJobsEvent {
+  final String jobname;
+  final String syncFrequency;
+
+  const BackgroundJobsCancel(
+      {@required this.jobname, @required this.syncFrequency});
+
+  @override
+  List<Object> get props => [jobname, syncFrequency];
+
+  @override
+  String toString() =>
+      'BackgroundJobsStop {jobenable: $jobname, syncFrequency: $syncFrequency';
+}
+
+
+
+class BackgroundJobsList extends BackgroundJobsEvent {
+  const BackgroundJobsList();
+
+  @override
+  List<Object> get props => [];
+}
+
+class BackgroundJobsFetchList extends BackgroundJobsEvent {
+  const BackgroundJobsFetchList();
+
+  @override
+  List<Object> get props => [];
+}

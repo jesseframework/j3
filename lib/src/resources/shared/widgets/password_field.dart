@@ -1,14 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 
 class TextFromFieldPasswordReusable extends StatefulWidget {
-  final String labelName;
+  final InputDecoration fieldDecoration;
   final TextEditingController controllerName;
   final String validationText;
 
   TextFromFieldPasswordReusable(
-      {this.labelName, this.controllerName, this.validationText});
+      {this.fieldDecoration, this.controllerName, this.validationText});
 
   @override
   _TextFromFieldPasswordReusableState createState() =>
@@ -17,30 +18,35 @@ class TextFromFieldPasswordReusable extends StatefulWidget {
 
 class _TextFromFieldPasswordReusableState
     extends State<TextFromFieldPasswordReusable> {
-  bool pass = true;
+  bool showPassword = true;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(10.00),
-            child: TextFormField(
-              controller: widget.controllerName,
-              decoration: InputDecoration(
-                filled: true,
-                suffixIcon: IconButton(
-                  icon:
-                      !pass ? Icon(CustomIcons.eye_off) : Icon(CustomIcons.eye),
-                  onPressed: () {},
-                ),
-                labelText: widget.labelName,
-              ),
-              obscureText: pass, // Hide password
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextFormField(
+          validator: (val) {
+            if (val.isEmpty) {
+              return widget.validationText;
+            }
+            return null;
+          },
+          controller: widget.controllerName,
+          decoration: widget.fieldDecoration.copyWith(
+            filled: true,
+            suffixIcon: IconButton(
+              icon: !showPassword
+                  ? Icon(CustomIcons.eye_off)
+                  : Icon(CustomIcons.eye),
+              onPressed: () {
+                setState(() {
+                  showPassword = !showPassword;
+                });
+              },
             ),
-          )
-        ],
-      ),
+          ),
+          obscureText: showPassword // Hide password
+          ),
     );
   }
 }

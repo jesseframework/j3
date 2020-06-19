@@ -3,9 +3,13 @@
   "username_label": "Username",
   "username_validation_text": "Username must have at lease 4 charactor",
   "password_label": "Password",
+  "confirm_password_label": "Confirm Password",
   "tenant_label": "Tenant",
   "tenant_default_text": "Select applicable tenant...",
+  "tenant_validation_message": "There is no tenant defined with name",
+  "tenant_value_missing": "Enter valid tenant",
   "login_button": "Login",
+  "offline_login_button": "Complete Offline Setup",
   "pin_only_label": "Pin Only",
   "setting_label_appdraw": "Setting",
   "set_communication_appdraw": "Set Communication",
@@ -36,6 +40,13 @@
   "preduct_version_label_about": "Product Version",
   "device_id_label_about": "Device ID",
   "device_status_label_about": "Device Status",
-  "home_prefrence_icon_label": "Preference"
-  
+  "home_prefrence_icon_label": "Preference",
+  "online_login_failed": "Something went wrong! Please try again",
+  "online_login_code_miss_match": "Invalid User Name and Password",
+  "title_offline_login": "Offline Login Setup",
+  "offline_password_error_message": "Password is required",
+  "offline_password_Confirm_error_message": "Confirm password is required",
+  "offline_password_Not_Match_error_message": "Password not macth",
+  "offline_login_message": "Warning!!! You are about to enable mobile offline login on this device. This option will allow this device to store encrypted data for your profile. If this device is stolen, hackers may be able to crack encryption and retrieved profile data. By completing this step you agree to accept this risk.",
+  "offline_login_failed":"Something went wrong! Unable to log you in offline. Please try againg"
 }

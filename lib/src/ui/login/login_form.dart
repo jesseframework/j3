@@ -1,10 +1,30 @@
+/*
+ * Jesseframework - Computer Expertz Ltd - https://cpxz.us
+ * Copyright (C) 2019-2021 Jesseframework
+ *
+ * This file is part of Jesseframework - https://github.com/jesseframework/j3.
+ *
+ * Jesseframework is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version. 
+ *
+ * Jesseframework is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ */
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
+import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
+import 'package:j3enterprise/src/resources/shared/widgets/password_field.dart';
+import 'package:j3enterprise/src/resources/shared/widgets/text_field_nullable.dart';
 
 import 'bloc/login_bloc.dart';
-
-import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 
 class LoginForm extends StatefulWidget {
   @override
@@ -16,18 +36,19 @@ class _LoginFormState extends State<LoginForm> {
   bool pass = true;
   String selected;
   bool isSwitched = false;
-
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-
+  final _tenantController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     _onLoginButtonPressed() {
+      formKey.currentState.validate();
       BlocProvider.of<LoginBloc>(context).add(
         LoginButtonPressed(
-          username: _usernameController.text,
-          password: _passwordController.text,
-        ),
+            username: _usernameController.text.trim(),
+            password: _passwordController.text.trim(),
+            context: context,
+            tenantName: _tenantController.text.trim()),
       );
     }
 
@@ -44,7 +65,7 @@ class _LoginFormState extends State<LoginForm> {
             key: formKey,
             child: Container(
               constraints: BoxConstraints(
-                  minWidth: 100, maxWidth: 400, minHeight: 100, maxHeight: 450),
+                  minWidth: 100, maxWidth: 400, minHeight: 200, maxHeight: 430),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: ClipRRect(
@@ -57,17 +78,15 @@ class _LoginFormState extends State<LoginForm> {
                       child: Column(
                         children: <Widget>[
                           Expanded(
-                            child: TextFormField(
-                              controller: _usernameController,
-                              validator: (_value) {
-                                return _value.length < 3
-                                    ? AppLocalization.of(context).translate(
-                                            'username_validation_text') ??
-                                        'Enter valid username'
-                                    : null;
-                              },
-                              decoration: InputDecoration(
-                                filled: true,
+                            child: TextFromFieldNullableReusable(
+                              controllerName: _usernameController,
+                              validationText:
+                                  _usernameController.text.length < 3
+                                      ? AppLocalization.of(context).translate(
+                                              'username_validation_text') ??
+                                          'Enter valid username'
+                                      : null,
+                              fieldDecoration: InputDecoration(
                                 icon: Icon(Icons.person),
                                 labelText: AppLocalization.of(context)
                                         .translate('username_label') ??
@@ -77,83 +96,75 @@ class _LoginFormState extends State<LoginForm> {
                           ),
                           Expanded(
                             //Fit and size widgets widgets according to container size
-                            child: TextFormField(
-                              controller: _passwordController,
-                              decoration: InputDecoration(
-                                filled: true,
+                            child: TextFromFieldPasswordReusable(
+                              controllerName: _passwordController,
+                              validationText:
+                                  _usernameController.text.length < 3
+                                      ? AppLocalization.of(context).translate(
+                                              'username_validation_password') ??
+                                          'Enter valid password'
+                                      : null,
+                              fieldDecoration: InputDecoration(
                                 icon: Icon(Icons.lock),
-                                suffixIcon: IconButton(
-                                  icon: !pass
-                                      ? Icon(CustomIcons.eye_off)
-                                      : Icon(CustomIcons.eye),
-                                  onPressed: () {},
-                                ),
                                 labelText: AppLocalization.of(context)
                                         .translate('password_label') ??
                                     'Password',
                               ),
-                              obscureText: pass, // Hide password
                             ),
                           ),
                           Expanded(
-                            child: DropdownButtonFormField<String>(
+                            child: TextFromFieldNullableReusable(
                               // hint: Text(AppLocalization.of(context).translate('tenant_default_text')),
-                              decoration: InputDecoration(
-                                filled: true,
+                              controllerName: _tenantController,
+                              validationText: _usernameController.text.length <
+                                      2
+                                  ? AppLocalization.of(context)
+                                          .translate('tenant_value_missing') ??
+                                      'Enter valid tenant'
+                                  : null,
+                              fieldDecoration: InputDecoration(
                                 icon: Icon(Icons.home),
                                 alignLabelWithHint: false,
                                 labelText: AppLocalization.of(context)
                                         .translate('tenant_label') ??
                                     'Tenant',
                               ),
-                              value: selected,
-                              items: ["Host", "Admin", "Guest"]
-                                  .map((label) => DropdownMenuItem<String>(
-                                        child: Text(label),
-                                        value: label,
-                                      ))
-                                  .toList(),
-                              onChanged: (value) {
-                                setState(() {
-                                  selected = value;
-                                });
-                              },
                             ),
                           ),
-                          Row(
-                            children: <Widget>[
-                              Icon(
-                                CustomIcons.pushpin,
-                                color: Colors.grey.shade600,
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  AppLocalization.of(context)
-                                          .translate('pin_only_label') ??
-                                      'Ping Only',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.grey.shade600,
-                                  ),
-                                ),
-                              ),
-                              Switch(
-                                value: isSwitched,
-                                onChanged: (value) {
-                                  setState(() {
-                                    isSwitched = value;
-                                    if (value = true) {}
-                                    print(isSwitched);
-                                  });
-                                },
-                                activeColor: Colors.black,
-                              ),
-                            ],
-                          ),
+                          // Row(
+                          //   children: <Widget>[
+                          //     Icon(
+                          //       CustomIcons.pushpin,
+                          //       color: Colors.grey.shade600,
+                          //     ),
+                          //     SizedBox(
+                          //       width: 15,
+                          //     ),
+                          //     Expanded(
+                          //       child: Text(
+                          //         AppLocalization.of(context)
+                          //                 .translate('pin_only_label') ??
+                          //             'Ping Only',
+                          //         style: TextStyle(
+                          //           fontSize: 16,
+                          //           fontWeight: FontWeight.w300,
+                          //           color: Colors.grey.shade600,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //     Switch(
+                          //       value: isSwitched,
+                          //       onChanged: (value) {
+                          //         setState(() {
+                          //           isSwitched = value;
+                          //           if (value = true) {}
+                          //           print(isSwitched);
+                          //         });
+                          //       },
+                          //       activeColor: Colors.black,
+                          //     ),
+                          //   ],
+                          // ),
                           ButtonTheme(
                             minWidth: double.infinity,
                             child: RaisedButton(

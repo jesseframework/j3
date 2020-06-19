@@ -1,24 +1,20 @@
-import 'package:j3enterprise/src/resources/shared/extension/full_audited.dart';
+import 'package:j3enterprise/src/resources/shared/extension/must_have_tenant.dart';
 import 'package:moor/moor.dart';
 
-class Users extends Table implements FullAudited {
+class Users extends Table implements MustHaveTenant {
   IntColumn get id => integer()();
-  TextColumn get userName => text().withLength(min:1,max: 100)();
-  TextColumn get name => text().withLength(min:1,max: 300)();
-  TextColumn get surname => text().withLength(min:1,max: 150)();
-  TextColumn get emailAddress => text().withLength(min:5, max:400)() ;
+  TextColumn get userName => text().withLength(min: 1, max: 100)();
+  TextColumn get name => text().withLength(min: 1, max: 300)();
+  TextColumn get surname => text().withLength(min: 1, max: 150)();
+  TextColumn get emailAddress => text().withLength(min: 5, max: 400)();
   BoolColumn get isActive => boolean().withDefault(Constant(false))();
-  TextColumn get fullName => text().withLength(min:1, max:300)();
-  IntColumn get createUserId => integer().nullable()();
+  TextColumn get fullName => text().withLength(min: 1, max: 300)();
+  TextColumn get mobileHash => text().nullable()();
+  BoolColumn get enableOfflineLogin => boolean().withDefault(Constant(false))();
+  TextColumn get firebaseToken => text().nullable()();
   DateTimeColumn get creationTime => dateTime().nullable()();
-  DateTimeColumn get deleteTime => dateTime().nullable()();
-  IntColumn get deleteUserId => integer().nullable()();
-  TextColumn get creatorUser => text().nullable()();
-  TextColumn get deleterUserId => text().nullable()();
-  BoolColumn get isDeleted => boolean().withDefault(Constant(false))();
-  TextColumn get lastModifierUser => text().nullable()();
-  IntColumn get lastModifierUserId => integer().nullable()();
-
-
-
+  DateTimeColumn get lastLoginTime => dateTime().nullable()();
+  IntColumn get tenantId => integer().nullable()();
+  @override
+  Set<Column> get primaryKey => {id};
 }

@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "905475861556",
-    "firebase_url": "https://j3-latest-app.firebaseio.com",
-    "project_id": "j3-latest-app",
-    "storage_bucket": "j3-latest-app.appspot.com"
+    "project_number": "739551447578",
+    "firebase_url": "https://j3-notification.firebaseio.com",
+    "project_id": "j3-notification",
+    "storage_bucket": "j3-notification.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:905475861556:android:5ddedf5f1e9d9128f8ee61",
+        "mobilesdk_app_id": "1:739551447578:android:ac27ee84842e4d6881dfa3",
         "android_client_info": {
           "package_name": "com.j3enterprisecloud.j3enterprise"
         }
       },
       "oauth_client": [
         {
-          "client_id": "905475861556-paqsuvvnun6i1l7u1qaudidv8d5itlfg.apps.googleusercontent.com",
+          "client_id": "739551447578-cv12vrv8rp6l216h84po0vodq5vb0e4p.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCYt7f3Yz92artK--kWRxSl1QIjxIARPbI"
+          "current_key": "AIzaSyD9cVkqW34t1trMiDyd1UoPCTi3Md4ngyc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "905475861556-paqsuvvnun6i1l7u1qaudidv8d5itlfg.apps.googleusercontent.com",
+              "client_id": "739551447578-cv12vrv8rp6l216h84po0vodq5vb0e4p.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

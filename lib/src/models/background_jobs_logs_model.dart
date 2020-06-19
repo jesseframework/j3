@@ -6,4 +6,7 @@ class BackgroundJobLogs extends Table {
   DateTimeColumn get lastRun => dateTime()();
   TextColumn get jobStatus => text()();
   TextColumn get jobDescription => text()();
+
+  @override
+  Set<Column> get primaryKey => {id};
 }

@@ -14,19 +14,47 @@ class BackgroundJobScheduleDao extends DatabaseAccessor<AppDatabase>
     return (select(db.backgroundJobSchedule).get());
   }
 
+  Future<BackgroundJobScheduleData> getJob(String jobName) {
+    return (select(db.backgroundJobSchedule)
+          ..where((u) => u.jobName.equals(jobName)))
+        .getSingle();
+  }
+
   Stream<List<BackgroundJobScheduleData>> watchAllJobs() {
     return (select(db.backgroundJobSchedule).watch());
   }
 
-  Future insertJobSchudule(BackgroundJobScheduleData backgroundJobSchedule) =>
+  Future insertJobSchedule(
+          BackgroundJobScheduleCompanion backgroundJobSchedule) =>
       into(db.backgroundJobSchedule).insert(backgroundJobSchedule);
 
-  Future updateBackgroundJob(
-          BackgroundJobScheduleData backgroundJobScheduleData) =>
-      update(db.backgroundJobSchedule).replace(backgroundJobScheduleData);
+  // Future updateBackgroundJob(
+  //         BackgroundJobScheduleCompanion backgroundJobScheduleData) =>
+  //     update(db.backgroundJobSchedule).replace(backgroundJobScheduleData);
 
-  //Wipe backgroun job table
-  Future deleteBackgroundJobs(
-          BackgroundJobScheduleData backgroundJobScheduleData) =>
-      delete(db.backgroundJobSchedule).delete(backgroundJobScheduleData);
+  //Update communication
+  Future updateBackgroundJob(
+      BackgroundJobScheduleCompanion backgroundJobScheduleCompanion,
+      String jobName) {
+    return (update(db.backgroundJobSchedule)
+          ..where((t) => t.jobName.equals(jobName)))
+        .write(BackgroundJobScheduleCompanion(
+            jobName: backgroundJobScheduleCompanion.jobName,
+            startDateTime: backgroundJobScheduleCompanion.startDateTime,
+            enableJob: backgroundJobScheduleCompanion.enableJob,
+            syncFrequency: backgroundJobScheduleCompanion.syncFrequency,
+            lastRun: backgroundJobScheduleCompanion.lastRun,
+            jobStatus: backgroundJobScheduleCompanion.jobStatus));
+  }
+
+  Future updateBackgroundJobStstus(
+      BackgroundJobScheduleCompanion backgroundJobScheduleCompanion,
+      String jobName) {
+    return (update(db.backgroundJobSchedule)
+          ..where((t) => t.jobName.equals(jobName)))
+        .write(BackgroundJobScheduleCompanion(
+            jobStatus: backgroundJobScheduleCompanion.jobStatus));
+  }
+
+  Future deleteBackgroundJobs() => delete(db.backgroundJobSchedule).go();
 }
