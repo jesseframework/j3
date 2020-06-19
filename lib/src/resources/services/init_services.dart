@@ -63,7 +63,7 @@ class InitServiceSetup {
       }
     } else {
       //Set Default
-      Logger.root.level = Level.ALL;
+      Logger.root.level = Level.INFO;
     }
 
     Logger.root.onRecord.listen((rec) async {

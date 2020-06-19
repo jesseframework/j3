@@ -4,7 +4,6 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/ui/about/about.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication.dart';
 import 'package:j3enterprise/src/ui/background_jobs/backgroundjobs_pages.dart';
-import 'package:j3enterprise/src/ui/background_jobs/btasks.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/src/resources/shared/utils/langcustomdialogbox.dart';
 

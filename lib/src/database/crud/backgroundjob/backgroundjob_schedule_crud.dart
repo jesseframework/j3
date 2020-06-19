@@ -42,7 +42,18 @@ class BackgroundJobScheduleDao extends DatabaseAccessor<AppDatabase>
             jobName: backgroundJobScheduleCompanion.jobName,
             startDateTime: backgroundJobScheduleCompanion.startDateTime,
             enableJob: backgroundJobScheduleCompanion.enableJob,
-            syncFrequency: backgroundJobScheduleCompanion.syncFrequency));
+            syncFrequency: backgroundJobScheduleCompanion.syncFrequency,
+            lastRun: backgroundJobScheduleCompanion.lastRun,
+            jobStatus: backgroundJobScheduleCompanion.jobStatus));
+  }
+
+  Future updateBackgroundJobStstus(
+      BackgroundJobScheduleCompanion backgroundJobScheduleCompanion,
+      String jobName) {
+    return (update(db.backgroundJobSchedule)
+          ..where((t) => t.jobName.equals(jobName)))
+        .write(BackgroundJobScheduleCompanion(
+            jobStatus: backgroundJobScheduleCompanion.jobStatus));
   }
 
   Future deleteBackgroundJobs() => delete(db.backgroundJobSchedule).go();

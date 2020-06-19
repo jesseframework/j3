@@ -7,8 +7,9 @@ import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_sched
 
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/repositories/applogger_repositiry.dart';
-import 'package:j3enterprise/src/resources/shared/function/sync_frequency.dart';
+import 'package:j3enterprise/src/resources/shared/function/schedule_background_jobs.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
+import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
 import 'package:logging/logging.dart';
 import 'package:moor/moor.dart' as moor;
 
@@ -17,8 +18,10 @@ part 'backgroundjobs_state.dart';
 
 class BackgroundJobsBloc
     extends Bloc<BackgroundJobsEvent, BackgroundJobsState> {
+  Scheduleler scheduleler;
   static final _log = Logger('BackgroundJobsBloc');
   var db;
+
   String userMessage;
   AppLoggerRepository appLoggerRepository;
   BackgroundJobScheduleDao backgroundJobScheduleDao;
@@ -26,6 +29,7 @@ class BackgroundJobsBloc
     db = AppDatabase();
     appLoggerRepository = new AppLoggerRepository();
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
+    scheduleler = new Scheduleler();
   }
 
   @override
@@ -44,16 +48,17 @@ class BackgroundJobsBloc
       //   //yield BackgroundJobsLoaded(data: data);
       // }
 
-      if (event is BackgroundJobsSaveButtonPress) {
+      if (event is BackgroundJobsStart) {
         var data = await backgroundJobScheduleDao.getAllJobs();
         print('Jobb Data Load $data');
+        String formatted = await formatDate(DateTime.now().toString());
         var fromEvent = new BackgroundJobScheduleCompanion(
             jobName: moor.Value(event.jobname),
             syncFrequency: moor.Value(event.syncFrequency),
             startDateTime: moor.Value(DateTime.tryParse(event.startDateTime)),
             enableJob: moor.Value(true),
             jobStatus: moor.Value("Never Run"),
-            lastRun: moor.Value(DateTime.now()));
+            lastRun: moor.Value(DateTime.tryParse(formatted)));
 
         var isJobNameInDb =
             await backgroundJobScheduleDao.getJob(event.jobname);
@@ -72,8 +77,21 @@ class BackgroundJobsBloc
 
         yield BackgroundJobsSuccess(userMessage: userMessage);
 
-        // syncfrequency(
-        //     event.syncFrequency, appLoggerRepository.putAppLogOnServer());
+        //Set Time condition to false to start timer
+        scheduleler.scheduleJobs(
+            event.syncFrequency,
+            event.jobname,
+            (Timer timer) =>
+                appLoggerRepository.putAppLogOnServer(event.jobname));
+
+        //scheduleler.scheduleJobs(event.syncFrequency, appLoggerRepository.putAppLogOnServer());
+
+        // scheduleJobs(event.syncFrequency, event.jobname, false);
+      }
+
+      if (event is BackgroundJobsCancel) {
+        //scheduleJobs(event.syncFrequency, event.jobname, true);
+        scheduleler.cancel(event.jobname);
       }
     } catch (error) {
       _log.shout(error, StackTrace.current);

@@ -23,7 +23,6 @@ import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/dropdown_box.dart';
 import 'package:j3enterprise/src/ui/background_jobs/bloc/backgroundjobs_bloc.dart';
-import 'package:j3enterprise/src/ui/background_jobs/jobs_list.dart';
 import 'package:moor/moor.dart' as moor;
 
 class BackgroundJobsForm extends StatefulWidget {
@@ -55,10 +54,18 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
   Future<void> _onBackGroundJobStartButtonPress() async {
     formKey.currentState.validate();
     BlocProvider.of<BackgroundJobsBloc>(context).add(
-        BackgroundJobsSaveButtonPress(
+        BackgroundJobsStart(
             context: context,
             jobname: setjobname,
             startDateTime: DateTime.now().toString(),
+            syncFrequency: syncfrequencySelectedItem));
+  }
+
+  Future<void> _onBackGroundJobCancelButtonPress() async{
+     formKey.currentState.validate();
+    BlocProvider.of<BackgroundJobsBloc>(context).add(
+        BackgroundJobsCancel(           
+            jobname: setjobname,           
             syncFrequency: syncfrequencySelectedItem));
   }
 
@@ -227,7 +234,7 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
             ),
           ),
           SizedBox(
-            height: 10,
+            height: 5,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -236,7 +243,7 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
                 child: Container(
                     child: FlatButton(
                   onPressed: () {
-                    //_onBackGroundJobStartButtonPress();
+                    _onBackGroundJobStartButtonPress();
                   },
                   child: Text(
                     AppLocalization.of(context)
@@ -252,7 +259,7 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
                 decoration: BoxDecoration(),
                 child: FlatButton(
                   onPressed: () {
-                    _onBackGroundJobStartButtonPress();
+                    _onBackGroundJobCancelButtonPress();
                   },
                   child: Text(
                       AppLocalization.of(context)
@@ -266,44 +273,27 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
             ],
           ),
           SizedBox(
-            height: 20,
+            height: 5,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                FlatButton(
-                  child: Text(
-                    AppLocalization.of(context)
-                        .translate('running_tab_backgroundjob'),
-                    style: TextStyle(
-                        color: select == 0 ? Colors.white : Colors.black),
-                  ),
-                  color: select == 0 ? Colors.blue : Colors.white,
-                  onPressed: () {
-                    setState(() {
-                      select = 0;
-                    });
-                  },
+        padding: const EdgeInsets.symmetric(horizontal: 0.0),
+        child: Column(
+          children: <Widget>[
+            SizedBox(height:5.0),
+            ExpansionTile(
+              title: Text(
+                "System Jobs",
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold
                 ),
-                FlatButton(
-                  color: select == 1 ? Colors.blue : Colors.white,
-                  child: Text(
-                    AppLocalization.of(context)
-                        .translate('systemjobs_tab_backgroundjob'),
-                    style: TextStyle(
-                        color: select == 1 ? Colors.white : Colors.black),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      select = 1;
-                    });
-                  },
-                ),
-              ],
+              ),
+              
             ),
+          ],
+        ),
           ),
+         
           Row(
             children: [
               StreamBuilder(
@@ -313,13 +303,16 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
                   final jobs = snapshot.data ?? List();
 
                   return Expanded(
+                    
                     child: ListView.builder(
+                      
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemCount: jobs.length,
                       itemBuilder: (_, index) {
                         //final itemTask = jobs[index];
                         return Container(
+                           color: (index % 2 == 0) ? Colors.blue[50] : Colors.white,
                           child: Row(
                             children: [
                               Expanded(

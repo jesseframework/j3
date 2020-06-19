@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:j3enterprise/src/database/crud/application_logger/app_logger_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/repositories/applogger_repositiry.dart';
@@ -8,6 +10,7 @@ import 'package:moor/moor.dart';
 class AppLogger {
   ApplicationLoggerDao applicationLoggerDao;
   AppLoggerRepository appLoggerRepository;
+ 
 
   LoginState loginState;
 
@@ -19,8 +22,7 @@ class AppLogger {
     db = AppDatabase();
     applicationLoggerDao = ApplicationLoggerDao(db);
     appLoggerRepository = new AppLoggerRepository();
-
-    //loginState = new LoginState();
+    
   }
 
   //ToDo Implement connectivity and batry setting for saving log to server. Server setting must be set to allow for log save over wify and log battery

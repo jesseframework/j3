@@ -15,6 +15,7 @@ class AuthenticationBloc
   UserFromServer userFromServer;
   UserHashSave userHash;
   AppLoggerRepository appLoggerRepository;
+  
 
   AuthenticationBloc({this.userRepository}) {
     assert(userRepository != null);

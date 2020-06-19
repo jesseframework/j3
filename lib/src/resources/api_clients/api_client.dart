@@ -23,7 +23,7 @@ class ApiClient {
             'content-type': 'application/json',
             'Accept': 'application/json'
           }),
-          HttpLoggingInterceptor(),
+         // HttpLoggingInterceptor(),
           (Response response) async {
             if (response.statusCode == 401) {
               SharedPreferences prefs = await SharedPreferences.getInstance();
