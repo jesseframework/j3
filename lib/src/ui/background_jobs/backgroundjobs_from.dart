@@ -1,6 +1,6 @@
 /*
  * Jesseframework - Computer Expertz Ltd - https://cpxz.us
- * Copyright (C) 2019-2021 Jesseframework
+ * Copyright (C) 2019-2   021 Jesseframework..
  *
  * This file is part of Jesseframework - https://github.com/jesseframework/j3.
  *
