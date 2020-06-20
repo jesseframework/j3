@@ -53,7 +53,7 @@ class AppLoggerRepository {
           _log.finest('$jobName found in job schedular');
           if (isscheduleenable.enableJob == true) {
             _log.finest('$jobName is enable');
-            updateBackgroungJobStatus.updateJobStatus(jobName, "In Progress");
+           await updateBackgroungJobStatus.updateJobStatus(jobName, "In Progress");
             var appLogData = await applicationLoggerDao.getAppLog("Pending");
             for (var fromDb in appLogData) {
               String formatted =
@@ -73,7 +73,7 @@ class AppLoggerRepository {
               if (response.isSuccessful && map['success']) {
                 //decode the response body
                 _log.finest('API response is successful $map');
-                updateBackgroungJobStatus.updateJobStatus(jobName, "Success");
+               await updateBackgroungJobStatus.updateJobStatus(jobName, "Success");
 
                 _log.finest('$jobName mark as export');
                 var fromDate = new ApplicationLoggerData(

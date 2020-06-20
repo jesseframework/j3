@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:j3enterprise/src/resources/shared/function/schedule_background_jobs.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/ui/background_jobs/backgroundjobs_from.dart';
 import 'package:j3enterprise/src/ui/background_jobs/bloc/backgroundjobs_bloc.dart';
 
 class BackgroundJobsPage extends StatelessWidget {
+  //ToDo add button transulation
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,31 +20,30 @@ class BackgroundJobsPage extends StatelessWidget {
         title:
             Text(AppLocalization.of(context).translate('title_backgroundjob')),
         actions: [
-          Icon(
-            Icons.cancel,
-            size: 36,
-            color: Colors.white,
+          IconButton(
+            icon: Icon(Icons.sync),
+            tooltip: 'Start Sync Jobs',
+            onPressed: () {
+              syncClickleScheduler();
+            },
           ),
           SizedBox(
-            width: 8,
+            width: 3,
           ),
-          Icon(
-            Icons.sync,
-            size: 35,
-          ),
-          SizedBox(
-            width: 8,
-          ),
-          Icon(
-            Icons.cloud_download,
-            size: 35,
-            color: Colors.white,
+          IconButton(
+            icon: Icon(Icons.cancel),
+            tooltip: 'Cancel Sync Jobs',
+            onPressed: () {
+              syncClickCancel();
+            },
           ),
           SizedBox(
-            width: 8,
+            width: 3,
           ),
-          SizedBox(
-            width: 8,
+          IconButton(
+            icon: Icon(Icons.more_vert),
+            tooltip: 'More options',
+            onPressed: () {},
           ),
         ],
       ),
