@@ -41,10 +41,9 @@ class BackgroundJobsBloc
   ) async* {
     _log.finest('Bloc mapEventToState call');
     try {
-      yield BackgroundJobsLoading();
-
+     
       if (event is BackgroundJobsStart) {
-        yield BackgroundJobsStartState();
+        yield BackgroundJobsLoading();
         var data = await backgroundJobScheduleDao.getAllJobs();
         print('Jobb Data Load $data');
         String formatted = await formatDate(DateTime.now().toString());
@@ -82,7 +81,8 @@ class BackgroundJobsBloc
       }
 
       if (event is BackgroundJobsCancel) {
-        yield BackgroundJobsStop();
+        //yield BackgroundJobsLoading();
+        
         scheduleler.cancel(event.jobname);
 
         userMessage = AppLocalization.of(event.context)
@@ -92,6 +92,8 @@ class BackgroundJobsBloc
 
         yield BackgroundJobsSuccess(userMessage: userMessage);
       }
+
+      yield BackgroundJobsUninitialized();
     } catch (error) {
       _log.shout(error, StackTrace.current);
       yield BackgroundJobsFailure(error: error.toString());

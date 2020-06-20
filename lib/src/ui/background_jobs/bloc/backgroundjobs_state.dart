@@ -10,18 +10,6 @@ class BackgroundJobsUninitialized extends BackgroundJobsState {}
 
 class BackgroundJobsLoading extends BackgroundJobsState {}
 
-class BackgroundJobsLoaded extends BackgroundJobsState {
-  final Stream<List<BackgroundJobScheduleData>> data;
-
-  const BackgroundJobsLoaded({@required this.data});
-
-  @override
-  List<Object> get props => [data];
-
-  @override
-  String toString() => 'BackgroundJobsLoaded { data: ${data.length} }';
-}
-
 class BackgroundJobsSuccess extends BackgroundJobsState {
   //final BackgroundJobScheduleCompanion data;
   final userMessage;
@@ -34,10 +22,6 @@ class BackgroundJobsSuccess extends BackgroundJobsState {
   String toString() => 'BackgroundJobsSuccess { userMessage: $userMessage }';
 }
 
-class BackgroundJobsSendNotification extends BackgroundJobsState {}
-
-class BackgroundJobsStartState extends BackgroundJobsState {}
-
 class BackgroundJobsStoped extends BackgroundJobsState {
   final userMessage;
   const BackgroundJobsStoped({@required this.userMessage});
@@ -48,7 +32,7 @@ class BackgroundJobsStoped extends BackgroundJobsState {
   @override
   String toString() => 'BackgroundJobsSuccess { userMessage: $userMessage }';
 }
-class BackgroundJobsStop extends BackgroundJobsState {}
+
 
 class BackgroundJobsFailure extends BackgroundJobsState {
   final String error;
