@@ -1,6 +1,6 @@
 import 'package:moor/moor.dart';
 
-class NonGlobalSetting extends Table {
+class NonGlobalPreference extends Table {
   IntColumn get id => integer()();
   TextColumn get parentCode => text()();
   TextColumn get code => text()();

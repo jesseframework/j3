@@ -49,7 +49,7 @@ class AppLogger {
   ApplicationLoggerDao applicationLoggerDao;
   AppLoggerRepository appLoggerRepository;
   PreferenceDao preferenceDao;
-  NonGlobalSettingDao nonGlobalSettingDao;
+  NonGlobalPreferenceDao nonGlobalPreferenceDao;
   UserSharedData userSharedData;
   Map<String, String> mapDevicePref = Map();
 
@@ -64,7 +64,7 @@ class AppLogger {
     db = AppDatabase();
     applicationLoggerDao = ApplicationLoggerDao(db);
     preferenceDao = PreferenceDao(db);
-    nonGlobalSettingDao = NonGlobalSettingDao(db);
+    nonGlobalPreferenceDao = NonGlobalPreferenceDao(db);
     userSharedData = new UserSharedData();
     appLoggerRepository = new AppLoggerRepository();
   }
@@ -109,7 +109,7 @@ class AppLogger {
       if (logPurging != null) {
         if (logPurging.value == "After Upload") {
           if (logPurging.isGlobal == false) {
-            var globalData = await nonGlobalSettingDao.getSingleNonGlobalPref(
+            var globalData = await nonGlobalPreferenceDao.getSingleNonGlobalPref(
                 logPurging.code, logPurging.code, userName, deviceId, screen);
             if (globalData != null) {
               if (globalData.expiredDateTime.isBefore(DateTime.now())) {
@@ -123,7 +123,7 @@ class AppLogger {
 
         if (logPurging.value == "Last 1000") {
           if (logPurging.isGlobal == false) {
-            var globalData = await nonGlobalSettingDao.getSingleNonGlobalPref(
+            var globalData = await nonGlobalPreferenceDao.getSingleNonGlobalPref(
                 logPurging.code, logPurging.code, userName, deviceId, screen);
             if (globalData != null) {
               if (globalData.expiredDateTime.isBefore(DateTime.now())) {
@@ -137,7 +137,7 @@ class AppLogger {
 
         if (logPurging.value == "Last 500") {
           if (logPurging.isGlobal == false) {
-            var globalData = await nonGlobalSettingDao.getSingleNonGlobalPref(
+            var globalData = await nonGlobalPreferenceDao.getSingleNonGlobalPref(
                 logPurging.code, logPurging.code, userName, deviceId, screen);
             if (globalData != null) {
               //applicationLoggerDao.purgeData(500);
@@ -149,7 +149,7 @@ class AppLogger {
 
         if (logPurging.value == "Last 100") {
           if (logPurging.isGlobal == false) {
-            var globalData = await nonGlobalSettingDao.getSingleNonGlobalPref(
+            var globalData = await nonGlobalPreferenceDao.getSingleNonGlobalPref(
                 logPurging.code, logPurging.code, userName, deviceId, screen);
             if (globalData != null) {
               if (globalData.expiredDateTime.isBefore(DateTime.now())) {

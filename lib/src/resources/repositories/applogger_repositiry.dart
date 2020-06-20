@@ -25,7 +25,7 @@ class AppLoggerRepository {
   UpdateBackgroundJobStatus updateBackgroundJobStatus;
   BackgroundJobScheduleDao backgroundJobScheduleDao;
   PreferenceDao preferenceDao;
-  NonGlobalSettingDao nonGlobalSettingDao;
+  NonGlobalPreferenceDao nonGlobalPreferenceDao;
 
   UserSharedData userSharedData;
 
@@ -35,7 +35,7 @@ class AppLoggerRepository {
     updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
     preferenceDao = PreferenceDao(db);
-    nonGlobalSettingDao = NonGlobalSettingDao(db);
+    nonGlobalPreferenceDao = NonGlobalPreferenceDao(db);
     userSharedData = new UserSharedData();
   }
 
@@ -55,19 +55,11 @@ class AppLoggerRepository {
             String userName = mapUserSharedData['userName'];
             String deviceId = mapUserSharedData['deviceId'];
 
-            //ToDo code review to get a better way to push bulk data to API and update bulk data in datbase
             var isscheduleenable =
                 await backgroundJobScheduleDao.getJob(jobName);
             if (isscheduleenable != null) {
-              DateTime startDate = isscheduleenable.startDateTime;
-              DateTime currentDate = DateTime.now();
-              _log.finest(
-                  'Start Date $startDate found in job schedular to compare with currenct date $currentDate using isAfter');
               if (isscheduleenable.startDateTime.isBefore(DateTime.now())) {
-                _log.finest('$jobName found in job schedular');
                 if (isscheduleenable.enableJob == true) {
-                  _log.finest('$jobName is enable');
-
                   var appLogData =
                       await applicationLoggerDao.getAppLog("Pending");
                   if (appLogData != null) {
@@ -80,13 +72,6 @@ class AppLoggerRepository {
                         jobName, "In Progress");
                     String formatted =
                         await formatDate(fromDb.logDateTime.toString());
-
-                    //int tenantId = 2;
-
-                    // var getprefData = userSharedData.getUserSharedPref();
-                    // if (getprefData != null) {
-                    //   tenantId = getprefData.te
-                    // }
 
                     final Response response = await api.mobileAppLogger({
                       "functionName": fromDb.functionName,
@@ -102,7 +87,7 @@ class AppLoggerRepository {
                     Map<String, dynamic> map = json.decode(response.bodyString);
                     if (response.isSuccessful && map['success']) {
                       //decode the response body
-                      _log.finest('API response is successful $map');
+
                       await updateBackgroundJobStatus.updateJobStatus(
                           jobName, "Success");
 
@@ -127,7 +112,7 @@ class AppLoggerRepository {
                       if (logPurging != null) {
                         if (logPurging.value == "After Upload") {
                           if (logPurging.isGlobal == false) {
-                            var globalData = await nonGlobalSettingDao
+                            var globalData = await nonGlobalPreferenceDao
                                 .getSingleNonGlobalPref(logPurging.code,
                                     logPurging.code, userName, deviceId, "");
                             if (globalData != null) {
@@ -158,6 +143,9 @@ class AppLoggerRepository {
           }
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      _log.shout(e, StackTrace.current);
+      await updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
+    }
   }
 }

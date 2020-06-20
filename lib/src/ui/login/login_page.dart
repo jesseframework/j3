@@ -21,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/services/firebase_message_wrapper.dart';
+import 'package:j3enterprise/src/resources/shared/function/schedule_background_jobs.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/custom_drawer.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication_bloc.dart';

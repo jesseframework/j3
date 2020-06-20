@@ -126,7 +126,11 @@ packages:
       name: built_value
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "6.7.1"
+=======
+    version: "7.1.0"
+>>>>>>> Background jOb
   characters:
     dependency: transitive
     description:
@@ -161,7 +165,7 @@ packages:
       name: chopper_generator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.4"
+    version: "3.0.5"
   cli_util:
     dependency: transitive
     description:
@@ -182,7 +186,11 @@ packages:
       name: code_builder
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "3.2.0"
+=======
+    version: "3.3.0"
+>>>>>>> Background jOb
   collection:
     dependency: transitive
     description:
@@ -301,7 +309,11 @@ packages:
       name: file
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "5.2.1"
+=======
+    version: "5.2.0"
+>>>>>>> Background jOb
   firebase:
     dependency: transitive
     description:

@@ -6,7 +6,7 @@ part of 'non_preference_crud.dart';
 // DaoGenerator
 // **************************************************************************
 
-mixin _$NonGlobalSettingDaoMixin on DatabaseAccessor<AppDatabase> {
-  $NonGlobalSettingTable get nonGlobalSetting =>
-      attachedDatabase.nonGlobalSetting;
+mixin _$NonGlobalPreferenceDaoMixin on DatabaseAccessor<AppDatabase> {
+  $NonGlobalPreferenceTable get nonGlobalPreference =>
+      attachedDatabase.nonGlobalPreference;
 }
