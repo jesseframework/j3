@@ -62,7 +62,11 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
   Future<void> _onBackGroundJobCancelButtonPress() async {
     formKey.currentState.validate();
     BlocProvider.of<BackgroundJobsBloc>(context).add(BackgroundJobsCancel(
+<<<<<<< HEAD
         jobName: setjobname,
+=======
+        jobname: setjobname,
+>>>>>>> Applogger pages with 10 record
         syncFrequency: syncfrequencySelectedItem,
         context: context));
   }

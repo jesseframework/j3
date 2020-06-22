@@ -127,10 +127,14 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
 <<<<<<< HEAD
+<<<<<<< HEAD
     version: "6.7.1"
 =======
     version: "7.1.0"
 >>>>>>> Background jOb
+=======
+    version: "6.7.1"
+>>>>>>> Applogger pages with 10 record
   characters:
     dependency: transitive
     description:
@@ -165,7 +169,7 @@ packages:
       name: chopper_generator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.5"
+    version: "3.0.4"
   cli_util:
     dependency: transitive
     description:
@@ -187,10 +191,14 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
 <<<<<<< HEAD
+<<<<<<< HEAD
     version: "3.2.0"
 =======
     version: "3.3.0"
 >>>>>>> Background jOb
+=======
+    version: "3.2.0"
+>>>>>>> Applogger pages with 10 record
   collection:
     dependency: transitive
     description:

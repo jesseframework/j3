@@ -63,7 +63,11 @@ class InitServiceSetup {
       }
     } else {
       //Set Default
+<<<<<<< HEAD
       Logger.root.level = Level.FINEST;
+=======
+      Logger.root.level = Level.ALL;
+>>>>>>> Applogger pages with 10 record
     }
 
     Logger.root.onRecord.listen((rec) async {
