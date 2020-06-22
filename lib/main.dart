@@ -1,8 +1,10 @@
 import 'dart:io' show Platform;
 
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:j3enterprise/src/resources/services/firebase_message_wrapper.dart';
 import 'package:j3enterprise/src/resources/services/init_services.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/routes.dart';
@@ -56,22 +58,26 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-        builder: (context, state) {
-          if (state is AuthenticationCreateMobileHash) {
-            return OfflineLoginPage(userRepository: userRepository);
-          }
-          if (state is AuthenticationAuthenticated) {
-            return HomePage();
-          }
-          if (state is AuthenticationUnauthenticated) {
-            return LoginPage(userRepository: userRepository);
-          }
-          if (state is AuthenticationLoading) {
-            return LoadingIndicator();
-          }
-          return SplashPage();
-        },
+      builder: BotToastInit(), //1. call BotToastInit
+      navigatorObservers: [BotToastNavigatorObserver()],
+      home: FirebaseMessageWrapper(
+        child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+          builder: (context, state) {
+            if (state is AuthenticationCreateMobileHash) {
+              return OfflineLoginPage(userRepository: userRepository);
+            }
+            if (state is AuthenticationAuthenticated) {
+              return HomePage();
+            }
+            if (state is AuthenticationUnauthenticated) {
+              return LoginPage(userRepository: userRepository);
+            }
+            if (state is AuthenticationLoading) {
+              return LoadingIndicator();
+            }
+            return SplashPage();
+          },
+        ),
       ),
       theme: ThemeData(
         primarySwatch: Colors.blue,

@@ -11,8 +11,8 @@ import 'package:moor/moor.dart' as moor;
 
 class UserHash {
   final UserRepository userRepository;
-  var db;
   UserDao userDao;
+  var db;
 
   UserHash({@required this.userRepository}) {
     //assert(userRepository != null);

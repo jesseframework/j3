@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Preferences extends StatefulWidget {
+  static final route='/preferences';
   @override
   _PreferencesState createState() => _PreferencesState();
 }
