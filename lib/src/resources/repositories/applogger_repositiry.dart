@@ -53,8 +53,11 @@ class AppLoggerRepository {
           _log.finest('$jobName found in job schedular');
           if (isscheduleenable.enableJob == true) {
             _log.finest('$jobName is enable');
-           await updateBackgroungJobStatus.updateJobStatus(jobName, "In Progress");
+           
             var appLogData = await applicationLoggerDao.getAppLog("Pending");
+            if(appLogData != null){
+              await updateBackgroungJobStatus.updateJobStatus(jobName, "In Progress");
+            }
             for (var fromDb in appLogData) {
               String formatted =
                   await formatDate(fromDb.logDateTime.toString());
@@ -101,6 +104,7 @@ class AppLoggerRepository {
                 //Timer(Duration(seconds: 60), () => print('done')).cancel();
               }
             }
+            
           }
         }
       }

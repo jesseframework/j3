@@ -53,21 +53,19 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
 
   Future<void> _onBackGroundJobStartButtonPress() async {
     formKey.currentState.validate();
-    BlocProvider.of<BackgroundJobsBloc>(context).add(
-        BackgroundJobsStart(
-            context: context,
-            jobname: setjobname,
-            startDateTime: DateTime.now().toString(),
-            syncFrequency: syncfrequencySelectedItem));
+    BlocProvider.of<BackgroundJobsBloc>(context).add(BackgroundJobsStart(
+        context: context,
+        jobname: setjobname,
+        startDateTime: DateTime.now().toString(),
+        syncFrequency: syncfrequencySelectedItem));
   }
 
-  Future<void> _onBackGroundJobCancelButtonPress() async{
-     formKey.currentState.validate();
-    BlocProvider.of<BackgroundJobsBloc>(context).add(
-        BackgroundJobsCancel(           
-            jobname: setjobname,           
-            syncFrequency: syncfrequencySelectedItem,
-             context: context));
+  Future<void> _onBackGroundJobCancelButtonPress() async {
+    formKey.currentState.validate();
+    BlocProvider.of<BackgroundJobsBloc>(context).add(BackgroundJobsCancel(
+        jobname: setjobname,
+        syncFrequency: syncfrequencySelectedItem,
+        context: context));
   }
 
   @override
@@ -282,43 +280,38 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
             height: 5,
           ),
           Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 0.0),
-        child: Column(
-          children: <Widget>[
-            SizedBox(height:5.0),
-            ExpansionTile(
-              title: Text(
-                "System Jobs",
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold
+            padding: const EdgeInsets.symmetric(horizontal: 0.0),
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: 5.0),
+                ExpansionTile(
+                  title: Text(
+                    "System Jobs",
+                    style:
+                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
-              
+              ],
             ),
-          ],
-        ),
           ),
-         
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               StreamBuilder(
                 stream: bloc.backgroundJobScheduleDao.watchAllJobs(),
-                builder: (context,
-                    AsyncSnapshot<List<BackgroundJobScheduleData>> snapshot) {
+                builder: (context,    AsyncSnapshot<List<BackgroundJobScheduleData>> snapshot) {
                   final jobs = snapshot.data ?? List();
 
                   return Expanded(
-                    
                     child: ListView.builder(
-                      
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemCount: jobs.length,
                       itemBuilder: (_, index) {
                         //final itemTask = jobs[index];
                         return Container(
-                           color: (index % 2 == 0) ? Colors.blue[50] : Colors.white,
+                          color:
+                              (index % 2 == 0) ? Colors.blue[50] : Colors.white,
                           child: Row(
                             children: [
                               Expanded(

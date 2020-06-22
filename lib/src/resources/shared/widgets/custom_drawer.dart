@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/resources/shared/function/schedule_background_jobs.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/ui/about/about.dart';
+import 'package:j3enterprise/src/ui/app_logger/applogger_page.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication.dart';
 import 'package:j3enterprise/src/ui/background_jobs/backgroundjobs_pages.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
@@ -11,8 +12,6 @@ import 'package:j3enterprise/src/resources/shared/utils/langcustomdialogbox.dart
 import 'package:j3enterprise/src/ui/communication/setup_communication_page.dart';
 
 class CustomDrawer extends StatelessWidget {
-  
-  
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -92,6 +91,27 @@ class CustomDrawer extends StatelessWidget {
                   AppLocalization.of(context)
                           .translate('background_job_appdraw') ??
                       'Background Jobs',
+                  style: TextStyle(color: Colors.black, fontSize: 16),
+                ),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AppLoggerPage()));
+              },
+              child: ListTile(
+                leading: Icon(
+                  Icons.error_outline,
+                  color: Colors.blue,
+                ),
+                title: Text(
+                  AppLocalization.of(context).translate('applogger_appdraw') ??
+                      'App Logger',
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
               ),
