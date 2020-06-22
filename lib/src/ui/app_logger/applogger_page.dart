@@ -21,10 +21,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/resources/shared/function/schedule_background_jobs.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
-import 'package:j3enterprise/src/ui/background_jobs/backgroundjobs_from.dart';
-import 'package:j3enterprise/src/ui/background_jobs/bloc/backgroundjobs_bloc.dart';
+import 'package:j3enterprise/src/ui/app_logger/applogger_form.dart';
+import 'package:j3enterprise/src/ui/app_logger/bloc/applogger_bloc.dart';
 
-class BackgroundJobsPage extends StatelessWidget {
+class AppLoggerPage extends StatelessWidget {
   //ToDo add button transulation
   @override
   Widget build(BuildContext context) {
@@ -36,9 +36,8 @@ class BackgroundJobsPage extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        title: Text(
-            AppLocalization.of(context).translate('title_backgroundjob') ??
-                'Background Jobs'),
+        title: Text(AppLocalization.of(context).translate('title_applogger') ??
+            'App Logger'),
         actions: [
           IconButton(
             icon: Icon(Icons.sync),
@@ -70,12 +69,12 @@ class BackgroundJobsPage extends StatelessWidget {
       body: SafeArea(
         child: BlocProvider(
           create: (context) {
-            return BackgroundJobsBloc();
+            return ApploggerBloc();
           },
           child: Stack(children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[Flexible(child: BackgroundJobsForm())],
+              children: <Widget>[Flexible(child: AppLoggerForm())],
             )
           ]),
         ),
