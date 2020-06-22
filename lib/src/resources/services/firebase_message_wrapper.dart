@@ -5,7 +5,7 @@ import 'package:bot_toast/bot_toast.dart';
 class FirebaseMessageWrapper extends StatefulWidget {
   final Widget child;
 
-  FirebaseMessageWrapper(this.child);
+  FirebaseMessageWrapper({this.child});
   @override
   _FirebaseMessageWrapperState createState() => _FirebaseMessageWrapperState();
 }
@@ -35,62 +35,39 @@ class _FirebaseMessageWrapperState extends State<FirebaseMessageWrapper> {
           Map<String, dynamic> msg = snapshot.data;
           if (msg != null) {
             // check if this instance is the current route or else message will be displayed on all instances
+
             if (ModalRoute.of(context).isCurrent) {
               WidgetsBinding.instance
-                  .addPostFrameCallback((_) => _showMessage(msg));
+                  .addPostFrameCallback((_) => BotToast.showNotification(
+                      title: (_) => Text(msg['notification']["title"]),
+                      leading: (_) => Image.asset(
+                            'images/logo.png',
+                          ),
+                      subtitle: (_) => Text(msg['notification']["body"]),
+                      duration: Duration(seconds: 10),
+                      enableSlideOff: true,
+                      dismissDirections: [DismissDirection.horizontal],
+                      onTap: () {
+                        _serialiseAndNavigate(msg, context);
+                      }));
             }
             // adding a null stops the previous message from being displayed again
-            MessageStream.instance.addMessage(null);
+            //  MessageStream.instance.addMessage(null);
           }
           return widget.child;
         });
   }
 
-  void _showMessage(Map<String, dynamic> message) {
-    SnackBar bar = SnackBar(
-      behavior: SnackBarBehavior.floating,
-      duration: Duration(seconds: 10),
-      action: SnackBarAction(
-        label: "Close",
-        textColor: Colors.redAccent,
-        onPressed: () => Scaffold.of(context).hideCurrentSnackBar(),
-      ),
-      content: Padding(
-        padding: const EdgeInsets.only(bottom: 25.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(message['notification']["title"]),
-            Text(message['notification']["body"]),
-          ],
-        ),
-      ),
-    );
-
-    Scaffold.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(bar);
+  void _serialiseAndNavigate(Map<String, dynamic> message, context) {
+    if (message['data'] != null) {
+      var notificationData = message['data'];
+      var view = notificationData['view'];
+      if (view != null) {
+        print("view is present ..........");
+        Navigator.pushNamed(context, view);
+      } else {
+        print("view is  Not present ..........");
+      }
+    }
   }
-  // void initState() {
-  //   BotToast.showSimpleNotification(
-  //       title: message['notification']["title"],
-  //       subTitle: message['notification']["body"],
-  //       enableSlideOff: enableSlideOff,
-  //       hideCloseButton: hideCloseButton,
-  //       onTap: () {
-  //         BotToast.showText(text: 'Tap toast');
-  //       },
-  //       onLongPress: () {
-  //         BotToast.showText(text: 'Long press toast');
-  //       },
-  //       onlyOne: onlyOne,
-  //       crossPage: crossPage,
-  //       animationDuration: Duration(milliseconds: animationMilliseconds),
-  //       animationReverseDuration:
-  //           Duration(milliseconds: animationReverseMilliseconds),
-  //       duration: Duration(seconds: seconds));
-  //   super.initState();
-  // }
-
 }

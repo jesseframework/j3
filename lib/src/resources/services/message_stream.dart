@@ -10,7 +10,7 @@ class MessageStream {
     return _instance;
   }
 
-  final _message = BehaviorSubject<Map<String, dynamic>>();
+   dynamic _message = BehaviorSubject<Map<String, dynamic>>();
   Stream<Map<String, dynamic>> get messageStream => _message.stream;
 
   void addMessage(Map<String, dynamic> msg) {

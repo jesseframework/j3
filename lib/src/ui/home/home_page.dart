@@ -2,7 +2,6 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/resources/services/firebase_notification_service.dart';
 import 'package:j3enterprise/src/resources/shared/function/schedule_background_jobs.dart';
-
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/ui/preferences/preferences.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/custom_drawer.dart';
@@ -13,7 +12,7 @@ import 'dart:io' show Platform;
 // }
 
 class HomePage extends StatefulWidget {
-  
+  static final route = '/home';
   
   @override
   _HomePageState createState() => _HomePageState();

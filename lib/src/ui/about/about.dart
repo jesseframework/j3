@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 
 class About extends StatefulWidget {
+  static final route='/about';
   @override
   _AboutState createState() => _AboutState();
 }

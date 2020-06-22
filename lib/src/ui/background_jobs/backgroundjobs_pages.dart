@@ -25,7 +25,7 @@ import 'package:j3enterprise/src/ui/background_jobs/backgroundjobs_from.dart';
 import 'package:j3enterprise/src/ui/background_jobs/bloc/backgroundjobs_bloc.dart';
 
 class BackgroundJobsPage extends StatelessWidget {
-  //ToDo add button transulation
+  static final route='/BackgroundJobs';
 
   @override
   Widget build(BuildContext context) {
