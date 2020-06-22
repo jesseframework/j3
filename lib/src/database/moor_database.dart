@@ -40,20 +40,21 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase._internal(QueryExecutor e) : super(e);
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         // Runs if the database has already been opened on the device with a lower version
         onUpgrade: (doMigration, from, to) async {
-          if (from == 1) {
+          if (from == 2) {
             //await migrator.addColumn(tasks, tasks.tagName);
             //await doMigration.createTable(ApplicationLogger);
           }
 
           // ignore: unnecessary_statements
           (db, details) async {
-            await db.customStatement('PRAGMA foreign_keys = ON');
+            await db.customStatement(
+                'PRAGMA foreign_keys = ON ' + 'PRAGMA journal_mode=WAL');
           };
         },
       );
@@ -77,6 +78,7 @@ class AppDatabase extends _$AppDatabase {
       return AppDatabase._internal(
           VmDatabase(file, logStatements: logStatements));
     }
+    
     return AppDatabase._internal(
         VmDatabase.memory(logStatements: logStatements));
   }

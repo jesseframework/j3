@@ -21,7 +21,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/services/firebase_message_wrapper.dart';
-import 'package:j3enterprise/src/resources/shared/function/schedule_background_jobs.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/custom_drawer.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication_bloc.dart';
@@ -41,7 +40,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalization.of(context).translate('app_title')),
+        title: Text(AppLocalization.of(context).translate('app_title') ?? 'J3 ENTERPRISE SOLUTION'),
         backgroundColor: const Color(0xff5362b7),
       ),
       body: FirebaseMessageWrapper(
