@@ -61,15 +61,15 @@ class AuthenticationBloc
 
       _log.finest('Starting background Jobs');
 
-      var jobData = await backgroundJobScheduleDao.getAllJobs();
-      for (var eachJob in jobData) {
-        scheduleler.scheduleJobs(
-            eachJob.syncFrequency,
-            eachJob.jobName,
-            (Timer timer) =>
-                appLoggerRepository.putAppLogOnServer(eachJob.jobName));
-        _log.finest('background Jobs start');
-      }
+      // var jobData = await backgroundJobScheduleDao.getAllJobs();
+      // for (var eachJob in jobData) {
+      //   scheduleler.scheduleJobs(
+      //       eachJob.syncFrequency,
+      //       eachJob.jobName,
+      //       (Timer timer) =>
+      //           appLoggerRepository.putAppLogOnServer(eachJob.jobName));
+      //   _log.finest('background Jobs start');
+      // }
 
       var offlineReady =
           await userFromServer.validateUser(event.userId, event.tenantId);

@@ -9,6 +9,7 @@ import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
 import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
 import 'package:j3enterprise/src/resources/shared/function/update_backgroung_job_schedule_status.dart';
+import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.dart';
 import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
 import 'package:logging/logging.dart';
 import 'package:moor/moor.dart' as moor;
@@ -23,12 +24,14 @@ class AppLoggerRepository {
   ApplicationLoggerDao applicationLoggerDao;
   UpdateBackgroungJobStatus updateBackgroungJobStatus;
   BackgroundJobScheduleDao backgroundJobScheduleDao;
+  UserSharedData userSharedData;
 
   AppLoggerRepository() {
     db = AppDatabase();
     applicationLoggerDao = new ApplicationLoggerDao(db);
     updateBackgroungJobStatus = new UpdateBackgroungJobStatus();
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
+    userSharedData = new UserSharedData();
   }
 
   Future<void> setDeviceIntoSharedPref(String deviceId, String state) async {
@@ -53,14 +56,22 @@ class AppLoggerRepository {
           _log.finest('$jobName found in job schedular');
           if (isscheduleenable.enableJob == true) {
             _log.finest('$jobName is enable');
-           
+
             var appLogData = await applicationLoggerDao.getAppLog("Pending");
-            if(appLogData != null){
-              await updateBackgroungJobStatus.updateJobStatus(jobName, "In Progress");
+            if (appLogData != null) {
+              await updateBackgroungJobStatus.updateJobStatus(
+                  jobName, "In Progress");
             }
             for (var fromDb in appLogData) {
               String formatted =
                   await formatDate(fromDb.logDateTime.toString());
+
+              int tenantId = 2;
+
+              // var getprefData = userSharedData.getUserSharedPref();
+              // if (getprefData != null) {
+              //   tenantId = getprefData.te
+              // }
 
               final Response response = await api.mobileAppLogger({
                 "functionName": fromDb.functionName,
@@ -70,13 +81,15 @@ class AppLoggerRepository {
                 "documentNo": fromDb.documentNo,
                 "logCode": fromDb.logCode,
                 "logSeverity": fromDb.logSeverity,
-                "deviceID": fromDb.deviceId
+                "deviceID": fromDb.deviceId,
+                "tenantId": tenantId
               });
               Map<String, dynamic> map = json.decode(response.bodyString);
               if (response.isSuccessful && map['success']) {
                 //decode the response body
                 _log.finest('API response is successful $map');
-               await updateBackgroungJobStatus.updateJobStatus(jobName, "Success");
+                await updateBackgroungJobStatus.updateJobStatus(
+                    jobName, "Success");
 
                 _log.finest('$jobName mark as export');
                 var fromDate = new ApplicationLoggerData(
@@ -104,7 +117,6 @@ class AppLoggerRepository {
                 //Timer(Duration(seconds: 60), () => print('done')).cancel();
               }
             }
-            
           }
         }
       }

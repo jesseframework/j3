@@ -114,11 +114,11 @@ class AppLogger {
                 logPurging.code, logPurging.code, userName, deviceId, screen);
             if (globalData != null) {
               if (globalData.expiredDateTime.isBefore(DateTime.now())) {
-                await applicationLoggerDao.purgeDatabyExportStatus('Success');
+                 applicationLoggerDao.purgeDatabyExportStatus('Success');
               }
             }
           } else {
-            await applicationLoggerDao.purgeDatabyExportStatus('Success');
+             applicationLoggerDao.purgeDatabyExportStatus('Success');
           }
         }
 

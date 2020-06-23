@@ -29,7 +29,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   //InitServiceSetup initServiceSetup = new InitServiceSetup();
-  SharedPreferences.setMockInitialValues({});
+  if (Platform.isWindows || Platform.isMacOS || Platform.isLinux) {
+    SharedPreferences.setMockInitialValues({});
+  }
+
   await systemInitelSetup();
   //await initServiceSetup.setupLogging();
 

@@ -121,10 +121,18 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               Map<String, dynamic> tenantResult = tenantMap['result'];
               _log.finest('Tenant result in LoginLoading state : ' +
                   tenantResult.toString());
-              print(tenantResult);
-              await userRepository.setTenantIntoSharedPref(event.tenantName);
 
               tenantId = tenantResult['tenantId'].toString();
+
+              userSharedData.setUserSharedPref(
+                  event.deviceId,
+                  deviceState,
+                  tenantState,
+                  event.username,
+                  event.tenantName,
+                  tenantId.toString(),
+                  0.toString());
+
               _log.finest(
                   'Tenant tenant result assign to virable tenant LoginLoading state');
               if (tenantResult['tenantId'] == null) {
@@ -260,6 +268,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             await userRepository.setTenantIntoSharedPref(event.tenantName);
 
             tenantId = tenantResult['tenantId'].toString();
+            userSharedData.setUserSharedPref(
+                event.deviceId,
+                deviceState,
+                tenantState,
+                event.username,
+                event.tenantName,
+                tenantId.toString(),
+                0.toString());
             _log.finest(
                 'Tenant tenant result assign to virable tenant LoginLoading state');
 
