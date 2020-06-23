@@ -1,6 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
-
 //ToDo Add more date format from setting
+
+import 'package:easy_localization/easy_localization.dart';
 
 Future<String> formatDate(String dateToConvert) async {
   var now = DateTime.tryParse(dateToConvert);

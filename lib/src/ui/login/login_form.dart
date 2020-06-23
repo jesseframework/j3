@@ -23,6 +23,7 @@ import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/password_field.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/text_field_nullable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'bloc/login_bloc.dart';
 
@@ -41,7 +42,7 @@ class _LoginFormState extends State<LoginForm> {
   final _tenantController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    _onLoginButtonPressed() {
+    _onLoginButtonPressed() async {
       formKey.currentState.validate();
       BlocProvider.of<LoginBloc>(context).add(
         LoginButtonPressed(

@@ -24,7 +24,6 @@ class AuthenticationBloc
   Scheduler scheduleler;
 
   static final _log = Logger('LoginBloc');
-
   AuthenticationBloc({this.userRepository}) {
     assert(userRepository != null);
     db = AppDatabase();

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
-//import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
-
-Locale spanish = Locale("es", "ES");
-Locale hindi = Locale("hi", "IN");
-Locale english = Locale("en", "IN");
+import 'package:get_it/get_it.dart';
+import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
+import '../../../../main.dart';
+const String ENGLISH = 'en';
+const String SPANISH = 'es';
+const String HINDI = 'sk';
+const String LANGUAGE_CODE_KEY = 'languageCode';
+String selecteditem = ENGLISH;
 
 class LangCustomDialog extends StatelessWidget {
   @override
@@ -50,7 +52,7 @@ class LangCustomDialog extends StatelessWidget {
               ),
             ),
             SizedBox(height: 16.0),
-            DropWid('English'),
+            DropWid(selecteditem),
             SizedBox(height: 16.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -118,52 +120,15 @@ class DropWid extends StatefulWidget {
   _DropWidState createState() => _DropWidState();
 }
 
-// class _DropWidState extends State<DropWid> {
-//   String selecteditem;
-
-//   @override
-//   void initState() {
-
-//     super.initState();
-//     selecteditem=widget.list;
-//   }
-//   @override
-//   Widget build(BuildContext context) {
-
-//     return Padding(
-//       padding: const EdgeInsets.all(8.0),
-//       child: Padding(
-//         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-//         child: DropdownButton(
-//           isExpanded: true,
-//           onChanged: (value) {
-//             setState(() {
-//               selecteditem = value;
-//             });
-//           },
-//           value: selecteditem,
-//           items: [
-//             DropdownMenuItem(
-//               child: Text('French'),
-//               value: 'French',
-//             ),
-//             DropdownMenuItem(
-//               child: Text(widget.list),
-//               value: widget.list,
-//             )
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 class _DropWidState extends State<DropWid> {
-  String selecteditem = 'English';
-
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    getIt<UserRepository>().getLocale().then((value) {
+      setState(() {
+        selecteditem = value.languageCode;
+      });
+    });
+    super.didChangeDependencies();
   }
 
   @override
@@ -174,38 +139,33 @@ class _DropWidState extends State<DropWid> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: DropdownButton(
           isExpanded: true,
-          onChanged: (value) {
-            setState(() {
-              selecteditem = value;
-              if (value == "Spanish") {
-                //AppLocalization.of(context).translate('login_button'),
-                AppLocalization.of(context).locale = spanish;
-              } else if (value == 'English') {
-                //EasyLocalization.of(context).locale = english;
-                //AppLocalization.of(context).locale == "en";
-              } else if (value == 'Hindi') {
-                //EasyLocalization.of(context).locale = hindi;
-              }
-            });
-          },
           value: selecteditem,
           items: [
             DropdownMenuItem(
               child: Text("English"),
-              value: 'English',
+              value: ENGLISH,
             ),
             DropdownMenuItem(
               child: Text('Spanish'),
-              value: 'Spanish',
+              value: SPANISH,
             ),
             DropdownMenuItem(
               child: Text("Hindi"),
-              value: 'Hindi',
+              value: HINDI,
             ),
           ],
+          onChanged: _changeLanguage,
         ),
       ),
     );
+  }
+
+  void _changeLanguage(String language) async {
+    Locale locale = await getIt<UserRepository>().setLocale(language);
+    App.setLocale(context, locale);
+    setState(() {
+      selecteditem = language;
+    });
   }
 }
 

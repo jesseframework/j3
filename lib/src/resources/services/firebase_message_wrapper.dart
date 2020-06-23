@@ -48,6 +48,8 @@ class _FirebaseMessageWrapperState extends State<FirebaseMessageWrapper> {
                       enableSlideOff: true,
                       dismissDirections: [DismissDirection.horizontal],
                       onTap: () {
+                        BotToast.cleanAll();
+                        print("notification is taped");
                         _serialiseAndNavigate(msg, context);
                       }));
             }
@@ -59,15 +61,13 @@ class _FirebaseMessageWrapperState extends State<FirebaseMessageWrapper> {
   }
 
   void _serialiseAndNavigate(Map<String, dynamic> message, context) {
-    if (message['data'] != null) {
-      var notificationData = message['data'];
-      var view = notificationData['view'];
-      if (view != null) {
-        print("view is present ..........");
-        Navigator.pushNamed(context, view);
-      } else {
-        print("view is  Not present ..........");
-      }
+    var view = message['view'];
+    if (view != null) {
+      print("view is present ..........");
+
+      Navigator.pushNamed(context, view);
+    } else {
+      print("view is  Not present ..........");
     }
   }
 }
