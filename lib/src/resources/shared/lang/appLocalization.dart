@@ -5,13 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AppLocalization {
-
   final Locale locale;
 
   AppLocalization(this.locale);
 
   static const LocalizationsDelegate<AppLocalization> delegate =
-      _AppLocalizationDelegate();
+      AppLocalizationDelegate();
 
   static AppLocalization of(BuildContext context) {
     return Localizations.of<AppLocalization>(context, AppLocalization);
@@ -36,21 +35,21 @@ class AppLocalization {
   String translate(String key) {
     return _localizedStrings[key];
   }
-
 }
 
-class _AppLocalizationDelegate
-    extends LocalizationsDelegate<AppLocalization> {
+class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalization> {
   // This delegate instance will never change (it doesn't even have fields!)
   // It can provide a constant constructor.
-  const _AppLocalizationDelegate();
+  const AppLocalizationDelegate();
 
   @override
   bool isSupported(Locale locale) {
     // Include all of your supported language codes here
-    return ['en','es','sk'].contains(locale.languageCode);
+    return ['en', 'es', 'sk'].contains(locale.languageCode);
   }
 
+  // @override
+  // Future<AppLocalization> load(Locale locale) => AppLocalization.load(locale);
   @override
   Future<AppLocalization> load(Locale locale) async {
     // AppLocalizations class is where the JSON loading actually runs
@@ -60,5 +59,5 @@ class _AppLocalizationDelegate
   }
 
   @override
-  bool shouldReload(_AppLocalizationDelegate old) => false;
+  bool shouldReload(AppLocalizationDelegate old) => false;
 }
