@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.j3enterprisecloud.j3enterprise">
+
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
          In most cases you can leave this as-is, but you if you want to provide
@@ -8,10 +10,11 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-       android:name="com.j3enterprisecloud.j3enterprise.Application"
+        tools:replace="android:label"
+       android:name=".Application"
         android:label="J3 Enterprise Solution"
         android:icon="@mipmap/ic_launcher">
-        <service android:name="BackgroundJob" android:exported="true" android:enabled="true"/>
+
         <activity
             android:name="com.j3enterprisecloud.j3enterprise.MainActivity"
             android:launchMode="singleTop"
