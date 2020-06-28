@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/resources/services/message_stream.dart';
 
 class FirebaseNotificationService {
@@ -23,7 +22,6 @@ class FirebaseNotificationService {
   // get the message stream
   MessageStream _messageStream = MessageStream.instance;
   FirebaseMessaging _firebaseMessaging;
-
   // getter for firebase messaging client
   get firebaseMessaging => _firebaseMessaging;
 
@@ -35,8 +33,10 @@ class FirebaseNotificationService {
     });
   }
 
-  void firebaseCloudMessagingListeners() {
-    if (Platform.isIOS) getIOSPermission();
+  void firebaseCloudMessagingListeners() async {
+    if (Platform.isIOS) {
+      getIOSPermission();
+    }
 
     _firebaseMessaging.configure(
       // onBackgroundMessage: (Map<String, dynamic> message) {
@@ -69,17 +69,3 @@ class FirebaseNotificationService {
     });
   }
 }
-
-Future<dynamic> myBackgroundHandler(Map<String, dynamic> message) {}
-
-// Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
-//   if (message.containsKey('data')) {
-//     // Handle data message
-//     final dynamic data = message['data'];
-//   }
-
-//   if (message.containsKey('notification')) {
-//     // Handle notification message
-//     final dynamic notification = message['notification'];
-//   }
-// }

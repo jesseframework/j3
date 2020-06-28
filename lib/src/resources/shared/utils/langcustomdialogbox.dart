@@ -122,8 +122,8 @@ class DropWid extends StatefulWidget {
 
 class _DropWidState extends State<DropWid> {
   @override
-  void didChangeDependencies() {
-    getIt<UserRepository>().getLocale().then((value) {
+  void didChangeDependencies() async{
+   await getIt<UserRepository>().getLocale().then((value) {
       setState(() {
         selecteditem = value.languageCode;
       });

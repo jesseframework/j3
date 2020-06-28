@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:j3enterprise/main.dart';
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/repositories/applogger_repositiry.dart';
@@ -16,7 +17,7 @@ import 'authentication_state.dart';
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   var db;
-  final UserRepository userRepository;
+  final UserRepository userRepository=getIt<UserRepository>();
   UserFromServer userFromServer;
   UserHashSave userHash;
   AppLoggerRepository appLoggerRepository;
@@ -24,8 +25,9 @@ class AuthenticationBloc
   Scheduler scheduleler;
 
   static final _log = Logger('LoginBloc');
-  AuthenticationBloc({this.userRepository}) {
-    assert(userRepository != null);
+
+  AuthenticationBloc() {
+
     db = AppDatabase();
     userFromServer = new UserFromServer(userRepository: userRepository);
     userHash = new UserHashSave(userRepository: userRepository);
@@ -39,8 +41,15 @@ class AuthenticationBloc
 
   @override
   Stream<AuthenticationState> mapEventToState(
-    AuthenticationEvent event,
-  ) async* {
+      AuthenticationEvent event,
+      ) async* {
+
+    if(event is PushNotification){
+
+    yield PushNotificationState(route: event.route);
+
+
+    }
     if (event is AppStarted) {
       await Future.delayed(Duration(seconds: 9));
       final bool hasToken = await userRepository.hasToken();
@@ -71,7 +80,7 @@ class AuthenticationBloc
       // }
 
       var offlineReady =
-          await userFromServer.validateUser(event.userId, event.tenantId);
+      await userFromServer.validateUser(event.userId, event.tenantId);
       print(offlineReady);
       if (offlineReady == true) {
         yield AuthenticationCreateMobileHash();

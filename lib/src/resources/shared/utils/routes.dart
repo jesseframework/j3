@@ -9,13 +9,12 @@ import 'package:j3enterprise/src/ui/preferences/preferences.dart';
 import 'package:j3enterprise/src/ui/splash/splash_page.dart';
 
 final routes = {
-
-   OfflineLoginPage.route: (BuildContext context) => OfflineLoginPage(userRepository: null,),
-   LoginPage.route: (BuildContext context) => LoginPage(userRepository: null,),
-   BackgroundJobsPage.route: (BuildContext context) =>  BackgroundJobsPage(),
-   CommunicationPage.route: (BuildContext context) => CommunicationPage(),
-   Preferences.route: (BuildContext context) => Preferences(),
-   SplashPage.route: (BuildContext context) => SplashPage(),
-   HomePage.route: (BuildContext context) =>  HomePage(),
-   About.route: (BuildContext context) => About(),   
+  OfflineLoginPage.route: (BuildContext context) => OfflineLoginPage(),
+  LoginPage.route: (BuildContext context) => LoginPage(),
+  BackgroundJobsPage.route: (BuildContext context) => BackgroundJobsPage(),
+  CommunicationPage.route: (BuildContext context) => CommunicationPage(),
+  PreferencesPage.route: (BuildContext context) => PreferencesPage(),
+  SplashPage.route: (BuildContext context) => SplashPage(),
+  HomePage.route: (BuildContext context) => HomePage(),
+  About.route: (BuildContext context) => About(),
 };

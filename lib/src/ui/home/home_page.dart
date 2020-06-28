@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.red,
                         );
                       } else {
-                        return Icon(Icons.wifi);
+                        return Icon(Icons.wifi,  color: Colors.greenAccent,);
                       }
                     }))
           ],
@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Preferences()));
+                        MaterialPageRoute(builder: (context) => PreferencesPage()));
                   },
                   child: Container(
                     child: Column(
