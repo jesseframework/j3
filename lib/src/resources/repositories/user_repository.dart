@@ -101,14 +101,11 @@ class UserRepository {
   Future<String> getTenantFromSharedPref() async {
     final _prefs = await SharedPreferences.getInstance();
     String result = _prefs.getString('tenatName');
-    print(result);
     return result;
   }
 
   Future<void> setTenantIntoSharedPref(String tenantName) async {
     final _prefs = await SharedPreferences.getInstance();
-
-    print(tenantName);
     await _prefs.setString('tenatName', tenantName);
     return;
   }

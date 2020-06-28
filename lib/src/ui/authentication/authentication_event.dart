@@ -50,3 +50,22 @@ class OfflineLoginButtonPressed extends AuthenticationEvent {
 class LoggedOut extends AuthenticationEvent {}
 
 class SaveUserData extends AuthenticationEvent {}
+
+
+
+class PushNotification extends AuthenticationEvent{
+  final String route;
+
+
+  const PushNotification(
+      {@required this.route});
+
+  @override
+  List<Object> get props => [route];
+
+  @override
+  String toString() =>
+      'PushNotification { Route:$route }';
+
+}
+

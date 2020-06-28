@@ -132,40 +132,7 @@ class _LoginFormState extends State<LoginForm> {
                               ),
                             ),
                           ),
-                          // Row(
-                          //   children: <Widget>[
-                          //     Icon(
-                          //       CustomIcons.pushpin,
-                          //       color: Colors.grey.shade600,
-                          //     ),
-                          //     SizedBox(
-                          //       width: 15,
-                          //     ),
-                          //     Expanded(
-                          //       child: Text(
-                          //         AppLocalization.of(context)
-                          //                 .translate('pin_only_label') ??
-                          //             'Ping Only',
-                          //         style: TextStyle(
-                          //           fontSize: 16,
-                          //           fontWeight: FontWeight.w300,
-                          //           color: Colors.grey.shade600,
-                          //         ),
-                          //       ),
-                          //     ),
-                          //     Switch(
-                          //       value: isSwitched,
-                          //       onChanged: (value) {
-                          //         setState(() {
-                          //           isSwitched = value;
-                          //           if (value = true) {}
-                          //           print(isSwitched);
-                          //         });
-                          //       },
-                          //       activeColor: Colors.black,
-                          //     ),
-                          //   ],
-                          // ),
+
                           ButtonTheme(
                             minWidth: double.infinity,
                             child: RaisedButton(
