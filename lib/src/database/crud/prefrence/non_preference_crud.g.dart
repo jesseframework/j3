@@ -7,5 +7,6 @@ part of 'non_preference_crud.dart';
 // **************************************************************************
 
 mixin _$NonGlobalSettingDaoMixin on DatabaseAccessor<AppDatabase> {
-  $NonGlobalSettingTable get nonGlobalSetting => db.nonGlobalSetting;
+  $NonGlobalSettingTable get nonGlobalSetting =>
+      attachedDatabase.nonGlobalSetting;
 }

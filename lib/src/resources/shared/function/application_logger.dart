@@ -102,8 +102,7 @@ class AppLogger {
           tenantId: Value(tenantId),
           userId: Value(userId));
 
-      //ToDo add dlay start to future
-
+      //ToDo add delay start to future
       await applicationLoggerDao.insertAppLog(logData);
 
       var logPurging = await preferenceDao.getSinglePreferences('LOGGERPURGE');
@@ -114,11 +113,11 @@ class AppLogger {
                 logPurging.code, logPurging.code, userName, deviceId, screen);
             if (globalData != null) {
               if (globalData.expiredDateTime.isBefore(DateTime.now())) {
-                 applicationLoggerDao.purgeDatabyExportStatus('Success');
+                //applicationLoggerDao.purgeDatabyExportStatus('Success');
               }
             }
           } else {
-             applicationLoggerDao.purgeDatabyExportStatus('Success');
+            //applicationLoggerDao.purgeDatabyExportStatus('Success');
           }
         }
 
@@ -128,11 +127,11 @@ class AppLogger {
                 logPurging.code, logPurging.code, userName, deviceId, screen);
             if (globalData != null) {
               if (globalData.expiredDateTime.isBefore(DateTime.now())) {
-                applicationLoggerDao.purgeData(1000);
+                //applicationLoggerDao.purgeData(1000);
               }
             }
           } else {
-            applicationLoggerDao.purgeData(1000);
+            //applicationLoggerDao.purgeData(1000);
           }
         }
 
@@ -141,10 +140,10 @@ class AppLogger {
             var globalData = await nonGlobalSettingDao.getSingleNonGlobalPref(
                 logPurging.code, logPurging.code, userName, deviceId, screen);
             if (globalData != null) {
-              applicationLoggerDao.purgeData(500);
+              //applicationLoggerDao.purgeData(500);
             }
           } else {
-            applicationLoggerDao.purgeData(500);
+            //applicationLoggerDao.purgeData(500);
           }
         }
 
@@ -154,17 +153,17 @@ class AppLogger {
                 logPurging.code, logPurging.code, userName, deviceId, screen);
             if (globalData != null) {
               if (globalData.expiredDateTime.isBefore(DateTime.now())) {
-                applicationLoggerDao.purgeData(100);
+                //applicationLoggerDao.purgeData(100);
               }
             }
           } else {
-            applicationLoggerDao.purgeData(100);
+            //applicationLoggerDao.purgeData(100);
           }
         }
       } else {
         //int count = 1000;
 
-        applicationLoggerDao.purgeData(1000);
+        //applicationLoggerDao.purgeData(1000);
       }
     } catch (error) {
       _log.shout(error, StackTrace.current);

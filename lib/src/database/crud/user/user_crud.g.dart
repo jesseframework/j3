@@ -7,5 +7,5 @@ part of 'user_crud.dart';
 // **************************************************************************
 
 mixin _$UserDaoMixin on DatabaseAccessor<AppDatabase> {
-  $UsersTable get users => db.users;
+  $UsersTable get users => attachedDatabase.users;
 }

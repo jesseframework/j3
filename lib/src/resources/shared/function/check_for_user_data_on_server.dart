@@ -52,7 +52,7 @@ class UserFromServer {
         }
       } else {
         print('Create new user');
-        //User must loging for first time for offline login to work
+        //User must login for first time for offline login to work
         await userDao.insertUser(formData);
         print('insert uerr success');
       }

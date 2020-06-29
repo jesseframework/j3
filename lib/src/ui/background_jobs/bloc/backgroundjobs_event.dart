@@ -43,23 +43,30 @@ class BackgroundJobsStart extends BackgroundJobsEvent {
       'BackgroundJobsStart {jobenable: $jobname, syncFrequency: $syncFrequency';
 }
 
-class BackgroundJobsCancel extends BackgroundJobsEvent {
-  final String jobname;
-  final String syncFrequency;
-   final BuildContext context;
-
-  const BackgroundJobsCancel(
-      {@required this.jobname, @required this.syncFrequency, @required this.context});
+class BackgroundJobsStartAll extends BackgroundJobsEvent {
+  const BackgroundJobsStartAll();
 
   @override
-  List<Object> get props => [jobname, syncFrequency];
+  List<Object> get props => [];
+}
+
+class BackgroundJobsCancel extends BackgroundJobsEvent {
+  final String jobName;
+  final String syncFrequency;
+  final BuildContext context;
+
+  const BackgroundJobsCancel(
+      {@required this.jobName,
+      @required this.syncFrequency,
+      @required this.context});
+
+  @override
+  List<Object> get props => [jobName, syncFrequency];
 
   @override
   String toString() =>
-      'BackgroundJobsStop {jobenable: $jobname, syncFrequency: $syncFrequency';
+      'BackgroundJobsStop {jobenable: $jobName, syncFrequency: $syncFrequency';
 }
-
-
 
 class BackgroundJobsList extends BackgroundJobsEvent {
   const BackgroundJobsList();

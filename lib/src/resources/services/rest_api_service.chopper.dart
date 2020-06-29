@@ -49,6 +49,13 @@ class _$RestApiService extends RestApiService {
   }
 
   @override
+  Future<Response<dynamic>> getPreference() {
+    final $url = '/api/services/app/Preference/GetAll';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<dynamic>> updateUserHash(Map<String, dynamic> body) {
     final $url = '/api/services/app/User/UpdateMobileHash';
     final $body = body;

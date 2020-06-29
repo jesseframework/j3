@@ -63,15 +63,61 @@ class InitServiceSetup {
       }
     } else {
       //Set Default
-      Logger.root.level = Level.ALL;
+      Logger.root.level = Level.FINEST;
     }
 
     Logger.root.onRecord.listen((rec) async {
       print(
           '${rec.loggerName} : ${rec.level.name}: ${rec.time.toIso8601String()} : ${rec.message} ');
 
-      await appLogger.saveAppLog(rec.loggerName, rec.time, "NA", rec.message,
-          "NA", "NA", "NA", rec.level.name, 0, "NA", 0);
+      String _functionName = rec.loggerName.toString();
+      var logHttp =
+          await preferenceDao.getSinglePreferences('HTTPLOGINGTOSERVER');
+      if (logHttp != null) {
+        if (logHttp.value == "Yes" &&
+            logHttp.isGlobal == false &&
+            logHttp.expiredDateTime.isBefore(DateTime.now())) {
+          var nonGlobalDb = await nonGlobalSettingDao.getSingleNonGlobalPref(
+              'HTTPLOGINGTOSERVER',
+              'HTTPLOGINGTOSERVER',
+              userName,
+              deviceID,
+              screen);
+          if (nonGlobalDb != null &&
+              nonGlobalDb.value == "Yes" &&
+              nonGlobalDb.isApply == true) {
+            if (_functionName == "Chopper") {
+              await appLogger.saveAppLog(rec.loggerName, rec.time, "NA",
+                  rec.message, "NA", "NA", "NA", rec.level.name, 0, "NA", 0);
+            } else {
+              await appLogger.saveAppLog(rec.loggerName, rec.time, "NA",
+                  rec.message, "NA", "NA", "NA", rec.level.name, 0, "NA", 0);
+            }
+          } else {
+            if (_functionName != "Chopper") {
+              await appLogger.saveAppLog(rec.loggerName, rec.time, "NA",
+                  rec.message, "NA", "NA", "NA", rec.level.name, 0, "NA", 0);
+            }
+          }
+        } else if (logHttp.value == "Yes" &&
+            logHttp.isGlobal == true &&
+            logHttp.expiredDateTime.isBefore(DateTime.now())) {
+          if (_functionName == "Chopper") {
+            await appLogger.saveAppLog(rec.loggerName, rec.time, "NA",
+                rec.message, "NA", "NA", "NA", rec.level.name, 0, "NA", 0);
+          }
+        } else {
+          if (_functionName != "Chopper") {
+            await appLogger.saveAppLog(rec.loggerName, rec.time, "NA",
+                rec.message, "NA", "NA", "NA", rec.level.name, 0, "NA", 0);
+          }
+        }
+      } else {
+        if (_functionName != "Chopper") {
+          await appLogger.saveAppLog(rec.loggerName, rec.time, "NA",
+              rec.message, "NA", "NA", "NA", rec.level.name, 0, "NA", 0);
+        }
+      }
     });
   }
 

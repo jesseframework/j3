@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AppLocalization {
-
-  final Locale locale;
+  Locale locale;
 
   AppLocalization(this.locale);
 
@@ -36,11 +35,9 @@ class AppLocalization {
   String translate(String key) {
     return _localizedStrings[key];
   }
-
 }
 
-class _AppLocalizationDelegate
-    extends LocalizationsDelegate<AppLocalization> {
+class _AppLocalizationDelegate extends LocalizationsDelegate<AppLocalization> {
   // This delegate instance will never change (it doesn't even have fields!)
   // It can provide a constant constructor.
   const _AppLocalizationDelegate();
@@ -48,7 +45,7 @@ class _AppLocalizationDelegate
   @override
   bool isSupported(Locale locale) {
     // Include all of your supported language codes here
-    return ['en','es','sk'].contains(locale.languageCode);
+    return ['en', 'es', 'sk'].contains(locale.languageCode);
   }
 
   @override

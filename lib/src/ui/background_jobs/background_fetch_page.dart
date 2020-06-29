@@ -3,14 +3,15 @@ import 'dart:convert';
 import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/resources/services/background_fetch_service.dart';
+import 'package:j3enterprise/src/resources/shared/function/schedule_background_jobs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class BackgrounFetchPage extends StatefulWidget {
+class BackgroundFetchPage extends StatefulWidget {
   @override
-  _BackgrounFetchPageState createState() => _BackgrounFetchPageState();
+  _BackgroundFetchPageState createState() => _BackgroundFetchPageState();
 }
 
-class _BackgrounFetchPageState extends State<BackgrounFetchPage> {
+class _BackgroundFetchPageState extends State<BackgroundFetchPage> {
   bool _enabled = true;
   int _status = 0;
   List<String> _events = [];
@@ -40,11 +41,11 @@ class _BackgrounFetchPageState extends State<BackgrounFetchPage> {
               stopOnTerminate: false,
               startOnBoot: true,
               enableHeadless: true,
-              requiresBatteryNotLow: false,
+              requiresBatteryNotLow: true,
               requiresCharging: false,
               requiresStorageNotLow: false,
-              requiresDeviceIdle: false,
-              requiredNetworkType: NetworkType.NONE,
+              requiresDeviceIdle: true,
+              requiredNetworkType: NetworkType.ANY,
             ),
             _onBackgroundFetch)
         .then((int status) {
@@ -63,7 +64,7 @@ class _BackgrounFetchPageState extends State<BackgrounFetchPage> {
     // These are fairly reliable on Android (particularly with forceAlarmManager) but not iOS,
     // where device must be powered (and delay will be throttled by the OS).
     BackgroundFetch.scheduleTask(TaskConfig(
-        taskId: "com.transistorsoft.customtask",
+        taskId: "com.j3enterprisecloud.j3enterprise",
         delay: 10000,
         periodic: false,
         forceAlarmManager: true,
@@ -86,6 +87,7 @@ class _BackgrounFetchPageState extends State<BackgrounFetchPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     DateTime timestamp = new DateTime.now();
     // This is the fetch-event callback.
+    await syncClickScheduler();
     print("[BackgroundFetch] Event received: $taskId");
     setState(() {
       _events.insert(0, "$taskId@${timestamp.toString()}");
@@ -93,10 +95,10 @@ class _BackgrounFetchPageState extends State<BackgrounFetchPage> {
     // Persist fetch events in SharedPreferences
     prefs.setString(EVENTS_KEY, jsonEncode(_events));
 
-    if (taskId == "flutter_background_fetch") {
+    if (taskId == "com.j3enterprisecloud.j3enterprise") {
       // Schedule a one-shot task when fetch event received (for testing).
       BackgroundFetch.scheduleTask(TaskConfig(
-          taskId: "com.transistorsoft.customtask",
+          taskId: "com.j3enterprisecloud.j3enterprise",
           delay: 5000,
           periodic: false,
           forceAlarmManager: true,
@@ -151,10 +153,13 @@ class _BackgrounFetchPageState extends State<BackgrounFetchPage> {
     return new MaterialApp(
       home: new Scaffold(
         appBar: new AppBar(
-            title: const Text('BackgroundFetch Example',
-                style: TextStyle(color: Colors.black)),
-            backgroundColor: Colors.amberAccent,
-            brightness: Brightness.light,
+            title: const Text('Background Fetch'),
+            leading: IconButton(
+              icon: Icon(Icons.chevron_left),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
             actions: <Widget>[
               Switch(value: _enabled, onChanged: _onClickEnable),
             ]),

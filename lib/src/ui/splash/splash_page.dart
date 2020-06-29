@@ -4,6 +4,7 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black87,
         body: Container(
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
@@ -18,7 +19,7 @@ class SplashPage extends StatelessWidget {
         children: <Widget>[
           Text(
             'Version',
-            style: TextStyle(color: Colors.black, fontSize: 12),
+            style: TextStyle(color: Colors.grey, fontSize: 12),
           ),
           SizedBox(
             height: 8,

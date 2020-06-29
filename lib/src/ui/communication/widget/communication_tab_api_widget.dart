@@ -1,3 +1,4 @@
+import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
@@ -37,10 +38,20 @@ class _CommunicationTabTwoWidgetState extends State<CommunicationTabTwoWidget> {
   //API comeunication Setting
   Future<void> submitAPITab(CommunicationBloc bloc) async {
     formKey.currentState.validate();
+
+    final plainText = _apiConfirmPasswordController.value.text;
+    final key = encrypt.Key.fromUtf8('66yencbsgtTYOL78wsabzpmaQQzduerp');
+    final iv = encrypt.IV.fromLength(16);
+
+    final encrypter = encrypt.Encrypter(encrypt.AES(key));
+
+    final encrypted = encrypter.encrypt(plainText, iv: iv);
+    final decrypted = encrypter.decrypt(encrypted, iv: iv);
+
     var formData = CommunicationCompanion(
       serverUrl: moor.Value(_apiserverurlController.value.text),
       userName: moor.Value(_apiusernameController.value.text),
-      confirmPasskey: moor.Value(_apiConfirmPasswordController.value.text),
+      confirmPasskey: moor.Value(encrypted.base64),
       syncFrequency: moor.Value(syncApifrequencySelectedItem),
       communicationType: moor.Value(apiConnection),
     );

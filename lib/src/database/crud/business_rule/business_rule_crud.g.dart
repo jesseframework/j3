@@ -7,5 +7,5 @@ part of 'business_rule_crud.dart';
 // **************************************************************************
 
 mixin _$BusinessRuleDaoMixin on DatabaseAccessor<AppDatabase> {
-  $BusinessRuleTable get businessRule => db.businessRule;
+  $BusinessRuleTable get businessRule => attachedDatabase.businessRule;
 }

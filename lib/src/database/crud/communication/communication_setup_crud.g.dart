@@ -7,5 +7,5 @@ part of 'communication_setup_crud.dart';
 // **************************************************************************
 
 mixin _$CommunicationDaoMixin on DatabaseAccessor<AppDatabase> {
-  $CommunicationTable get communication => db.communication;
+  $CommunicationTable get communication => attachedDatabase.communication;
 }

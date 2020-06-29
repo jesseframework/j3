@@ -7,5 +7,6 @@ part of 'app_logger_crud.dart';
 // **************************************************************************
 
 mixin _$ApplicationLoggerDaoMixin on DatabaseAccessor<AppDatabase> {
-  $ApplicationLoggerTable get applicationLogger => db.applicationLogger;
+  $ApplicationLoggerTable get applicationLogger =>
+      attachedDatabase.applicationLogger;
 }
