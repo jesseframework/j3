@@ -65,6 +65,10 @@ class BackgroundJobsBloc
   ) async* {
     _log.finest('Bloc mapEventToState call');
     try {
+<<<<<<< HEAD
+=======
+     
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
       if (event is BackgroundJobsStart) {
         yield BackgroundJobsLoading();
         var data = await backgroundJobScheduleDao.getAllJobs();
@@ -114,6 +118,11 @@ class BackgroundJobsBloc
 
       if (event is BackgroundJobsCancel) {
         //yield BackgroundJobsLoading();
+<<<<<<< HEAD
+=======
+        
+        scheduleler.cancel(event.jobname);
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
 
         scheduler.cancel(event.jobName);
         //AppLoggerRepository.isStopped = true;
@@ -126,6 +135,7 @@ class BackgroundJobsBloc
         yield BackgroundJobsSuccess(userMessage: userMessage);
       }
 
+<<<<<<< HEAD
       if (event is BackgroundJobsStartAll) {
         var jobData = await backgroundJobScheduleDao.getAllJobs();
         for (var eachJob in jobData) {
@@ -146,6 +156,8 @@ class BackgroundJobsBloc
         yield BackgroundJobsSuccess(userMessage: userMessage);
       }
 
+=======
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
       yield BackgroundJobsUninitialized();
     } catch (error) {
       _log.shout(error, StackTrace.current);

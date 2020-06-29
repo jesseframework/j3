@@ -62,7 +62,11 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
   Future<void> _onBackGroundJobCancelButtonPress() async {
     formKey.currentState.validate();
     BlocProvider.of<BackgroundJobsBloc>(context).add(BackgroundJobsCancel(
+<<<<<<< HEAD
         jobName: setjobname,
+=======
+        jobname: setjobname,
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
         syncFrequency: syncfrequencySelectedItem,
         context: context));
   }
@@ -299,8 +303,7 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
             children: [
               StreamBuilder(
                 stream: bloc.backgroundJobScheduleDao.watchAllJobs(),
-                builder: (context,
-                    AsyncSnapshot<List<BackgroundJobScheduleData>> snapshot) {
+                builder: (context,    AsyncSnapshot<List<BackgroundJobScheduleData>> snapshot) {
                   final jobs = snapshot.data ?? List();
 
                   return Expanded(

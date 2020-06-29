@@ -34,10 +34,17 @@ class ApiClient {
             return response;
           },
           (Request request) async {
+<<<<<<< HEAD
             Map<String, String> mapUserSharedData = Map();
             UserSharedData userSharedData = new UserSharedData();
             mapUserSharedData = await userSharedData.getUserSharedPref();
             String _tenantId = mapUserSharedData['tenantId'];
+=======
+            Map<String, String> mapuserSharedData = Map();
+            UserSharedData userSharedData = new UserSharedData();
+            mapuserSharedData = await userSharedData.getUserSharedPref();
+            String _tenantId = mapuserSharedData['tenantId'];
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
 
             SharedPreferences prefs = await SharedPreferences.getInstance();
             String token = await prefs.get("access_token");

@@ -24,9 +24,12 @@ class AppLoggerRepository {
   ApplicationLoggerDao applicationLoggerDao;
   UpdateBackgroundJobStatus updateBackgroundJobStatus;
   BackgroundJobScheduleDao backgroundJobScheduleDao;
+<<<<<<< HEAD
   PreferenceDao preferenceDao;
   NonGlobalSettingDao nonGlobalSettingDao;
 
+=======
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
   UserSharedData userSharedData;
 
   AppLoggerRepository() {
@@ -34,13 +37,17 @@ class AppLoggerRepository {
     applicationLoggerDao = new ApplicationLoggerDao(db);
     updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
+<<<<<<< HEAD
     preferenceDao = PreferenceDao(db);
     nonGlobalSettingDao = NonGlobalSettingDao(db);
+=======
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
     userSharedData = new UserSharedData();
   }
 
   Future putAppLogOnServer(String jobName) async {
     try {
+<<<<<<< HEAD
       //ToDo code review to get a better way to push bulk data to API and update bulk data in database
       var isSchedulerEnable = await backgroundJobScheduleDao.getJob(jobName);
       if (isSchedulerEnable != null) {
@@ -55,12 +62,38 @@ class AppLoggerRepository {
             String userName = mapUserSharedData['userName'];
             String deviceId = mapUserSharedData['deviceId'];
 
+=======
+      //ToDo code review to get a better way to push bulk data to API and update bulk data in datbase
+      var isscheduleenable = await backgroundJobScheduleDao.getJob(jobName);
+      if (isscheduleenable != null) {
+        DateTime startDate = isscheduleenable.startDateTime;
+        DateTime currentDate = DateTime.now();
+        _log.finest(
+            'Start Date $startDate found in job schedular to compare with currenct date $currentDate using isAfter');
+        if (isscheduleenable.startDateTime.isBefore(DateTime.now())) {
+          _log.finest('$jobName found in job schedular');
+          if (isscheduleenable.enableJob == true) {
+            _log.finest('$jobName is enable');
+
+            var appLogData = await applicationLoggerDao.getAppLog("Pending");
+            if (appLogData != null) {
+              await updateBackgroungJobStatus.updateJobStatus(
+                  jobName, "In Progress");
+            }
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
             for (var fromDb in appLogData) {
               if (isStopped) break;
               await updateBackgroundJobStatus.updateJobStatus(
                   jobName, "In Progress");
               String formatted =
                   await formatDate(fromDb.logDateTime.toString());
+
+              int tenantId = 2;
+
+              // var getprefData = userSharedData.getUserSharedPref();
+              // if (getprefData != null) {
+              //   tenantId = getprefData.te
+              // }
 
               final Response response = await api.mobileAppLogger({
                 "functionName": fromDb.functionName,
@@ -71,11 +104,21 @@ class AppLoggerRepository {
                 "logCode": fromDb.logCode,
                 "logSeverity": fromDb.logSeverity,
                 "deviceID": fromDb.deviceId,
+<<<<<<< HEAD
                 "tenantId": _tenantId
+=======
+                "tenantId": tenantId
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
               });
               Map<String, dynamic> map = json.decode(response.bodyString);
               if (response.isSuccessful && map['success']) {
                 //decode the response body
+<<<<<<< HEAD
+=======
+                _log.finest('API response is successful $map');
+                await updateBackgroungJobStatus.updateJobStatus(
+                    jobName, "Success");
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
 
                 var fromDate = new ApplicationLoggerData(
                     id: fromDb.id,
