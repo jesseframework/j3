@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 //import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 
-
-
 Locale spanish = Locale("es", "ES");
 Locale hindi = Locale("hi", "IN");
-Locale english = Locale("en","IN");
+Locale english = Locale("en", "IN");
 
 class LangCustomDialog extends StatelessWidget {
   @override
@@ -18,12 +16,10 @@ class LangCustomDialog extends StatelessWidget {
       elevation: 0.0,
       backgroundColor: Colors.transparent,
       child: Container(
-
         margin: EdgeInsets.only(top: 40),
         decoration: new BoxDecoration(
           color: Colors.white,
           shape: BoxShape.rectangle,
-
           boxShadow: [
             BoxShadow(
               color: Colors.black26,
@@ -36,10 +32,10 @@ class LangCustomDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min, // To make the card compact
           children: <Widget>[
-          Container(
-            alignment: Alignment.bottomLeft,
-            height: 70,
-            color: Colors.blue,
+            Container(
+              alignment: Alignment.bottomLeft,
+              height: 70,
+              color: Colors.blue,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 18.0, left: 15),
                 child: Text(
@@ -69,7 +65,7 @@ class LangCustomDialog extends StatelessWidget {
                     width: 85,
                     color: Colors.blue,
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(15.0,10,15,10),
+                      padding: const EdgeInsets.fromLTRB(15.0, 10, 15, 10),
                       child: Text(
                         "OK",
                         textAlign: TextAlign.left,
@@ -90,7 +86,7 @@ class LangCustomDialog extends StatelessWidget {
                     alignment: Alignment.center,
                     color: Colors.grey.shade700,
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(15.0,10,15,10),
+                      padding: const EdgeInsets.fromLTRB(15.0, 10, 15, 10),
                       child: Text(
                         "Cancel",
                         textAlign: TextAlign.center,
@@ -105,7 +101,6 @@ class LangCustomDialog extends StatelessWidget {
                 SizedBox(width: 10.0),
               ],
             ),
-
             SizedBox(height: 16.0),
           ],
         ),
@@ -164,13 +159,13 @@ class DropWid extends StatefulWidget {
 // }
 
 class _DropWidState extends State<DropWid> {
-
   String selecteditem = 'English';
 
   @override
   void initState() {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -182,13 +177,13 @@ class _DropWidState extends State<DropWid> {
           onChanged: (value) {
             setState(() {
               selecteditem = value;
-              if(value=="Spanish"){
+              if (value == "Spanish") {
                 //AppLocalization.of(context).translate('login_button'),
-                AppLocalization.of(context).locale == english;
-              }else if(value =='English'){
-                //EasyLocalization.of(context).locale = english;                
+                AppLocalization.of(context).locale = spanish;
+              } else if (value == 'English') {
+                //EasyLocalization.of(context).locale = english;
                 //AppLocalization.of(context).locale == "en";
-              }else if(value == 'Hindi'){
+              } else if (value == 'Hindi') {
                 //EasyLocalization.of(context).locale = hindi;
               }
             });
@@ -213,6 +208,7 @@ class _DropWidState extends State<DropWid> {
     );
   }
 }
+
 class Consts {
   Consts._();
 

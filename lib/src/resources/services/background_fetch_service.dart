@@ -1,10 +1,7 @@
-import 'dart:async';
 import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:background_fetch/background_fetch.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 const EVENTS_KEY = "fetch_events";
 
@@ -20,7 +17,6 @@ void backgroundFetchHeadlessTask(String taskId) async {
   String json = prefs.getString(EVENTS_KEY);
   if (json != null) {
     events = jsonDecode(json).cast<String>();
-
   }
   // Add new event.
   events.insert(0, "$taskId@$timestamp [Headless]");
@@ -31,12 +27,11 @@ void backgroundFetchHeadlessTask(String taskId) async {
 
   if (taskId == 'flutter_background_fetch') {
     BackgroundFetch.scheduleTask(TaskConfig(
-        taskId: "com.transistorsoft.customtask",
+        taskId: "com.j3enterprisecloud.j3enterprise",
         delay: 5000,
         periodic: false,
         forceAlarmManager: true,
         stopOnTerminate: false,
-        enableHeadless: true
-    ));
+        enableHeadless: true));
   }
 }

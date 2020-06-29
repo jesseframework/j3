@@ -8,5 +8,5 @@ part of 'backgroundjob_schedule_crud.dart';
 
 mixin _$BackgroundJobScheduleDaoMixin on DatabaseAccessor<AppDatabase> {
   $BackgroundJobScheduleTable get backgroundJobSchedule =>
-      db.backgroundJobSchedule;
+      attachedDatabase.backgroundJobSchedule;
 }

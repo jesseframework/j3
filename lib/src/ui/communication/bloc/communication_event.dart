@@ -25,7 +25,7 @@ class UpdateAPICommunicationButtonPressed extends CommunicationEvent {
   List<Object> get props => [data];
 
   @override
-  String toString() => 'UpdateCommunicationButtonPressed {data: $data}';
+  String toString() => 'UpdateAPICommunicationButtonPressed {data: $data}';
 }
 
 class UpdateERPCommunicationButtonPressed extends CommunicationEvent {
@@ -37,7 +37,7 @@ class UpdateERPCommunicationButtonPressed extends CommunicationEvent {
   List<Object> get props => [data];
 
   @override
-  String toString() => 'UpdateCommunicationButtonPressed {data: $data}';
+  String toString() => 'UpdateERPCommunicationButtonPressed {data: $data}';
 }
 
 class OnFormLoadGetSaveCommunication extends CommunicationEvent {

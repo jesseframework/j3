@@ -49,11 +49,13 @@ class BackgroundJobScheduleDao extends DatabaseAccessor<AppDatabase>
 
   Future updateBackgroundJobStstus(
       BackgroundJobScheduleCompanion backgroundJobScheduleCompanion,
-      String jobName) {
+      String jobName,
+      DateTime lastRunDate) {
     return (update(db.backgroundJobSchedule)
           ..where((t) => t.jobName.equals(jobName)))
         .write(BackgroundJobScheduleCompanion(
-            jobStatus: backgroundJobScheduleCompanion.jobStatus));
+            jobStatus: backgroundJobScheduleCompanion.jobStatus,
+            lastRun: backgroundJobScheduleCompanion.lastRun));
   }
 
   Future deleteBackgroundJobs() => delete(db.backgroundJobSchedule).go();

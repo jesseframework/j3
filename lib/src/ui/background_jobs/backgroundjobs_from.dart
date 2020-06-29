@@ -23,7 +23,6 @@ import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/dropdown_box.dart';
 import 'package:j3enterprise/src/ui/background_jobs/bloc/backgroundjobs_bloc.dart';
-import 'package:moor/moor.dart' as moor;
 
 class BackgroundJobsForm extends StatefulWidget {
   @override
@@ -63,7 +62,7 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
   Future<void> _onBackGroundJobCancelButtonPress() async {
     formKey.currentState.validate();
     BlocProvider.of<BackgroundJobsBloc>(context).add(BackgroundJobsCancel(
-        jobname: setjobname,
+        jobName: setjobname,
         syncFrequency: syncfrequencySelectedItem,
         context: context));
   }
@@ -215,7 +214,8 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
               listData: [
                 'Device Setting',
                 'Log Shipping',
-                'Validate Enrollment'
+                'Validate Enrollment',
+                'Configuration'
               ],
             ),
           ),
@@ -262,8 +262,8 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
               Container(
                 decoration: BoxDecoration(),
                 child: FlatButton(
-                  onPressed: () {
-                    _onBackGroundJobCancelButtonPress();
+                  onPressed: () async {
+                    await _onBackGroundJobCancelButtonPress();
                   },
                   child: Text(
                       AppLocalization.of(context)
@@ -299,7 +299,8 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
             children: [
               StreamBuilder(
                 stream: bloc.backgroundJobScheduleDao.watchAllJobs(),
-                builder: (context,    AsyncSnapshot<List<BackgroundJobScheduleData>> snapshot) {
+                builder: (context,
+                    AsyncSnapshot<List<BackgroundJobScheduleData>> snapshot) {
                   final jobs = snapshot.data ?? List();
 
                   return Expanded(

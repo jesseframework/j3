@@ -2658,10 +2658,8 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
   final String description;
   final String domain;
   final bool isGlobal;
-  final DateTime expiredDateTime;
-  final DateTime creationTime;
-  final String lastModifierTime;
   final String syncError;
+  final DateTime expiredDateTime;
   PreferenceData(
       {@required this.id,
       @required this.tenantId,
@@ -2671,10 +2669,8 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
       this.description,
       this.domain,
       @required this.isGlobal,
-      this.expiredDateTime,
-      this.creationTime,
-      this.lastModifierTime,
-      this.syncError});
+      this.syncError,
+      this.expiredDateTime});
   factory PreferenceData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -2698,14 +2694,10 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}domain']),
       isGlobal:
           boolType.mapFromDatabaseResponse(data['${effectivePrefix}is_global']),
-      expiredDateTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}expired_date_time']),
-      creationTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
-      lastModifierTime: stringType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_time']),
       syncError: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}sync_error']),
+      expiredDateTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}expired_date_time']),
     );
   }
   @override
@@ -2735,17 +2727,11 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
     if (!nullToAbsent || isGlobal != null) {
       map['is_global'] = Variable<bool>(isGlobal);
     }
-    if (!nullToAbsent || expiredDateTime != null) {
-      map['expired_date_time'] = Variable<DateTime>(expiredDateTime);
-    }
-    if (!nullToAbsent || creationTime != null) {
-      map['creation_time'] = Variable<DateTime>(creationTime);
-    }
-    if (!nullToAbsent || lastModifierTime != null) {
-      map['last_modifier_time'] = Variable<String>(lastModifierTime);
-    }
     if (!nullToAbsent || syncError != null) {
       map['sync_error'] = Variable<String>(syncError);
+    }
+    if (!nullToAbsent || expiredDateTime != null) {
+      map['expired_date_time'] = Variable<DateTime>(expiredDateTime);
     }
     return map;
   }
@@ -2770,18 +2756,12 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
       isGlobal: isGlobal == null && nullToAbsent
           ? const Value.absent()
           : Value(isGlobal),
-      expiredDateTime: expiredDateTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(expiredDateTime),
-      creationTime: creationTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creationTime),
-      lastModifierTime: lastModifierTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierTime),
       syncError: syncError == null && nullToAbsent
           ? const Value.absent()
           : Value(syncError),
+      expiredDateTime: expiredDateTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(expiredDateTime),
     );
   }
 
@@ -2797,10 +2777,8 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
       description: serializer.fromJson<String>(json['description']),
       domain: serializer.fromJson<String>(json['domain']),
       isGlobal: serializer.fromJson<bool>(json['isGlobal']),
-      expiredDateTime: serializer.fromJson<DateTime>(json['expiredDateTime']),
-      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
-      lastModifierTime: serializer.fromJson<String>(json['lastModifierTime']),
       syncError: serializer.fromJson<String>(json['syncError']),
+      expiredDateTime: serializer.fromJson<DateTime>(json['expiredDateTime']),
     );
   }
   @override
@@ -2815,10 +2793,8 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
       'description': serializer.toJson<String>(description),
       'domain': serializer.toJson<String>(domain),
       'isGlobal': serializer.toJson<bool>(isGlobal),
-      'expiredDateTime': serializer.toJson<DateTime>(expiredDateTime),
-      'creationTime': serializer.toJson<DateTime>(creationTime),
-      'lastModifierTime': serializer.toJson<String>(lastModifierTime),
       'syncError': serializer.toJson<String>(syncError),
+      'expiredDateTime': serializer.toJson<DateTime>(expiredDateTime),
     };
   }
 
@@ -2831,10 +2807,8 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
           String description,
           String domain,
           bool isGlobal,
-          DateTime expiredDateTime,
-          DateTime creationTime,
-          String lastModifierTime,
-          String syncError}) =>
+          String syncError,
+          DateTime expiredDateTime}) =>
       PreferenceData(
         id: id ?? this.id,
         tenantId: tenantId ?? this.tenantId,
@@ -2844,10 +2818,8 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
         description: description ?? this.description,
         domain: domain ?? this.domain,
         isGlobal: isGlobal ?? this.isGlobal,
-        expiredDateTime: expiredDateTime ?? this.expiredDateTime,
-        creationTime: creationTime ?? this.creationTime,
-        lastModifierTime: lastModifierTime ?? this.lastModifierTime,
         syncError: syncError ?? this.syncError,
+        expiredDateTime: expiredDateTime ?? this.expiredDateTime,
       );
   @override
   String toString() {
@@ -2860,10 +2832,8 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
           ..write('description: $description, ')
           ..write('domain: $domain, ')
           ..write('isGlobal: $isGlobal, ')
-          ..write('expiredDateTime: $expiredDateTime, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('lastModifierTime: $lastModifierTime, ')
-          ..write('syncError: $syncError')
+          ..write('syncError: $syncError, ')
+          ..write('expiredDateTime: $expiredDateTime')
           ..write(')'))
         .toString();
   }
@@ -2885,12 +2855,8 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
                               domain.hashCode,
                               $mrjc(
                                   isGlobal.hashCode,
-                                  $mrjc(
-                                      expiredDateTime.hashCode,
-                                      $mrjc(
-                                          creationTime.hashCode,
-                                          $mrjc(lastModifierTime.hashCode,
-                                              syncError.hashCode))))))))))));
+                                  $mrjc(syncError.hashCode,
+                                      expiredDateTime.hashCode))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -2903,10 +2869,8 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
           other.description == this.description &&
           other.domain == this.domain &&
           other.isGlobal == this.isGlobal &&
-          other.expiredDateTime == this.expiredDateTime &&
-          other.creationTime == this.creationTime &&
-          other.lastModifierTime == this.lastModifierTime &&
-          other.syncError == this.syncError);
+          other.syncError == this.syncError &&
+          other.expiredDateTime == this.expiredDateTime);
 }
 
 class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
@@ -2918,10 +2882,8 @@ class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
   final Value<String> description;
   final Value<String> domain;
   final Value<bool> isGlobal;
-  final Value<DateTime> expiredDateTime;
-  final Value<DateTime> creationTime;
-  final Value<String> lastModifierTime;
   final Value<String> syncError;
+  final Value<DateTime> expiredDateTime;
   const PreferenceCompanion({
     this.id = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -2931,10 +2893,8 @@ class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
     this.description = const Value.absent(),
     this.domain = const Value.absent(),
     this.isGlobal = const Value.absent(),
-    this.expiredDateTime = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.lastModifierTime = const Value.absent(),
     this.syncError = const Value.absent(),
+    this.expiredDateTime = const Value.absent(),
   });
   PreferenceCompanion.insert({
     this.id = const Value.absent(),
@@ -2945,10 +2905,8 @@ class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
     this.description = const Value.absent(),
     this.domain = const Value.absent(),
     this.isGlobal = const Value.absent(),
-    this.expiredDateTime = const Value.absent(),
-    this.creationTime = const Value.absent(),
-    this.lastModifierTime = const Value.absent(),
     this.syncError = const Value.absent(),
+    this.expiredDateTime = const Value.absent(),
   })  : tenantId = Value(tenantId),
         code = Value(code),
         value = Value(value);
@@ -2961,10 +2919,8 @@ class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
     Expression<String> description,
     Expression<String> domain,
     Expression<bool> isGlobal,
-    Expression<DateTime> expiredDateTime,
-    Expression<DateTime> creationTime,
-    Expression<String> lastModifierTime,
     Expression<String> syncError,
+    Expression<DateTime> expiredDateTime,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -2975,10 +2931,8 @@ class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
       if (description != null) 'description': description,
       if (domain != null) 'domain': domain,
       if (isGlobal != null) 'is_global': isGlobal,
-      if (expiredDateTime != null) 'expired_date_time': expiredDateTime,
-      if (creationTime != null) 'creation_time': creationTime,
-      if (lastModifierTime != null) 'last_modifier_time': lastModifierTime,
       if (syncError != null) 'sync_error': syncError,
+      if (expiredDateTime != null) 'expired_date_time': expiredDateTime,
     });
   }
 
@@ -2991,10 +2945,8 @@ class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
       Value<String> description,
       Value<String> domain,
       Value<bool> isGlobal,
-      Value<DateTime> expiredDateTime,
-      Value<DateTime> creationTime,
-      Value<String> lastModifierTime,
-      Value<String> syncError}) {
+      Value<String> syncError,
+      Value<DateTime> expiredDateTime}) {
     return PreferenceCompanion(
       id: id ?? this.id,
       tenantId: tenantId ?? this.tenantId,
@@ -3004,10 +2956,8 @@ class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
       description: description ?? this.description,
       domain: domain ?? this.domain,
       isGlobal: isGlobal ?? this.isGlobal,
-      expiredDateTime: expiredDateTime ?? this.expiredDateTime,
-      creationTime: creationTime ?? this.creationTime,
-      lastModifierTime: lastModifierTime ?? this.lastModifierTime,
       syncError: syncError ?? this.syncError,
+      expiredDateTime: expiredDateTime ?? this.expiredDateTime,
     );
   }
 
@@ -3038,17 +2988,11 @@ class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
     if (isGlobal.present) {
       map['is_global'] = Variable<bool>(isGlobal.value);
     }
-    if (expiredDateTime.present) {
-      map['expired_date_time'] = Variable<DateTime>(expiredDateTime.value);
-    }
-    if (creationTime.present) {
-      map['creation_time'] = Variable<DateTime>(creationTime.value);
-    }
-    if (lastModifierTime.present) {
-      map['last_modifier_time'] = Variable<String>(lastModifierTime.value);
-    }
     if (syncError.present) {
       map['sync_error'] = Variable<String>(syncError.value);
+    }
+    if (expiredDateTime.present) {
+      map['expired_date_time'] = Variable<DateTime>(expiredDateTime.value);
     }
     return map;
   }
@@ -3156,6 +3100,18 @@ class $PreferenceTable extends Preference
         defaultValue: Constant(true));
   }
 
+  final VerificationMeta _syncErrorMeta = const VerificationMeta('syncError');
+  GeneratedTextColumn _syncError;
+  @override
+  GeneratedTextColumn get syncError => _syncError ??= _constructSyncError();
+  GeneratedTextColumn _constructSyncError() {
+    return GeneratedTextColumn(
+      'sync_error',
+      $tableName,
+      true,
+    );
+  }
+
   final VerificationMeta _expiredDateTimeMeta =
       const VerificationMeta('expiredDateTime');
   GeneratedDateTimeColumn _expiredDateTime;
@@ -3165,46 +3121,6 @@ class $PreferenceTable extends Preference
   GeneratedDateTimeColumn _constructExpiredDateTime() {
     return GeneratedDateTimeColumn(
       'expired_date_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _creationTimeMeta =
-      const VerificationMeta('creationTime');
-  GeneratedDateTimeColumn _creationTime;
-  @override
-  GeneratedDateTimeColumn get creationTime =>
-      _creationTime ??= _constructCreationTime();
-  GeneratedDateTimeColumn _constructCreationTime() {
-    return GeneratedDateTimeColumn(
-      'creation_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierTimeMeta =
-      const VerificationMeta('lastModifierTime');
-  GeneratedTextColumn _lastModifierTime;
-  @override
-  GeneratedTextColumn get lastModifierTime =>
-      _lastModifierTime ??= _constructLastModifierTime();
-  GeneratedTextColumn _constructLastModifierTime() {
-    return GeneratedTextColumn(
-      'last_modifier_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _syncErrorMeta = const VerificationMeta('syncError');
-  GeneratedTextColumn _syncError;
-  @override
-  GeneratedTextColumn get syncError => _syncError ??= _constructSyncError();
-  GeneratedTextColumn _constructSyncError() {
-    return GeneratedTextColumn(
-      'sync_error',
       $tableName,
       true,
     );
@@ -3220,10 +3136,8 @@ class $PreferenceTable extends Preference
         description,
         domain,
         isGlobal,
-        expiredDateTime,
-        creationTime,
-        lastModifierTime,
-        syncError
+        syncError,
+        expiredDateTime
       ];
   @override
   $PreferenceTable get asDslTable => this;
@@ -3277,27 +3191,15 @@ class $PreferenceTable extends Preference
       context.handle(_isGlobalMeta,
           isGlobal.isAcceptableOrUnknown(data['is_global'], _isGlobalMeta));
     }
+    if (data.containsKey('sync_error')) {
+      context.handle(_syncErrorMeta,
+          syncError.isAcceptableOrUnknown(data['sync_error'], _syncErrorMeta));
+    }
     if (data.containsKey('expired_date_time')) {
       context.handle(
           _expiredDateTimeMeta,
           expiredDateTime.isAcceptableOrUnknown(
               data['expired_date_time'], _expiredDateTimeMeta));
-    }
-    if (data.containsKey('creation_time')) {
-      context.handle(
-          _creationTimeMeta,
-          creationTime.isAcceptableOrUnknown(
-              data['creation_time'], _creationTimeMeta));
-    }
-    if (data.containsKey('last_modifier_time')) {
-      context.handle(
-          _lastModifierTimeMeta,
-          lastModifierTime.isAcceptableOrUnknown(
-              data['last_modifier_time'], _lastModifierTimeMeta));
-    }
-    if (data.containsKey('sync_error')) {
-      context.handle(_syncErrorMeta,
-          syncError.isAcceptableOrUnknown(data['sync_error'], _syncErrorMeta));
     }
     return context;
   }

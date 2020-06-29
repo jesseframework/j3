@@ -51,7 +51,9 @@ Future<void> main() async {
       ),
     ),
   );
-  BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
+  if (Platform.isAndroid || Platform.isIOS) {
+    BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
+  }
 }
 
 class App extends StatelessWidget {

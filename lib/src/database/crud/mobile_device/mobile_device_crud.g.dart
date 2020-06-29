@@ -7,5 +7,5 @@ part of 'mobile_device_crud.dart';
 // **************************************************************************
 
 mixin _$MobileDeviceDaoMixin on DatabaseAccessor<AppDatabase> {
-  $MobileDeviceTable get mobileDevice => db.mobileDevice;
+  $MobileDeviceTable get mobileDevice => attachedDatabase.mobileDevice;
 }

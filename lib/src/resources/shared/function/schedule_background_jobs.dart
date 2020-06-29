@@ -16,17 +16,19 @@ class TimerData {
   TimerData({@required this.name, @required this.timer});
 }
 
-class Scheduleler {
+class Scheduler {
   static final _log = Logger('Scheduleler');
 
   List<TimerData> timers = [];
 
   void cancel(String jobName) {
-    var x = timers.firstWhere((element) => element.name == jobName);
-    if (x != null) {
-      x.timer.cancel();
-      timers.remove(x);
-    }
+    try {
+      var x = timers.firstWhere((element) => element.name == jobName);
+      if (x != null) {
+        x.timer.cancel();
+        timers.remove(x);
+      }
+    } catch (error) {}
   }
 
   Duration _getFromString(String setFrequency) {
@@ -64,22 +66,22 @@ class Scheduleler {
   }
 }
 
-Future<void> syncClickleScheduler() async {
+Future<void> syncClickScheduler() async {
   var db;
   db = AppDatabase();
   BackgroundJobScheduleDao backgroundJobScheduleDao =
       new BackgroundJobScheduleDao(db);
   AppLoggerRepository appLoggerRepository = new AppLoggerRepository();
-  Scheduleler scheduleler = new Scheduleler();
+  Scheduler scheduler = new Scheduler();
   var jobData = await backgroundJobScheduleDao.getAllJobs();
   for (var eachJob in jobData) {
-    scheduleler.runNowJobs(
-        eachJob.syncFrequency,
-        eachJob.jobName,
-        (Timer timer) =>
-            appLoggerRepository.putAppLogOnServer(eachJob.jobName));
-
-            
+    if (eachJob.jobName == "Log Shipping") {
+      scheduler.runNowJobs(
+          eachJob.syncFrequency,
+          eachJob.jobName,
+          (Timer timer) async =>
+              await appLoggerRepository.putAppLogOnServer(eachJob.jobName));
+    }
   }
 }
 
@@ -89,10 +91,9 @@ Future<void> syncClickCancel() async {
   BackgroundJobScheduleDao backgroundJobScheduleDao =
       new BackgroundJobScheduleDao(db);
 
-  Scheduleler scheduleler = new Scheduleler();
+  Scheduler scheduleler = new Scheduler();
   var jobData = await backgroundJobScheduleDao.getAllJobs();
   for (var eachJob in jobData) {
-    
     scheduleler.cancel(eachJob.jobName);
   }
 }

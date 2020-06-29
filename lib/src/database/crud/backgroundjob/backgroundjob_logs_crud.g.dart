@@ -7,5 +7,6 @@ part of 'backgroundjob_logs_crud.dart';
 // **************************************************************************
 
 mixin _$BackgroundJobLogsDaoMixin on DatabaseAccessor<AppDatabase> {
-  $BackgroundJobLogsTable get backgroundJobLogs => db.backgroundJobLogs;
+  $BackgroundJobLogsTable get backgroundJobLogs =>
+      attachedDatabase.backgroundJobLogs;
 }

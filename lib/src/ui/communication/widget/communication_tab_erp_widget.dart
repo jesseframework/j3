@@ -1,3 +1,4 @@
+import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
@@ -6,7 +7,6 @@ import 'package:j3enterprise/src/resources/shared/widgets/dropdown_box.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/password_field.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/text_field_nullable.dart';
 import 'package:j3enterprise/src/ui/communication/bloc/communication_bloc.dart';
-
 import 'package:moor/moor.dart' as moor;
 
 class CommunicationTabOneWidget extends StatefulWidget {
@@ -43,10 +43,20 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
 
   Future<void> submitERPTab(CommunicationBloc bloc) async {
     formKey.currentState.validate();
+
+    final plainText = _confirmpasswordController.value.text;
+    final key = encrypt.Key.fromUtf8('88yencbsgtTYOL98wsabzpmaXXzduerp');
+    final iv = encrypt.IV.fromLength(16);
+
+    final encrypter = encrypt.Encrypter(encrypt.AES(key));
+
+    final encrypted = encrypter.encrypt(plainText, iv: iv);
+    final decrypted = encrypter.decrypt(encrypted, iv: iv);
+
     var formData = CommunicationCompanion(
       serverUrl: moor.Value(_serverurlController.value.text),
       userName: moor.Value(_usernameController.value.text),
-      confirmPasskey: moor.Value(_confirmpasswordController.value.text),
+      confirmPasskey: moor.Value(encrypted.base64),
       syncFrequency: moor.Value(syncfrequencySelectedItem),
       typeofErp: moor.Value(erpSelecteditem),
       communicationType: moor.Value(erpConnection),

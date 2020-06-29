@@ -42,8 +42,8 @@ class AppLoggerPage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.sync),
             tooltip: 'Start Sync Jobs',
-            onPressed: () {
-              syncClickleScheduler();
+            onPressed: () async {
+              await syncClickScheduler();
             },
           ),
           SizedBox(
@@ -52,8 +52,8 @@ class AppLoggerPage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.cancel),
             tooltip: 'Cancel Sync Jobs',
-            onPressed: () {
-              syncClickCancel();
+            onPressed: () async {
+              await syncClickCancel();
             },
           ),
           SizedBox(

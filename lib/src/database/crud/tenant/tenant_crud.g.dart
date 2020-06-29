@@ -7,5 +7,5 @@ part of 'tenant_crud.dart';
 // **************************************************************************
 
 mixin _$TenantDaoMixin on DatabaseAccessor<AppDatabase> {
-  $TenantTable get tenant => db.tenant;
+  $TenantTable get tenant => attachedDatabase.tenant;
 }
