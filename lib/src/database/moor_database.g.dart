@@ -69,47 +69,52 @@ class User extends DataClass implements Insertable<User> {
           .mapFromDatabaseResponse(data['${effectivePrefix}last_login_time']),
     );
   }
-  factory User.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
-    return User(
-      tenantId: serializer.fromJson<int>(json['tenantId']),
-      id: serializer.fromJson<int>(json['id']),
-      userName: serializer.fromJson<String>(json['userName']),
-      name: serializer.fromJson<String>(json['name']),
-      surname: serializer.fromJson<String>(json['surname']),
-      emailAddress: serializer.fromJson<String>(json['emailAddress']),
-      isActive: serializer.fromJson<bool>(json['isActive']),
-      fullName: serializer.fromJson<String>(json['fullName']),
-      mobileHash: serializer.fromJson<String>(json['mobileHash']),
-      enableOfflineLogin: serializer.fromJson<bool>(json['enableOfflineLogin']),
-      firebaseToken: serializer.fromJson<String>(json['firebaseToken']),
-      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
-      lastLoginTime: serializer.fromJson<DateTime>(json['lastLoginTime']),
-    );
-  }
   @override
-  Map<String, dynamic> toJson({ValueSerializer serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'tenantId': serializer.toJson<int>(tenantId),
-      'id': serializer.toJson<int>(id),
-      'userName': serializer.toJson<String>(userName),
-      'name': serializer.toJson<String>(name),
-      'surname': serializer.toJson<String>(surname),
-      'emailAddress': serializer.toJson<String>(emailAddress),
-      'isActive': serializer.toJson<bool>(isActive),
-      'fullName': serializer.toJson<String>(fullName),
-      'mobileHash': serializer.toJson<String>(mobileHash),
-      'enableOfflineLogin': serializer.toJson<bool>(enableOfflineLogin),
-      'firebaseToken': serializer.toJson<String>(firebaseToken),
-      'creationTime': serializer.toJson<DateTime>(creationTime),
-      'lastLoginTime': serializer.toJson<DateTime>(lastLoginTime),
-    };
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || userName != null) {
+      map['user_name'] = Variable<String>(userName);
+    }
+    if (!nullToAbsent || name != null) {
+      map['name'] = Variable<String>(name);
+    }
+    if (!nullToAbsent || surname != null) {
+      map['surname'] = Variable<String>(surname);
+    }
+    if (!nullToAbsent || emailAddress != null) {
+      map['email_address'] = Variable<String>(emailAddress);
+    }
+    if (!nullToAbsent || isActive != null) {
+      map['is_active'] = Variable<bool>(isActive);
+    }
+    if (!nullToAbsent || fullName != null) {
+      map['full_name'] = Variable<String>(fullName);
+    }
+    if (!nullToAbsent || mobileHash != null) {
+      map['mobile_hash'] = Variable<String>(mobileHash);
+    }
+    if (!nullToAbsent || enableOfflineLogin != null) {
+      map['enable_offline_login'] = Variable<bool>(enableOfflineLogin);
+    }
+    if (!nullToAbsent || firebaseToken != null) {
+      map['firebase_token'] = Variable<String>(firebaseToken);
+    }
+    if (!nullToAbsent || creationTime != null) {
+      map['creation_time'] = Variable<DateTime>(creationTime);
+    }
+    if (!nullToAbsent || lastLoginTime != null) {
+      map['last_login_time'] = Variable<DateTime>(lastLoginTime);
+    }
+    return map;
   }
 
-  @override
-  UsersCompanion createCompanion(bool nullToAbsent) {
+  UsersCompanion toCompanion(bool nullToAbsent) {
     return UsersCompanion(
       tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
@@ -147,6 +152,45 @@ class User extends DataClass implements Insertable<User> {
           ? const Value.absent()
           : Value(lastLoginTime),
     );
+  }
+
+  factory User.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return User(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      id: serializer.fromJson<int>(json['id']),
+      userName: serializer.fromJson<String>(json['userName']),
+      name: serializer.fromJson<String>(json['name']),
+      surname: serializer.fromJson<String>(json['surname']),
+      emailAddress: serializer.fromJson<String>(json['emailAddress']),
+      isActive: serializer.fromJson<bool>(json['isActive']),
+      fullName: serializer.fromJson<String>(json['fullName']),
+      mobileHash: serializer.fromJson<String>(json['mobileHash']),
+      enableOfflineLogin: serializer.fromJson<bool>(json['enableOfflineLogin']),
+      firebaseToken: serializer.fromJson<String>(json['firebaseToken']),
+      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
+      lastLoginTime: serializer.fromJson<DateTime>(json['lastLoginTime']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'id': serializer.toJson<int>(id),
+      'userName': serializer.toJson<String>(userName),
+      'name': serializer.toJson<String>(name),
+      'surname': serializer.toJson<String>(surname),
+      'emailAddress': serializer.toJson<String>(emailAddress),
+      'isActive': serializer.toJson<bool>(isActive),
+      'fullName': serializer.toJson<String>(fullName),
+      'mobileHash': serializer.toJson<String>(mobileHash),
+      'enableOfflineLogin': serializer.toJson<bool>(enableOfflineLogin),
+      'firebaseToken': serializer.toJson<String>(firebaseToken),
+      'creationTime': serializer.toJson<DateTime>(creationTime),
+      'lastLoginTime': serializer.toJson<DateTime>(lastLoginTime),
+    };
   }
 
   User copyWith(
@@ -275,7 +319,7 @@ class UsersCompanion extends UpdateCompanion<User> {
   });
   UsersCompanion.insert({
     this.tenantId = const Value.absent(),
-    @required int id,
+    this.id = const Value.absent(),
     @required String userName,
     @required String name,
     @required String surname,
@@ -287,12 +331,44 @@ class UsersCompanion extends UpdateCompanion<User> {
     this.firebaseToken = const Value.absent(),
     this.creationTime = const Value.absent(),
     this.lastLoginTime = const Value.absent(),
-  })  : id = Value(id),
-        userName = Value(userName),
+  })  : userName = Value(userName),
         name = Value(name),
         surname = Value(surname),
         emailAddress = Value(emailAddress),
         fullName = Value(fullName);
+  static Insertable<User> custom({
+    Expression<int> tenantId,
+    Expression<int> id,
+    Expression<String> userName,
+    Expression<String> name,
+    Expression<String> surname,
+    Expression<String> emailAddress,
+    Expression<bool> isActive,
+    Expression<String> fullName,
+    Expression<String> mobileHash,
+    Expression<bool> enableOfflineLogin,
+    Expression<String> firebaseToken,
+    Expression<DateTime> creationTime,
+    Expression<DateTime> lastLoginTime,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (id != null) 'id': id,
+      if (userName != null) 'user_name': userName,
+      if (name != null) 'name': name,
+      if (surname != null) 'surname': surname,
+      if (emailAddress != null) 'email_address': emailAddress,
+      if (isActive != null) 'is_active': isActive,
+      if (fullName != null) 'full_name': fullName,
+      if (mobileHash != null) 'mobile_hash': mobileHash,
+      if (enableOfflineLogin != null)
+        'enable_offline_login': enableOfflineLogin,
+      if (firebaseToken != null) 'firebase_token': firebaseToken,
+      if (creationTime != null) 'creation_time': creationTime,
+      if (lastLoginTime != null) 'last_login_time': lastLoginTime,
+    });
+  }
+
   UsersCompanion copyWith(
       {Value<int> tenantId,
       Value<int> id,
@@ -322,6 +398,51 @@ class UsersCompanion extends UpdateCompanion<User> {
       creationTime: creationTime ?? this.creationTime,
       lastLoginTime: lastLoginTime ?? this.lastLoginTime,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (userName.present) {
+      map['user_name'] = Variable<String>(userName.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (surname.present) {
+      map['surname'] = Variable<String>(surname.value);
+    }
+    if (emailAddress.present) {
+      map['email_address'] = Variable<String>(emailAddress.value);
+    }
+    if (isActive.present) {
+      map['is_active'] = Variable<bool>(isActive.value);
+    }
+    if (fullName.present) {
+      map['full_name'] = Variable<String>(fullName.value);
+    }
+    if (mobileHash.present) {
+      map['mobile_hash'] = Variable<String>(mobileHash.value);
+    }
+    if (enableOfflineLogin.present) {
+      map['enable_offline_login'] = Variable<bool>(enableOfflineLogin.value);
+    }
+    if (firebaseToken.present) {
+      map['firebase_token'] = Variable<String>(firebaseToken.value);
+    }
+    if (creationTime.present) {
+      map['creation_time'] = Variable<DateTime>(creationTime.value);
+    }
+    if (lastLoginTime.present) {
+      map['last_login_time'] = Variable<DateTime>(lastLoginTime.value);
+    }
+    return map;
   }
 }
 
@@ -497,81 +618,82 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   @override
   final String actualTableName = 'users';
   @override
-  VerificationContext validateIntegrity(UsersCompanion d,
+  VerificationContext validateIntegrity(Insertable<User> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.tenantId.present) {
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
       context.handle(_tenantIdMeta,
-          tenantId.isAcceptableValue(d.tenantId.value, _tenantIdMeta));
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
     }
-    if (d.id.present) {
-      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     }
-    if (d.userName.present) {
+    if (data.containsKey('user_name')) {
       context.handle(_userNameMeta,
-          userName.isAcceptableValue(d.userName.value, _userNameMeta));
+          userName.isAcceptableOrUnknown(data['user_name'], _userNameMeta));
     } else if (isInserting) {
       context.missing(_userNameMeta);
     }
-    if (d.name.present) {
+    if (data.containsKey('name')) {
       context.handle(
-          _nameMeta, name.isAcceptableValue(d.name.value, _nameMeta));
+          _nameMeta, name.isAcceptableOrUnknown(data['name'], _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
-    if (d.surname.present) {
+    if (data.containsKey('surname')) {
       context.handle(_surnameMeta,
-          surname.isAcceptableValue(d.surname.value, _surnameMeta));
+          surname.isAcceptableOrUnknown(data['surname'], _surnameMeta));
     } else if (isInserting) {
       context.missing(_surnameMeta);
     }
-    if (d.emailAddress.present) {
+    if (data.containsKey('email_address')) {
       context.handle(
           _emailAddressMeta,
-          emailAddress.isAcceptableValue(
-              d.emailAddress.value, _emailAddressMeta));
+          emailAddress.isAcceptableOrUnknown(
+              data['email_address'], _emailAddressMeta));
     } else if (isInserting) {
       context.missing(_emailAddressMeta);
     }
-    if (d.isActive.present) {
+    if (data.containsKey('is_active')) {
       context.handle(_isActiveMeta,
-          isActive.isAcceptableValue(d.isActive.value, _isActiveMeta));
+          isActive.isAcceptableOrUnknown(data['is_active'], _isActiveMeta));
     }
-    if (d.fullName.present) {
+    if (data.containsKey('full_name')) {
       context.handle(_fullNameMeta,
-          fullName.isAcceptableValue(d.fullName.value, _fullNameMeta));
+          fullName.isAcceptableOrUnknown(data['full_name'], _fullNameMeta));
     } else if (isInserting) {
       context.missing(_fullNameMeta);
     }
-    if (d.mobileHash.present) {
-      context.handle(_mobileHashMeta,
-          mobileHash.isAcceptableValue(d.mobileHash.value, _mobileHashMeta));
+    if (data.containsKey('mobile_hash')) {
+      context.handle(
+          _mobileHashMeta,
+          mobileHash.isAcceptableOrUnknown(
+              data['mobile_hash'], _mobileHashMeta));
     }
-    if (d.enableOfflineLogin.present) {
+    if (data.containsKey('enable_offline_login')) {
       context.handle(
           _enableOfflineLoginMeta,
-          enableOfflineLogin.isAcceptableValue(
-              d.enableOfflineLogin.value, _enableOfflineLoginMeta));
+          enableOfflineLogin.isAcceptableOrUnknown(
+              data['enable_offline_login'], _enableOfflineLoginMeta));
     }
-    if (d.firebaseToken.present) {
+    if (data.containsKey('firebase_token')) {
       context.handle(
           _firebaseTokenMeta,
-          firebaseToken.isAcceptableValue(
-              d.firebaseToken.value, _firebaseTokenMeta));
+          firebaseToken.isAcceptableOrUnknown(
+              data['firebase_token'], _firebaseTokenMeta));
     }
-    if (d.creationTime.present) {
+    if (data.containsKey('creation_time')) {
       context.handle(
           _creationTimeMeta,
-          creationTime.isAcceptableValue(
-              d.creationTime.value, _creationTimeMeta));
+          creationTime.isAcceptableOrUnknown(
+              data['creation_time'], _creationTimeMeta));
     }
-    if (d.lastLoginTime.present) {
+    if (data.containsKey('last_login_time')) {
       context.handle(
           _lastLoginTimeMeta,
-          lastLoginTime.isAcceptableValue(
-              d.lastLoginTime.value, _lastLoginTimeMeta));
+          lastLoginTime.isAcceptableOrUnknown(
+              data['last_login_time'], _lastLoginTimeMeta));
     }
     return context;
   }
@@ -582,55 +704,6 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   User map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return User.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(UsersCompanion d) {
-    final map = <String, Variable>{};
-    if (d.tenantId.present) {
-      map['tenant_id'] = Variable<int, IntType>(d.tenantId.value);
-    }
-    if (d.id.present) {
-      map['id'] = Variable<int, IntType>(d.id.value);
-    }
-    if (d.userName.present) {
-      map['user_name'] = Variable<String, StringType>(d.userName.value);
-    }
-    if (d.name.present) {
-      map['name'] = Variable<String, StringType>(d.name.value);
-    }
-    if (d.surname.present) {
-      map['surname'] = Variable<String, StringType>(d.surname.value);
-    }
-    if (d.emailAddress.present) {
-      map['email_address'] = Variable<String, StringType>(d.emailAddress.value);
-    }
-    if (d.isActive.present) {
-      map['is_active'] = Variable<bool, BoolType>(d.isActive.value);
-    }
-    if (d.fullName.present) {
-      map['full_name'] = Variable<String, StringType>(d.fullName.value);
-    }
-    if (d.mobileHash.present) {
-      map['mobile_hash'] = Variable<String, StringType>(d.mobileHash.value);
-    }
-    if (d.enableOfflineLogin.present) {
-      map['enable_offline_login'] =
-          Variable<bool, BoolType>(d.enableOfflineLogin.value);
-    }
-    if (d.firebaseToken.present) {
-      map['firebase_token'] =
-          Variable<String, StringType>(d.firebaseToken.value);
-    }
-    if (d.creationTime.present) {
-      map['creation_time'] =
-          Variable<DateTime, DateTimeType>(d.creationTime.value);
-    }
-    if (d.lastLoginTime.present) {
-      map['last_login_time'] =
-          Variable<DateTime, DateTimeType>(d.lastLoginTime.value);
-    }
-    return map;
   }
 
   @override
@@ -740,65 +813,79 @@ class CommunicationData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}typeof_erp']),
     );
   }
-  factory CommunicationData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
-    return CommunicationData(
-      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
-      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
-      createUserId: serializer.fromJson<int>(json['createUserId']),
-      creatorUser: serializer.fromJson<String>(json['creatorUser']),
-      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
-      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
-      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
-      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
-      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
-      importDateTime: serializer.fromJson<DateTime>(json['importDateTime']),
-      exportDateTime: serializer.fromJson<DateTime>(json['exportDateTime']),
-      exportStatus: serializer.fromJson<String>(json['exportStatus']),
-      importStatus: serializer.fromJson<String>(json['importStatus']),
-      syncError: serializer.fromJson<String>(json['syncError']),
-      id: serializer.fromJson<int>(json['id']),
-      serverUrl: serializer.fromJson<String>(json['serverUrl']),
-      userName: serializer.fromJson<String>(json['userName']),
-      newPasskey: serializer.fromJson<String>(json['newPasskey']),
-      confirmPasskey: serializer.fromJson<String>(json['confirmPasskey']),
-      syncFrequency: serializer.fromJson<String>(json['syncFrequency']),
-      communicationType: serializer.fromJson<String>(json['communicationType']),
-      typeofErp: serializer.fromJson<String>(json['typeofErp']),
-    );
-  }
   @override
-  Map<String, dynamic> toJson({ValueSerializer serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'creationTime': serializer.toJson<DateTime>(creationTime),
-      'deleteTime': serializer.toJson<DateTime>(deleteTime),
-      'createUserId': serializer.toJson<int>(createUserId),
-      'creatorUser': serializer.toJson<String>(creatorUser),
-      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
-      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
-      'deleteUserId': serializer.toJson<int>(deleteUserId),
-      'deleterUserId': serializer.toJson<String>(deleterUserId),
-      'isDeleted': serializer.toJson<bool>(isDeleted),
-      'importDateTime': serializer.toJson<DateTime>(importDateTime),
-      'exportDateTime': serializer.toJson<DateTime>(exportDateTime),
-      'exportStatus': serializer.toJson<String>(exportStatus),
-      'importStatus': serializer.toJson<String>(importStatus),
-      'syncError': serializer.toJson<String>(syncError),
-      'id': serializer.toJson<int>(id),
-      'serverUrl': serializer.toJson<String>(serverUrl),
-      'userName': serializer.toJson<String>(userName),
-      'newPasskey': serializer.toJson<String>(newPasskey),
-      'confirmPasskey': serializer.toJson<String>(confirmPasskey),
-      'syncFrequency': serializer.toJson<String>(syncFrequency),
-      'communicationType': serializer.toJson<String>(communicationType),
-      'typeofErp': serializer.toJson<String>(typeofErp),
-    };
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || creationTime != null) {
+      map['creation_time'] = Variable<DateTime>(creationTime);
+    }
+    if (!nullToAbsent || deleteTime != null) {
+      map['delete_time'] = Variable<DateTime>(deleteTime);
+    }
+    if (!nullToAbsent || createUserId != null) {
+      map['create_user_id'] = Variable<int>(createUserId);
+    }
+    if (!nullToAbsent || creatorUser != null) {
+      map['creator_user'] = Variable<String>(creatorUser);
+    }
+    if (!nullToAbsent || lastModifierUser != null) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser);
+    }
+    if (!nullToAbsent || lastModifierUserId != null) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
+    }
+    if (!nullToAbsent || deleteUserId != null) {
+      map['delete_user_id'] = Variable<int>(deleteUserId);
+    }
+    if (!nullToAbsent || deleterUserId != null) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId);
+    }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
+    if (!nullToAbsent || importDateTime != null) {
+      map['import_date_time'] = Variable<DateTime>(importDateTime);
+    }
+    if (!nullToAbsent || exportDateTime != null) {
+      map['export_date_time'] = Variable<DateTime>(exportDateTime);
+    }
+    if (!nullToAbsent || exportStatus != null) {
+      map['export_status'] = Variable<String>(exportStatus);
+    }
+    if (!nullToAbsent || importStatus != null) {
+      map['import_status'] = Variable<String>(importStatus);
+    }
+    if (!nullToAbsent || syncError != null) {
+      map['sync_error'] = Variable<String>(syncError);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || serverUrl != null) {
+      map['server_url'] = Variable<String>(serverUrl);
+    }
+    if (!nullToAbsent || userName != null) {
+      map['user_name'] = Variable<String>(userName);
+    }
+    if (!nullToAbsent || newPasskey != null) {
+      map['new_passkey'] = Variable<String>(newPasskey);
+    }
+    if (!nullToAbsent || confirmPasskey != null) {
+      map['confirm_passkey'] = Variable<String>(confirmPasskey);
+    }
+    if (!nullToAbsent || syncFrequency != null) {
+      map['sync_frequency'] = Variable<String>(syncFrequency);
+    }
+    if (!nullToAbsent || communicationType != null) {
+      map['communication_type'] = Variable<String>(communicationType);
+    }
+    if (!nullToAbsent || typeofErp != null) {
+      map['typeof_erp'] = Variable<String>(typeofErp);
+    }
+    return map;
   }
 
-  @override
-  CommunicationCompanion createCompanion(bool nullToAbsent) {
+  CommunicationCompanion toCompanion(bool nullToAbsent) {
     return CommunicationCompanion(
       creationTime: creationTime == null && nullToAbsent
           ? const Value.absent()
@@ -865,6 +952,63 @@ class CommunicationData extends DataClass
           ? const Value.absent()
           : Value(typeofErp),
     );
+  }
+
+  factory CommunicationData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return CommunicationData(
+      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
+      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
+      createUserId: serializer.fromJson<int>(json['createUserId']),
+      creatorUser: serializer.fromJson<String>(json['creatorUser']),
+      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
+      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
+      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
+      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      importDateTime: serializer.fromJson<DateTime>(json['importDateTime']),
+      exportDateTime: serializer.fromJson<DateTime>(json['exportDateTime']),
+      exportStatus: serializer.fromJson<String>(json['exportStatus']),
+      importStatus: serializer.fromJson<String>(json['importStatus']),
+      syncError: serializer.fromJson<String>(json['syncError']),
+      id: serializer.fromJson<int>(json['id']),
+      serverUrl: serializer.fromJson<String>(json['serverUrl']),
+      userName: serializer.fromJson<String>(json['userName']),
+      newPasskey: serializer.fromJson<String>(json['newPasskey']),
+      confirmPasskey: serializer.fromJson<String>(json['confirmPasskey']),
+      syncFrequency: serializer.fromJson<String>(json['syncFrequency']),
+      communicationType: serializer.fromJson<String>(json['communicationType']),
+      typeofErp: serializer.fromJson<String>(json['typeofErp']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'creationTime': serializer.toJson<DateTime>(creationTime),
+      'deleteTime': serializer.toJson<DateTime>(deleteTime),
+      'createUserId': serializer.toJson<int>(createUserId),
+      'creatorUser': serializer.toJson<String>(creatorUser),
+      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
+      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
+      'deleteUserId': serializer.toJson<int>(deleteUserId),
+      'deleterUserId': serializer.toJson<String>(deleterUserId),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'importDateTime': serializer.toJson<DateTime>(importDateTime),
+      'exportDateTime': serializer.toJson<DateTime>(exportDateTime),
+      'exportStatus': serializer.toJson<String>(exportStatus),
+      'importStatus': serializer.toJson<String>(importStatus),
+      'syncError': serializer.toJson<String>(syncError),
+      'id': serializer.toJson<int>(id),
+      'serverUrl': serializer.toJson<String>(serverUrl),
+      'userName': serializer.toJson<String>(userName),
+      'newPasskey': serializer.toJson<String>(newPasskey),
+      'confirmPasskey': serializer.toJson<String>(confirmPasskey),
+      'syncFrequency': serializer.toJson<String>(syncFrequency),
+      'communicationType': serializer.toJson<String>(communicationType),
+      'typeofErp': serializer.toJson<String>(typeofErp),
+    };
   }
 
   CommunicationData copyWith(
@@ -1087,6 +1231,57 @@ class CommunicationCompanion extends UpdateCompanion<CommunicationData> {
   })  : serverUrl = Value(serverUrl),
         syncFrequency = Value(syncFrequency),
         communicationType = Value(communicationType);
+  static Insertable<CommunicationData> custom({
+    Expression<DateTime> creationTime,
+    Expression<DateTime> deleteTime,
+    Expression<int> createUserId,
+    Expression<String> creatorUser,
+    Expression<String> lastModifierUser,
+    Expression<int> lastModifierUserId,
+    Expression<int> deleteUserId,
+    Expression<String> deleterUserId,
+    Expression<bool> isDeleted,
+    Expression<DateTime> importDateTime,
+    Expression<DateTime> exportDateTime,
+    Expression<String> exportStatus,
+    Expression<String> importStatus,
+    Expression<String> syncError,
+    Expression<int> id,
+    Expression<String> serverUrl,
+    Expression<String> userName,
+    Expression<String> newPasskey,
+    Expression<String> confirmPasskey,
+    Expression<String> syncFrequency,
+    Expression<String> communicationType,
+    Expression<String> typeofErp,
+  }) {
+    return RawValuesInsertable({
+      if (creationTime != null) 'creation_time': creationTime,
+      if (deleteTime != null) 'delete_time': deleteTime,
+      if (createUserId != null) 'create_user_id': createUserId,
+      if (creatorUser != null) 'creator_user': creatorUser,
+      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
+      if (lastModifierUserId != null)
+        'last_modifier_user_id': lastModifierUserId,
+      if (deleteUserId != null) 'delete_user_id': deleteUserId,
+      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (importDateTime != null) 'import_date_time': importDateTime,
+      if (exportDateTime != null) 'export_date_time': exportDateTime,
+      if (exportStatus != null) 'export_status': exportStatus,
+      if (importStatus != null) 'import_status': importStatus,
+      if (syncError != null) 'sync_error': syncError,
+      if (id != null) 'id': id,
+      if (serverUrl != null) 'server_url': serverUrl,
+      if (userName != null) 'user_name': userName,
+      if (newPasskey != null) 'new_passkey': newPasskey,
+      if (confirmPasskey != null) 'confirm_passkey': confirmPasskey,
+      if (syncFrequency != null) 'sync_frequency': syncFrequency,
+      if (communicationType != null) 'communication_type': communicationType,
+      if (typeofErp != null) 'typeof_erp': typeofErp,
+    });
+  }
+
   CommunicationCompanion copyWith(
       {Value<DateTime> creationTime,
       Value<DateTime> deleteTime,
@@ -1134,6 +1329,78 @@ class CommunicationCompanion extends UpdateCompanion<CommunicationData> {
       communicationType: communicationType ?? this.communicationType,
       typeofErp: typeofErp ?? this.typeofErp,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (creationTime.present) {
+      map['creation_time'] = Variable<DateTime>(creationTime.value);
+    }
+    if (deleteTime.present) {
+      map['delete_time'] = Variable<DateTime>(deleteTime.value);
+    }
+    if (createUserId.present) {
+      map['create_user_id'] = Variable<int>(createUserId.value);
+    }
+    if (creatorUser.present) {
+      map['creator_user'] = Variable<String>(creatorUser.value);
+    }
+    if (lastModifierUser.present) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
+    }
+    if (lastModifierUserId.present) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
+    }
+    if (deleteUserId.present) {
+      map['delete_user_id'] = Variable<int>(deleteUserId.value);
+    }
+    if (deleterUserId.present) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (importDateTime.present) {
+      map['import_date_time'] = Variable<DateTime>(importDateTime.value);
+    }
+    if (exportDateTime.present) {
+      map['export_date_time'] = Variable<DateTime>(exportDateTime.value);
+    }
+    if (exportStatus.present) {
+      map['export_status'] = Variable<String>(exportStatus.value);
+    }
+    if (importStatus.present) {
+      map['import_status'] = Variable<String>(importStatus.value);
+    }
+    if (syncError.present) {
+      map['sync_error'] = Variable<String>(syncError.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (serverUrl.present) {
+      map['server_url'] = Variable<String>(serverUrl.value);
+    }
+    if (userName.present) {
+      map['user_name'] = Variable<String>(userName.value);
+    }
+    if (newPasskey.present) {
+      map['new_passkey'] = Variable<String>(newPasskey.value);
+    }
+    if (confirmPasskey.present) {
+      map['confirm_passkey'] = Variable<String>(confirmPasskey.value);
+    }
+    if (syncFrequency.present) {
+      map['sync_frequency'] = Variable<String>(syncFrequency.value);
+    }
+    if (communicationType.present) {
+      map['communication_type'] = Variable<String>(communicationType.value);
+    }
+    if (typeofErp.present) {
+      map['typeof_erp'] = Variable<String>(typeofErp.value);
+    }
+    return map;
   }
 }
 
@@ -1455,127 +1722,134 @@ class $CommunicationTable extends Communication
   @override
   final String actualTableName = 'communication';
   @override
-  VerificationContext validateIntegrity(CommunicationCompanion d,
+  VerificationContext validateIntegrity(Insertable<CommunicationData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.creationTime.present) {
+    final data = instance.toColumns(true);
+    if (data.containsKey('creation_time')) {
       context.handle(
           _creationTimeMeta,
-          creationTime.isAcceptableValue(
-              d.creationTime.value, _creationTimeMeta));
+          creationTime.isAcceptableOrUnknown(
+              data['creation_time'], _creationTimeMeta));
     }
-    if (d.deleteTime.present) {
-      context.handle(_deleteTimeMeta,
-          deleteTime.isAcceptableValue(d.deleteTime.value, _deleteTimeMeta));
+    if (data.containsKey('delete_time')) {
+      context.handle(
+          _deleteTimeMeta,
+          deleteTime.isAcceptableOrUnknown(
+              data['delete_time'], _deleteTimeMeta));
     }
-    if (d.createUserId.present) {
+    if (data.containsKey('create_user_id')) {
       context.handle(
           _createUserIdMeta,
-          createUserId.isAcceptableValue(
-              d.createUserId.value, _createUserIdMeta));
+          createUserId.isAcceptableOrUnknown(
+              data['create_user_id'], _createUserIdMeta));
     }
-    if (d.creatorUser.present) {
-      context.handle(_creatorUserMeta,
-          creatorUser.isAcceptableValue(d.creatorUser.value, _creatorUserMeta));
+    if (data.containsKey('creator_user')) {
+      context.handle(
+          _creatorUserMeta,
+          creatorUser.isAcceptableOrUnknown(
+              data['creator_user'], _creatorUserMeta));
     }
-    if (d.lastModifierUser.present) {
+    if (data.containsKey('last_modifier_user')) {
       context.handle(
           _lastModifierUserMeta,
-          lastModifierUser.isAcceptableValue(
-              d.lastModifierUser.value, _lastModifierUserMeta));
+          lastModifierUser.isAcceptableOrUnknown(
+              data['last_modifier_user'], _lastModifierUserMeta));
     }
-    if (d.lastModifierUserId.present) {
+    if (data.containsKey('last_modifier_user_id')) {
       context.handle(
           _lastModifierUserIdMeta,
-          lastModifierUserId.isAcceptableValue(
-              d.lastModifierUserId.value, _lastModifierUserIdMeta));
+          lastModifierUserId.isAcceptableOrUnknown(
+              data['last_modifier_user_id'], _lastModifierUserIdMeta));
     }
-    if (d.deleteUserId.present) {
+    if (data.containsKey('delete_user_id')) {
       context.handle(
           _deleteUserIdMeta,
-          deleteUserId.isAcceptableValue(
-              d.deleteUserId.value, _deleteUserIdMeta));
+          deleteUserId.isAcceptableOrUnknown(
+              data['delete_user_id'], _deleteUserIdMeta));
     }
-    if (d.deleterUserId.present) {
+    if (data.containsKey('deleter_user_id')) {
       context.handle(
           _deleterUserIdMeta,
-          deleterUserId.isAcceptableValue(
-              d.deleterUserId.value, _deleterUserIdMeta));
+          deleterUserId.isAcceptableOrUnknown(
+              data['deleter_user_id'], _deleterUserIdMeta));
     }
-    if (d.isDeleted.present) {
+    if (data.containsKey('is_deleted')) {
       context.handle(_isDeletedMeta,
-          isDeleted.isAcceptableValue(d.isDeleted.value, _isDeletedMeta));
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
     }
-    if (d.importDateTime.present) {
+    if (data.containsKey('import_date_time')) {
       context.handle(
           _importDateTimeMeta,
-          importDateTime.isAcceptableValue(
-              d.importDateTime.value, _importDateTimeMeta));
+          importDateTime.isAcceptableOrUnknown(
+              data['import_date_time'], _importDateTimeMeta));
     }
-    if (d.exportDateTime.present) {
+    if (data.containsKey('export_date_time')) {
       context.handle(
           _exportDateTimeMeta,
-          exportDateTime.isAcceptableValue(
-              d.exportDateTime.value, _exportDateTimeMeta));
+          exportDateTime.isAcceptableOrUnknown(
+              data['export_date_time'], _exportDateTimeMeta));
     }
-    if (d.exportStatus.present) {
+    if (data.containsKey('export_status')) {
       context.handle(
           _exportStatusMeta,
-          exportStatus.isAcceptableValue(
-              d.exportStatus.value, _exportStatusMeta));
+          exportStatus.isAcceptableOrUnknown(
+              data['export_status'], _exportStatusMeta));
     }
-    if (d.importStatus.present) {
+    if (data.containsKey('import_status')) {
       context.handle(
           _importStatusMeta,
-          importStatus.isAcceptableValue(
-              d.importStatus.value, _importStatusMeta));
+          importStatus.isAcceptableOrUnknown(
+              data['import_status'], _importStatusMeta));
     }
-    if (d.syncError.present) {
+    if (data.containsKey('sync_error')) {
       context.handle(_syncErrorMeta,
-          syncError.isAcceptableValue(d.syncError.value, _syncErrorMeta));
+          syncError.isAcceptableOrUnknown(data['sync_error'], _syncErrorMeta));
     }
-    if (d.id.present) {
-      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     }
-    if (d.serverUrl.present) {
+    if (data.containsKey('server_url')) {
       context.handle(_serverUrlMeta,
-          serverUrl.isAcceptableValue(d.serverUrl.value, _serverUrlMeta));
+          serverUrl.isAcceptableOrUnknown(data['server_url'], _serverUrlMeta));
     } else if (isInserting) {
       context.missing(_serverUrlMeta);
     }
-    if (d.userName.present) {
+    if (data.containsKey('user_name')) {
       context.handle(_userNameMeta,
-          userName.isAcceptableValue(d.userName.value, _userNameMeta));
+          userName.isAcceptableOrUnknown(data['user_name'], _userNameMeta));
     }
-    if (d.newPasskey.present) {
-      context.handle(_newPasskeyMeta,
-          newPasskey.isAcceptableValue(d.newPasskey.value, _newPasskeyMeta));
+    if (data.containsKey('new_passkey')) {
+      context.handle(
+          _newPasskeyMeta,
+          newPasskey.isAcceptableOrUnknown(
+              data['new_passkey'], _newPasskeyMeta));
     }
-    if (d.confirmPasskey.present) {
+    if (data.containsKey('confirm_passkey')) {
       context.handle(
           _confirmPasskeyMeta,
-          confirmPasskey.isAcceptableValue(
-              d.confirmPasskey.value, _confirmPasskeyMeta));
+          confirmPasskey.isAcceptableOrUnknown(
+              data['confirm_passkey'], _confirmPasskeyMeta));
     }
-    if (d.syncFrequency.present) {
+    if (data.containsKey('sync_frequency')) {
       context.handle(
           _syncFrequencyMeta,
-          syncFrequency.isAcceptableValue(
-              d.syncFrequency.value, _syncFrequencyMeta));
+          syncFrequency.isAcceptableOrUnknown(
+              data['sync_frequency'], _syncFrequencyMeta));
     } else if (isInserting) {
       context.missing(_syncFrequencyMeta);
     }
-    if (d.communicationType.present) {
+    if (data.containsKey('communication_type')) {
       context.handle(
           _communicationTypeMeta,
-          communicationType.isAcceptableValue(
-              d.communicationType.value, _communicationTypeMeta));
+          communicationType.isAcceptableOrUnknown(
+              data['communication_type'], _communicationTypeMeta));
     } else if (isInserting) {
       context.missing(_communicationTypeMeta);
     }
-    if (d.typeofErp.present) {
+    if (data.containsKey('typeof_erp')) {
       context.handle(_typeofErpMeta,
-          typeofErp.isAcceptableValue(d.typeofErp.value, _typeofErpMeta));
+          typeofErp.isAcceptableOrUnknown(data['typeof_erp'], _typeofErpMeta));
     }
     return context;
   }
@@ -1586,87 +1860,6 @@ class $CommunicationTable extends Communication
   CommunicationData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return CommunicationData.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(CommunicationCompanion d) {
-    final map = <String, Variable>{};
-    if (d.creationTime.present) {
-      map['creation_time'] =
-          Variable<DateTime, DateTimeType>(d.creationTime.value);
-    }
-    if (d.deleteTime.present) {
-      map['delete_time'] = Variable<DateTime, DateTimeType>(d.deleteTime.value);
-    }
-    if (d.createUserId.present) {
-      map['create_user_id'] = Variable<int, IntType>(d.createUserId.value);
-    }
-    if (d.creatorUser.present) {
-      map['creator_user'] = Variable<String, StringType>(d.creatorUser.value);
-    }
-    if (d.lastModifierUser.present) {
-      map['last_modifier_user'] =
-          Variable<String, StringType>(d.lastModifierUser.value);
-    }
-    if (d.lastModifierUserId.present) {
-      map['last_modifier_user_id'] =
-          Variable<int, IntType>(d.lastModifierUserId.value);
-    }
-    if (d.deleteUserId.present) {
-      map['delete_user_id'] = Variable<int, IntType>(d.deleteUserId.value);
-    }
-    if (d.deleterUserId.present) {
-      map['deleter_user_id'] =
-          Variable<String, StringType>(d.deleterUserId.value);
-    }
-    if (d.isDeleted.present) {
-      map['is_deleted'] = Variable<bool, BoolType>(d.isDeleted.value);
-    }
-    if (d.importDateTime.present) {
-      map['import_date_time'] =
-          Variable<DateTime, DateTimeType>(d.importDateTime.value);
-    }
-    if (d.exportDateTime.present) {
-      map['export_date_time'] =
-          Variable<DateTime, DateTimeType>(d.exportDateTime.value);
-    }
-    if (d.exportStatus.present) {
-      map['export_status'] = Variable<String, StringType>(d.exportStatus.value);
-    }
-    if (d.importStatus.present) {
-      map['import_status'] = Variable<String, StringType>(d.importStatus.value);
-    }
-    if (d.syncError.present) {
-      map['sync_error'] = Variable<String, StringType>(d.syncError.value);
-    }
-    if (d.id.present) {
-      map['id'] = Variable<int, IntType>(d.id.value);
-    }
-    if (d.serverUrl.present) {
-      map['server_url'] = Variable<String, StringType>(d.serverUrl.value);
-    }
-    if (d.userName.present) {
-      map['user_name'] = Variable<String, StringType>(d.userName.value);
-    }
-    if (d.newPasskey.present) {
-      map['new_passkey'] = Variable<String, StringType>(d.newPasskey.value);
-    }
-    if (d.confirmPasskey.present) {
-      map['confirm_passkey'] =
-          Variable<String, StringType>(d.confirmPasskey.value);
-    }
-    if (d.syncFrequency.present) {
-      map['sync_frequency'] =
-          Variable<String, StringType>(d.syncFrequency.value);
-    }
-    if (d.communicationType.present) {
-      map['communication_type'] =
-          Variable<String, StringType>(d.communicationType.value);
-    }
-    if (d.typeofErp.present) {
-      map['typeof_erp'] = Variable<String, StringType>(d.typeofErp.value);
-    }
-    return map;
   }
 
   @override
@@ -1716,6 +1909,57 @@ class BackgroundJobScheduleData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}job_status']),
     );
   }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || jobName != null) {
+      map['job_name'] = Variable<String>(jobName);
+    }
+    if (!nullToAbsent || startDateTime != null) {
+      map['start_date_time'] = Variable<DateTime>(startDateTime);
+    }
+    if (!nullToAbsent || syncFrequency != null) {
+      map['sync_frequency'] = Variable<String>(syncFrequency);
+    }
+    if (!nullToAbsent || enableJob != null) {
+      map['enable_job'] = Variable<bool>(enableJob);
+    }
+    if (!nullToAbsent || lastRun != null) {
+      map['last_run'] = Variable<DateTime>(lastRun);
+    }
+    if (!nullToAbsent || jobStatus != null) {
+      map['job_status'] = Variable<String>(jobStatus);
+    }
+    return map;
+  }
+
+  BackgroundJobScheduleCompanion toCompanion(bool nullToAbsent) {
+    return BackgroundJobScheduleCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      jobName: jobName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(jobName),
+      startDateTime: startDateTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(startDateTime),
+      syncFrequency: syncFrequency == null && nullToAbsent
+          ? const Value.absent()
+          : Value(syncFrequency),
+      enableJob: enableJob == null && nullToAbsent
+          ? const Value.absent()
+          : Value(enableJob),
+      lastRun: lastRun == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastRun),
+      jobStatus: jobStatus == null && nullToAbsent
+          ? const Value.absent()
+          : Value(jobStatus),
+    );
+  }
+
   factory BackgroundJobScheduleData.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -1741,31 +1985,6 @@ class BackgroundJobScheduleData extends DataClass
       'lastRun': serializer.toJson<DateTime>(lastRun),
       'jobStatus': serializer.toJson<String>(jobStatus),
     };
-  }
-
-  @override
-  BackgroundJobScheduleCompanion createCompanion(bool nullToAbsent) {
-    return BackgroundJobScheduleCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      jobName: jobName == null && nullToAbsent
-          ? const Value.absent()
-          : Value(jobName),
-      startDateTime: startDateTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(startDateTime),
-      syncFrequency: syncFrequency == null && nullToAbsent
-          ? const Value.absent()
-          : Value(syncFrequency),
-      enableJob: enableJob == null && nullToAbsent
-          ? const Value.absent()
-          : Value(enableJob),
-      lastRun: lastRun == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastRun),
-      jobStatus: jobStatus == null && nullToAbsent
-          ? const Value.absent()
-          : Value(jobStatus),
-    );
   }
 
   BackgroundJobScheduleData copyWith(
@@ -1854,6 +2073,26 @@ class BackgroundJobScheduleCompanion
         syncFrequency = Value(syncFrequency),
         lastRun = Value(lastRun),
         jobStatus = Value(jobStatus);
+  static Insertable<BackgroundJobScheduleData> custom({
+    Expression<int> id,
+    Expression<String> jobName,
+    Expression<DateTime> startDateTime,
+    Expression<String> syncFrequency,
+    Expression<bool> enableJob,
+    Expression<DateTime> lastRun,
+    Expression<String> jobStatus,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (jobName != null) 'job_name': jobName,
+      if (startDateTime != null) 'start_date_time': startDateTime,
+      if (syncFrequency != null) 'sync_frequency': syncFrequency,
+      if (enableJob != null) 'enable_job': enableJob,
+      if (lastRun != null) 'last_run': lastRun,
+      if (jobStatus != null) 'job_status': jobStatus,
+    });
+  }
+
   BackgroundJobScheduleCompanion copyWith(
       {Value<int> id,
       Value<String> jobName,
@@ -1871,6 +2110,33 @@ class BackgroundJobScheduleCompanion
       lastRun: lastRun ?? this.lastRun,
       jobStatus: jobStatus ?? this.jobStatus,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (jobName.present) {
+      map['job_name'] = Variable<String>(jobName.value);
+    }
+    if (startDateTime.present) {
+      map['start_date_time'] = Variable<DateTime>(startDateTime.value);
+    }
+    if (syncFrequency.present) {
+      map['sync_frequency'] = Variable<String>(syncFrequency.value);
+    }
+    if (enableJob.present) {
+      map['enable_job'] = Variable<bool>(enableJob.value);
+    }
+    if (lastRun.present) {
+      map['last_run'] = Variable<DateTime>(lastRun.value);
+    }
+    if (jobStatus.present) {
+      map['job_status'] = Variable<String>(jobStatus.value);
+    }
+    return map;
   }
 }
 
@@ -1978,47 +2244,49 @@ class $BackgroundJobScheduleTable extends BackgroundJobSchedule
   @override
   final String actualTableName = 'background_job_schedule';
   @override
-  VerificationContext validateIntegrity(BackgroundJobScheduleCompanion d,
+  VerificationContext validateIntegrity(
+      Insertable<BackgroundJobScheduleData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.id.present) {
-      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     }
-    if (d.jobName.present) {
+    if (data.containsKey('job_name')) {
       context.handle(_jobNameMeta,
-          jobName.isAcceptableValue(d.jobName.value, _jobNameMeta));
+          jobName.isAcceptableOrUnknown(data['job_name'], _jobNameMeta));
     } else if (isInserting) {
       context.missing(_jobNameMeta);
     }
-    if (d.startDateTime.present) {
+    if (data.containsKey('start_date_time')) {
       context.handle(
           _startDateTimeMeta,
-          startDateTime.isAcceptableValue(
-              d.startDateTime.value, _startDateTimeMeta));
+          startDateTime.isAcceptableOrUnknown(
+              data['start_date_time'], _startDateTimeMeta));
     } else if (isInserting) {
       context.missing(_startDateTimeMeta);
     }
-    if (d.syncFrequency.present) {
+    if (data.containsKey('sync_frequency')) {
       context.handle(
           _syncFrequencyMeta,
-          syncFrequency.isAcceptableValue(
-              d.syncFrequency.value, _syncFrequencyMeta));
+          syncFrequency.isAcceptableOrUnknown(
+              data['sync_frequency'], _syncFrequencyMeta));
     } else if (isInserting) {
       context.missing(_syncFrequencyMeta);
     }
-    if (d.enableJob.present) {
+    if (data.containsKey('enable_job')) {
       context.handle(_enableJobMeta,
-          enableJob.isAcceptableValue(d.enableJob.value, _enableJobMeta));
+          enableJob.isAcceptableOrUnknown(data['enable_job'], _enableJobMeta));
     }
-    if (d.lastRun.present) {
+    if (data.containsKey('last_run')) {
       context.handle(_lastRunMeta,
-          lastRun.isAcceptableValue(d.lastRun.value, _lastRunMeta));
+          lastRun.isAcceptableOrUnknown(data['last_run'], _lastRunMeta));
     } else if (isInserting) {
       context.missing(_lastRunMeta);
     }
-    if (d.jobStatus.present) {
+    if (data.containsKey('job_status')) {
       context.handle(_jobStatusMeta,
-          jobStatus.isAcceptableValue(d.jobStatus.value, _jobStatusMeta));
+          jobStatus.isAcceptableOrUnknown(data['job_status'], _jobStatusMeta));
     } else if (isInserting) {
       context.missing(_jobStatusMeta);
     }
@@ -2033,35 +2301,6 @@ class $BackgroundJobScheduleTable extends BackgroundJobSchedule
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return BackgroundJobScheduleData.fromData(data, _db,
         prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(BackgroundJobScheduleCompanion d) {
-    final map = <String, Variable>{};
-    if (d.id.present) {
-      map['id'] = Variable<int, IntType>(d.id.value);
-    }
-    if (d.jobName.present) {
-      map['job_name'] = Variable<String, StringType>(d.jobName.value);
-    }
-    if (d.startDateTime.present) {
-      map['start_date_time'] =
-          Variable<DateTime, DateTimeType>(d.startDateTime.value);
-    }
-    if (d.syncFrequency.present) {
-      map['sync_frequency'] =
-          Variable<String, StringType>(d.syncFrequency.value);
-    }
-    if (d.enableJob.present) {
-      map['enable_job'] = Variable<bool, BoolType>(d.enableJob.value);
-    }
-    if (d.lastRun.present) {
-      map['last_run'] = Variable<DateTime, DateTimeType>(d.lastRun.value);
-    }
-    if (d.jobStatus.present) {
-      map['job_status'] = Variable<String, StringType>(d.jobStatus.value);
-    }
-    return map;
   }
 
   @override
@@ -2102,6 +2341,45 @@ class BackgroundJobLog extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}job_description']),
     );
   }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || jobName != null) {
+      map['job_name'] = Variable<String>(jobName);
+    }
+    if (!nullToAbsent || lastRun != null) {
+      map['last_run'] = Variable<DateTime>(lastRun);
+    }
+    if (!nullToAbsent || jobStatus != null) {
+      map['job_status'] = Variable<String>(jobStatus);
+    }
+    if (!nullToAbsent || jobDescription != null) {
+      map['job_description'] = Variable<String>(jobDescription);
+    }
+    return map;
+  }
+
+  BackgroundJobLogsCompanion toCompanion(bool nullToAbsent) {
+    return BackgroundJobLogsCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      jobName: jobName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(jobName),
+      lastRun: lastRun == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastRun),
+      jobStatus: jobStatus == null && nullToAbsent
+          ? const Value.absent()
+          : Value(jobStatus),
+      jobDescription: jobDescription == null && nullToAbsent
+          ? const Value.absent()
+          : Value(jobDescription),
+    );
+  }
+
   factory BackgroundJobLog.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -2123,25 +2401,6 @@ class BackgroundJobLog extends DataClass
       'jobStatus': serializer.toJson<String>(jobStatus),
       'jobDescription': serializer.toJson<String>(jobDescription),
     };
-  }
-
-  @override
-  BackgroundJobLogsCompanion createCompanion(bool nullToAbsent) {
-    return BackgroundJobLogsCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      jobName: jobName == null && nullToAbsent
-          ? const Value.absent()
-          : Value(jobName),
-      lastRun: lastRun == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastRun),
-      jobStatus: jobStatus == null && nullToAbsent
-          ? const Value.absent()
-          : Value(jobStatus),
-      jobDescription: jobDescription == null && nullToAbsent
-          ? const Value.absent()
-          : Value(jobDescription),
-    );
   }
 
   BackgroundJobLog copyWith(
@@ -2201,16 +2460,31 @@ class BackgroundJobLogsCompanion extends UpdateCompanion<BackgroundJobLog> {
     this.jobDescription = const Value.absent(),
   });
   BackgroundJobLogsCompanion.insert({
-    @required int id,
+    this.id = const Value.absent(),
     @required String jobName,
     @required DateTime lastRun,
     @required String jobStatus,
     @required String jobDescription,
-  })  : id = Value(id),
-        jobName = Value(jobName),
+  })  : jobName = Value(jobName),
         lastRun = Value(lastRun),
         jobStatus = Value(jobStatus),
         jobDescription = Value(jobDescription);
+  static Insertable<BackgroundJobLog> custom({
+    Expression<int> id,
+    Expression<String> jobName,
+    Expression<DateTime> lastRun,
+    Expression<String> jobStatus,
+    Expression<String> jobDescription,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (jobName != null) 'job_name': jobName,
+      if (lastRun != null) 'last_run': lastRun,
+      if (jobStatus != null) 'job_status': jobStatus,
+      if (jobDescription != null) 'job_description': jobDescription,
+    });
+  }
+
   BackgroundJobLogsCompanion copyWith(
       {Value<int> id,
       Value<String> jobName,
@@ -2224,6 +2498,27 @@ class BackgroundJobLogsCompanion extends UpdateCompanion<BackgroundJobLog> {
       jobStatus: jobStatus ?? this.jobStatus,
       jobDescription: jobDescription ?? this.jobDescription,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (jobName.present) {
+      map['job_name'] = Variable<String>(jobName.value);
+    }
+    if (lastRun.present) {
+      map['last_run'] = Variable<DateTime>(lastRun.value);
+    }
+    if (jobStatus.present) {
+      map['job_status'] = Variable<String>(jobStatus.value);
+    }
+    if (jobDescription.present) {
+      map['job_description'] = Variable<String>(jobDescription.value);
+    }
+    return map;
   }
 }
 
@@ -2304,37 +2599,36 @@ class $BackgroundJobLogsTable extends BackgroundJobLogs
   @override
   final String actualTableName = 'background_job_logs';
   @override
-  VerificationContext validateIntegrity(BackgroundJobLogsCompanion d,
+  VerificationContext validateIntegrity(Insertable<BackgroundJobLog> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.id.present) {
-      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     }
-    if (d.jobName.present) {
+    if (data.containsKey('job_name')) {
       context.handle(_jobNameMeta,
-          jobName.isAcceptableValue(d.jobName.value, _jobNameMeta));
+          jobName.isAcceptableOrUnknown(data['job_name'], _jobNameMeta));
     } else if (isInserting) {
       context.missing(_jobNameMeta);
     }
-    if (d.lastRun.present) {
+    if (data.containsKey('last_run')) {
       context.handle(_lastRunMeta,
-          lastRun.isAcceptableValue(d.lastRun.value, _lastRunMeta));
+          lastRun.isAcceptableOrUnknown(data['last_run'], _lastRunMeta));
     } else if (isInserting) {
       context.missing(_lastRunMeta);
     }
-    if (d.jobStatus.present) {
+    if (data.containsKey('job_status')) {
       context.handle(_jobStatusMeta,
-          jobStatus.isAcceptableValue(d.jobStatus.value, _jobStatusMeta));
+          jobStatus.isAcceptableOrUnknown(data['job_status'], _jobStatusMeta));
     } else if (isInserting) {
       context.missing(_jobStatusMeta);
     }
-    if (d.jobDescription.present) {
+    if (data.containsKey('job_description')) {
       context.handle(
           _jobDescriptionMeta,
-          jobDescription.isAcceptableValue(
-              d.jobDescription.value, _jobDescriptionMeta));
+          jobDescription.isAcceptableOrUnknown(
+              data['job_description'], _jobDescriptionMeta));
     } else if (isInserting) {
       context.missing(_jobDescriptionMeta);
     }
@@ -2347,28 +2641,6 @@ class $BackgroundJobLogsTable extends BackgroundJobLogs
   BackgroundJobLog map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return BackgroundJobLog.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(BackgroundJobLogsCompanion d) {
-    final map = <String, Variable>{};
-    if (d.id.present) {
-      map['id'] = Variable<int, IntType>(d.id.value);
-    }
-    if (d.jobName.present) {
-      map['job_name'] = Variable<String, StringType>(d.jobName.value);
-    }
-    if (d.lastRun.present) {
-      map['last_run'] = Variable<DateTime, DateTimeType>(d.lastRun.value);
-    }
-    if (d.jobStatus.present) {
-      map['job_status'] = Variable<String, StringType>(d.jobStatus.value);
-    }
-    if (d.jobDescription.present) {
-      map['job_description'] =
-          Variable<String, StringType>(d.jobDescription.value);
-    }
-    return map;
   }
 
   @override
@@ -2436,6 +2708,83 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}sync_error']),
     );
   }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || code != null) {
+      map['code'] = Variable<String>(code);
+    }
+    if (!nullToAbsent || preferenceName != null) {
+      map['preference_name'] = Variable<String>(preferenceName);
+    }
+    if (!nullToAbsent || value != null) {
+      map['value'] = Variable<String>(value);
+    }
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    if (!nullToAbsent || domain != null) {
+      map['domain'] = Variable<String>(domain);
+    }
+    if (!nullToAbsent || isGlobal != null) {
+      map['is_global'] = Variable<bool>(isGlobal);
+    }
+    if (!nullToAbsent || expiredDateTime != null) {
+      map['expired_date_time'] = Variable<DateTime>(expiredDateTime);
+    }
+    if (!nullToAbsent || creationTime != null) {
+      map['creation_time'] = Variable<DateTime>(creationTime);
+    }
+    if (!nullToAbsent || lastModifierTime != null) {
+      map['last_modifier_time'] = Variable<String>(lastModifierTime);
+    }
+    if (!nullToAbsent || syncError != null) {
+      map['sync_error'] = Variable<String>(syncError);
+    }
+    return map;
+  }
+
+  PreferenceCompanion toCompanion(bool nullToAbsent) {
+    return PreferenceCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      code: code == null && nullToAbsent ? const Value.absent() : Value(code),
+      preferenceName: preferenceName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(preferenceName),
+      value:
+          value == null && nullToAbsent ? const Value.absent() : Value(value),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      domain:
+          domain == null && nullToAbsent ? const Value.absent() : Value(domain),
+      isGlobal: isGlobal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isGlobal),
+      expiredDateTime: expiredDateTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(expiredDateTime),
+      creationTime: creationTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(creationTime),
+      lastModifierTime: lastModifierTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastModifierTime),
+      syncError: syncError == null && nullToAbsent
+          ? const Value.absent()
+          : Value(syncError),
+    );
+  }
+
   factory PreferenceData.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -2471,42 +2820,6 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
       'lastModifierTime': serializer.toJson<String>(lastModifierTime),
       'syncError': serializer.toJson<String>(syncError),
     };
-  }
-
-  @override
-  PreferenceCompanion createCompanion(bool nullToAbsent) {
-    return PreferenceCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      tenantId: tenantId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(tenantId),
-      code: code == null && nullToAbsent ? const Value.absent() : Value(code),
-      preferenceName: preferenceName == null && nullToAbsent
-          ? const Value.absent()
-          : Value(preferenceName),
-      value:
-          value == null && nullToAbsent ? const Value.absent() : Value(value),
-      description: description == null && nullToAbsent
-          ? const Value.absent()
-          : Value(description),
-      domain:
-          domain == null && nullToAbsent ? const Value.absent() : Value(domain),
-      isGlobal: isGlobal == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isGlobal),
-      expiredDateTime: expiredDateTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(expiredDateTime),
-      creationTime: creationTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creationTime),
-      lastModifierTime: lastModifierTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierTime),
-      syncError: syncError == null && nullToAbsent
-          ? const Value.absent()
-          : Value(syncError),
-    );
   }
 
   PreferenceData copyWith(
@@ -2639,6 +2952,36 @@ class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
   })  : tenantId = Value(tenantId),
         code = Value(code),
         value = Value(value);
+  static Insertable<PreferenceData> custom({
+    Expression<int> id,
+    Expression<int> tenantId,
+    Expression<String> code,
+    Expression<String> preferenceName,
+    Expression<String> value,
+    Expression<String> description,
+    Expression<String> domain,
+    Expression<bool> isGlobal,
+    Expression<DateTime> expiredDateTime,
+    Expression<DateTime> creationTime,
+    Expression<String> lastModifierTime,
+    Expression<String> syncError,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (code != null) 'code': code,
+      if (preferenceName != null) 'preference_name': preferenceName,
+      if (value != null) 'value': value,
+      if (description != null) 'description': description,
+      if (domain != null) 'domain': domain,
+      if (isGlobal != null) 'is_global': isGlobal,
+      if (expiredDateTime != null) 'expired_date_time': expiredDateTime,
+      if (creationTime != null) 'creation_time': creationTime,
+      if (lastModifierTime != null) 'last_modifier_time': lastModifierTime,
+      if (syncError != null) 'sync_error': syncError,
+    });
+  }
+
   PreferenceCompanion copyWith(
       {Value<int> id,
       Value<int> tenantId,
@@ -2667,6 +3010,48 @@ class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
       syncError: syncError ?? this.syncError,
     );
   }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (code.present) {
+      map['code'] = Variable<String>(code.value);
+    }
+    if (preferenceName.present) {
+      map['preference_name'] = Variable<String>(preferenceName.value);
+    }
+    if (value.present) {
+      map['value'] = Variable<String>(value.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (domain.present) {
+      map['domain'] = Variable<String>(domain.value);
+    }
+    if (isGlobal.present) {
+      map['is_global'] = Variable<bool>(isGlobal.value);
+    }
+    if (expiredDateTime.present) {
+      map['expired_date_time'] = Variable<DateTime>(expiredDateTime.value);
+    }
+    if (creationTime.present) {
+      map['creation_time'] = Variable<DateTime>(creationTime.value);
+    }
+    if (lastModifierTime.present) {
+      map['last_modifier_time'] = Variable<String>(lastModifierTime.value);
+    }
+    if (syncError.present) {
+      map['sync_error'] = Variable<String>(syncError.value);
+    }
+    return map;
+  }
 }
 
 class $PreferenceTable extends Preference
@@ -2679,8 +3064,11 @@ class $PreferenceTable extends Preference
   @override
   GeneratedIntColumn get id => _id ??= _constructId();
   GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn('id', $tableName, false,
-        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
   }
 
   final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
@@ -2844,69 +3232,72 @@ class $PreferenceTable extends Preference
   @override
   final String actualTableName = 'preference';
   @override
-  VerificationContext validateIntegrity(PreferenceCompanion d,
+  VerificationContext validateIntegrity(Insertable<PreferenceData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.id.present) {
-      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     }
-    if (d.tenantId.present) {
+    if (data.containsKey('tenant_id')) {
       context.handle(_tenantIdMeta,
-          tenantId.isAcceptableValue(d.tenantId.value, _tenantIdMeta));
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
     } else if (isInserting) {
       context.missing(_tenantIdMeta);
     }
-    if (d.code.present) {
+    if (data.containsKey('code')) {
       context.handle(
-          _codeMeta, code.isAcceptableValue(d.code.value, _codeMeta));
+          _codeMeta, code.isAcceptableOrUnknown(data['code'], _codeMeta));
     } else if (isInserting) {
       context.missing(_codeMeta);
     }
-    if (d.preferenceName.present) {
+    if (data.containsKey('preference_name')) {
       context.handle(
           _preferenceNameMeta,
-          preferenceName.isAcceptableValue(
-              d.preferenceName.value, _preferenceNameMeta));
+          preferenceName.isAcceptableOrUnknown(
+              data['preference_name'], _preferenceNameMeta));
     }
-    if (d.value.present) {
+    if (data.containsKey('value')) {
       context.handle(
-          _valueMeta, value.isAcceptableValue(d.value.value, _valueMeta));
+          _valueMeta, value.isAcceptableOrUnknown(data['value'], _valueMeta));
     } else if (isInserting) {
       context.missing(_valueMeta);
     }
-    if (d.description.present) {
-      context.handle(_descriptionMeta,
-          description.isAcceptableValue(d.description.value, _descriptionMeta));
-    }
-    if (d.domain.present) {
+    if (data.containsKey('description')) {
       context.handle(
-          _domainMeta, domain.isAcceptableValue(d.domain.value, _domainMeta));
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description'], _descriptionMeta));
     }
-    if (d.isGlobal.present) {
+    if (data.containsKey('domain')) {
+      context.handle(_domainMeta,
+          domain.isAcceptableOrUnknown(data['domain'], _domainMeta));
+    }
+    if (data.containsKey('is_global')) {
       context.handle(_isGlobalMeta,
-          isGlobal.isAcceptableValue(d.isGlobal.value, _isGlobalMeta));
+          isGlobal.isAcceptableOrUnknown(data['is_global'], _isGlobalMeta));
     }
-    if (d.expiredDateTime.present) {
+    if (data.containsKey('expired_date_time')) {
       context.handle(
           _expiredDateTimeMeta,
-          expiredDateTime.isAcceptableValue(
-              d.expiredDateTime.value, _expiredDateTimeMeta));
+          expiredDateTime.isAcceptableOrUnknown(
+              data['expired_date_time'], _expiredDateTimeMeta));
     }
-    if (d.creationTime.present) {
+    if (data.containsKey('creation_time')) {
       context.handle(
           _creationTimeMeta,
-          creationTime.isAcceptableValue(
-              d.creationTime.value, _creationTimeMeta));
+          creationTime.isAcceptableOrUnknown(
+              data['creation_time'], _creationTimeMeta));
     }
-    if (d.lastModifierTime.present) {
+    if (data.containsKey('last_modifier_time')) {
       context.handle(
           _lastModifierTimeMeta,
-          lastModifierTime.isAcceptableValue(
-              d.lastModifierTime.value, _lastModifierTimeMeta));
+          lastModifierTime.isAcceptableOrUnknown(
+              data['last_modifier_time'], _lastModifierTimeMeta));
     }
-    if (d.syncError.present) {
+    if (data.containsKey('sync_error')) {
       context.handle(_syncErrorMeta,
-          syncError.isAcceptableValue(d.syncError.value, _syncErrorMeta));
+          syncError.isAcceptableOrUnknown(data['sync_error'], _syncErrorMeta));
     }
     return context;
   }
@@ -2917,52 +3308,6 @@ class $PreferenceTable extends Preference
   PreferenceData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return PreferenceData.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(PreferenceCompanion d) {
-    final map = <String, Variable>{};
-    if (d.id.present) {
-      map['id'] = Variable<int, IntType>(d.id.value);
-    }
-    if (d.tenantId.present) {
-      map['tenant_id'] = Variable<int, IntType>(d.tenantId.value);
-    }
-    if (d.code.present) {
-      map['code'] = Variable<String, StringType>(d.code.value);
-    }
-    if (d.preferenceName.present) {
-      map['preference_name'] =
-          Variable<String, StringType>(d.preferenceName.value);
-    }
-    if (d.value.present) {
-      map['value'] = Variable<String, StringType>(d.value.value);
-    }
-    if (d.description.present) {
-      map['description'] = Variable<String, StringType>(d.description.value);
-    }
-    if (d.domain.present) {
-      map['domain'] = Variable<String, StringType>(d.domain.value);
-    }
-    if (d.isGlobal.present) {
-      map['is_global'] = Variable<bool, BoolType>(d.isGlobal.value);
-    }
-    if (d.expiredDateTime.present) {
-      map['expired_date_time'] =
-          Variable<DateTime, DateTimeType>(d.expiredDateTime.value);
-    }
-    if (d.creationTime.present) {
-      map['creation_time'] =
-          Variable<DateTime, DateTimeType>(d.creationTime.value);
-    }
-    if (d.lastModifierTime.present) {
-      map['last_modifier_time'] =
-          Variable<String, StringType>(d.lastModifierTime.value);
-    }
-    if (d.syncError.present) {
-      map['sync_error'] = Variable<String, StringType>(d.syncError.value);
-    }
-    return map;
   }
 
   @override
@@ -3130,93 +3475,121 @@ class MobileDeviceData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}longitude']),
     );
   }
-  factory MobileDeviceData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
-    return MobileDeviceData(
-      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
-      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
-      createUserId: serializer.fromJson<int>(json['createUserId']),
-      creatorUser: serializer.fromJson<String>(json['creatorUser']),
-      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
-      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
-      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
-      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
-      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
-      importDateTime: serializer.fromJson<DateTime>(json['importDateTime']),
-      exportDateTime: serializer.fromJson<DateTime>(json['exportDateTime']),
-      exportStatus: serializer.fromJson<String>(json['exportStatus']),
-      importStatus: serializer.fromJson<String>(json['importStatus']),
-      syncError: serializer.fromJson<String>(json['syncError']),
-      deviceId: serializer.fromJson<String>(json['deviceId']),
-      deviceName: serializer.fromJson<String>(json['deviceName']),
-      versionRelease: serializer.fromJson<String>(json['versionRelease']),
-      versionEnvrement: serializer.fromJson<String>(json['versionEnvrement']),
-      bootLoader: serializer.fromJson<String>(json['bootLoader']),
-      manufacture: serializer.fromJson<String>(json['manufacture']),
-      model: serializer.fromJson<String>(json['model']),
-      sdkNumber: serializer.fromJson<int>(json['sdkNumber']),
-      hardware: serializer.fromJson<String>(json['hardware']),
-      deviceHost: serializer.fromJson<String>(json['deviceHost']),
-      deviceTime: serializer.fromJson<DateTime>(json['deviceTime']),
-      deviceSerial: serializer.fromJson<String>(json['deviceSerial']),
-      deviceMac: serializer.fromJson<String>(json['deviceMac']),
-      deviceIp: serializer.fromJson<String>(json['deviceIp']),
-      deviceMode: serializer.fromJson<String>(json['deviceMode']),
-      activationDate: serializer.fromJson<DateTime>(json['activationDate']),
-      expirationDate: serializer.fromJson<DateTime>(json['expirationDate']),
-      deviceStatus: serializer.fromJson<int>(json['deviceStatus']),
-      companyName: serializer.fromJson<String>(json['companyName']),
-      deviceNickName: serializer.fromJson<String>(json['deviceNickName']),
-      latitude: serializer.fromJson<double>(json['latitude']),
-      longitude: serializer.fromJson<double>(json['longitude']),
-    );
-  }
   @override
-  Map<String, dynamic> toJson({ValueSerializer serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'creationTime': serializer.toJson<DateTime>(creationTime),
-      'deleteTime': serializer.toJson<DateTime>(deleteTime),
-      'createUserId': serializer.toJson<int>(createUserId),
-      'creatorUser': serializer.toJson<String>(creatorUser),
-      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
-      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
-      'deleteUserId': serializer.toJson<int>(deleteUserId),
-      'deleterUserId': serializer.toJson<String>(deleterUserId),
-      'isDeleted': serializer.toJson<bool>(isDeleted),
-      'importDateTime': serializer.toJson<DateTime>(importDateTime),
-      'exportDateTime': serializer.toJson<DateTime>(exportDateTime),
-      'exportStatus': serializer.toJson<String>(exportStatus),
-      'importStatus': serializer.toJson<String>(importStatus),
-      'syncError': serializer.toJson<String>(syncError),
-      'deviceId': serializer.toJson<String>(deviceId),
-      'deviceName': serializer.toJson<String>(deviceName),
-      'versionRelease': serializer.toJson<String>(versionRelease),
-      'versionEnvrement': serializer.toJson<String>(versionEnvrement),
-      'bootLoader': serializer.toJson<String>(bootLoader),
-      'manufacture': serializer.toJson<String>(manufacture),
-      'model': serializer.toJson<String>(model),
-      'sdkNumber': serializer.toJson<int>(sdkNumber),
-      'hardware': serializer.toJson<String>(hardware),
-      'deviceHost': serializer.toJson<String>(deviceHost),
-      'deviceTime': serializer.toJson<DateTime>(deviceTime),
-      'deviceSerial': serializer.toJson<String>(deviceSerial),
-      'deviceMac': serializer.toJson<String>(deviceMac),
-      'deviceIp': serializer.toJson<String>(deviceIp),
-      'deviceMode': serializer.toJson<String>(deviceMode),
-      'activationDate': serializer.toJson<DateTime>(activationDate),
-      'expirationDate': serializer.toJson<DateTime>(expirationDate),
-      'deviceStatus': serializer.toJson<int>(deviceStatus),
-      'companyName': serializer.toJson<String>(companyName),
-      'deviceNickName': serializer.toJson<String>(deviceNickName),
-      'latitude': serializer.toJson<double>(latitude),
-      'longitude': serializer.toJson<double>(longitude),
-    };
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || creationTime != null) {
+      map['creation_time'] = Variable<DateTime>(creationTime);
+    }
+    if (!nullToAbsent || deleteTime != null) {
+      map['delete_time'] = Variable<DateTime>(deleteTime);
+    }
+    if (!nullToAbsent || createUserId != null) {
+      map['create_user_id'] = Variable<int>(createUserId);
+    }
+    if (!nullToAbsent || creatorUser != null) {
+      map['creator_user'] = Variable<String>(creatorUser);
+    }
+    if (!nullToAbsent || lastModifierUser != null) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser);
+    }
+    if (!nullToAbsent || lastModifierUserId != null) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
+    }
+    if (!nullToAbsent || deleteUserId != null) {
+      map['delete_user_id'] = Variable<int>(deleteUserId);
+    }
+    if (!nullToAbsent || deleterUserId != null) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId);
+    }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
+    if (!nullToAbsent || importDateTime != null) {
+      map['import_date_time'] = Variable<DateTime>(importDateTime);
+    }
+    if (!nullToAbsent || exportDateTime != null) {
+      map['export_date_time'] = Variable<DateTime>(exportDateTime);
+    }
+    if (!nullToAbsent || exportStatus != null) {
+      map['export_status'] = Variable<String>(exportStatus);
+    }
+    if (!nullToAbsent || importStatus != null) {
+      map['import_status'] = Variable<String>(importStatus);
+    }
+    if (!nullToAbsent || syncError != null) {
+      map['sync_error'] = Variable<String>(syncError);
+    }
+    if (!nullToAbsent || deviceId != null) {
+      map['device_id'] = Variable<String>(deviceId);
+    }
+    if (!nullToAbsent || deviceName != null) {
+      map['device_name'] = Variable<String>(deviceName);
+    }
+    if (!nullToAbsent || versionRelease != null) {
+      map['version_release'] = Variable<String>(versionRelease);
+    }
+    if (!nullToAbsent || versionEnvrement != null) {
+      map['version_envrement'] = Variable<String>(versionEnvrement);
+    }
+    if (!nullToAbsent || bootLoader != null) {
+      map['boot_loader'] = Variable<String>(bootLoader);
+    }
+    if (!nullToAbsent || manufacture != null) {
+      map['manufacture'] = Variable<String>(manufacture);
+    }
+    if (!nullToAbsent || model != null) {
+      map['model'] = Variable<String>(model);
+    }
+    if (!nullToAbsent || sdkNumber != null) {
+      map['sdk_number'] = Variable<int>(sdkNumber);
+    }
+    if (!nullToAbsent || hardware != null) {
+      map['hardware'] = Variable<String>(hardware);
+    }
+    if (!nullToAbsent || deviceHost != null) {
+      map['device_host'] = Variable<String>(deviceHost);
+    }
+    if (!nullToAbsent || deviceTime != null) {
+      map['device_time'] = Variable<DateTime>(deviceTime);
+    }
+    if (!nullToAbsent || deviceSerial != null) {
+      map['device_serial'] = Variable<String>(deviceSerial);
+    }
+    if (!nullToAbsent || deviceMac != null) {
+      map['device_mac'] = Variable<String>(deviceMac);
+    }
+    if (!nullToAbsent || deviceIp != null) {
+      map['device_ip'] = Variable<String>(deviceIp);
+    }
+    if (!nullToAbsent || deviceMode != null) {
+      map['device_mode'] = Variable<String>(deviceMode);
+    }
+    if (!nullToAbsent || activationDate != null) {
+      map['activation_date'] = Variable<DateTime>(activationDate);
+    }
+    if (!nullToAbsent || expirationDate != null) {
+      map['expiration_date'] = Variable<DateTime>(expirationDate);
+    }
+    if (!nullToAbsent || deviceStatus != null) {
+      map['device_status'] = Variable<int>(deviceStatus);
+    }
+    if (!nullToAbsent || companyName != null) {
+      map['company_name'] = Variable<String>(companyName);
+    }
+    if (!nullToAbsent || deviceNickName != null) {
+      map['device_nick_name'] = Variable<String>(deviceNickName);
+    }
+    if (!nullToAbsent || latitude != null) {
+      map['latitude'] = Variable<double>(latitude);
+    }
+    if (!nullToAbsent || longitude != null) {
+      map['longitude'] = Variable<double>(longitude);
+    }
+    return map;
   }
 
-  @override
-  MobileDeviceCompanion createCompanion(bool nullToAbsent) {
+  MobileDeviceCompanion toCompanion(bool nullToAbsent) {
     return MobileDeviceCompanion(
       creationTime: creationTime == null && nullToAbsent
           ? const Value.absent()
@@ -3326,6 +3699,91 @@ class MobileDeviceData extends DataClass
           ? const Value.absent()
           : Value(longitude),
     );
+  }
+
+  factory MobileDeviceData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return MobileDeviceData(
+      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
+      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
+      createUserId: serializer.fromJson<int>(json['createUserId']),
+      creatorUser: serializer.fromJson<String>(json['creatorUser']),
+      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
+      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
+      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
+      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      importDateTime: serializer.fromJson<DateTime>(json['importDateTime']),
+      exportDateTime: serializer.fromJson<DateTime>(json['exportDateTime']),
+      exportStatus: serializer.fromJson<String>(json['exportStatus']),
+      importStatus: serializer.fromJson<String>(json['importStatus']),
+      syncError: serializer.fromJson<String>(json['syncError']),
+      deviceId: serializer.fromJson<String>(json['deviceId']),
+      deviceName: serializer.fromJson<String>(json['deviceName']),
+      versionRelease: serializer.fromJson<String>(json['versionRelease']),
+      versionEnvrement: serializer.fromJson<String>(json['versionEnvrement']),
+      bootLoader: serializer.fromJson<String>(json['bootLoader']),
+      manufacture: serializer.fromJson<String>(json['manufacture']),
+      model: serializer.fromJson<String>(json['model']),
+      sdkNumber: serializer.fromJson<int>(json['sdkNumber']),
+      hardware: serializer.fromJson<String>(json['hardware']),
+      deviceHost: serializer.fromJson<String>(json['deviceHost']),
+      deviceTime: serializer.fromJson<DateTime>(json['deviceTime']),
+      deviceSerial: serializer.fromJson<String>(json['deviceSerial']),
+      deviceMac: serializer.fromJson<String>(json['deviceMac']),
+      deviceIp: serializer.fromJson<String>(json['deviceIp']),
+      deviceMode: serializer.fromJson<String>(json['deviceMode']),
+      activationDate: serializer.fromJson<DateTime>(json['activationDate']),
+      expirationDate: serializer.fromJson<DateTime>(json['expirationDate']),
+      deviceStatus: serializer.fromJson<int>(json['deviceStatus']),
+      companyName: serializer.fromJson<String>(json['companyName']),
+      deviceNickName: serializer.fromJson<String>(json['deviceNickName']),
+      latitude: serializer.fromJson<double>(json['latitude']),
+      longitude: serializer.fromJson<double>(json['longitude']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'creationTime': serializer.toJson<DateTime>(creationTime),
+      'deleteTime': serializer.toJson<DateTime>(deleteTime),
+      'createUserId': serializer.toJson<int>(createUserId),
+      'creatorUser': serializer.toJson<String>(creatorUser),
+      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
+      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
+      'deleteUserId': serializer.toJson<int>(deleteUserId),
+      'deleterUserId': serializer.toJson<String>(deleterUserId),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'importDateTime': serializer.toJson<DateTime>(importDateTime),
+      'exportDateTime': serializer.toJson<DateTime>(exportDateTime),
+      'exportStatus': serializer.toJson<String>(exportStatus),
+      'importStatus': serializer.toJson<String>(importStatus),
+      'syncError': serializer.toJson<String>(syncError),
+      'deviceId': serializer.toJson<String>(deviceId),
+      'deviceName': serializer.toJson<String>(deviceName),
+      'versionRelease': serializer.toJson<String>(versionRelease),
+      'versionEnvrement': serializer.toJson<String>(versionEnvrement),
+      'bootLoader': serializer.toJson<String>(bootLoader),
+      'manufacture': serializer.toJson<String>(manufacture),
+      'model': serializer.toJson<String>(model),
+      'sdkNumber': serializer.toJson<int>(sdkNumber),
+      'hardware': serializer.toJson<String>(hardware),
+      'deviceHost': serializer.toJson<String>(deviceHost),
+      'deviceTime': serializer.toJson<DateTime>(deviceTime),
+      'deviceSerial': serializer.toJson<String>(deviceSerial),
+      'deviceMac': serializer.toJson<String>(deviceMac),
+      'deviceIp': serializer.toJson<String>(deviceIp),
+      'deviceMode': serializer.toJson<String>(deviceMode),
+      'activationDate': serializer.toJson<DateTime>(activationDate),
+      'expirationDate': serializer.toJson<DateTime>(expirationDate),
+      'deviceStatus': serializer.toJson<int>(deviceStatus),
+      'companyName': serializer.toJson<String>(companyName),
+      'deviceNickName': serializer.toJson<String>(deviceNickName),
+      'latitude': serializer.toJson<double>(latitude),
+      'longitude': serializer.toJson<double>(longitude),
+    };
   }
 
   MobileDeviceData copyWith(
@@ -3644,6 +4102,85 @@ class MobileDeviceCompanion extends UpdateCompanion<MobileDeviceData> {
     this.latitude = const Value.absent(),
     this.longitude = const Value.absent(),
   });
+  static Insertable<MobileDeviceData> custom({
+    Expression<DateTime> creationTime,
+    Expression<DateTime> deleteTime,
+    Expression<int> createUserId,
+    Expression<String> creatorUser,
+    Expression<String> lastModifierUser,
+    Expression<int> lastModifierUserId,
+    Expression<int> deleteUserId,
+    Expression<String> deleterUserId,
+    Expression<bool> isDeleted,
+    Expression<DateTime> importDateTime,
+    Expression<DateTime> exportDateTime,
+    Expression<String> exportStatus,
+    Expression<String> importStatus,
+    Expression<String> syncError,
+    Expression<String> deviceId,
+    Expression<String> deviceName,
+    Expression<String> versionRelease,
+    Expression<String> versionEnvrement,
+    Expression<String> bootLoader,
+    Expression<String> manufacture,
+    Expression<String> model,
+    Expression<int> sdkNumber,
+    Expression<String> hardware,
+    Expression<String> deviceHost,
+    Expression<DateTime> deviceTime,
+    Expression<String> deviceSerial,
+    Expression<String> deviceMac,
+    Expression<String> deviceIp,
+    Expression<String> deviceMode,
+    Expression<DateTime> activationDate,
+    Expression<DateTime> expirationDate,
+    Expression<int> deviceStatus,
+    Expression<String> companyName,
+    Expression<String> deviceNickName,
+    Expression<double> latitude,
+    Expression<double> longitude,
+  }) {
+    return RawValuesInsertable({
+      if (creationTime != null) 'creation_time': creationTime,
+      if (deleteTime != null) 'delete_time': deleteTime,
+      if (createUserId != null) 'create_user_id': createUserId,
+      if (creatorUser != null) 'creator_user': creatorUser,
+      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
+      if (lastModifierUserId != null)
+        'last_modifier_user_id': lastModifierUserId,
+      if (deleteUserId != null) 'delete_user_id': deleteUserId,
+      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (importDateTime != null) 'import_date_time': importDateTime,
+      if (exportDateTime != null) 'export_date_time': exportDateTime,
+      if (exportStatus != null) 'export_status': exportStatus,
+      if (importStatus != null) 'import_status': importStatus,
+      if (syncError != null) 'sync_error': syncError,
+      if (deviceId != null) 'device_id': deviceId,
+      if (deviceName != null) 'device_name': deviceName,
+      if (versionRelease != null) 'version_release': versionRelease,
+      if (versionEnvrement != null) 'version_envrement': versionEnvrement,
+      if (bootLoader != null) 'boot_loader': bootLoader,
+      if (manufacture != null) 'manufacture': manufacture,
+      if (model != null) 'model': model,
+      if (sdkNumber != null) 'sdk_number': sdkNumber,
+      if (hardware != null) 'hardware': hardware,
+      if (deviceHost != null) 'device_host': deviceHost,
+      if (deviceTime != null) 'device_time': deviceTime,
+      if (deviceSerial != null) 'device_serial': deviceSerial,
+      if (deviceMac != null) 'device_mac': deviceMac,
+      if (deviceIp != null) 'device_ip': deviceIp,
+      if (deviceMode != null) 'device_mode': deviceMode,
+      if (activationDate != null) 'activation_date': activationDate,
+      if (expirationDate != null) 'expiration_date': expirationDate,
+      if (deviceStatus != null) 'device_status': deviceStatus,
+      if (companyName != null) 'company_name': companyName,
+      if (deviceNickName != null) 'device_nick_name': deviceNickName,
+      if (latitude != null) 'latitude': latitude,
+      if (longitude != null) 'longitude': longitude,
+    });
+  }
+
   MobileDeviceCompanion copyWith(
       {Value<DateTime> creationTime,
       Value<DateTime> deleteTime,
@@ -3719,6 +4256,120 @@ class MobileDeviceCompanion extends UpdateCompanion<MobileDeviceData> {
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (creationTime.present) {
+      map['creation_time'] = Variable<DateTime>(creationTime.value);
+    }
+    if (deleteTime.present) {
+      map['delete_time'] = Variable<DateTime>(deleteTime.value);
+    }
+    if (createUserId.present) {
+      map['create_user_id'] = Variable<int>(createUserId.value);
+    }
+    if (creatorUser.present) {
+      map['creator_user'] = Variable<String>(creatorUser.value);
+    }
+    if (lastModifierUser.present) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
+    }
+    if (lastModifierUserId.present) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
+    }
+    if (deleteUserId.present) {
+      map['delete_user_id'] = Variable<int>(deleteUserId.value);
+    }
+    if (deleterUserId.present) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (importDateTime.present) {
+      map['import_date_time'] = Variable<DateTime>(importDateTime.value);
+    }
+    if (exportDateTime.present) {
+      map['export_date_time'] = Variable<DateTime>(exportDateTime.value);
+    }
+    if (exportStatus.present) {
+      map['export_status'] = Variable<String>(exportStatus.value);
+    }
+    if (importStatus.present) {
+      map['import_status'] = Variable<String>(importStatus.value);
+    }
+    if (syncError.present) {
+      map['sync_error'] = Variable<String>(syncError.value);
+    }
+    if (deviceId.present) {
+      map['device_id'] = Variable<String>(deviceId.value);
+    }
+    if (deviceName.present) {
+      map['device_name'] = Variable<String>(deviceName.value);
+    }
+    if (versionRelease.present) {
+      map['version_release'] = Variable<String>(versionRelease.value);
+    }
+    if (versionEnvrement.present) {
+      map['version_envrement'] = Variable<String>(versionEnvrement.value);
+    }
+    if (bootLoader.present) {
+      map['boot_loader'] = Variable<String>(bootLoader.value);
+    }
+    if (manufacture.present) {
+      map['manufacture'] = Variable<String>(manufacture.value);
+    }
+    if (model.present) {
+      map['model'] = Variable<String>(model.value);
+    }
+    if (sdkNumber.present) {
+      map['sdk_number'] = Variable<int>(sdkNumber.value);
+    }
+    if (hardware.present) {
+      map['hardware'] = Variable<String>(hardware.value);
+    }
+    if (deviceHost.present) {
+      map['device_host'] = Variable<String>(deviceHost.value);
+    }
+    if (deviceTime.present) {
+      map['device_time'] = Variable<DateTime>(deviceTime.value);
+    }
+    if (deviceSerial.present) {
+      map['device_serial'] = Variable<String>(deviceSerial.value);
+    }
+    if (deviceMac.present) {
+      map['device_mac'] = Variable<String>(deviceMac.value);
+    }
+    if (deviceIp.present) {
+      map['device_ip'] = Variable<String>(deviceIp.value);
+    }
+    if (deviceMode.present) {
+      map['device_mode'] = Variable<String>(deviceMode.value);
+    }
+    if (activationDate.present) {
+      map['activation_date'] = Variable<DateTime>(activationDate.value);
+    }
+    if (expirationDate.present) {
+      map['expiration_date'] = Variable<DateTime>(expirationDate.value);
+    }
+    if (deviceStatus.present) {
+      map['device_status'] = Variable<int>(deviceStatus.value);
+    }
+    if (companyName.present) {
+      map['company_name'] = Variable<String>(companyName.value);
+    }
+    if (deviceNickName.present) {
+      map['device_nick_name'] = Variable<String>(deviceNickName.value);
+    }
+    if (latitude.present) {
+      map['latitude'] = Variable<double>(latitude.value);
+    }
+    if (longitude.present) {
+      map['longitude'] = Variable<double>(longitude.value);
+    }
+    return map;
   }
 }
 
@@ -4238,186 +4889,205 @@ class $MobileDeviceTable extends MobileDevice
   @override
   final String actualTableName = 'mobile_device';
   @override
-  VerificationContext validateIntegrity(MobileDeviceCompanion d,
+  VerificationContext validateIntegrity(Insertable<MobileDeviceData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.creationTime.present) {
+    final data = instance.toColumns(true);
+    if (data.containsKey('creation_time')) {
       context.handle(
           _creationTimeMeta,
-          creationTime.isAcceptableValue(
-              d.creationTime.value, _creationTimeMeta));
+          creationTime.isAcceptableOrUnknown(
+              data['creation_time'], _creationTimeMeta));
     }
-    if (d.deleteTime.present) {
-      context.handle(_deleteTimeMeta,
-          deleteTime.isAcceptableValue(d.deleteTime.value, _deleteTimeMeta));
+    if (data.containsKey('delete_time')) {
+      context.handle(
+          _deleteTimeMeta,
+          deleteTime.isAcceptableOrUnknown(
+              data['delete_time'], _deleteTimeMeta));
     }
-    if (d.createUserId.present) {
+    if (data.containsKey('create_user_id')) {
       context.handle(
           _createUserIdMeta,
-          createUserId.isAcceptableValue(
-              d.createUserId.value, _createUserIdMeta));
+          createUserId.isAcceptableOrUnknown(
+              data['create_user_id'], _createUserIdMeta));
     }
-    if (d.creatorUser.present) {
-      context.handle(_creatorUserMeta,
-          creatorUser.isAcceptableValue(d.creatorUser.value, _creatorUserMeta));
+    if (data.containsKey('creator_user')) {
+      context.handle(
+          _creatorUserMeta,
+          creatorUser.isAcceptableOrUnknown(
+              data['creator_user'], _creatorUserMeta));
     }
-    if (d.lastModifierUser.present) {
+    if (data.containsKey('last_modifier_user')) {
       context.handle(
           _lastModifierUserMeta,
-          lastModifierUser.isAcceptableValue(
-              d.lastModifierUser.value, _lastModifierUserMeta));
+          lastModifierUser.isAcceptableOrUnknown(
+              data['last_modifier_user'], _lastModifierUserMeta));
     }
-    if (d.lastModifierUserId.present) {
+    if (data.containsKey('last_modifier_user_id')) {
       context.handle(
           _lastModifierUserIdMeta,
-          lastModifierUserId.isAcceptableValue(
-              d.lastModifierUserId.value, _lastModifierUserIdMeta));
+          lastModifierUserId.isAcceptableOrUnknown(
+              data['last_modifier_user_id'], _lastModifierUserIdMeta));
     }
-    if (d.deleteUserId.present) {
+    if (data.containsKey('delete_user_id')) {
       context.handle(
           _deleteUserIdMeta,
-          deleteUserId.isAcceptableValue(
-              d.deleteUserId.value, _deleteUserIdMeta));
+          deleteUserId.isAcceptableOrUnknown(
+              data['delete_user_id'], _deleteUserIdMeta));
     }
-    if (d.deleterUserId.present) {
+    if (data.containsKey('deleter_user_id')) {
       context.handle(
           _deleterUserIdMeta,
-          deleterUserId.isAcceptableValue(
-              d.deleterUserId.value, _deleterUserIdMeta));
+          deleterUserId.isAcceptableOrUnknown(
+              data['deleter_user_id'], _deleterUserIdMeta));
     }
-    if (d.isDeleted.present) {
+    if (data.containsKey('is_deleted')) {
       context.handle(_isDeletedMeta,
-          isDeleted.isAcceptableValue(d.isDeleted.value, _isDeletedMeta));
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
     }
-    if (d.importDateTime.present) {
+    if (data.containsKey('import_date_time')) {
       context.handle(
           _importDateTimeMeta,
-          importDateTime.isAcceptableValue(
-              d.importDateTime.value, _importDateTimeMeta));
+          importDateTime.isAcceptableOrUnknown(
+              data['import_date_time'], _importDateTimeMeta));
     }
-    if (d.exportDateTime.present) {
+    if (data.containsKey('export_date_time')) {
       context.handle(
           _exportDateTimeMeta,
-          exportDateTime.isAcceptableValue(
-              d.exportDateTime.value, _exportDateTimeMeta));
+          exportDateTime.isAcceptableOrUnknown(
+              data['export_date_time'], _exportDateTimeMeta));
     }
-    if (d.exportStatus.present) {
+    if (data.containsKey('export_status')) {
       context.handle(
           _exportStatusMeta,
-          exportStatus.isAcceptableValue(
-              d.exportStatus.value, _exportStatusMeta));
+          exportStatus.isAcceptableOrUnknown(
+              data['export_status'], _exportStatusMeta));
     }
-    if (d.importStatus.present) {
+    if (data.containsKey('import_status')) {
       context.handle(
           _importStatusMeta,
-          importStatus.isAcceptableValue(
-              d.importStatus.value, _importStatusMeta));
+          importStatus.isAcceptableOrUnknown(
+              data['import_status'], _importStatusMeta));
     }
-    if (d.syncError.present) {
+    if (data.containsKey('sync_error')) {
       context.handle(_syncErrorMeta,
-          syncError.isAcceptableValue(d.syncError.value, _syncErrorMeta));
+          syncError.isAcceptableOrUnknown(data['sync_error'], _syncErrorMeta));
     }
-    if (d.deviceId.present) {
+    if (data.containsKey('device_id')) {
       context.handle(_deviceIdMeta,
-          deviceId.isAcceptableValue(d.deviceId.value, _deviceIdMeta));
+          deviceId.isAcceptableOrUnknown(data['device_id'], _deviceIdMeta));
     }
-    if (d.deviceName.present) {
-      context.handle(_deviceNameMeta,
-          deviceName.isAcceptableValue(d.deviceName.value, _deviceNameMeta));
+    if (data.containsKey('device_name')) {
+      context.handle(
+          _deviceNameMeta,
+          deviceName.isAcceptableOrUnknown(
+              data['device_name'], _deviceNameMeta));
     }
-    if (d.versionRelease.present) {
+    if (data.containsKey('version_release')) {
       context.handle(
           _versionReleaseMeta,
-          versionRelease.isAcceptableValue(
-              d.versionRelease.value, _versionReleaseMeta));
+          versionRelease.isAcceptableOrUnknown(
+              data['version_release'], _versionReleaseMeta));
     }
-    if (d.versionEnvrement.present) {
+    if (data.containsKey('version_envrement')) {
       context.handle(
           _versionEnvrementMeta,
-          versionEnvrement.isAcceptableValue(
-              d.versionEnvrement.value, _versionEnvrementMeta));
+          versionEnvrement.isAcceptableOrUnknown(
+              data['version_envrement'], _versionEnvrementMeta));
     }
-    if (d.bootLoader.present) {
-      context.handle(_bootLoaderMeta,
-          bootLoader.isAcceptableValue(d.bootLoader.value, _bootLoaderMeta));
-    }
-    if (d.manufacture.present) {
-      context.handle(_manufactureMeta,
-          manufacture.isAcceptableValue(d.manufacture.value, _manufactureMeta));
-    }
-    if (d.model.present) {
+    if (data.containsKey('boot_loader')) {
       context.handle(
-          _modelMeta, model.isAcceptableValue(d.model.value, _modelMeta));
+          _bootLoaderMeta,
+          bootLoader.isAcceptableOrUnknown(
+              data['boot_loader'], _bootLoaderMeta));
     }
-    if (d.sdkNumber.present) {
+    if (data.containsKey('manufacture')) {
+      context.handle(
+          _manufactureMeta,
+          manufacture.isAcceptableOrUnknown(
+              data['manufacture'], _manufactureMeta));
+    }
+    if (data.containsKey('model')) {
+      context.handle(
+          _modelMeta, model.isAcceptableOrUnknown(data['model'], _modelMeta));
+    }
+    if (data.containsKey('sdk_number')) {
       context.handle(_sdkNumberMeta,
-          sdkNumber.isAcceptableValue(d.sdkNumber.value, _sdkNumberMeta));
+          sdkNumber.isAcceptableOrUnknown(data['sdk_number'], _sdkNumberMeta));
     }
-    if (d.hardware.present) {
+    if (data.containsKey('hardware')) {
       context.handle(_hardwareMeta,
-          hardware.isAcceptableValue(d.hardware.value, _hardwareMeta));
+          hardware.isAcceptableOrUnknown(data['hardware'], _hardwareMeta));
     }
-    if (d.deviceHost.present) {
-      context.handle(_deviceHostMeta,
-          deviceHost.isAcceptableValue(d.deviceHost.value, _deviceHostMeta));
+    if (data.containsKey('device_host')) {
+      context.handle(
+          _deviceHostMeta,
+          deviceHost.isAcceptableOrUnknown(
+              data['device_host'], _deviceHostMeta));
     }
-    if (d.deviceTime.present) {
-      context.handle(_deviceTimeMeta,
-          deviceTime.isAcceptableValue(d.deviceTime.value, _deviceTimeMeta));
+    if (data.containsKey('device_time')) {
+      context.handle(
+          _deviceTimeMeta,
+          deviceTime.isAcceptableOrUnknown(
+              data['device_time'], _deviceTimeMeta));
     }
-    if (d.deviceSerial.present) {
+    if (data.containsKey('device_serial')) {
       context.handle(
           _deviceSerialMeta,
-          deviceSerial.isAcceptableValue(
-              d.deviceSerial.value, _deviceSerialMeta));
+          deviceSerial.isAcceptableOrUnknown(
+              data['device_serial'], _deviceSerialMeta));
     }
-    if (d.deviceMac.present) {
+    if (data.containsKey('device_mac')) {
       context.handle(_deviceMacMeta,
-          deviceMac.isAcceptableValue(d.deviceMac.value, _deviceMacMeta));
+          deviceMac.isAcceptableOrUnknown(data['device_mac'], _deviceMacMeta));
     }
-    if (d.deviceIp.present) {
+    if (data.containsKey('device_ip')) {
       context.handle(_deviceIpMeta,
-          deviceIp.isAcceptableValue(d.deviceIp.value, _deviceIpMeta));
+          deviceIp.isAcceptableOrUnknown(data['device_ip'], _deviceIpMeta));
     }
-    if (d.deviceMode.present) {
-      context.handle(_deviceModeMeta,
-          deviceMode.isAcceptableValue(d.deviceMode.value, _deviceModeMeta));
+    if (data.containsKey('device_mode')) {
+      context.handle(
+          _deviceModeMeta,
+          deviceMode.isAcceptableOrUnknown(
+              data['device_mode'], _deviceModeMeta));
     }
-    if (d.activationDate.present) {
+    if (data.containsKey('activation_date')) {
       context.handle(
           _activationDateMeta,
-          activationDate.isAcceptableValue(
-              d.activationDate.value, _activationDateMeta));
+          activationDate.isAcceptableOrUnknown(
+              data['activation_date'], _activationDateMeta));
     }
-    if (d.expirationDate.present) {
+    if (data.containsKey('expiration_date')) {
       context.handle(
           _expirationDateMeta,
-          expirationDate.isAcceptableValue(
-              d.expirationDate.value, _expirationDateMeta));
+          expirationDate.isAcceptableOrUnknown(
+              data['expiration_date'], _expirationDateMeta));
     }
-    if (d.deviceStatus.present) {
+    if (data.containsKey('device_status')) {
       context.handle(
           _deviceStatusMeta,
-          deviceStatus.isAcceptableValue(
-              d.deviceStatus.value, _deviceStatusMeta));
+          deviceStatus.isAcceptableOrUnknown(
+              data['device_status'], _deviceStatusMeta));
     }
-    if (d.companyName.present) {
-      context.handle(_companyNameMeta,
-          companyName.isAcceptableValue(d.companyName.value, _companyNameMeta));
+    if (data.containsKey('company_name')) {
+      context.handle(
+          _companyNameMeta,
+          companyName.isAcceptableOrUnknown(
+              data['company_name'], _companyNameMeta));
     }
-    if (d.deviceNickName.present) {
+    if (data.containsKey('device_nick_name')) {
       context.handle(
           _deviceNickNameMeta,
-          deviceNickName.isAcceptableValue(
-              d.deviceNickName.value, _deviceNickNameMeta));
+          deviceNickName.isAcceptableOrUnknown(
+              data['device_nick_name'], _deviceNickNameMeta));
     }
-    if (d.latitude.present) {
+    if (data.containsKey('latitude')) {
       context.handle(_latitudeMeta,
-          latitude.isAcceptableValue(d.latitude.value, _latitudeMeta));
+          latitude.isAcceptableOrUnknown(data['latitude'], _latitudeMeta));
     }
-    if (d.longitude.present) {
+    if (data.containsKey('longitude')) {
       context.handle(_longitudeMeta,
-          longitude.isAcceptableValue(d.longitude.value, _longitudeMeta));
+          longitude.isAcceptableOrUnknown(data['longitude'], _longitudeMeta));
     }
     return context;
   }
@@ -4428,131 +5098,6 @@ class $MobileDeviceTable extends MobileDevice
   MobileDeviceData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return MobileDeviceData.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(MobileDeviceCompanion d) {
-    final map = <String, Variable>{};
-    if (d.creationTime.present) {
-      map['creation_time'] =
-          Variable<DateTime, DateTimeType>(d.creationTime.value);
-    }
-    if (d.deleteTime.present) {
-      map['delete_time'] = Variable<DateTime, DateTimeType>(d.deleteTime.value);
-    }
-    if (d.createUserId.present) {
-      map['create_user_id'] = Variable<int, IntType>(d.createUserId.value);
-    }
-    if (d.creatorUser.present) {
-      map['creator_user'] = Variable<String, StringType>(d.creatorUser.value);
-    }
-    if (d.lastModifierUser.present) {
-      map['last_modifier_user'] =
-          Variable<String, StringType>(d.lastModifierUser.value);
-    }
-    if (d.lastModifierUserId.present) {
-      map['last_modifier_user_id'] =
-          Variable<int, IntType>(d.lastModifierUserId.value);
-    }
-    if (d.deleteUserId.present) {
-      map['delete_user_id'] = Variable<int, IntType>(d.deleteUserId.value);
-    }
-    if (d.deleterUserId.present) {
-      map['deleter_user_id'] =
-          Variable<String, StringType>(d.deleterUserId.value);
-    }
-    if (d.isDeleted.present) {
-      map['is_deleted'] = Variable<bool, BoolType>(d.isDeleted.value);
-    }
-    if (d.importDateTime.present) {
-      map['import_date_time'] =
-          Variable<DateTime, DateTimeType>(d.importDateTime.value);
-    }
-    if (d.exportDateTime.present) {
-      map['export_date_time'] =
-          Variable<DateTime, DateTimeType>(d.exportDateTime.value);
-    }
-    if (d.exportStatus.present) {
-      map['export_status'] = Variable<String, StringType>(d.exportStatus.value);
-    }
-    if (d.importStatus.present) {
-      map['import_status'] = Variable<String, StringType>(d.importStatus.value);
-    }
-    if (d.syncError.present) {
-      map['sync_error'] = Variable<String, StringType>(d.syncError.value);
-    }
-    if (d.deviceId.present) {
-      map['device_id'] = Variable<String, StringType>(d.deviceId.value);
-    }
-    if (d.deviceName.present) {
-      map['device_name'] = Variable<String, StringType>(d.deviceName.value);
-    }
-    if (d.versionRelease.present) {
-      map['version_release'] =
-          Variable<String, StringType>(d.versionRelease.value);
-    }
-    if (d.versionEnvrement.present) {
-      map['version_envrement'] =
-          Variable<String, StringType>(d.versionEnvrement.value);
-    }
-    if (d.bootLoader.present) {
-      map['boot_loader'] = Variable<String, StringType>(d.bootLoader.value);
-    }
-    if (d.manufacture.present) {
-      map['manufacture'] = Variable<String, StringType>(d.manufacture.value);
-    }
-    if (d.model.present) {
-      map['model'] = Variable<String, StringType>(d.model.value);
-    }
-    if (d.sdkNumber.present) {
-      map['sdk_number'] = Variable<int, IntType>(d.sdkNumber.value);
-    }
-    if (d.hardware.present) {
-      map['hardware'] = Variable<String, StringType>(d.hardware.value);
-    }
-    if (d.deviceHost.present) {
-      map['device_host'] = Variable<String, StringType>(d.deviceHost.value);
-    }
-    if (d.deviceTime.present) {
-      map['device_time'] = Variable<DateTime, DateTimeType>(d.deviceTime.value);
-    }
-    if (d.deviceSerial.present) {
-      map['device_serial'] = Variable<String, StringType>(d.deviceSerial.value);
-    }
-    if (d.deviceMac.present) {
-      map['device_mac'] = Variable<String, StringType>(d.deviceMac.value);
-    }
-    if (d.deviceIp.present) {
-      map['device_ip'] = Variable<String, StringType>(d.deviceIp.value);
-    }
-    if (d.deviceMode.present) {
-      map['device_mode'] = Variable<String, StringType>(d.deviceMode.value);
-    }
-    if (d.activationDate.present) {
-      map['activation_date'] =
-          Variable<DateTime, DateTimeType>(d.activationDate.value);
-    }
-    if (d.expirationDate.present) {
-      map['expiration_date'] =
-          Variable<DateTime, DateTimeType>(d.expirationDate.value);
-    }
-    if (d.deviceStatus.present) {
-      map['device_status'] = Variable<int, IntType>(d.deviceStatus.value);
-    }
-    if (d.companyName.present) {
-      map['company_name'] = Variable<String, StringType>(d.companyName.value);
-    }
-    if (d.deviceNickName.present) {
-      map['device_nick_name'] =
-          Variable<String, StringType>(d.deviceNickName.value);
-    }
-    if (d.latitude.present) {
-      map['latitude'] = Variable<double, RealType>(d.latitude.value);
-    }
-    if (d.longitude.present) {
-      map['longitude'] = Variable<double, RealType>(d.longitude.value);
-    }
-    return map;
   }
 
   @override
@@ -4662,65 +5207,79 @@ class BusinessRuleData extends DataClass
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}domain']),
     );
   }
-  factory BusinessRuleData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
-    return BusinessRuleData(
-      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
-      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
-      createUserId: serializer.fromJson<int>(json['createUserId']),
-      creatorUser: serializer.fromJson<String>(json['creatorUser']),
-      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
-      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
-      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
-      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
-      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
-      importDateTime: serializer.fromJson<DateTime>(json['importDateTime']),
-      exportDateTime: serializer.fromJson<DateTime>(json['exportDateTime']),
-      exportStatus: serializer.fromJson<String>(json['exportStatus']),
-      importStatus: serializer.fromJson<String>(json['importStatus']),
-      syncError: serializer.fromJson<String>(json['syncError']),
-      code: serializer.fromJson<String>(json['code']),
-      ruleName: serializer.fromJson<String>(json['ruleName']),
-      value: serializer.fromJson<String>(json['value']),
-      description: serializer.fromJson<String>(json['description']),
-      isGlobalRule: serializer.fromJson<bool>(json['isGlobalRule']),
-      deviceRule: serializer.fromJson<String>(json['deviceRule']),
-      userRule: serializer.fromJson<String>(json['userRule']),
-      domain: serializer.fromJson<String>(json['domain']),
-    );
-  }
   @override
-  Map<String, dynamic> toJson({ValueSerializer serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'creationTime': serializer.toJson<DateTime>(creationTime),
-      'deleteTime': serializer.toJson<DateTime>(deleteTime),
-      'createUserId': serializer.toJson<int>(createUserId),
-      'creatorUser': serializer.toJson<String>(creatorUser),
-      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
-      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
-      'deleteUserId': serializer.toJson<int>(deleteUserId),
-      'deleterUserId': serializer.toJson<String>(deleterUserId),
-      'isDeleted': serializer.toJson<bool>(isDeleted),
-      'importDateTime': serializer.toJson<DateTime>(importDateTime),
-      'exportDateTime': serializer.toJson<DateTime>(exportDateTime),
-      'exportStatus': serializer.toJson<String>(exportStatus),
-      'importStatus': serializer.toJson<String>(importStatus),
-      'syncError': serializer.toJson<String>(syncError),
-      'code': serializer.toJson<String>(code),
-      'ruleName': serializer.toJson<String>(ruleName),
-      'value': serializer.toJson<String>(value),
-      'description': serializer.toJson<String>(description),
-      'isGlobalRule': serializer.toJson<bool>(isGlobalRule),
-      'deviceRule': serializer.toJson<String>(deviceRule),
-      'userRule': serializer.toJson<String>(userRule),
-      'domain': serializer.toJson<String>(domain),
-    };
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || creationTime != null) {
+      map['creation_time'] = Variable<DateTime>(creationTime);
+    }
+    if (!nullToAbsent || deleteTime != null) {
+      map['delete_time'] = Variable<DateTime>(deleteTime);
+    }
+    if (!nullToAbsent || createUserId != null) {
+      map['create_user_id'] = Variable<int>(createUserId);
+    }
+    if (!nullToAbsent || creatorUser != null) {
+      map['creator_user'] = Variable<String>(creatorUser);
+    }
+    if (!nullToAbsent || lastModifierUser != null) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser);
+    }
+    if (!nullToAbsent || lastModifierUserId != null) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
+    }
+    if (!nullToAbsent || deleteUserId != null) {
+      map['delete_user_id'] = Variable<int>(deleteUserId);
+    }
+    if (!nullToAbsent || deleterUserId != null) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId);
+    }
+    if (!nullToAbsent || isDeleted != null) {
+      map['is_deleted'] = Variable<bool>(isDeleted);
+    }
+    if (!nullToAbsent || importDateTime != null) {
+      map['import_date_time'] = Variable<DateTime>(importDateTime);
+    }
+    if (!nullToAbsent || exportDateTime != null) {
+      map['export_date_time'] = Variable<DateTime>(exportDateTime);
+    }
+    if (!nullToAbsent || exportStatus != null) {
+      map['export_status'] = Variable<String>(exportStatus);
+    }
+    if (!nullToAbsent || importStatus != null) {
+      map['import_status'] = Variable<String>(importStatus);
+    }
+    if (!nullToAbsent || syncError != null) {
+      map['sync_error'] = Variable<String>(syncError);
+    }
+    if (!nullToAbsent || code != null) {
+      map['code'] = Variable<String>(code);
+    }
+    if (!nullToAbsent || ruleName != null) {
+      map['rule_name'] = Variable<String>(ruleName);
+    }
+    if (!nullToAbsent || value != null) {
+      map['value'] = Variable<String>(value);
+    }
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    if (!nullToAbsent || isGlobalRule != null) {
+      map['is_global_rule'] = Variable<bool>(isGlobalRule);
+    }
+    if (!nullToAbsent || deviceRule != null) {
+      map['device_rule'] = Variable<String>(deviceRule);
+    }
+    if (!nullToAbsent || userRule != null) {
+      map['user_rule'] = Variable<String>(userRule);
+    }
+    if (!nullToAbsent || domain != null) {
+      map['domain'] = Variable<String>(domain);
+    }
+    return map;
   }
 
-  @override
-  BusinessRuleCompanion createCompanion(bool nullToAbsent) {
+  BusinessRuleCompanion toCompanion(bool nullToAbsent) {
     return BusinessRuleCompanion(
       creationTime: creationTime == null && nullToAbsent
           ? const Value.absent()
@@ -4785,6 +5344,63 @@ class BusinessRuleData extends DataClass
       domain:
           domain == null && nullToAbsent ? const Value.absent() : Value(domain),
     );
+  }
+
+  factory BusinessRuleData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return BusinessRuleData(
+      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
+      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
+      createUserId: serializer.fromJson<int>(json['createUserId']),
+      creatorUser: serializer.fromJson<String>(json['creatorUser']),
+      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
+      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
+      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
+      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      importDateTime: serializer.fromJson<DateTime>(json['importDateTime']),
+      exportDateTime: serializer.fromJson<DateTime>(json['exportDateTime']),
+      exportStatus: serializer.fromJson<String>(json['exportStatus']),
+      importStatus: serializer.fromJson<String>(json['importStatus']),
+      syncError: serializer.fromJson<String>(json['syncError']),
+      code: serializer.fromJson<String>(json['code']),
+      ruleName: serializer.fromJson<String>(json['ruleName']),
+      value: serializer.fromJson<String>(json['value']),
+      description: serializer.fromJson<String>(json['description']),
+      isGlobalRule: serializer.fromJson<bool>(json['isGlobalRule']),
+      deviceRule: serializer.fromJson<String>(json['deviceRule']),
+      userRule: serializer.fromJson<String>(json['userRule']),
+      domain: serializer.fromJson<String>(json['domain']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'creationTime': serializer.toJson<DateTime>(creationTime),
+      'deleteTime': serializer.toJson<DateTime>(deleteTime),
+      'createUserId': serializer.toJson<int>(createUserId),
+      'creatorUser': serializer.toJson<String>(creatorUser),
+      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
+      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
+      'deleteUserId': serializer.toJson<int>(deleteUserId),
+      'deleterUserId': serializer.toJson<String>(deleterUserId),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'importDateTime': serializer.toJson<DateTime>(importDateTime),
+      'exportDateTime': serializer.toJson<DateTime>(exportDateTime),
+      'exportStatus': serializer.toJson<String>(exportStatus),
+      'importStatus': serializer.toJson<String>(importStatus),
+      'syncError': serializer.toJson<String>(syncError),
+      'code': serializer.toJson<String>(code),
+      'ruleName': serializer.toJson<String>(ruleName),
+      'value': serializer.toJson<String>(value),
+      'description': serializer.toJson<String>(description),
+      'isGlobalRule': serializer.toJson<bool>(isGlobalRule),
+      'deviceRule': serializer.toJson<String>(deviceRule),
+      'userRule': serializer.toJson<String>(userRule),
+      'domain': serializer.toJson<String>(domain),
+    };
   }
 
   BusinessRuleData copyWith(
@@ -5006,6 +5622,57 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
     this.domain = const Value.absent(),
   })  : code = Value(code),
         value = Value(value);
+  static Insertable<BusinessRuleData> custom({
+    Expression<DateTime> creationTime,
+    Expression<DateTime> deleteTime,
+    Expression<int> createUserId,
+    Expression<String> creatorUser,
+    Expression<String> lastModifierUser,
+    Expression<int> lastModifierUserId,
+    Expression<int> deleteUserId,
+    Expression<String> deleterUserId,
+    Expression<bool> isDeleted,
+    Expression<DateTime> importDateTime,
+    Expression<DateTime> exportDateTime,
+    Expression<String> exportStatus,
+    Expression<String> importStatus,
+    Expression<String> syncError,
+    Expression<String> code,
+    Expression<String> ruleName,
+    Expression<String> value,
+    Expression<String> description,
+    Expression<bool> isGlobalRule,
+    Expression<String> deviceRule,
+    Expression<String> userRule,
+    Expression<String> domain,
+  }) {
+    return RawValuesInsertable({
+      if (creationTime != null) 'creation_time': creationTime,
+      if (deleteTime != null) 'delete_time': deleteTime,
+      if (createUserId != null) 'create_user_id': createUserId,
+      if (creatorUser != null) 'creator_user': creatorUser,
+      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
+      if (lastModifierUserId != null)
+        'last_modifier_user_id': lastModifierUserId,
+      if (deleteUserId != null) 'delete_user_id': deleteUserId,
+      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (importDateTime != null) 'import_date_time': importDateTime,
+      if (exportDateTime != null) 'export_date_time': exportDateTime,
+      if (exportStatus != null) 'export_status': exportStatus,
+      if (importStatus != null) 'import_status': importStatus,
+      if (syncError != null) 'sync_error': syncError,
+      if (code != null) 'code': code,
+      if (ruleName != null) 'rule_name': ruleName,
+      if (value != null) 'value': value,
+      if (description != null) 'description': description,
+      if (isGlobalRule != null) 'is_global_rule': isGlobalRule,
+      if (deviceRule != null) 'device_rule': deviceRule,
+      if (userRule != null) 'user_rule': userRule,
+      if (domain != null) 'domain': domain,
+    });
+  }
+
   BusinessRuleCompanion copyWith(
       {Value<DateTime> creationTime,
       Value<DateTime> deleteTime,
@@ -5053,6 +5720,78 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
       userRule: userRule ?? this.userRule,
       domain: domain ?? this.domain,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (creationTime.present) {
+      map['creation_time'] = Variable<DateTime>(creationTime.value);
+    }
+    if (deleteTime.present) {
+      map['delete_time'] = Variable<DateTime>(deleteTime.value);
+    }
+    if (createUserId.present) {
+      map['create_user_id'] = Variable<int>(createUserId.value);
+    }
+    if (creatorUser.present) {
+      map['creator_user'] = Variable<String>(creatorUser.value);
+    }
+    if (lastModifierUser.present) {
+      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
+    }
+    if (lastModifierUserId.present) {
+      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
+    }
+    if (deleteUserId.present) {
+      map['delete_user_id'] = Variable<int>(deleteUserId.value);
+    }
+    if (deleterUserId.present) {
+      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (importDateTime.present) {
+      map['import_date_time'] = Variable<DateTime>(importDateTime.value);
+    }
+    if (exportDateTime.present) {
+      map['export_date_time'] = Variable<DateTime>(exportDateTime.value);
+    }
+    if (exportStatus.present) {
+      map['export_status'] = Variable<String>(exportStatus.value);
+    }
+    if (importStatus.present) {
+      map['import_status'] = Variable<String>(importStatus.value);
+    }
+    if (syncError.present) {
+      map['sync_error'] = Variable<String>(syncError.value);
+    }
+    if (code.present) {
+      map['code'] = Variable<String>(code.value);
+    }
+    if (ruleName.present) {
+      map['rule_name'] = Variable<String>(ruleName.value);
+    }
+    if (value.present) {
+      map['value'] = Variable<String>(value.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (isGlobalRule.present) {
+      map['is_global_rule'] = Variable<bool>(isGlobalRule.value);
+    }
+    if (deviceRule.present) {
+      map['device_rule'] = Variable<String>(deviceRule.value);
+    }
+    if (userRule.present) {
+      map['user_rule'] = Variable<String>(userRule.value);
+    }
+    if (domain.present) {
+      map['domain'] = Variable<String>(domain.value);
+    }
+    return map;
   }
 }
 
@@ -5372,122 +6111,131 @@ class $BusinessRuleTable extends BusinessRule
   @override
   final String actualTableName = 'business_rule';
   @override
-  VerificationContext validateIntegrity(BusinessRuleCompanion d,
+  VerificationContext validateIntegrity(Insertable<BusinessRuleData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.creationTime.present) {
+    final data = instance.toColumns(true);
+    if (data.containsKey('creation_time')) {
       context.handle(
           _creationTimeMeta,
-          creationTime.isAcceptableValue(
-              d.creationTime.value, _creationTimeMeta));
+          creationTime.isAcceptableOrUnknown(
+              data['creation_time'], _creationTimeMeta));
     }
-    if (d.deleteTime.present) {
-      context.handle(_deleteTimeMeta,
-          deleteTime.isAcceptableValue(d.deleteTime.value, _deleteTimeMeta));
+    if (data.containsKey('delete_time')) {
+      context.handle(
+          _deleteTimeMeta,
+          deleteTime.isAcceptableOrUnknown(
+              data['delete_time'], _deleteTimeMeta));
     }
-    if (d.createUserId.present) {
+    if (data.containsKey('create_user_id')) {
       context.handle(
           _createUserIdMeta,
-          createUserId.isAcceptableValue(
-              d.createUserId.value, _createUserIdMeta));
+          createUserId.isAcceptableOrUnknown(
+              data['create_user_id'], _createUserIdMeta));
     }
-    if (d.creatorUser.present) {
-      context.handle(_creatorUserMeta,
-          creatorUser.isAcceptableValue(d.creatorUser.value, _creatorUserMeta));
+    if (data.containsKey('creator_user')) {
+      context.handle(
+          _creatorUserMeta,
+          creatorUser.isAcceptableOrUnknown(
+              data['creator_user'], _creatorUserMeta));
     }
-    if (d.lastModifierUser.present) {
+    if (data.containsKey('last_modifier_user')) {
       context.handle(
           _lastModifierUserMeta,
-          lastModifierUser.isAcceptableValue(
-              d.lastModifierUser.value, _lastModifierUserMeta));
+          lastModifierUser.isAcceptableOrUnknown(
+              data['last_modifier_user'], _lastModifierUserMeta));
     }
-    if (d.lastModifierUserId.present) {
+    if (data.containsKey('last_modifier_user_id')) {
       context.handle(
           _lastModifierUserIdMeta,
-          lastModifierUserId.isAcceptableValue(
-              d.lastModifierUserId.value, _lastModifierUserIdMeta));
+          lastModifierUserId.isAcceptableOrUnknown(
+              data['last_modifier_user_id'], _lastModifierUserIdMeta));
     }
-    if (d.deleteUserId.present) {
+    if (data.containsKey('delete_user_id')) {
       context.handle(
           _deleteUserIdMeta,
-          deleteUserId.isAcceptableValue(
-              d.deleteUserId.value, _deleteUserIdMeta));
+          deleteUserId.isAcceptableOrUnknown(
+              data['delete_user_id'], _deleteUserIdMeta));
     }
-    if (d.deleterUserId.present) {
+    if (data.containsKey('deleter_user_id')) {
       context.handle(
           _deleterUserIdMeta,
-          deleterUserId.isAcceptableValue(
-              d.deleterUserId.value, _deleterUserIdMeta));
+          deleterUserId.isAcceptableOrUnknown(
+              data['deleter_user_id'], _deleterUserIdMeta));
     }
-    if (d.isDeleted.present) {
+    if (data.containsKey('is_deleted')) {
       context.handle(_isDeletedMeta,
-          isDeleted.isAcceptableValue(d.isDeleted.value, _isDeletedMeta));
+          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
     }
-    if (d.importDateTime.present) {
+    if (data.containsKey('import_date_time')) {
       context.handle(
           _importDateTimeMeta,
-          importDateTime.isAcceptableValue(
-              d.importDateTime.value, _importDateTimeMeta));
+          importDateTime.isAcceptableOrUnknown(
+              data['import_date_time'], _importDateTimeMeta));
     }
-    if (d.exportDateTime.present) {
+    if (data.containsKey('export_date_time')) {
       context.handle(
           _exportDateTimeMeta,
-          exportDateTime.isAcceptableValue(
-              d.exportDateTime.value, _exportDateTimeMeta));
+          exportDateTime.isAcceptableOrUnknown(
+              data['export_date_time'], _exportDateTimeMeta));
     }
-    if (d.exportStatus.present) {
+    if (data.containsKey('export_status')) {
       context.handle(
           _exportStatusMeta,
-          exportStatus.isAcceptableValue(
-              d.exportStatus.value, _exportStatusMeta));
+          exportStatus.isAcceptableOrUnknown(
+              data['export_status'], _exportStatusMeta));
     }
-    if (d.importStatus.present) {
+    if (data.containsKey('import_status')) {
       context.handle(
           _importStatusMeta,
-          importStatus.isAcceptableValue(
-              d.importStatus.value, _importStatusMeta));
+          importStatus.isAcceptableOrUnknown(
+              data['import_status'], _importStatusMeta));
     }
-    if (d.syncError.present) {
+    if (data.containsKey('sync_error')) {
       context.handle(_syncErrorMeta,
-          syncError.isAcceptableValue(d.syncError.value, _syncErrorMeta));
+          syncError.isAcceptableOrUnknown(data['sync_error'], _syncErrorMeta));
     }
-    if (d.code.present) {
+    if (data.containsKey('code')) {
       context.handle(
-          _codeMeta, code.isAcceptableValue(d.code.value, _codeMeta));
+          _codeMeta, code.isAcceptableOrUnknown(data['code'], _codeMeta));
     } else if (isInserting) {
       context.missing(_codeMeta);
     }
-    if (d.ruleName.present) {
+    if (data.containsKey('rule_name')) {
       context.handle(_ruleNameMeta,
-          ruleName.isAcceptableValue(d.ruleName.value, _ruleNameMeta));
+          ruleName.isAcceptableOrUnknown(data['rule_name'], _ruleNameMeta));
     }
-    if (d.value.present) {
+    if (data.containsKey('value')) {
       context.handle(
-          _valueMeta, value.isAcceptableValue(d.value.value, _valueMeta));
+          _valueMeta, value.isAcceptableOrUnknown(data['value'], _valueMeta));
     } else if (isInserting) {
       context.missing(_valueMeta);
     }
-    if (d.description.present) {
-      context.handle(_descriptionMeta,
-          description.isAcceptableValue(d.description.value, _descriptionMeta));
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description'], _descriptionMeta));
     }
-    if (d.isGlobalRule.present) {
+    if (data.containsKey('is_global_rule')) {
       context.handle(
           _isGlobalRuleMeta,
-          isGlobalRule.isAcceptableValue(
-              d.isGlobalRule.value, _isGlobalRuleMeta));
+          isGlobalRule.isAcceptableOrUnknown(
+              data['is_global_rule'], _isGlobalRuleMeta));
     }
-    if (d.deviceRule.present) {
-      context.handle(_deviceRuleMeta,
-          deviceRule.isAcceptableValue(d.deviceRule.value, _deviceRuleMeta));
-    }
-    if (d.userRule.present) {
-      context.handle(_userRuleMeta,
-          userRule.isAcceptableValue(d.userRule.value, _userRuleMeta));
-    }
-    if (d.domain.present) {
+    if (data.containsKey('device_rule')) {
       context.handle(
-          _domainMeta, domain.isAcceptableValue(d.domain.value, _domainMeta));
+          _deviceRuleMeta,
+          deviceRule.isAcceptableOrUnknown(
+              data['device_rule'], _deviceRuleMeta));
+    }
+    if (data.containsKey('user_rule')) {
+      context.handle(_userRuleMeta,
+          userRule.isAcceptableOrUnknown(data['user_rule'], _userRuleMeta));
+    }
+    if (data.containsKey('domain')) {
+      context.handle(_domainMeta,
+          domain.isAcceptableOrUnknown(data['domain'], _domainMeta));
     }
     return context;
   }
@@ -5498,84 +6246,6 @@ class $BusinessRuleTable extends BusinessRule
   BusinessRuleData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return BusinessRuleData.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(BusinessRuleCompanion d) {
-    final map = <String, Variable>{};
-    if (d.creationTime.present) {
-      map['creation_time'] =
-          Variable<DateTime, DateTimeType>(d.creationTime.value);
-    }
-    if (d.deleteTime.present) {
-      map['delete_time'] = Variable<DateTime, DateTimeType>(d.deleteTime.value);
-    }
-    if (d.createUserId.present) {
-      map['create_user_id'] = Variable<int, IntType>(d.createUserId.value);
-    }
-    if (d.creatorUser.present) {
-      map['creator_user'] = Variable<String, StringType>(d.creatorUser.value);
-    }
-    if (d.lastModifierUser.present) {
-      map['last_modifier_user'] =
-          Variable<String, StringType>(d.lastModifierUser.value);
-    }
-    if (d.lastModifierUserId.present) {
-      map['last_modifier_user_id'] =
-          Variable<int, IntType>(d.lastModifierUserId.value);
-    }
-    if (d.deleteUserId.present) {
-      map['delete_user_id'] = Variable<int, IntType>(d.deleteUserId.value);
-    }
-    if (d.deleterUserId.present) {
-      map['deleter_user_id'] =
-          Variable<String, StringType>(d.deleterUserId.value);
-    }
-    if (d.isDeleted.present) {
-      map['is_deleted'] = Variable<bool, BoolType>(d.isDeleted.value);
-    }
-    if (d.importDateTime.present) {
-      map['import_date_time'] =
-          Variable<DateTime, DateTimeType>(d.importDateTime.value);
-    }
-    if (d.exportDateTime.present) {
-      map['export_date_time'] =
-          Variable<DateTime, DateTimeType>(d.exportDateTime.value);
-    }
-    if (d.exportStatus.present) {
-      map['export_status'] = Variable<String, StringType>(d.exportStatus.value);
-    }
-    if (d.importStatus.present) {
-      map['import_status'] = Variable<String, StringType>(d.importStatus.value);
-    }
-    if (d.syncError.present) {
-      map['sync_error'] = Variable<String, StringType>(d.syncError.value);
-    }
-    if (d.code.present) {
-      map['code'] = Variable<String, StringType>(d.code.value);
-    }
-    if (d.ruleName.present) {
-      map['rule_name'] = Variable<String, StringType>(d.ruleName.value);
-    }
-    if (d.value.present) {
-      map['value'] = Variable<String, StringType>(d.value.value);
-    }
-    if (d.description.present) {
-      map['description'] = Variable<String, StringType>(d.description.value);
-    }
-    if (d.isGlobalRule.present) {
-      map['is_global_rule'] = Variable<bool, BoolType>(d.isGlobalRule.value);
-    }
-    if (d.deviceRule.present) {
-      map['device_rule'] = Variable<String, StringType>(d.deviceRule.value);
-    }
-    if (d.userRule.present) {
-      map['user_rule'] = Variable<String, StringType>(d.userRule.value);
-    }
-    if (d.domain.present) {
-      map['domain'] = Variable<String, StringType>(d.domain.value);
-    }
-    return map;
   }
 
   @override
@@ -5656,51 +6326,58 @@ class ApplicationLoggerData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}sync_error']),
     );
   }
-  factory ApplicationLoggerData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
-    return ApplicationLoggerData(
-      tenantId: serializer.fromJson<int>(json['tenantId']),
-      uerName: serializer.fromJson<String>(json['uerName']),
-      userId: serializer.fromJson<int>(json['userId']),
-      id: serializer.fromJson<int>(json['id']),
-      functionName: serializer.fromJson<String>(json['functionName']),
-      logDateTime: serializer.fromJson<DateTime>(json['logDateTime']),
-      syncFrequency: serializer.fromJson<String>(json['syncFrequency']),
-      logDescription: serializer.fromJson<String>(json['logDescription']),
-      documentNo: serializer.fromJson<String>(json['documentNo']),
-      deviceId: serializer.fromJson<String>(json['deviceId']),
-      logCode: serializer.fromJson<String>(json['logCode']),
-      logSeverity: serializer.fromJson<String>(json['logSeverity']),
-      exportDateTime: serializer.fromJson<DateTime>(json['exportDateTime']),
-      exportStatus: serializer.fromJson<String>(json['exportStatus']),
-      syncError: serializer.fromJson<String>(json['syncError']),
-    );
-  }
   @override
-  Map<String, dynamic> toJson({ValueSerializer serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'tenantId': serializer.toJson<int>(tenantId),
-      'uerName': serializer.toJson<String>(uerName),
-      'userId': serializer.toJson<int>(userId),
-      'id': serializer.toJson<int>(id),
-      'functionName': serializer.toJson<String>(functionName),
-      'logDateTime': serializer.toJson<DateTime>(logDateTime),
-      'syncFrequency': serializer.toJson<String>(syncFrequency),
-      'logDescription': serializer.toJson<String>(logDescription),
-      'documentNo': serializer.toJson<String>(documentNo),
-      'deviceId': serializer.toJson<String>(deviceId),
-      'logCode': serializer.toJson<String>(logCode),
-      'logSeverity': serializer.toJson<String>(logSeverity),
-      'exportDateTime': serializer.toJson<DateTime>(exportDateTime),
-      'exportStatus': serializer.toJson<String>(exportStatus),
-      'syncError': serializer.toJson<String>(syncError),
-    };
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || uerName != null) {
+      map['uer_name'] = Variable<String>(uerName);
+    }
+    if (!nullToAbsent || userId != null) {
+      map['user_id'] = Variable<int>(userId);
+    }
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || functionName != null) {
+      map['function_name'] = Variable<String>(functionName);
+    }
+    if (!nullToAbsent || logDateTime != null) {
+      map['log_date_time'] = Variable<DateTime>(logDateTime);
+    }
+    if (!nullToAbsent || syncFrequency != null) {
+      map['sync_frequency'] = Variable<String>(syncFrequency);
+    }
+    if (!nullToAbsent || logDescription != null) {
+      map['log_description'] = Variable<String>(logDescription);
+    }
+    if (!nullToAbsent || documentNo != null) {
+      map['document_no'] = Variable<String>(documentNo);
+    }
+    if (!nullToAbsent || deviceId != null) {
+      map['device_id'] = Variable<String>(deviceId);
+    }
+    if (!nullToAbsent || logCode != null) {
+      map['log_code'] = Variable<String>(logCode);
+    }
+    if (!nullToAbsent || logSeverity != null) {
+      map['log_severity'] = Variable<String>(logSeverity);
+    }
+    if (!nullToAbsent || exportDateTime != null) {
+      map['export_date_time'] = Variable<DateTime>(exportDateTime);
+    }
+    if (!nullToAbsent || exportStatus != null) {
+      map['export_status'] = Variable<String>(exportStatus);
+    }
+    if (!nullToAbsent || syncError != null) {
+      map['sync_error'] = Variable<String>(syncError);
+    }
+    return map;
   }
 
-  @override
-  ApplicationLoggerCompanion createCompanion(bool nullToAbsent) {
+  ApplicationLoggerCompanion toCompanion(bool nullToAbsent) {
     return ApplicationLoggerCompanion(
       tenantId: tenantId == null && nullToAbsent
           ? const Value.absent()
@@ -5745,6 +6422,49 @@ class ApplicationLoggerData extends DataClass
           ? const Value.absent()
           : Value(syncError),
     );
+  }
+
+  factory ApplicationLoggerData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return ApplicationLoggerData(
+      tenantId: serializer.fromJson<int>(json['tenantId']),
+      uerName: serializer.fromJson<String>(json['uerName']),
+      userId: serializer.fromJson<int>(json['userId']),
+      id: serializer.fromJson<int>(json['id']),
+      functionName: serializer.fromJson<String>(json['functionName']),
+      logDateTime: serializer.fromJson<DateTime>(json['logDateTime']),
+      syncFrequency: serializer.fromJson<String>(json['syncFrequency']),
+      logDescription: serializer.fromJson<String>(json['logDescription']),
+      documentNo: serializer.fromJson<String>(json['documentNo']),
+      deviceId: serializer.fromJson<String>(json['deviceId']),
+      logCode: serializer.fromJson<String>(json['logCode']),
+      logSeverity: serializer.fromJson<String>(json['logSeverity']),
+      exportDateTime: serializer.fromJson<DateTime>(json['exportDateTime']),
+      exportStatus: serializer.fromJson<String>(json['exportStatus']),
+      syncError: serializer.fromJson<String>(json['syncError']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'tenantId': serializer.toJson<int>(tenantId),
+      'uerName': serializer.toJson<String>(uerName),
+      'userId': serializer.toJson<int>(userId),
+      'id': serializer.toJson<int>(id),
+      'functionName': serializer.toJson<String>(functionName),
+      'logDateTime': serializer.toJson<DateTime>(logDateTime),
+      'syncFrequency': serializer.toJson<String>(syncFrequency),
+      'logDescription': serializer.toJson<String>(logDescription),
+      'documentNo': serializer.toJson<String>(documentNo),
+      'deviceId': serializer.toJson<String>(deviceId),
+      'logCode': serializer.toJson<String>(logCode),
+      'logSeverity': serializer.toJson<String>(logSeverity),
+      'exportDateTime': serializer.toJson<DateTime>(exportDateTime),
+      'exportStatus': serializer.toJson<String>(exportStatus),
+      'syncError': serializer.toJson<String>(syncError),
+    };
   }
 
   ApplicationLoggerData copyWith(
@@ -5912,6 +6632,42 @@ class ApplicationLoggerCompanion
         deviceId = Value(deviceId),
         logCode = Value(logCode),
         logSeverity = Value(logSeverity);
+  static Insertable<ApplicationLoggerData> custom({
+    Expression<int> tenantId,
+    Expression<String> uerName,
+    Expression<int> userId,
+    Expression<int> id,
+    Expression<String> functionName,
+    Expression<DateTime> logDateTime,
+    Expression<String> syncFrequency,
+    Expression<String> logDescription,
+    Expression<String> documentNo,
+    Expression<String> deviceId,
+    Expression<String> logCode,
+    Expression<String> logSeverity,
+    Expression<DateTime> exportDateTime,
+    Expression<String> exportStatus,
+    Expression<String> syncError,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (uerName != null) 'uer_name': uerName,
+      if (userId != null) 'user_id': userId,
+      if (id != null) 'id': id,
+      if (functionName != null) 'function_name': functionName,
+      if (logDateTime != null) 'log_date_time': logDateTime,
+      if (syncFrequency != null) 'sync_frequency': syncFrequency,
+      if (logDescription != null) 'log_description': logDescription,
+      if (documentNo != null) 'document_no': documentNo,
+      if (deviceId != null) 'device_id': deviceId,
+      if (logCode != null) 'log_code': logCode,
+      if (logSeverity != null) 'log_severity': logSeverity,
+      if (exportDateTime != null) 'export_date_time': exportDateTime,
+      if (exportStatus != null) 'export_status': exportStatus,
+      if (syncError != null) 'sync_error': syncError,
+    });
+  }
+
   ApplicationLoggerCompanion copyWith(
       {Value<int> tenantId,
       Value<String> uerName,
@@ -5945,6 +6701,57 @@ class ApplicationLoggerCompanion
       exportStatus: exportStatus ?? this.exportStatus,
       syncError: syncError ?? this.syncError,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (uerName.present) {
+      map['uer_name'] = Variable<String>(uerName.value);
+    }
+    if (userId.present) {
+      map['user_id'] = Variable<int>(userId.value);
+    }
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (functionName.present) {
+      map['function_name'] = Variable<String>(functionName.value);
+    }
+    if (logDateTime.present) {
+      map['log_date_time'] = Variable<DateTime>(logDateTime.value);
+    }
+    if (syncFrequency.present) {
+      map['sync_frequency'] = Variable<String>(syncFrequency.value);
+    }
+    if (logDescription.present) {
+      map['log_description'] = Variable<String>(logDescription.value);
+    }
+    if (documentNo.present) {
+      map['document_no'] = Variable<String>(documentNo.value);
+    }
+    if (deviceId.present) {
+      map['device_id'] = Variable<String>(deviceId.value);
+    }
+    if (logCode.present) {
+      map['log_code'] = Variable<String>(logCode.value);
+    }
+    if (logSeverity.present) {
+      map['log_severity'] = Variable<String>(logSeverity.value);
+    }
+    if (exportDateTime.present) {
+      map['export_date_time'] = Variable<DateTime>(exportDateTime.value);
+    }
+    if (exportStatus.present) {
+      map['export_status'] = Variable<String>(exportStatus.value);
+    }
+    if (syncError.present) {
+      map['sync_error'] = Variable<String>(syncError.value);
+    }
+    return map;
   }
 }
 
@@ -6166,93 +6973,101 @@ class $ApplicationLoggerTable extends ApplicationLogger
   @override
   final String actualTableName = 'application_logger';
   @override
-  VerificationContext validateIntegrity(ApplicationLoggerCompanion d,
+  VerificationContext validateIntegrity(
+      Insertable<ApplicationLoggerData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.tenantId.present) {
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
       context.handle(_tenantIdMeta,
-          tenantId.isAcceptableValue(d.tenantId.value, _tenantIdMeta));
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
     }
-    if (d.uerName.present) {
+    if (data.containsKey('uer_name')) {
       context.handle(_uerNameMeta,
-          uerName.isAcceptableValue(d.uerName.value, _uerNameMeta));
+          uerName.isAcceptableOrUnknown(data['uer_name'], _uerNameMeta));
     }
-    if (d.userId.present) {
-      context.handle(
-          _userIdMeta, userId.isAcceptableValue(d.userId.value, _userIdMeta));
+    if (data.containsKey('user_id')) {
+      context.handle(_userIdMeta,
+          userId.isAcceptableOrUnknown(data['user_id'], _userIdMeta));
     }
-    if (d.id.present) {
-      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     }
-    if (d.functionName.present) {
+    if (data.containsKey('function_name')) {
       context.handle(
           _functionNameMeta,
-          functionName.isAcceptableValue(
-              d.functionName.value, _functionNameMeta));
+          functionName.isAcceptableOrUnknown(
+              data['function_name'], _functionNameMeta));
     } else if (isInserting) {
       context.missing(_functionNameMeta);
     }
-    if (d.logDateTime.present) {
-      context.handle(_logDateTimeMeta,
-          logDateTime.isAcceptableValue(d.logDateTime.value, _logDateTimeMeta));
+    if (data.containsKey('log_date_time')) {
+      context.handle(
+          _logDateTimeMeta,
+          logDateTime.isAcceptableOrUnknown(
+              data['log_date_time'], _logDateTimeMeta));
     } else if (isInserting) {
       context.missing(_logDateTimeMeta);
     }
-    if (d.syncFrequency.present) {
+    if (data.containsKey('sync_frequency')) {
       context.handle(
           _syncFrequencyMeta,
-          syncFrequency.isAcceptableValue(
-              d.syncFrequency.value, _syncFrequencyMeta));
+          syncFrequency.isAcceptableOrUnknown(
+              data['sync_frequency'], _syncFrequencyMeta));
     } else if (isInserting) {
       context.missing(_syncFrequencyMeta);
     }
-    if (d.logDescription.present) {
+    if (data.containsKey('log_description')) {
       context.handle(
           _logDescriptionMeta,
-          logDescription.isAcceptableValue(
-              d.logDescription.value, _logDescriptionMeta));
+          logDescription.isAcceptableOrUnknown(
+              data['log_description'], _logDescriptionMeta));
     } else if (isInserting) {
       context.missing(_logDescriptionMeta);
     }
-    if (d.documentNo.present) {
-      context.handle(_documentNoMeta,
-          documentNo.isAcceptableValue(d.documentNo.value, _documentNoMeta));
+    if (data.containsKey('document_no')) {
+      context.handle(
+          _documentNoMeta,
+          documentNo.isAcceptableOrUnknown(
+              data['document_no'], _documentNoMeta));
     } else if (isInserting) {
       context.missing(_documentNoMeta);
     }
-    if (d.deviceId.present) {
+    if (data.containsKey('device_id')) {
       context.handle(_deviceIdMeta,
-          deviceId.isAcceptableValue(d.deviceId.value, _deviceIdMeta));
+          deviceId.isAcceptableOrUnknown(data['device_id'], _deviceIdMeta));
     } else if (isInserting) {
       context.missing(_deviceIdMeta);
     }
-    if (d.logCode.present) {
+    if (data.containsKey('log_code')) {
       context.handle(_logCodeMeta,
-          logCode.isAcceptableValue(d.logCode.value, _logCodeMeta));
+          logCode.isAcceptableOrUnknown(data['log_code'], _logCodeMeta));
     } else if (isInserting) {
       context.missing(_logCodeMeta);
     }
-    if (d.logSeverity.present) {
-      context.handle(_logSeverityMeta,
-          logSeverity.isAcceptableValue(d.logSeverity.value, _logSeverityMeta));
+    if (data.containsKey('log_severity')) {
+      context.handle(
+          _logSeverityMeta,
+          logSeverity.isAcceptableOrUnknown(
+              data['log_severity'], _logSeverityMeta));
     } else if (isInserting) {
       context.missing(_logSeverityMeta);
     }
-    if (d.exportDateTime.present) {
+    if (data.containsKey('export_date_time')) {
       context.handle(
           _exportDateTimeMeta,
-          exportDateTime.isAcceptableValue(
-              d.exportDateTime.value, _exportDateTimeMeta));
+          exportDateTime.isAcceptableOrUnknown(
+              data['export_date_time'], _exportDateTimeMeta));
     }
-    if (d.exportStatus.present) {
+    if (data.containsKey('export_status')) {
       context.handle(
           _exportStatusMeta,
-          exportStatus.isAcceptableValue(
-              d.exportStatus.value, _exportStatusMeta));
+          exportStatus.isAcceptableOrUnknown(
+              data['export_status'], _exportStatusMeta));
     }
-    if (d.syncError.present) {
+    if (data.containsKey('sync_error')) {
       context.handle(_syncErrorMeta,
-          syncError.isAcceptableValue(d.syncError.value, _syncErrorMeta));
+          syncError.isAcceptableOrUnknown(data['sync_error'], _syncErrorMeta));
     }
     return context;
   }
@@ -6263,61 +7078,6 @@ class $ApplicationLoggerTable extends ApplicationLogger
   ApplicationLoggerData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return ApplicationLoggerData.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(ApplicationLoggerCompanion d) {
-    final map = <String, Variable>{};
-    if (d.tenantId.present) {
-      map['tenant_id'] = Variable<int, IntType>(d.tenantId.value);
-    }
-    if (d.uerName.present) {
-      map['uer_name'] = Variable<String, StringType>(d.uerName.value);
-    }
-    if (d.userId.present) {
-      map['user_id'] = Variable<int, IntType>(d.userId.value);
-    }
-    if (d.id.present) {
-      map['id'] = Variable<int, IntType>(d.id.value);
-    }
-    if (d.functionName.present) {
-      map['function_name'] = Variable<String, StringType>(d.functionName.value);
-    }
-    if (d.logDateTime.present) {
-      map['log_date_time'] =
-          Variable<DateTime, DateTimeType>(d.logDateTime.value);
-    }
-    if (d.syncFrequency.present) {
-      map['sync_frequency'] =
-          Variable<String, StringType>(d.syncFrequency.value);
-    }
-    if (d.logDescription.present) {
-      map['log_description'] =
-          Variable<String, StringType>(d.logDescription.value);
-    }
-    if (d.documentNo.present) {
-      map['document_no'] = Variable<String, StringType>(d.documentNo.value);
-    }
-    if (d.deviceId.present) {
-      map['device_id'] = Variable<String, StringType>(d.deviceId.value);
-    }
-    if (d.logCode.present) {
-      map['log_code'] = Variable<String, StringType>(d.logCode.value);
-    }
-    if (d.logSeverity.present) {
-      map['log_severity'] = Variable<String, StringType>(d.logSeverity.value);
-    }
-    if (d.exportDateTime.present) {
-      map['export_date_time'] =
-          Variable<DateTime, DateTimeType>(d.exportDateTime.value);
-    }
-    if (d.exportStatus.present) {
-      map['export_status'] = Variable<String, StringType>(d.exportStatus.value);
-    }
-    if (d.syncError.present) {
-      map['sync_error'] = Variable<String, StringType>(d.syncError.value);
-    }
-    return map;
   }
 
   @override
@@ -6348,6 +7108,35 @@ class TenantData extends DataClass implements Insertable<TenantData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}tenant_state']),
     );
   }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
+    if (!nullToAbsent || tenantName != null) {
+      map['tenant_name'] = Variable<String>(tenantName);
+    }
+    if (!nullToAbsent || tenantState != null) {
+      map['tenant_state'] = Variable<int>(tenantState);
+    }
+    return map;
+  }
+
+  TenantCompanion toCompanion(bool nullToAbsent) {
+    return TenantCompanion(
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
+      tenantName: tenantName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantName),
+      tenantState: tenantState == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantState),
+    );
+  }
+
   factory TenantData.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -6365,21 +7154,6 @@ class TenantData extends DataClass implements Insertable<TenantData> {
       'tenantName': serializer.toJson<String>(tenantName),
       'tenantState': serializer.toJson<int>(tenantState),
     };
-  }
-
-  @override
-  TenantCompanion createCompanion(bool nullToAbsent) {
-    return TenantCompanion(
-      tenantId: tenantId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(tenantId),
-      tenantName: tenantName == null && nullToAbsent
-          ? const Value.absent()
-          : Value(tenantName),
-      tenantState: tenantState == null && nullToAbsent
-          ? const Value.absent()
-          : Value(tenantState),
-    );
   }
 
   TenantData copyWith({int tenantId, String tenantName, int tenantState}) =>
@@ -6420,12 +7194,23 @@ class TenantCompanion extends UpdateCompanion<TenantData> {
     this.tenantState = const Value.absent(),
   });
   TenantCompanion.insert({
-    @required int tenantId,
+    this.tenantId = const Value.absent(),
     @required String tenantName,
     @required int tenantState,
-  })  : tenantId = Value(tenantId),
-        tenantName = Value(tenantName),
+  })  : tenantName = Value(tenantName),
         tenantState = Value(tenantState);
+  static Insertable<TenantData> custom({
+    Expression<int> tenantId,
+    Expression<String> tenantName,
+    Expression<int> tenantState,
+  }) {
+    return RawValuesInsertable({
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (tenantName != null) 'tenant_name': tenantName,
+      if (tenantState != null) 'tenant_state': tenantState,
+    });
+  }
+
   TenantCompanion copyWith(
       {Value<int> tenantId, Value<String> tenantName, Value<int> tenantState}) {
     return TenantCompanion(
@@ -6433,6 +7218,21 @@ class TenantCompanion extends UpdateCompanion<TenantData> {
       tenantName: tenantName ?? this.tenantName,
       tenantState: tenantState ?? this.tenantState,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
+    if (tenantName.present) {
+      map['tenant_name'] = Variable<String>(tenantName.value);
+    }
+    if (tenantState.present) {
+      map['tenant_state'] = Variable<int>(tenantState.value);
+    }
+    return map;
   }
 }
 
@@ -6484,24 +7284,27 @@ class $TenantTable extends Tenant with TableInfo<$TenantTable, TenantData> {
   @override
   final String actualTableName = 'tenant';
   @override
-  VerificationContext validateIntegrity(TenantCompanion d,
+  VerificationContext validateIntegrity(Insertable<TenantData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.tenantId.present) {
+    final data = instance.toColumns(true);
+    if (data.containsKey('tenant_id')) {
       context.handle(_tenantIdMeta,
-          tenantId.isAcceptableValue(d.tenantId.value, _tenantIdMeta));
-    } else if (isInserting) {
-      context.missing(_tenantIdMeta);
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
     }
-    if (d.tenantName.present) {
-      context.handle(_tenantNameMeta,
-          tenantName.isAcceptableValue(d.tenantName.value, _tenantNameMeta));
+    if (data.containsKey('tenant_name')) {
+      context.handle(
+          _tenantNameMeta,
+          tenantName.isAcceptableOrUnknown(
+              data['tenant_name'], _tenantNameMeta));
     } else if (isInserting) {
       context.missing(_tenantNameMeta);
     }
-    if (d.tenantState.present) {
-      context.handle(_tenantStateMeta,
-          tenantState.isAcceptableValue(d.tenantState.value, _tenantStateMeta));
+    if (data.containsKey('tenant_state')) {
+      context.handle(
+          _tenantStateMeta,
+          tenantState.isAcceptableOrUnknown(
+              data['tenant_state'], _tenantStateMeta));
     } else if (isInserting) {
       context.missing(_tenantStateMeta);
     }
@@ -6514,21 +7317,6 @@ class $TenantTable extends Tenant with TableInfo<$TenantTable, TenantData> {
   TenantData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return TenantData.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(TenantCompanion d) {
-    final map = <String, Variable>{};
-    if (d.tenantId.present) {
-      map['tenant_id'] = Variable<int, IntType>(d.tenantId.value);
-    }
-    if (d.tenantName.present) {
-      map['tenant_name'] = Variable<String, StringType>(d.tenantName.value);
-    }
-    if (d.tenantState.present) {
-      map['tenant_state'] = Variable<int, IntType>(d.tenantState.value);
-    }
-    return map;
   }
 
   @override
@@ -6593,6 +7381,77 @@ class NonGlobalSettingData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}sync_error']),
     );
   }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || parentCode != null) {
+      map['parent_code'] = Variable<String>(parentCode);
+    }
+    if (!nullToAbsent || code != null) {
+      map['code'] = Variable<String>(code);
+    }
+    if (!nullToAbsent || value != null) {
+      map['value'] = Variable<String>(value);
+    }
+    if (!nullToAbsent || settingType != null) {
+      map['setting_type'] = Variable<String>(settingType);
+    }
+    if (!nullToAbsent || deviceId != null) {
+      map['device_id'] = Variable<String>(deviceId);
+    }
+    if (!nullToAbsent || userName != null) {
+      map['user_name'] = Variable<String>(userName);
+    }
+    if (!nullToAbsent || screen != null) {
+      map['screen'] = Variable<String>(screen);
+    }
+    if (!nullToAbsent || isApply != null) {
+      map['is_apply'] = Variable<bool>(isApply);
+    }
+    if (!nullToAbsent || expiredDateTime != null) {
+      map['expired_date_time'] = Variable<DateTime>(expiredDateTime);
+    }
+    if (!nullToAbsent || syncError != null) {
+      map['sync_error'] = Variable<String>(syncError);
+    }
+    return map;
+  }
+
+  NonGlobalSettingCompanion toCompanion(bool nullToAbsent) {
+    return NonGlobalSettingCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      parentCode: parentCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(parentCode),
+      code: code == null && nullToAbsent ? const Value.absent() : Value(code),
+      value:
+          value == null && nullToAbsent ? const Value.absent() : Value(value),
+      settingType: settingType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(settingType),
+      deviceId: deviceId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deviceId),
+      userName: userName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(userName),
+      screen:
+          screen == null && nullToAbsent ? const Value.absent() : Value(screen),
+      isApply: isApply == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isApply),
+      expiredDateTime: expiredDateTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(expiredDateTime),
+      syncError: syncError == null && nullToAbsent
+          ? const Value.absent()
+          : Value(syncError),
+    );
+  }
+
   factory NonGlobalSettingData.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -6626,39 +7485,6 @@ class NonGlobalSettingData extends DataClass
       'expiredDateTime': serializer.toJson<DateTime>(expiredDateTime),
       'syncError': serializer.toJson<String>(syncError),
     };
-  }
-
-  @override
-  NonGlobalSettingCompanion createCompanion(bool nullToAbsent) {
-    return NonGlobalSettingCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      parentCode: parentCode == null && nullToAbsent
-          ? const Value.absent()
-          : Value(parentCode),
-      code: code == null && nullToAbsent ? const Value.absent() : Value(code),
-      value:
-          value == null && nullToAbsent ? const Value.absent() : Value(value),
-      settingType: settingType == null && nullToAbsent
-          ? const Value.absent()
-          : Value(settingType),
-      deviceId: deviceId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deviceId),
-      userName: userName == null && nullToAbsent
-          ? const Value.absent()
-          : Value(userName),
-      screen:
-          screen == null && nullToAbsent ? const Value.absent() : Value(screen),
-      isApply: isApply == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isApply),
-      expiredDateTime: expiredDateTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(expiredDateTime),
-      syncError: syncError == null && nullToAbsent
-          ? const Value.absent()
-          : Value(syncError),
-    );
   }
 
   NonGlobalSettingData copyWith(
@@ -6786,6 +7612,34 @@ class NonGlobalSettingCompanion extends UpdateCompanion<NonGlobalSettingData> {
         settingType = Value(settingType),
         userName = Value(userName),
         screen = Value(screen);
+  static Insertable<NonGlobalSettingData> custom({
+    Expression<int> id,
+    Expression<String> parentCode,
+    Expression<String> code,
+    Expression<String> value,
+    Expression<String> settingType,
+    Expression<String> deviceId,
+    Expression<String> userName,
+    Expression<String> screen,
+    Expression<bool> isApply,
+    Expression<DateTime> expiredDateTime,
+    Expression<String> syncError,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (parentCode != null) 'parent_code': parentCode,
+      if (code != null) 'code': code,
+      if (value != null) 'value': value,
+      if (settingType != null) 'setting_type': settingType,
+      if (deviceId != null) 'device_id': deviceId,
+      if (userName != null) 'user_name': userName,
+      if (screen != null) 'screen': screen,
+      if (isApply != null) 'is_apply': isApply,
+      if (expiredDateTime != null) 'expired_date_time': expiredDateTime,
+      if (syncError != null) 'sync_error': syncError,
+    });
+  }
+
   NonGlobalSettingCompanion copyWith(
       {Value<int> id,
       Value<String> parentCode,
@@ -6811,6 +7665,45 @@ class NonGlobalSettingCompanion extends UpdateCompanion<NonGlobalSettingData> {
       expiredDateTime: expiredDateTime ?? this.expiredDateTime,
       syncError: syncError ?? this.syncError,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (parentCode.present) {
+      map['parent_code'] = Variable<String>(parentCode.value);
+    }
+    if (code.present) {
+      map['code'] = Variable<String>(code.value);
+    }
+    if (value.present) {
+      map['value'] = Variable<String>(value.value);
+    }
+    if (settingType.present) {
+      map['setting_type'] = Variable<String>(settingType.value);
+    }
+    if (deviceId.present) {
+      map['device_id'] = Variable<String>(deviceId.value);
+    }
+    if (userName.present) {
+      map['user_name'] = Variable<String>(userName.value);
+    }
+    if (screen.present) {
+      map['screen'] = Variable<String>(screen.value);
+    }
+    if (isApply.present) {
+      map['is_apply'] = Variable<bool>(isApply.value);
+    }
+    if (expiredDateTime.present) {
+      map['expired_date_time'] = Variable<DateTime>(expiredDateTime.value);
+    }
+    if (syncError.present) {
+      map['sync_error'] = Variable<String>(syncError.value);
+    }
+    return map;
   }
 }
 
@@ -6973,67 +7866,73 @@ class $NonGlobalSettingTable extends NonGlobalSetting
   @override
   final String actualTableName = 'non_global_setting';
   @override
-  VerificationContext validateIntegrity(NonGlobalSettingCompanion d,
+  VerificationContext validateIntegrity(
+      Insertable<NonGlobalSettingData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.id.present) {
-      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     } else if (isInserting) {
       context.missing(_idMeta);
     }
-    if (d.parentCode.present) {
-      context.handle(_parentCodeMeta,
-          parentCode.isAcceptableValue(d.parentCode.value, _parentCodeMeta));
+    if (data.containsKey('parent_code')) {
+      context.handle(
+          _parentCodeMeta,
+          parentCode.isAcceptableOrUnknown(
+              data['parent_code'], _parentCodeMeta));
     } else if (isInserting) {
       context.missing(_parentCodeMeta);
     }
-    if (d.code.present) {
+    if (data.containsKey('code')) {
       context.handle(
-          _codeMeta, code.isAcceptableValue(d.code.value, _codeMeta));
+          _codeMeta, code.isAcceptableOrUnknown(data['code'], _codeMeta));
     } else if (isInserting) {
       context.missing(_codeMeta);
     }
-    if (d.value.present) {
+    if (data.containsKey('value')) {
       context.handle(
-          _valueMeta, value.isAcceptableValue(d.value.value, _valueMeta));
+          _valueMeta, value.isAcceptableOrUnknown(data['value'], _valueMeta));
     } else if (isInserting) {
       context.missing(_valueMeta);
     }
-    if (d.settingType.present) {
-      context.handle(_settingTypeMeta,
-          settingType.isAcceptableValue(d.settingType.value, _settingTypeMeta));
+    if (data.containsKey('setting_type')) {
+      context.handle(
+          _settingTypeMeta,
+          settingType.isAcceptableOrUnknown(
+              data['setting_type'], _settingTypeMeta));
     } else if (isInserting) {
       context.missing(_settingTypeMeta);
     }
-    if (d.deviceId.present) {
+    if (data.containsKey('device_id')) {
       context.handle(_deviceIdMeta,
-          deviceId.isAcceptableValue(d.deviceId.value, _deviceIdMeta));
+          deviceId.isAcceptableOrUnknown(data['device_id'], _deviceIdMeta));
     }
-    if (d.userName.present) {
+    if (data.containsKey('user_name')) {
       context.handle(_userNameMeta,
-          userName.isAcceptableValue(d.userName.value, _userNameMeta));
+          userName.isAcceptableOrUnknown(data['user_name'], _userNameMeta));
     } else if (isInserting) {
       context.missing(_userNameMeta);
     }
-    if (d.screen.present) {
-      context.handle(
-          _screenMeta, screen.isAcceptableValue(d.screen.value, _screenMeta));
+    if (data.containsKey('screen')) {
+      context.handle(_screenMeta,
+          screen.isAcceptableOrUnknown(data['screen'], _screenMeta));
     } else if (isInserting) {
       context.missing(_screenMeta);
     }
-    if (d.isApply.present) {
+    if (data.containsKey('is_apply')) {
       context.handle(_isApplyMeta,
-          isApply.isAcceptableValue(d.isApply.value, _isApplyMeta));
+          isApply.isAcceptableOrUnknown(data['is_apply'], _isApplyMeta));
     }
-    if (d.expiredDateTime.present) {
+    if (data.containsKey('expired_date_time')) {
       context.handle(
           _expiredDateTimeMeta,
-          expiredDateTime.isAcceptableValue(
-              d.expiredDateTime.value, _expiredDateTimeMeta));
+          expiredDateTime.isAcceptableOrUnknown(
+              data['expired_date_time'], _expiredDateTimeMeta));
     }
-    if (d.syncError.present) {
+    if (data.containsKey('sync_error')) {
       context.handle(_syncErrorMeta,
-          syncError.isAcceptableValue(d.syncError.value, _syncErrorMeta));
+          syncError.isAcceptableOrUnknown(data['sync_error'], _syncErrorMeta));
     }
     return context;
   }
@@ -7044,46 +7943,6 @@ class $NonGlobalSettingTable extends NonGlobalSetting
   NonGlobalSettingData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return NonGlobalSettingData.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(NonGlobalSettingCompanion d) {
-    final map = <String, Variable>{};
-    if (d.id.present) {
-      map['id'] = Variable<int, IntType>(d.id.value);
-    }
-    if (d.parentCode.present) {
-      map['parent_code'] = Variable<String, StringType>(d.parentCode.value);
-    }
-    if (d.code.present) {
-      map['code'] = Variable<String, StringType>(d.code.value);
-    }
-    if (d.value.present) {
-      map['value'] = Variable<String, StringType>(d.value.value);
-    }
-    if (d.settingType.present) {
-      map['setting_type'] = Variable<String, StringType>(d.settingType.value);
-    }
-    if (d.deviceId.present) {
-      map['device_id'] = Variable<String, StringType>(d.deviceId.value);
-    }
-    if (d.userName.present) {
-      map['user_name'] = Variable<String, StringType>(d.userName.value);
-    }
-    if (d.screen.present) {
-      map['screen'] = Variable<String, StringType>(d.screen.value);
-    }
-    if (d.isApply.present) {
-      map['is_apply'] = Variable<bool, BoolType>(d.isApply.value);
-    }
-    if (d.expiredDateTime.present) {
-      map['expired_date_time'] =
-          Variable<DateTime, DateTimeType>(d.expiredDateTime.value);
-    }
-    if (d.syncError.present) {
-      map['sync_error'] = Variable<String, StringType>(d.syncError.value);
-    }
-    return map;
   }
 
   @override
