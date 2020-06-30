@@ -299,8 +299,7 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
             children: [
               StreamBuilder(
                 stream: bloc.backgroundJobScheduleDao.watchAllJobs(),
-                builder: (context,
-                    AsyncSnapshot<List<BackgroundJobScheduleData>> snapshot) {
+                builder: (context,    AsyncSnapshot<List<BackgroundJobScheduleData>> snapshot) {
                   final jobs = snapshot.data ?? List();
 
                   return Expanded(
