@@ -7227,8 +7227,8 @@ class $TenantTable extends Tenant with TableInfo<$TenantTable, TenantData> {
   }
 }
 
-class NonGlobalSettingData extends DataClass
-    implements Insertable<NonGlobalSettingData> {
+class NonGlobalPreferenceData extends DataClass
+    implements Insertable<NonGlobalPreferenceData> {
   final int id;
   final String parentCode;
   final String code;
@@ -7240,7 +7240,7 @@ class NonGlobalSettingData extends DataClass
   final bool isApply;
   final DateTime expiredDateTime;
   final String syncError;
-  NonGlobalSettingData(
+  NonGlobalPreferenceData(
       {@required this.id,
       @required this.parentCode,
       @required this.code,
@@ -7252,7 +7252,7 @@ class NonGlobalSettingData extends DataClass
       @required this.isApply,
       this.expiredDateTime,
       this.syncError});
-  factory NonGlobalSettingData.fromData(
+  factory NonGlobalPreferenceData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -7260,7 +7260,7 @@ class NonGlobalSettingData extends DataClass
     final stringType = db.typeSystem.forDartType<String>();
     final boolType = db.typeSystem.forDartType<bool>();
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
-    return NonGlobalSettingData(
+    return NonGlobalPreferenceData(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       parentCode: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}parent_code']),
@@ -7322,8 +7322,8 @@ class NonGlobalSettingData extends DataClass
     return map;
   }
 
-  NonGlobalSettingCompanion toCompanion(bool nullToAbsent) {
-    return NonGlobalSettingCompanion(
+  NonGlobalPreferenceCompanion toCompanion(bool nullToAbsent) {
+    return NonGlobalPreferenceCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       parentCode: parentCode == null && nullToAbsent
           ? const Value.absent()
@@ -7354,10 +7354,10 @@ class NonGlobalSettingData extends DataClass
     );
   }
 
-  factory NonGlobalSettingData.fromJson(Map<String, dynamic> json,
+  factory NonGlobalPreferenceData.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
-    return NonGlobalSettingData(
+    return NonGlobalPreferenceData(
       id: serializer.fromJson<int>(json['id']),
       parentCode: serializer.fromJson<String>(json['parentCode']),
       code: serializer.fromJson<String>(json['code']),
@@ -7389,7 +7389,7 @@ class NonGlobalSettingData extends DataClass
     };
   }
 
-  NonGlobalSettingData copyWith(
+  NonGlobalPreferenceData copyWith(
           {int id,
           String parentCode,
           String code,
@@ -7401,7 +7401,7 @@ class NonGlobalSettingData extends DataClass
           bool isApply,
           DateTime expiredDateTime,
           String syncError}) =>
-      NonGlobalSettingData(
+      NonGlobalPreferenceData(
         id: id ?? this.id,
         parentCode: parentCode ?? this.parentCode,
         code: code ?? this.code,
@@ -7416,7 +7416,7 @@ class NonGlobalSettingData extends DataClass
       );
   @override
   String toString() {
-    return (StringBuffer('NonGlobalSettingData(')
+    return (StringBuffer('NonGlobalPreferenceData(')
           ..write('id: $id, ')
           ..write('parentCode: $parentCode, ')
           ..write('code: $code, ')
@@ -7456,7 +7456,7 @@ class NonGlobalSettingData extends DataClass
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
-      (other is NonGlobalSettingData &&
+      (other is NonGlobalPreferenceData &&
           other.id == this.id &&
           other.parentCode == this.parentCode &&
           other.code == this.code &&
@@ -7470,7 +7470,8 @@ class NonGlobalSettingData extends DataClass
           other.syncError == this.syncError);
 }
 
-class NonGlobalSettingCompanion extends UpdateCompanion<NonGlobalSettingData> {
+class NonGlobalPreferenceCompanion
+    extends UpdateCompanion<NonGlobalPreferenceData> {
   final Value<int> id;
   final Value<String> parentCode;
   final Value<String> code;
@@ -7482,7 +7483,7 @@ class NonGlobalSettingCompanion extends UpdateCompanion<NonGlobalSettingData> {
   final Value<bool> isApply;
   final Value<DateTime> expiredDateTime;
   final Value<String> syncError;
-  const NonGlobalSettingCompanion({
+  const NonGlobalPreferenceCompanion({
     this.id = const Value.absent(),
     this.parentCode = const Value.absent(),
     this.code = const Value.absent(),
@@ -7495,7 +7496,7 @@ class NonGlobalSettingCompanion extends UpdateCompanion<NonGlobalSettingData> {
     this.expiredDateTime = const Value.absent(),
     this.syncError = const Value.absent(),
   });
-  NonGlobalSettingCompanion.insert({
+  NonGlobalPreferenceCompanion.insert({
     @required int id,
     @required String parentCode,
     @required String code,
@@ -7514,7 +7515,7 @@ class NonGlobalSettingCompanion extends UpdateCompanion<NonGlobalSettingData> {
         settingType = Value(settingType),
         userName = Value(userName),
         screen = Value(screen);
-  static Insertable<NonGlobalSettingData> custom({
+  static Insertable<NonGlobalPreferenceData> custom({
     Expression<int> id,
     Expression<String> parentCode,
     Expression<String> code,
@@ -7542,7 +7543,7 @@ class NonGlobalSettingCompanion extends UpdateCompanion<NonGlobalSettingData> {
     });
   }
 
-  NonGlobalSettingCompanion copyWith(
+  NonGlobalPreferenceCompanion copyWith(
       {Value<int> id,
       Value<String> parentCode,
       Value<String> code,
@@ -7554,7 +7555,7 @@ class NonGlobalSettingCompanion extends UpdateCompanion<NonGlobalSettingData> {
       Value<bool> isApply,
       Value<DateTime> expiredDateTime,
       Value<String> syncError}) {
-    return NonGlobalSettingCompanion(
+    return NonGlobalPreferenceCompanion(
       id: id ?? this.id,
       parentCode: parentCode ?? this.parentCode,
       code: code ?? this.code,
@@ -7609,11 +7610,11 @@ class NonGlobalSettingCompanion extends UpdateCompanion<NonGlobalSettingData> {
   }
 }
 
-class $NonGlobalSettingTable extends NonGlobalSetting
-    with TableInfo<$NonGlobalSettingTable, NonGlobalSettingData> {
+class $NonGlobalPreferenceTable extends NonGlobalPreference
+    with TableInfo<$NonGlobalPreferenceTable, NonGlobalPreferenceData> {
   final GeneratedDatabase _db;
   final String _alias;
-  $NonGlobalSettingTable(this._db, [this._alias]);
+  $NonGlobalPreferenceTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedIntColumn _id;
   @override
@@ -7762,14 +7763,14 @@ class $NonGlobalSettingTable extends NonGlobalSetting
         syncError
       ];
   @override
-  $NonGlobalSettingTable get asDslTable => this;
+  $NonGlobalPreferenceTable get asDslTable => this;
   @override
-  String get $tableName => _alias ?? 'non_global_setting';
+  String get $tableName => _alias ?? 'non_global_preference';
   @override
-  final String actualTableName = 'non_global_setting';
+  final String actualTableName = 'non_global_preference';
   @override
   VerificationContext validateIntegrity(
-      Insertable<NonGlobalSettingData> instance,
+      Insertable<NonGlobalPreferenceData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -7842,14 +7843,14 @@ class $NonGlobalSettingTable extends NonGlobalSetting
   @override
   Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
   @override
-  NonGlobalSettingData map(Map<String, dynamic> data, {String tablePrefix}) {
+  NonGlobalPreferenceData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
-    return NonGlobalSettingData.fromData(data, _db, prefix: effectivePrefix);
+    return NonGlobalPreferenceData.fromData(data, _db, prefix: effectivePrefix);
   }
 
   @override
-  $NonGlobalSettingTable createAlias(String alias) {
-    return $NonGlobalSettingTable(_db, alias);
+  $NonGlobalPreferenceTable createAlias(String alias) {
+    return $NonGlobalPreferenceTable(_db, alias);
   }
 }
 
@@ -7879,9 +7880,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       _applicationLogger ??= $ApplicationLoggerTable(this);
   $TenantTable _tenant;
   $TenantTable get tenant => _tenant ??= $TenantTable(this);
-  $NonGlobalSettingTable _nonGlobalSetting;
-  $NonGlobalSettingTable get nonGlobalSetting =>
-      _nonGlobalSetting ??= $NonGlobalSettingTable(this);
+  $NonGlobalPreferenceTable _nonGlobalPreference;
+  $NonGlobalPreferenceTable get nonGlobalPreference =>
+      _nonGlobalPreference ??= $NonGlobalPreferenceTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
@@ -7895,6 +7896,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         businessRule,
         applicationLogger,
         tenant,
-        nonGlobalSetting
+        nonGlobalPreference
       ];
 }

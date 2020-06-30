@@ -19,7 +19,7 @@ class PreferenceRepository {
   UpdateBackgroundJobStatus updateBackgroundJobStatus;
   BackgroundJobScheduleDao backgroundJobScheduleDao;
   PreferenceDao preferenceDao;
-  NonGlobalSettingDao nonGlobalSettingDao;
+  NonGlobalPreferenceDao nonGlobalPreferenceDao;
 
   UserSharedData userSharedData;
 
@@ -28,7 +28,7 @@ class PreferenceRepository {
     updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
     preferenceDao = PreferenceDao(db);
-    nonGlobalSettingDao = NonGlobalSettingDao(db);
+    nonGlobalPreferenceDao = NonGlobalPreferenceDao(db);
     userSharedData = new UserSharedData();
   }
 
