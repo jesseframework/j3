@@ -47,7 +47,11 @@ class LoginPage extends StatelessWidget {
 =======
         title: Text(AppLocalization.of(context).translate('app_title') ?? 'J3 ENTERPRISE SOLUTION'),
         backgroundColor: const Color(0xff5362b7),
+<<<<<<< HEAD
 >>>>>>> Applogger pages with 10 record
+=======
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
+>>>>>>> d905bf68ae66d893fb1f9bea2fec24a0c63aaa81
       ),
       body: FirebaseMessageWrapper(
         BlocProvider(

@@ -65,11 +65,14 @@ class InitServiceSetup {
       //Set Default
       Logger.root.level = Level.FINEST;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
       Logger.root.level = Level.ALL;
 >>>>>>> Applogger pages with 10 record
 =======
 >>>>>>> Add business rule
+=======
+>>>>>>> d905bf68ae66d893fb1f9bea2fec24a0c63aaa81
     }
 
     Logger.root.onRecord.listen((rec) async {

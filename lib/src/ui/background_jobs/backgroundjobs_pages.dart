@@ -26,6 +26,7 @@ import 'package:j3enterprise/src/ui/background_jobs/bloc/backgroundjobs_bloc.dar
 
 class BackgroundJobsPage extends StatelessWidget {
   //ToDo add button transulation
+<<<<<<< HEAD
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +76,106 @@ class BackgroundJobsPage extends StatelessWidget {
           ],
         ),
         body: SafeArea(
+=======
+<<<<<<< HEAD
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) {
+        return BackgroundJobsBloc();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.chevron_left),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          title: Text(
+              AppLocalization.of(context).translate('title_backgroundjob') ??
+                  'Background Jobs'),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.sync),
+              tooltip: 'Start Sync Jobs',
+              onPressed: () async {
+                //await syncClickScheduler();
+                BlocProvider.of<BackgroundJobsBloc>(context)
+                    .add(BackgroundJobsStartAll());
+              },
+            ),
+            SizedBox(
+              width: 3,
+            ),
+            IconButton(
+              icon: Icon(Icons.cancel),
+              tooltip: 'Cancel Sync Jobs',
+              onPressed: () async {
+                await syncClickCancel();
+              },
+            ),
+            SizedBox(
+              width: 3,
+            ),
+            IconButton(
+              icon: Icon(Icons.more_vert),
+              tooltip: 'More options',
+              onPressed: () {},
+            ),
+          ],
+        ),
+        body: SafeArea(
+=======
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.chevron_left),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text(
+            AppLocalization.of(context).translate('title_backgroundjob') ??
+                'Background Jobs'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.sync),
+            tooltip: 'Start Sync Jobs',
+            onPressed: () {
+              syncClickleScheduler();
+            },
+          ),
+          SizedBox(
+            width: 3,
+          ),
+          IconButton(
+            icon: Icon(Icons.cancel),
+            tooltip: 'Cancel Sync Jobs',
+            onPressed: () {
+              syncClickCancel();
+            },
+          ),
+          SizedBox(
+            width: 3,
+          ),
+          IconButton(
+            icon: Icon(Icons.more_vert),
+            tooltip: 'More options',
+            onPressed: () {},
+          ),
+        ],
+      ),
+      body: SafeArea(
+        child: BlocProvider(
+          create: (context) {
+            return BackgroundJobsBloc();
+          },
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
+>>>>>>> d905bf68ae66d893fb1f9bea2fec24a0c63aaa81
           child: Stack(children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -66,7 +66,11 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
         jobName: setjobname,
 =======
         jobname: setjobname,
+<<<<<<< HEAD
 >>>>>>> Applogger pages with 10 record
+=======
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
+>>>>>>> d905bf68ae66d893fb1f9bea2fec24a0c63aaa81
         syncFrequency: syncfrequencySelectedItem,
         context: context));
   }

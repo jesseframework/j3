@@ -27,9 +27,13 @@ class AppLoggerRepository {
   PreferenceDao preferenceDao;
   NonGlobalPreferenceDao nonGlobalPreferenceDao;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   static final _log = Logger('ApplicationLoggerDao');
 >>>>>>> Add business rule
+=======
+  static final _log = Logger('ApplicationLoggerDao');
+>>>>>>> d905bf68ae66d893fb1f9bea2fec24a0c63aaa81
 
   UserSharedData userSharedData;
 
@@ -45,7 +49,10 @@ class AppLoggerRepository {
 
   Future putAppLogOnServer(String jobName) async {
     try {
+<<<<<<< HEAD
       //ToDo code review to get a better way to push bulk data to API and update bulk data in database
+=======
+>>>>>>> d905bf68ae66d893fb1f9bea2fec24a0c63aaa81
       var isSchedulerEnable = await backgroundJobScheduleDao.getJob(jobName);
       if (isSchedulerEnable != null) {
         if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
@@ -58,6 +65,7 @@ class AppLoggerRepository {
             String _tenantId = mapUserSharedData['tenantId'];
             String userName = mapUserSharedData['userName'];
             String deviceId = mapUserSharedData['deviceId'];
+<<<<<<< HEAD
 
             var isscheduleenable =
                 await backgroundJobScheduleDao.getJob(jobName);
@@ -95,6 +103,40 @@ class AppLoggerRepository {
                       await updateBackgroundJobStatus.updateJobStatus(
                           jobName, "Success");
 
+=======
+
+            var isscheduleenable =
+                await backgroundJobScheduleDao.getJob(jobName);
+            if (isscheduleenable != null) {
+              if (isscheduleenable.startDateTime.isBefore(DateTime.now())) {
+                if (isscheduleenable.enableJob == true) {
+                  var appLogData =
+                      await applicationLoggerDao.getAppLog("Pending");
+                  if (appLogData != null) {
+                    await updateBackgroundJobStatus.updateJobStatus(
+                        jobName, "In Progress");
+                  }
+                  for (var fromDb in appLogData) {
+                    if (isStopped) break;
+                    await updateBackgroundJobStatus.updateJobStatus(
+                        jobName, "In Progress");
+                    String formatted =
+                        await formatDate(fromDb.logDateTime.toString());
+
+                    final Response response = await api.mobileAppLogger({
+                      "functionName": fromDb.functionName,
+                      "logDateTime": formatted,
+                      "syncFrequency": fromDb.syncFrequency,
+                      "logDescription": fromDb.logDescription,
+                      "documentNo": fromDb.documentNo,
+                      "logCode": fromDb.logCode,
+                      "logSeverity": fromDb.logSeverity,
+                      "deviceID": fromDb.deviceId,
+                      "tenantId": _tenantId
+                    });
+                    Map<String, dynamic> map = json.decode(response.bodyString);
+                    if (response.isSuccessful && map['success']) {
+>>>>>>> d905bf68ae66d893fb1f9bea2fec24a0c63aaa81
                       var fromDate = new ApplicationLoggerData(
                           id: fromDb.id,
                           functionName: fromDb.functionName,
@@ -109,6 +151,7 @@ class AppLoggerRepository {
 
                           exportDateTime: DateTime.now());
 
+<<<<<<< HEAD
                       await applicationLoggerDao
                           .updateAppLoggerReplace(fromDate);
 
@@ -134,6 +177,29 @@ class AppLoggerRepository {
                       } else {
                         //applicationLoggerDao.purgeData(1000);
                       }
+=======
+                      var logPurging = await preferenceDao
+                          .getSinglePreferences('LOGGERPURGE');
+                      if (logPurging != null) {
+                        if (logPurging.value == "After Upload") {
+                          if (logPurging.isGlobal == false) {
+                            var globalData = await nonGlobalPreferenceDao
+                                .getSingleNonGlobalPref(logPurging.code,
+                                    logPurging.code, userName, deviceId, "");
+                            if (globalData != null) {
+                              if (globalData.expiredDateTime
+                                  .isBefore(DateTime.now())) {
+                                await applicationLoggerDao
+                                    .deleteById(fromDate.id);
+                              }
+                            }
+                          } else {
+                            await applicationLoggerDao.deleteById(fromDate.id);
+                          }
+                        }
+                      }
+
+>>>>>>> d905bf68ae66d893fb1f9bea2fec24a0c63aaa81
                       await updateBackgroundJobStatus.updateJobStatus(
                           jobName, "Success");
                     } else {
@@ -150,8 +216,12 @@ class AppLoggerRepository {
         }
       }
     } catch (e) {
+<<<<<<< HEAD
       _log.shout(e, StackTrace.current);
       await updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
+=======
+       _log.shout(e, StackTrace.current);
+>>>>>>> d905bf68ae66d893fb1f9bea2fec24a0c63aaa81
     }
   }
 }

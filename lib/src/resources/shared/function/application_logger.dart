@@ -92,8 +92,11 @@ class AppLogger {
           userId: Value(userId));
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       //ToDo add delay start to future
 =======
+=======
+>>>>>>> d905bf68ae66d893fb1f9bea2fec24a0c63aaa81
       //ToDo add dlay start to future
 
 >>>>>>> Add business rule

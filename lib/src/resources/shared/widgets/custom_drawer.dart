@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+<<<<<<< HEAD
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
+=======
+<<<<<<< HEAD
+import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
+=======
+import 'package:j3enterprise/src/resources/shared/function/schedule_background_jobs.dart';
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
+>>>>>>> d905bf68ae66d893fb1f9bea2fec24a0c63aaa81
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/langcustomdialogbox.dart';
 import 'package:j3enterprise/src/ui/about/about.dart';
@@ -100,6 +108,10 @@ class CustomDrawer extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> d905bf68ae66d893fb1f9bea2fec24a0c63aaa81
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -124,6 +136,11 @@ class CustomDrawer extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
+>>>>>>> d905bf68ae66d893fb1f9bea2fec24a0c63aaa81
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => AppLoggerPage()));
               },
