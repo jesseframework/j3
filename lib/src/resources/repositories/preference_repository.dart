@@ -99,6 +99,8 @@ class PreferenceRepository {
                   jobName, "Success");
             } else {
               updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
+              _log.shout(
+                  "Non-Global Prefrence Call Failed", StackTrace.current);
             }
           }
         }

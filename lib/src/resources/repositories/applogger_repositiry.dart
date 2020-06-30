@@ -12,6 +12,7 @@ import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
 import 'package:j3enterprise/src/resources/shared/function/update_backgroung_job_schedule_status.dart';
 import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.dart';
 import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
+import 'package:logging/logging.dart';
 
 class AppLoggerRepository {
   var api = ApiClient.chopper.getService<RestApiService>();
@@ -24,6 +25,7 @@ class AppLoggerRepository {
   BackgroundJobScheduleDao backgroundJobScheduleDao;
   PreferenceDao preferenceDao;
   NonGlobalSettingDao nonGlobalSettingDao;
+  static final _log = Logger('ApplicationLoggerDao');
 
   UserSharedData userSharedData;
 
@@ -94,6 +96,7 @@ class AppLoggerRepository {
                           logCode: fromDb.logCode,
                           logSeverity: fromDb.logSeverity,
                           exportStatus: "Success",
+                          
                           exportDateTime: DateTime.now());
 
                       var logPurging = await preferenceDao
@@ -122,6 +125,7 @@ class AppLoggerRepository {
                     } else {
                       await updateBackgroundJobStatus.updateJobStatus(
                           jobName, "Error");
+                           _log.shout("AppLogger API Call Failed", StackTrace.current);
                       break;
                     }
                   }
@@ -131,6 +135,8 @@ class AppLoggerRepository {
           }
         }
       }
-    } catch (e) {}
+    } catch (e) {
+       _log.shout(e, StackTrace.current);
+    }
   }
 }
