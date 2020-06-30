@@ -20,7 +20,7 @@ class PreferenceRepository {
   UpdateBackgroundJobStatus updateBackgroundJobStatus;
   BackgroundJobScheduleDao backgroundJobScheduleDao;
   PreferenceDao preferenceDao;
-  NonGlobalSettingDao nonGlobalSettingDao;
+  NonGlobalPreferenceDao nonGlobalPreferenceDao;
 
   UserSharedData userSharedData;
 
@@ -29,7 +29,7 @@ class PreferenceRepository {
     updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
     preferenceDao = PreferenceDao(db);
-    nonGlobalSettingDao = NonGlobalSettingDao(db);
+    nonGlobalPreferenceDao = NonGlobalPreferenceDao(db);
     userSharedData = new UserSharedData();
   }
 
@@ -86,13 +86,13 @@ class PreferenceRepository {
               //https://github.com/simolus3/moor/issues/20
 
               var items = (result['items'] as List).map((e) {
-                return NonGlobalSettingData.fromJson(e,
+                return NonGlobalPreferenceData.fromJson(e,
                     serializer: CustomSerializer());
               });
 
               for (var item in items) {
                 //var getData = PreferenceData.fromJson(item);
-                await nonGlobalSettingDao.createOrUpdatePref(item);
+                await nonGlobalPreferenceDao.createOrUpdatePref(item);
               }
 
               await updateBackgroundJobStatus.updateJobStatus(

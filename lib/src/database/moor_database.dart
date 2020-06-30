@@ -6,7 +6,7 @@ import 'package:j3enterprise/src/models/background_jobs_logs_model.dart';
 import 'package:j3enterprise/src/models/business_rule_model.dart';
 import 'package:j3enterprise/src/models/communication_model.dart';
 import 'package:j3enterprise/src/models/mobile_device_model.dart';
-import 'package:j3enterprise/src/models/non_global_setting.dart';
+import 'package:j3enterprise/src/models/non_global_preference.dart';
 import 'package:j3enterprise/src/models/preference_model.dart';
 
 import 'package:j3enterprise/src/models/tenant_model.dart';
@@ -28,7 +28,7 @@ part 'moor_database.g.dart';
   BusinessRule,
   ApplicationLogger,
   Tenant,
-  NonGlobalSetting
+  NonGlobalPreference
 ])
 class AppDatabase extends _$AppDatabase {
   static AppDatabase _db = _constructDb();

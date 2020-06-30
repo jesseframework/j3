@@ -24,7 +24,7 @@ class AppLoggerRepository {
   UpdateBackgroundJobStatus updateBackgroundJobStatus;
   BackgroundJobScheduleDao backgroundJobScheduleDao;
   PreferenceDao preferenceDao;
-  NonGlobalSettingDao nonGlobalSettingDao;
+  NonGlobalPreferenceDao nonGlobalPreferenceDao;
   static final _log = Logger('ApplicationLoggerDao');
 
   UserSharedData userSharedData;
@@ -35,7 +35,7 @@ class AppLoggerRepository {
     updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
     preferenceDao = PreferenceDao(db);
-    nonGlobalSettingDao = NonGlobalSettingDao(db);
+    nonGlobalPreferenceDao = NonGlobalPreferenceDao(db);
     userSharedData = new UserSharedData();
   }
 
@@ -96,7 +96,7 @@ class AppLoggerRepository {
                           logCode: fromDb.logCode,
                           logSeverity: fromDb.logSeverity,
                           exportStatus: "Success",
-                          
+
                           exportDateTime: DateTime.now());
 
                       var logPurging = await preferenceDao
@@ -104,7 +104,7 @@ class AppLoggerRepository {
                       if (logPurging != null) {
                         if (logPurging.value == "After Upload") {
                           if (logPurging.isGlobal == false) {
-                            var globalData = await nonGlobalSettingDao
+                            var globalData = await nonGlobalPreferenceDao
                                 .getSingleNonGlobalPref(logPurging.code,
                                     logPurging.code, userName, deviceId, "");
                             if (globalData != null) {
