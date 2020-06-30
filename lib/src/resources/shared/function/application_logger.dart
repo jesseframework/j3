@@ -19,17 +19,6 @@
  */
 
 /*
- * AppLogger record all logs from flutter logger.root. This control by loglevel in J3 profrence.
- * This class will be call by other report to log perform loging application. Logs can also be ship to server using log ship job.
-  * Dependency implement:
- *  - Connectivity - Check Internet connection and login user offline if no internet
- *  - Logger - Log all code interaction with UI. This is depended on log level
- *  - Flutter_Bloc - Main state managemeng solution. for more information on flutter_bloc see http://pub.dev
- *  - Chopper - API integration for ABP
- *  - Shared Prefrence - Store user data for API call
- *  - Moor_ff
- */
-/*
  * WARNING!! - Dont not add flutter logger to saveAppLog Future. This will put the apploger in loop and prevent loging.
  */
 
