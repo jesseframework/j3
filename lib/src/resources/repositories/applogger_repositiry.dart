@@ -102,6 +102,7 @@ class AppLoggerRepository {
                           logCode: fromDb.logCode,
                           logSeverity: fromDb.logSeverity,
                           exportStatus: "Success",
+                          
                           exportDateTime: DateTime.now());
 
                       await applicationLoggerDao
@@ -134,6 +135,7 @@ class AppLoggerRepository {
                     } else {
                       await updateBackgroundJobStatus.updateJobStatus(
                           jobName, "Error");
+                           _log.shout("AppLogger API Call Failed", StackTrace.current);
                       break;
                     }
                   }

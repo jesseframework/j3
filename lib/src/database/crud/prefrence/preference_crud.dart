@@ -31,11 +31,12 @@ class PreferenceDao extends DatabaseAccessor<AppDatabase>
   Future insertPreferences(PreferenceData preferenceData) =>
       into(db.preference).insert(preferenceData);
 
-  Future<void> createOrUpdatePref(PreferenceData pref) {
+  Future<void> createOrUpdatePref(PreferenceData pref) {    
     return into(db.preference).insertOnConflictUpdate(pref);
 
   }
 
+//  
     
   Future deleteAllPreferences() => delete(db.preference).go();
 }
