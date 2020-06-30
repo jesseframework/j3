@@ -63,4 +63,35 @@ class PreferenceRepository {
       _log.shout(e, StackTrace.current);
     }
   }
+
+  Future<void> getNonGlobalPrefFromServer(String jobName) async {
+    try {
+      //ToDo code review to get a better way to push bulk data to API and update bulk data in database
+      var isSchedulerEnable = await backgroundJobScheduleDao.getJob(jobName);
+      if (isSchedulerEnable != null) {
+        if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
+          if (isSchedulerEnable.enableJob == true) {
+            final Response response = await api.getNonGlobalPreference();
+            Map<String, dynamic> map = json.decode(response.bodyString);
+            if (response.isSuccessful && map['success']) {
+              Map<String, dynamic> result = map['result'];
+              var items = (result['items'] as List).map((e) {
+                return NonGlobalPreferenceData.fromJson(e,
+                    serializer: CustomSerializer());
+              });
+
+              for (var item in items) {
+                await nonGlobalPreferenceDao.createOrUpdatePref(item);
+              }
+            } else {
+              updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
+            }
+          }
+        }
+      }
+    } catch (e) {
+      updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
+      _log.shout(e, StackTrace.current);
+    }
+  }
 }

@@ -56,6 +56,27 @@ class _$RestApiService extends RestApiService {
   }
 
   @override
+  Future<Response<dynamic>> getNonGlobalPreference() {
+    final $url = '/api/services/app/NonGlobalPreference/GetAll';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getBusinessRule() {
+    final $url = '/api/services/app/BusinessRule/GetAll';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getNonGlobalBusinessRule() {
+    final $url = '/api/services/app/NonGlobalBusinessRule/GetAll';
+    final $request = Request('GET', $url, client.baseUrl);
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
   Future<Response<dynamic>> updateUserHash(Map<String, dynamic> body) {
     final $url = '/api/services/app/User/UpdateMobileHash';
     final $body = body;

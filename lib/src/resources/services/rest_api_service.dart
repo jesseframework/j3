@@ -19,6 +19,15 @@ abstract class RestApiService extends ChopperService {
   @Get(path: '/services/app/Preference/GetAll')
   Future<Response> getPreference();
 
+    @Get(path: '/services/app/NonGlobalPreference/GetAll')
+  Future<Response> getNonGlobalPreference();
+
+  @Get(path: '/services/app/BusinessRule/GetAll')
+  Future<Response> getBusinessRule();
+
+  @Get(path: '/services/app/NonGlobalBusinessRule/GetAll')
+  Future<Response> getNonGlobalBusinessRule();
+
   @Put(path: '/services/app/User/UpdateMobileHash')
   Future<Response> updateUserHash(@Body() Map<String, dynamic> body);
 
