@@ -12,7 +12,6 @@ import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
 import 'package:j3enterprise/src/resources/shared/function/update_backgroung_job_schedule_status.dart';
 import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.dart';
 import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
-import 'package:logging/logging.dart';
 
 class AppLoggerRepository {
   var api = ApiClient.chopper.getService<RestApiService>();
@@ -20,7 +19,6 @@ class AppLoggerRepository {
   //static bool isStopped = false;
   bool isStopped = false;
 
-  static final _log = Logger('AppLoggerRepository');
   ApplicationLoggerDao applicationLoggerDao;
   UpdateBackgroundJobStatus updateBackgroundJobStatus;
   BackgroundJobScheduleDao backgroundJobScheduleDao;
@@ -41,7 +39,6 @@ class AppLoggerRepository {
 
   Future putAppLogOnServer(String jobName) async {
     try {
-      //ToDo code review to get a better way to push bulk data to API and update bulk data in database
       var isSchedulerEnable = await backgroundJobScheduleDao.getJob(jobName);
       if (isSchedulerEnable != null) {
         if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
@@ -55,19 +52,11 @@ class AppLoggerRepository {
             String userName = mapUserSharedData['userName'];
             String deviceId = mapUserSharedData['deviceId'];
 
-            //ToDo code review to get a better way to push bulk data to API and update bulk data in datbase
             var isscheduleenable =
                 await backgroundJobScheduleDao.getJob(jobName);
             if (isscheduleenable != null) {
-              DateTime startDate = isscheduleenable.startDateTime;
-              DateTime currentDate = DateTime.now();
-              _log.finest(
-                  'Start Date $startDate found in job schedular to compare with currenct date $currentDate using isAfter');
               if (isscheduleenable.startDateTime.isBefore(DateTime.now())) {
-                _log.finest('$jobName found in job schedular');
                 if (isscheduleenable.enableJob == true) {
-                  _log.finest('$jobName is enable');
-
                   var appLogData =
                       await applicationLoggerDao.getAppLog("Pending");
                   if (appLogData != null) {
@@ -80,13 +69,6 @@ class AppLoggerRepository {
                         jobName, "In Progress");
                     String formatted =
                         await formatDate(fromDb.logDateTime.toString());
-
-                    //int tenantId = 2;
-
-                    // var getprefData = userSharedData.getUserSharedPref();
-                    // if (getprefData != null) {
-                    //   tenantId = getprefData.te
-                    // }
 
                     final Response response = await api.mobileAppLogger({
                       "functionName": fromDb.functionName,
@@ -101,11 +83,6 @@ class AppLoggerRepository {
                     });
                     Map<String, dynamic> map = json.decode(response.bodyString);
                     if (response.isSuccessful && map['success']) {
-                      //decode the response body
-                      _log.finest('API response is successful $map');
-                      await updateBackgroundJobStatus.updateJobStatus(
-                          jobName, "Success");
-
                       var fromDate = new ApplicationLoggerData(
                           id: fromDb.id,
                           functionName: fromDb.functionName,
@@ -118,9 +95,6 @@ class AppLoggerRepository {
                           logSeverity: fromDb.logSeverity,
                           exportStatus: "Success",
                           exportDateTime: DateTime.now());
-
-                      await applicationLoggerDao
-                          .updateAppLoggerReplace(fromDate);
 
                       var logPurging = await preferenceDao
                           .getSinglePreferences('LOGGERPURGE');
@@ -141,9 +115,8 @@ class AppLoggerRepository {
                             await applicationLoggerDao.deleteById(fromDate.id);
                           }
                         }
-                      } else {
-                        //applicationLoggerDao.purgeData(1000);
                       }
+
                       await updateBackgroundJobStatus.updateJobStatus(
                           jobName, "Success");
                     } else {

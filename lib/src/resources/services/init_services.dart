@@ -63,7 +63,11 @@ class InitServiceSetup {
       }
     } else {
       //Set Default
+<<<<<<< HEAD
       Logger.root.level = Level.FINEST;
+=======
+      Logger.root.level = Level.ALL;
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
     }
 
     Logger.root.onRecord.listen((rec) async {

@@ -16,7 +16,11 @@ class TimerData {
   TimerData({@required this.name, @required this.timer});
 }
 
+<<<<<<< HEAD
 class Scheduler {
+=======
+class Scheduleler {
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
   static final _log = Logger('Scheduleler');
 
   List<TimerData> timers = [];
@@ -66,12 +70,17 @@ class Scheduler {
   }
 }
 
+<<<<<<< HEAD
 Future<void> syncClickScheduler() async {
+=======
+Future<void> syncClickleScheduler() async {
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
   var db;
   db = AppDatabase();
   BackgroundJobScheduleDao backgroundJobScheduleDao =
       new BackgroundJobScheduleDao(db);
   AppLoggerRepository appLoggerRepository = new AppLoggerRepository();
+<<<<<<< HEAD
   Scheduler scheduler = new Scheduler();
   var jobData = await backgroundJobScheduleDao.getAllJobs();
   for (var eachJob in jobData) {
@@ -85,15 +94,37 @@ Future<void> syncClickScheduler() async {
   }
 }
 
+=======
+  Scheduleler scheduleler = new Scheduleler();
+  var jobData = await backgroundJobScheduleDao.getAllJobs();
+  for (var eachJob in jobData) {
+    scheduleler.runNowJobs(
+        eachJob.syncFrequency,
+        eachJob.jobName,
+        (Timer timer) =>
+            appLoggerRepository.putAppLogOnServer(eachJob.jobName));
+
+            
+  }
+}
+
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
 Future<void> syncClickCancel() async {
   var db;
   db = AppDatabase();
   BackgroundJobScheduleDao backgroundJobScheduleDao =
       new BackgroundJobScheduleDao(db);
 
+<<<<<<< HEAD
   Scheduler scheduleler = new Scheduler();
   var jobData = await backgroundJobScheduleDao.getAllJobs();
   for (var eachJob in jobData) {
+=======
+  Scheduleler scheduleler = new Scheduleler();
+  var jobData = await backgroundJobScheduleDao.getAllJobs();
+  for (var eachJob in jobData) {
+    
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
     scheduleler.cancel(eachJob.jobName);
   }
 }

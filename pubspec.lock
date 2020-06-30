@@ -301,7 +301,11 @@ packages:
       name: file
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "5.2.1"
+=======
+    version: "5.2.0"
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
   firebase:
     dependency: transitive
     description:

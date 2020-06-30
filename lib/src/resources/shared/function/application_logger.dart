@@ -102,7 +102,12 @@ class AppLogger {
           tenantId: Value(tenantId),
           userId: Value(userId));
 
+<<<<<<< HEAD
       //ToDo add delay start to future
+=======
+      //ToDo add dlay start to future
+
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
       await applicationLoggerDao.insertAppLog(logData);
 
       var logPurging = await preferenceDao.getSinglePreferences('LOGGERPURGE');
@@ -113,11 +118,19 @@ class AppLogger {
                 logPurging.code, logPurging.code, userName, deviceId, screen);
             if (globalData != null) {
               if (globalData.expiredDateTime.isBefore(DateTime.now())) {
+<<<<<<< HEAD
                 //applicationLoggerDao.purgeDatabyExportStatus('Success');
               }
             }
           } else {
             //applicationLoggerDao.purgeDatabyExportStatus('Success');
+=======
+                 applicationLoggerDao.purgeDatabyExportStatus('Success');
+              }
+            }
+          } else {
+             applicationLoggerDao.purgeDatabyExportStatus('Success');
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
           }
         }
 
@@ -127,11 +140,19 @@ class AppLogger {
                 logPurging.code, logPurging.code, userName, deviceId, screen);
             if (globalData != null) {
               if (globalData.expiredDateTime.isBefore(DateTime.now())) {
+<<<<<<< HEAD
                 //applicationLoggerDao.purgeData(1000);
               }
             }
           } else {
             //applicationLoggerDao.purgeData(1000);
+=======
+                applicationLoggerDao.purgeData(1000);
+              }
+            }
+          } else {
+            applicationLoggerDao.purgeData(1000);
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
           }
         }
 
@@ -140,10 +161,17 @@ class AppLogger {
             var globalData = await nonGlobalSettingDao.getSingleNonGlobalPref(
                 logPurging.code, logPurging.code, userName, deviceId, screen);
             if (globalData != null) {
+<<<<<<< HEAD
               //applicationLoggerDao.purgeData(500);
             }
           } else {
             //applicationLoggerDao.purgeData(500);
+=======
+              applicationLoggerDao.purgeData(500);
+            }
+          } else {
+            applicationLoggerDao.purgeData(500);
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
           }
         }
 
@@ -153,17 +181,29 @@ class AppLogger {
                 logPurging.code, logPurging.code, userName, deviceId, screen);
             if (globalData != null) {
               if (globalData.expiredDateTime.isBefore(DateTime.now())) {
+<<<<<<< HEAD
                 //applicationLoggerDao.purgeData(100);
               }
             }
           } else {
             //applicationLoggerDao.purgeData(100);
+=======
+                applicationLoggerDao.purgeData(100);
+              }
+            }
+          } else {
+            applicationLoggerDao.purgeData(100);
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
           }
         }
       } else {
         //int count = 1000;
 
+<<<<<<< HEAD
         //applicationLoggerDao.purgeData(1000);
+=======
+        applicationLoggerDao.purgeData(1000);
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
       }
     } catch (error) {
       _log.shout(error, StackTrace.current);

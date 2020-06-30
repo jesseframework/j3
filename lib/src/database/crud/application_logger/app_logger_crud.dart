@@ -51,6 +51,7 @@ class ApplicationLoggerDao extends DatabaseAccessor<AppDatabase>
     return (delete(db.applicationLogger)..where((t) => t.id.equals(id))).go();
   }
 
+<<<<<<< HEAD
 //  Stream<List<ApplicationLoggerData>> purgeData(int limit) {
 //    return customSelectStream(
 //      'DELETE FROM application_logger WHERE id in (SELECT id FROM application_logger ORDER BY log_date_time LIMIT $limit);',
@@ -73,6 +74,30 @@ class ApplicationLoggerDao extends DatabaseAccessor<AppDatabase>
 //          .toList();
 //    });
 //  }
+=======
+  Stream<List<ApplicationLoggerData>> purgeData(int limit) {
+    return customSelectStream(
+      'DELETE FROM application_logger WHERE id in (SELECT id FROM application_logger ORDER BY log_date_time LIMIT $limit);',
+      readsFrom: {applicationLogger},
+    ).map((rows) {
+      return rows
+          .map((row) => ApplicationLoggerData.fromData(row.data, db))
+          .toList();
+    });
+  }
+
+  Stream<List<ApplicationLoggerData>> purgeDatabyExportStatus(
+      String exportStatus) {
+    return customSelectStream(
+      'DELETE FROM application_logger WHERE export_status = $exportStatus);',
+      readsFrom: {applicationLogger},
+    ).map((rows) {
+      return rows
+          .map((row) => ApplicationLoggerData.fromData(row.data, db))
+          .toList();
+    });
+  }
+>>>>>>> 3155339cff24631565403ae694c6e3af0e8966bb
 
   Future deleteAppLog(ApplicationLoggerCompanion applicationLoggerCompanion) =>
       delete(applicationLogger).delete(applicationLoggerCompanion);
