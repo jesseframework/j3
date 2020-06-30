@@ -10,10 +10,7 @@ class NonGlobalSettingDao extends DatabaseAccessor<AppDatabase>
   final AppDatabase db;
   NonGlobalSettingDao(this.db) : super(db);
 
-//  Future<List<PreferenceData>> getPreferences(String prefCode) {
-//    return (select(db.preference)..where((t) => t.code.equals(prefCode))).get();
-//  }
-//
+
   Future<NonGlobalSettingData> getSingleNonGlobalPref(String parentCode,
       String code, String userName, String deviceId, String screen) {
     return (select(db.nonGlobalSetting)
@@ -25,17 +22,10 @@ class NonGlobalSettingDao extends DatabaseAccessor<AppDatabase>
                   u.screen.like(screen))))
         .getSingle();
   }
-//
-//  Future<List<PreferenceData>> getAllPreferences() {
-//    return (select(db.preference).get());
-//  }
-//
-//  Stream<List<PreferenceData>> watchAllPreferences() {
-//    return (select(db.preference).watch());
-//  }
-//
-//  Future insertPreferences(PreferenceData preferenceData) =>
-//      into(db.preference).insert(preferenceData);
-//
-//  Future deleteAllPreferences() => delete(db.preference).go();
+
+  Future<void> createOrUpdatePref(NonGlobalSettingData nonGlobalPref) {
+    return into(db.nonGlobalSetting).insertOnConflictUpdate(nonGlobalPref);
+
+  }
+
 }

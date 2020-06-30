@@ -35,24 +35,7 @@ class PreferenceDao extends DatabaseAccessor<AppDatabase>
     return into(db.preference).insertOnConflictUpdate(pref);
 
   }
-// DateFormat("dd-MM-yyyy").format(DateTime.parse(preferenceData.expiredDateTime));
-//DateTime.parse(preferenceData.expiredDateTime.toString()),
-//formatDate(yourDateTime, [dd, '.', mm, '.', yy, ' ', HH, ':', nn]);
-   Future insertOrUpdate(PreferenceData preferenceData) {
-    return (into(db.preference)         
-        .insertOnConflictUpdate(
-      PreferenceData(code: preferenceData.code,
-      preferenceName: preferenceData.preferenceName,
-      value: preferenceData.value,
-      description: preferenceData.description,
-      domain: preferenceData.domain,
-      isGlobal: preferenceData.isGlobal,
-      expiredDateTime: DateTime.parse(DateFormat('yyyy-MM-dd hh:mm:ss').format(preferenceData.expiredDateTime)),
-      tenantId: preferenceData.tenantId,
-      id: preferenceData.id
-          ),
-    ));
-  }
+
     
   Future deleteAllPreferences() => delete(db.preference).go();
 }

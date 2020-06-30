@@ -107,6 +107,12 @@ class BackgroundJobsBloc
               event.jobname,
               (Timer timer) async => await preferenceRepository
                   .getPreferenceFromServer(event.jobname));
+
+                   scheduler.scheduleJobs(
+              event.syncFrequency,
+              event.jobname,
+              (Timer timer) async => await preferenceRepository
+                  .getNonGlobalPrefFromServer(event.jobname));
         }
 
         yield BackgroundJobsSuccess(userMessage: userMessage);

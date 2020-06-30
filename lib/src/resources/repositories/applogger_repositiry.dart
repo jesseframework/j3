@@ -46,7 +46,7 @@ class AppLoggerRepository {
       if (isSchedulerEnable != null) {
         if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
           if (isSchedulerEnable.enableJob == true) {
-            var appLogData = await applicationLoggerDao.getAppLog("Pending");
+            //var appLogData = await applicationLoggerDao.getAppLog("Pending");
 
             Map<String, String> mapUserSharedData = Map();
             UserSharedData userSharedData = new UserSharedData();
@@ -55,82 +55,109 @@ class AppLoggerRepository {
             String userName = mapUserSharedData['userName'];
             String deviceId = mapUserSharedData['deviceId'];
 
-            for (var fromDb in appLogData) {
-              if (isStopped) break;
-              await updateBackgroundJobStatus.updateJobStatus(
-                  jobName, "In Progress");
-              String formatted =
-                  await formatDate(fromDb.logDateTime.toString());
+            //ToDo code review to get a better way to push bulk data to API and update bulk data in datbase
+            var isscheduleenable =
+                await backgroundJobScheduleDao.getJob(jobName);
+            if (isscheduleenable != null) {
+              DateTime startDate = isscheduleenable.startDateTime;
+              DateTime currentDate = DateTime.now();
+              _log.finest(
+                  'Start Date $startDate found in job schedular to compare with currenct date $currentDate using isAfter');
+              if (isscheduleenable.startDateTime.isBefore(DateTime.now())) {
+                _log.finest('$jobName found in job schedular');
+                if (isscheduleenable.enableJob == true) {
+                  _log.finest('$jobName is enable');
 
-              final Response response = await api.mobileAppLogger({
-                "functionName": fromDb.functionName,
-                "logDateTime": formatted,
-                "syncFrequency": fromDb.syncFrequency,
-                "logDescription": fromDb.logDescription,
-                "documentNo": fromDb.documentNo,
-                "logCode": fromDb.logCode,
-                "logSeverity": fromDb.logSeverity,
-                "deviceID": fromDb.deviceId,
-                "tenantId": _tenantId
-              });
-              Map<String, dynamic> map = json.decode(response.bodyString);
-              if (response.isSuccessful && map['success']) {
-                //decode the response body
+                  var appLogData =
+                      await applicationLoggerDao.getAppLog("Pending");
+                  if (appLogData != null) {
+                    await updateBackgroundJobStatus.updateJobStatus(
+                        jobName, "In Progress");
+                  }
+                  for (var fromDb in appLogData) {
+                    if (isStopped) break;
+                    await updateBackgroundJobStatus.updateJobStatus(
+                        jobName, "In Progress");
+                    String formatted =
+                        await formatDate(fromDb.logDateTime.toString());
 
-                var fromDate = new ApplicationLoggerData(
-                    id: fromDb.id,
-                    functionName: fromDb.functionName,
-                    logDateTime: fromDb.logDateTime,
-                    syncFrequency: fromDb.syncFrequency,
-                    logDescription: fromDb.logDescription,
-                    documentNo: fromDb.documentNo,
-                    deviceId: fromDb.deviceId,
-                    logCode: fromDb.logCode,
-                    logSeverity: fromDb.logSeverity,
-                    exportStatus: "Success",
-                    exportDateTime: DateTime.now());
+                    //int tenantId = 2;
 
-                await applicationLoggerDao.updateAppLoggerReplace(fromDate);
+                    // var getprefData = userSharedData.getUserSharedPref();
+                    // if (getprefData != null) {
+                    //   tenantId = getprefData.te
+                    // }
 
-                var logPurging =
-                    await preferenceDao.getSinglePreferences('LOGGERPURGE');
-                if (logPurging != null) {
-                  if (logPurging.value == "After Upload") {
-                    if (logPurging.isGlobal == false) {
-                      var globalData =
-                          await nonGlobalSettingDao.getSingleNonGlobalPref(
-                              logPurging.code,
-                              logPurging.code,
-                              userName,
-                              deviceId,
-                              "");
-                      if (globalData != null) {
-                        if (globalData.expiredDateTime
-                            .isBefore(DateTime.now())) {
-                          await applicationLoggerDao.deleteById(fromDate.id);
+                    final Response response = await api.mobileAppLogger({
+                      "functionName": fromDb.functionName,
+                      "logDateTime": formatted,
+                      "syncFrequency": fromDb.syncFrequency,
+                      "logDescription": fromDb.logDescription,
+                      "documentNo": fromDb.documentNo,
+                      "logCode": fromDb.logCode,
+                      "logSeverity": fromDb.logSeverity,
+                      "deviceID": fromDb.deviceId,
+                      "tenantId": _tenantId
+                    });
+                    Map<String, dynamic> map = json.decode(response.bodyString);
+                    if (response.isSuccessful && map['success']) {
+                      //decode the response body
+                      _log.finest('API response is successful $map');
+                      await updateBackgroundJobStatus.updateJobStatus(
+                          jobName, "Success");
+
+                      var fromDate = new ApplicationLoggerData(
+                          id: fromDb.id,
+                          functionName: fromDb.functionName,
+                          logDateTime: fromDb.logDateTime,
+                          syncFrequency: fromDb.syncFrequency,
+                          logDescription: fromDb.logDescription,
+                          documentNo: fromDb.documentNo,
+                          deviceId: fromDb.deviceId,
+                          logCode: fromDb.logCode,
+                          logSeverity: fromDb.logSeverity,
+                          exportStatus: "Success",
+                          exportDateTime: DateTime.now());
+
+                      await applicationLoggerDao
+                          .updateAppLoggerReplace(fromDate);
+
+                      var logPurging = await preferenceDao
+                          .getSinglePreferences('LOGGERPURGE');
+                      if (logPurging != null) {
+                        if (logPurging.value == "After Upload") {
+                          if (logPurging.isGlobal == false) {
+                            var globalData = await nonGlobalSettingDao
+                                .getSingleNonGlobalPref(logPurging.code,
+                                    logPurging.code, userName, deviceId, "");
+                            if (globalData != null) {
+                              if (globalData.expiredDateTime
+                                  .isBefore(DateTime.now())) {
+                                await applicationLoggerDao
+                                    .deleteById(fromDate.id);
+                              }
+                            }
+                          } else {
+                            await applicationLoggerDao.deleteById(fromDate.id);
+                          }
                         }
+                      } else {
+                        //applicationLoggerDao.purgeData(1000);
                       }
+                      await updateBackgroundJobStatus.updateJobStatus(
+                          jobName, "Success");
                     } else {
-                      await applicationLoggerDao.deleteById(fromDate.id);
+                      await updateBackgroundJobStatus.updateJobStatus(
+                          jobName, "Error");
+                      break;
                     }
                   }
-                } else {
-                  //applicationLoggerDao.purgeData(1000);
                 }
-                await updateBackgroundJobStatus.updateJobStatus(
-                    jobName, "Success");
-              } else {
-                await updateBackgroundJobStatus.updateJobStatus(
-                    jobName, "Error");
-                break;
               }
             }
           }
         }
       }
-    } catch (error) {
-      await updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-      _log.shout(error, StackTrace.current);
-    }
+    } catch (e) {}
   }
 }
