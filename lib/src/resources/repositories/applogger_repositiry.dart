@@ -26,6 +26,10 @@ class AppLoggerRepository {
   BackgroundJobScheduleDao backgroundJobScheduleDao;
   PreferenceDao preferenceDao;
   NonGlobalPreferenceDao nonGlobalPreferenceDao;
+<<<<<<< HEAD
+=======
+  static final _log = Logger('ApplicationLoggerDao');
+>>>>>>> Add business rule
 
   UserSharedData userSharedData;
 
@@ -102,7 +106,7 @@ class AppLoggerRepository {
                           logCode: fromDb.logCode,
                           logSeverity: fromDb.logSeverity,
                           exportStatus: "Success",
-                          
+
                           exportDateTime: DateTime.now());
 
                       await applicationLoggerDao

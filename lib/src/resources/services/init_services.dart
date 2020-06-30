@@ -15,7 +15,7 @@ import 'package:logging/logging.dart';
 class InitServiceSetup {
   var db;
   PreferenceDao preferenceDao;
-  NonGlobalSettingDao nonGlobalSettingDao;
+  NonGlobalPreferenceDao nonGlobalPreferenceDao;
   UserSharedData userSharedData;
   AppLogger appLogger;
   Map<String, String> mapDevicePref = Map();
@@ -23,7 +23,7 @@ class InitServiceSetup {
     db = AppDatabase();
     appLogger = new AppLogger();
     preferenceDao = new PreferenceDao(db);
-    nonGlobalSettingDao = new NonGlobalSettingDao(db);
+    nonGlobalPreferenceDao = new NonGlobalPreferenceDao(db);
     userSharedData = new UserSharedData();
   }
   Future<void> setupLogging() async {
@@ -39,7 +39,7 @@ class InitServiceSetup {
           saveLogToDd.isGlobal == false &&
           (saveLogToDd.expiredDateTime.isBefore(DateTime.now()) ||
               saveLogToDd.expiredDateTime == null)) {
-        var nonGlobalDb = await nonGlobalSettingDao.getSingleNonGlobalPref(
+        var nonGlobalDb = await nonGlobalPreferenceDao.getSingleNonGlobalPref(
             'LOGGERON', 'LOGGERON', userName, deviceID, screen);
         if (nonGlobalDb != null &&
             nonGlobalDb.value == "Yes" &&
@@ -47,7 +47,7 @@ class InitServiceSetup {
           //Set not global
           if (nonGlobalDb.expiredDateTime.isBefore(DateTime.now()) ||
               nonGlobalDb.expiredDateTime == null) {
-            var setLogLevel = await nonGlobalSettingDao.getSingleNonGlobalPref(
+            var setLogLevel = await nonGlobalPreferenceDao.getSingleNonGlobalPref(
                 'LOGGERLEVEL', 'LOGGERLEVEL', userName, deviceID, screen);
             if (setLogLevel != null) {
               await logLevelCheck(setLogLevel.value);
@@ -63,11 +63,13 @@ class InitServiceSetup {
       }
     } else {
       //Set Default
-<<<<<<< HEAD
       Logger.root.level = Level.FINEST;
+<<<<<<< HEAD
 =======
       Logger.root.level = Level.ALL;
 >>>>>>> Applogger pages with 10 record
+=======
+>>>>>>> Add business rule
     }
 
     Logger.root.onRecord.listen((rec) async {
@@ -81,7 +83,7 @@ class InitServiceSetup {
         if (logHttp.value == "Yes" &&
             logHttp.isGlobal == false &&
             logHttp.expiredDateTime.isBefore(DateTime.now())) {
-          var nonGlobalDb = await nonGlobalSettingDao.getSingleNonGlobalPref(
+          var nonGlobalDb = await nonGlobalPreferenceDao.getSingleNonGlobalPref(
               'HTTPLOGINGTOSERVER',
               'HTTPLOGINGTOSERVER',
               userName,

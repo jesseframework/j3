@@ -102,7 +102,12 @@ class AppLogger {
           tenantId: Value(tenantId),
           userId: Value(userId));
 
+<<<<<<< HEAD
       //ToDo add delay start to future
+=======
+      //ToDo add dlay start to future
+
+>>>>>>> Add business rule
       await applicationLoggerDao.insertAppLog(logData);
 
       var logPurging = await preferenceDao.getSinglePreferences('LOGGERPURGE');
