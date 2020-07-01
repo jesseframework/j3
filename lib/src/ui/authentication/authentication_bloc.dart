@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:j3enterprise/main.dart';
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
@@ -10,14 +9,13 @@ import 'package:j3enterprise/src/resources/shared/function/check_for_user_data_o
 import 'package:j3enterprise/src/resources/shared/function/schedule_background_jobs.dart';
 import 'package:j3enterprise/src/resources/shared/utils/user_hashdigest.dart';
 import 'package:logging/logging.dart';
-
 import 'authentication_event.dart';
 import 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   var db;
-  final UserRepository userRepository=getIt<UserRepository>();
+  final UserRepository userRepository = getIt<UserRepository>();
   UserFromServer userFromServer;
   UserHashSave userHash;
   AppLoggerRepository appLoggerRepository;
@@ -27,7 +25,6 @@ class AuthenticationBloc
   static final _log = Logger('LoginBloc');
 
   AuthenticationBloc() {
-
     db = AppDatabase();
     userFromServer = new UserFromServer(userRepository: userRepository);
     userHash = new UserHashSave(userRepository: userRepository);
@@ -41,19 +38,17 @@ class AuthenticationBloc
 
   @override
   Stream<AuthenticationState> mapEventToState(
-      AuthenticationEvent event,
-      ) async* {
-
-    if(event is PushNotification){
-
-    yield PushNotificationState(route: event.route);
-
-
-    }
+    AuthenticationEvent event,
+  ) async* {
+//    if(event is PushNotification){
+//
+//    yield PushNotificationState(route: event.route);
+//
+//
+//    }
     if (event is AppStarted) {
       await Future.delayed(Duration(seconds: 9));
       final bool hasToken = await userRepository.hasToken();
-
       if (hasToken) {
         yield AuthenticationAuthenticated();
       } else {
@@ -66,7 +61,6 @@ class AuthenticationBloc
       await userRepository.persistToken(
           event.token, event.userId, event.tenantId);
       yield AuthenticationAuthenticated();
-
       _log.finest('Starting background Jobs');
 
       // var jobData = await backgroundJobScheduleDao.getAllJobs();
@@ -80,7 +74,7 @@ class AuthenticationBloc
       // }
 
       var offlineReady =
-      await userFromServer.validateUser(event.userId, event.tenantId);
+          await userFromServer.validateUser(event.userId, event.tenantId);
       print(offlineReady);
       if (offlineReady == true) {
         yield AuthenticationCreateMobileHash();

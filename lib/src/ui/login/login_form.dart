@@ -19,6 +19,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:j3enterprise/main.dart';
+import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/password_field.dart';
@@ -33,17 +35,30 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _tenantController = TextEditingController();
   final formKey = new GlobalKey<FormState>();
   bool pass = true;
   String selected;
   bool isSwitched = false;
-  final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _tenantController = TextEditingController();
+
+  @override
+  void didChangeDependencies() {
+   getIt<UserRepository>().getTenantFromSharedPref().then((value){
+    setState(() {
+      _tenantController.text=value;
+    });
+   });
+    super.didChangeDependencies();
+  }
   @override
   Widget build(BuildContext context) {
     _onLoginButtonPressed() async {
+
       formKey.currentState.validate();
+   //  await getIt<UserRepository>().setTenantIntoSharedPref(_tenantController.text);
+
       BlocProvider.of<LoginBloc>(context).add(
         LoginButtonPressed(
             username: _usernameController.text.trim(),

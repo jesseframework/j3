@@ -27,6 +27,7 @@ class _FirebaseMessageWrapperState extends State<FirebaseMessageWrapper> {
 
   @override
   void dispose() {
+
     super.dispose();
   }
 
@@ -38,7 +39,7 @@ class _FirebaseMessageWrapperState extends State<FirebaseMessageWrapper> {
       builder: (BuildContext context,
           AsyncSnapshot<Map<String, dynamic>> snapshot) {
         Map<String, dynamic> message = snapshot.data;
-        print(snapshot.data);
+       print(snapshot.data);
         if (message != null) {
           _serialiseAndNavigate(message, context);
         }
@@ -47,8 +48,9 @@ class _FirebaseMessageWrapperState extends State<FirebaseMessageWrapper> {
 
   }
 
-  void _serialiseAndNavigate(Map<String, dynamic> message, context) {
-    print(message);
+  void _serialiseAndNavigate(Map<String, dynamic> message, context)async {
+
+   bool hasToken=await  getIt<UserRepository>().hasToken();
     Priority priority = getPriority(message['priority']);
     if (ModalRoute.of(context).isCurrent) {
       WidgetsBinding.instance.addPostFrameCallback((_) =>
@@ -67,8 +69,7 @@ class _FirebaseMessageWrapperState extends State<FirebaseMessageWrapper> {
               dismissDirections: [DismissDirection.horizontal],
               onTap: () {
                 BotToast.cleanAll();
-                BlocProvider.of(context).add(PushNotification(route: 'home'));
-
+                BlocProvider.of<AuthenticationBloc>(context).add(PushNotification(route: hasToken?message['view']:'login'));
               }));
     }
   }

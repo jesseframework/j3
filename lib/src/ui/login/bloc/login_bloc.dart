@@ -1,39 +1,6 @@
-/*
- * Jesseframework - Computer Expertz Ltd - https://cpxz.us
- * Copyright (C) 2019-2021 Jesseframework
- *
- * This file is part of Jesseframework - https://github.com/jesseframework/j3.
- *
- * Jesseframework is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version. 
- *
- * Jesseframework is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with Jesseframework.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-/*
- * Login bloc manages all loging state before hand over to authentication bloc. 
- * All database interaction and application logice for logince is also handle in this bloc.
- * This bloc is alos integrated with ASP.NET ABP out of the box not major modification need to the API.
- * Dependency implement:
- *  - Connectivity - Check Internet connection and login user offline if no internet
- *  - Logger - Log all code interaction with UI. This is depended on log level
- *  - Flutter_Bloc - Main state managemeng solution. for more information on flutter_bloc see http://pub.dev
- *  - Chopper - API integration for ABP
- *  - Shared Prefrence - Store user data for API call
- */
-
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show Platform;
-
 import 'package:bloc/bloc.dart';
 import 'package:chopper/chopper.dart';
 import 'package:equatable/equatable.dart';
@@ -51,7 +18,6 @@ import 'package:j3enterprise/src/ui/authentication/authentication_bloc.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication_event.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
-
 part 'login_event.dart';
 part 'login_state.dart';
 
@@ -113,9 +79,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             yield LoginLoading();
             _log.finest('Bloc state change to LoginLoading');
             final Response tenantResponse =
-                await userRepository.checkTenant(tenancyName: event.tenantName);
+            await userRepository.checkTenant(tenancyName: event.tenantName);
             Map<String, dynamic> tenantMap =
-                json.decode(tenantResponse.bodyString);
+            json.decode(tenantResponse.bodyString);
             if (tenantResponse.isSuccessful && tenantMap['success']) {
               _log.finest('Tenant response check in LoginLoading state');
               Map<String, dynamic> tenantResult = tenantMap['result'];
@@ -144,7 +110,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                   _log.info(
                       'Transulate tenant error message and show message to user. LoginLoading state');
                   error = AppLocalization.of(event.context)
-                          .translate('tenant_validation_message') ??
+                      .translate('tenant_validation_message') ??
                       "There is no tenant defined with name";
                 }
                 yield LoginFailure(error: error);
@@ -157,7 +123,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               _log.info(error, StackTrace.current);
               if (error == null) {
                 error = AppLocalization.of(event.context)
-                        .translate('online_login_failed') ??
+                    .translate('online_login_failed') ??
                     "Something went wrong! Please try again";
               }
               yield LoginFailure(error: error);
@@ -199,7 +165,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               _log.info(error, StackTrace.current);
               if (error == null) {
                 error = AppLocalization.of(event.context)
-                        .translate('online_login_failed') ??
+                    .translate('online_login_failed') ??
                     "Something went wrong! Please try again";
               }
               yield LoginFailure(error: error);
@@ -209,7 +175,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             _log.finest('Trying to loging offline');
             yield LoginLoading();
             var userDate =
-                await userDao.getSingleUserByUserName(event.username);
+            await userDao.getSingleUserByUserName(event.username);
             if (userDate != null) {
               _log.finest('Get tenant from user table');
               final int _tenantId = userDate.tenantId;
@@ -237,7 +203,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
                   yield LoginInitial();
                 } else {
                   String error = AppLocalization.of(event.context)
-                          .translate('online_login_code_miss_match') ??
+                      .translate('online_login_code_miss_match') ??
                       'Invalid User Name or Password';
                   _log.info(error, StackTrace.current);
                   yield LoginFailure(error: error);
@@ -245,7 +211,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               }
             } else {
               String error = AppLocalization.of(event.context)
-                      .translate('offline_login_failed') ??
+                  .translate('offline_login_failed') ??
                   'Something went wrong! Unable to log you in offline. Please try againg';
               _log.info(error, StackTrace.current);
               yield LoginFailure(error: error);
@@ -256,9 +222,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           yield LoginLoading();
           _log.finest('Loging on with non Android or iOS devices');
           final Response tenantResponse =
-              await userRepository.checkTenant(tenancyName: event.tenantName);
+          await userRepository.checkTenant(tenancyName: event.tenantName);
           Map<String, dynamic> tenantMap =
-              json.decode(tenantResponse.bodyString);
+          json.decode(tenantResponse.bodyString);
           _log.finest('Tenant response check in LoginLoading state');
           if (tenantResponse.isSuccessful && tenantMap['success']) {
             Map<String, dynamic> tenantResult = tenantMap['result'];
@@ -284,7 +250,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               String error = "There is no tenant defined with name";
               if (error == null) {
                 error = AppLocalization.of(event.context)
-                        .translate('tenant_validation_message') ??
+                    .translate('tenant_validation_message') ??
                     "There is no tenant defined with name";
               }
               yield LoginFailure(error: error);
@@ -296,7 +262,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             _log.info(error);
             if (error == null) {
               error = AppLocalization.of(event.context)
-                      .translate('online_login_failed') ??
+                  .translate('online_login_failed') ??
                   "Something went wrong! Please try again";
             }
             yield LoginFailure(error: error);
@@ -326,7 +292,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             String error = map["error"]["details"].toString();
             if (error == null) {
               error = AppLocalization.of(event.context)
-                      .translate('online_login_failed') ??
+                  .translate('online_login_failed') ??
                   "Something went wrong! Please try again";
             }
             yield LoginFailure(error: error);

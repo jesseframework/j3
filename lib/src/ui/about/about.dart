@@ -5,10 +5,8 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 
 import 'dart:io' show Platform;
 
-
-
 class About extends StatefulWidget {
-  static final route='/about';
+  static final route = '/about';
   @override
   _AboutState createState() => _AboutState();
 }
@@ -17,44 +15,53 @@ class _AboutState extends State<About> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-      IconButton(icon:Icon( Icons.more_vert), onPressed:(){
-
-      })
-
-        ],
-        title: Text(AppLocalization.of(context).translate('about_title_about')),
-      ),
-      body:FutureBuilder(
-        future: initPlatformState(),
-          builder: (context,platfromData){
-          if(platfromData.hasData){
-            print(platfromData.data);
-            return
-              Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical:6.0),
-                    child: Row(
-                      children: <Widget>[
-                        //Icon(Icons.chevron_left,size: 36,),
-                        //Expanded(child: Text('About',style: TextStyle(fontSize: 22),)),
-                      ],
-                    ),
+        appBar: AppBar(
+          actions: [IconButton(icon: Icon(Icons.more_vert), onPressed: () {})],
+          title:
+              Text(AppLocalization.of(context).translate('about_title_about')),
+        ),
+        body: FutureBuilder(
+            future: initPlatformState(),
+            builder: (context, platfromData) {
+              if (platfromData.hasData) {
+                print(platfromData.data);
+                return SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 6.0),
+                        child: Row(
+                          children: <Widget>[
+                            //Icon(Icons.chevron_left,size: 36,),
+                            //Expanded(child: Text('About',style: TextStyle(fontSize: 22),)),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      NormWid(
+                        name: AppLocalization.of(context)
+                            .translate('preduct_version_label_about'),
+                        text: platfromData.data['model'],
+                      ),
+                      NormWid(
+                        name: AppLocalization.of(context)
+                            .translate('device_id_label_about'),
+                        text: platfromData.data['identifierForVendor'],
+                      ),
+                      NormWid(
+                        name: AppLocalization.of(context)
+                            .translate('device_status_label_about'),
+                        text: platfromData.data['utsname.version:'],
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 10,),
-                  NormWid(name:AppLocalization.of(context).translate('preduct_version_label_about'),type:'u',text: platfromData.data['model'],),
-                  NormWid(name:AppLocalization.of(context).translate('device_id_label_about'),type:'u',text: platfromData.data['identifierForVendor'],),
-                  NormWid(name:AppLocalization.of(context).translate('device_status_label_about'),type:'u',text: platfromData.data['utsname.version:'],),
-                ],
-              );
-          }
+                );
+              }
 
-return CircularProgressIndicator();
-
-          })
-    );
+              return CircularProgressIndicator();
+            }));
   }
 }
 
@@ -64,19 +71,16 @@ Future<Map<String, dynamic>> initPlatformState() async {
 
   try {
     if (Platform.isAndroid) {
-
       deviceData = _readAndroidBuildData(await deviceInfoPlugin.androidInfo);
     } else if (Platform.isIOS) {
       deviceData = _readIosDeviceInfo(await deviceInfoPlugin.iosInfo);
     }
   } on PlatformException {
-    deviceData = <String, dynamic>{
-      'Error:': 'Failed to get platform version.'
-    };
+    deviceData = <String, dynamic>{'Error:': 'Failed to get platform version.'};
   }
   return deviceData;
-
 }
+
 Map<String, dynamic> _readAndroidBuildData(AndroidDeviceInfo build) {
   return <String, dynamic>{
     'version.securityPatch': build.version.securityPatch,
@@ -108,6 +112,7 @@ Map<String, dynamic> _readAndroidBuildData(AndroidDeviceInfo build) {
     'systemFeatures': build.systemFeatures,
   };
 }
+
 Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
   return <String, dynamic>{
     'name': data.name,
@@ -125,12 +130,9 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
   };
 }
 
-
-
-
 class NormWid extends StatelessWidget {
-  final String name,type,text;
-  NormWid({this.name, this.type,this.text});
+  final String name, text;
+  NormWid({this.name, this.text});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -139,16 +141,13 @@ class NormWid extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal:16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(name),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal:16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: TextField(
-              obscureText: (type=='u')?false:true,
-              decoration: InputDecoration(
-                hintText: text
-              ),
+              decoration: InputDecoration(hintText: text),
             ),
           )
         ],

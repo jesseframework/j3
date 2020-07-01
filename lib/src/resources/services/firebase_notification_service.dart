@@ -44,7 +44,6 @@ class FirebaseNotificationService {
       // },
       onMessage: (Map<String, dynamic> message) async {
         print('on message $message');
-
         //add message to stream
         _messageStream.addMessage(message);
         //_serialiseAndNavigate(message);

@@ -19,6 +19,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:j3enterprise/main.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/custom_drawer.dart';
@@ -29,11 +31,7 @@ import 'login_form.dart';
 
 class LoginPage extends StatelessWidget {
   static final route = '/login';
-  final UserRepository userRepository;
-
-  LoginPage({Key key, @required this.userRepository})
-      : assert(userRepository != null),
-        super(key: key);
+  final UserRepository userRepository = getIt<UserRepository>();
 
   @override
   Widget build(BuildContext context) {

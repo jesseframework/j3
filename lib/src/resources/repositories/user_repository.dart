@@ -1,9 +1,13 @@
 import 'dart:async';
 
 import 'package:chopper/chopper.dart';
+import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:j3enterprise/main.dart';
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
 import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
+import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/langcustomdialogbox.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -134,7 +138,7 @@ class UserRepository {
 
   Future<Locale> setLocale(String languageCode) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(LANGUAGE_CODE_KEY, languageCode);
+    await prefs.setString(USER_LANGUAGE_CODE_KEY, languageCode);
     return _locale(languageCode);
   }
 
@@ -159,8 +163,41 @@ class UserRepository {
   }
 
   Future<Locale> getLocale() async {
+    String finalLocale;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var result = await prefs.getString(LANGUAGE_CODE_KEY);
-    return _locale(result);
+    String userLocale = prefs.getString(USER_LANGUAGE_CODE_KEY);
+    String deviceLocale = prefs.getString(DEVICE_LANGUAGE_CODE_KEY);
+    String defalutDeviceLocale = await getDeviceLocale();
+    if (deviceLocale == null) {
+      prefs.setString(DEVICE_LANGUAGE_CODE_KEY, defalutDeviceLocale);
+      finalLocale = defalutDeviceLocale;
+    } else if (userLocale != null) {
+      finalLocale = userLocale;
+    } else {
+      finalLocale = defalutDeviceLocale;
+    }
+    if (defalutDeviceLocale != deviceLocale) {
+      prefs.setString(DEVICE_LANGUAGE_CODE_KEY, defalutDeviceLocale);
+    }
+    return _locale(finalLocale);
+  }
+
+  Future getDeviceLocale() async {
+    List languages;
+    String currentLocale;
+    try {
+      languages = await Devicelocale.preferredLanguages;
+      print(languages);
+    } on PlatformException {
+      print("Error obtaining preferred languages");
+      return null;
+    }
+    try {
+      currentLocale = await Devicelocale.currentLocale;
+    } on PlatformException {
+      print("Error obtaining current locale");
+      return null;
+    }
+    return currentLocale.substring(0, 2);
   }
 }

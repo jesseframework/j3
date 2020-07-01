@@ -43,7 +43,6 @@ class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalization> {
 
   @override
   bool isSupported(Locale locale) {
-    // Include all of your supported language codes here
     return ['en', 'es', 'sk'].contains(locale.languageCode);
   }
 

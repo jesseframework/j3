@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import '../../../../main.dart';
 const String ENGLISH = 'en';
 const String SPANISH = 'es';
 const String HINDI = 'sk';
-const String LANGUAGE_CODE_KEY = 'languageCode';
+const String USER_LANGUAGE_CODE_KEY = 'userLocale';
+const String DEVICE_LANGUAGE_CODE_KEY = 'deviceLocale';
+
 String selecteditem = ENGLISH;
 
 class LangCustomDialog extends StatelessWidget {
@@ -122,8 +124,8 @@ class DropWid extends StatefulWidget {
 
 class _DropWidState extends State<DropWid> {
   @override
-  void didChangeDependencies() async{
-   await getIt<UserRepository>().getLocale().then((value) {
+  void didChangeDependencies() async {
+    await getIt<UserRepository>().getLocale().then((value) {
       setState(() {
         selecteditem = value.languageCode;
       });
