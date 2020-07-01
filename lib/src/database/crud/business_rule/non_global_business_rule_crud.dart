@@ -1,25 +1,25 @@
 import 'package:j3enterprise/src/database/moor_database.dart';
-import 'package:j3enterprise/src/models/business_rule_model.dart';
+import 'package:j3enterprise/src/models/non_global_business_rule.dart';
 import 'package:moor/moor.dart';
 
-part 'business_rule_crud.g.dart';
+part 'non_global_business_rule_crud.g.dart';
 
-@UseDao(tables: [BusinessRule])
-class BusinessRuleDao extends DatabaseAccessor<AppDatabase>
-    with _$BusinessRuleDaoMixin {
+@UseDao(tables: [NonGlobalBusinessRule])
+class NonGlobalBusinessRuleDao extends DatabaseAccessor<AppDatabase>
+    with _$NonGlobalBusinessRuleDaoMixin {
   final AppDatabase db;
-  BusinessRuleDao(this.db) : super(db);
+  NonGlobalBusinessRuleDao(this.db) : super(db);
 
   Future<List<BusinessRuleData>> getAllBusinessRule() {
     return (select(db.businessRule).get());
   }
 
-   Future<void> createOrUpdatePref(BusinessRuleData pref) {
-    return into(db.businessRule).insertOnConflictUpdate(pref);
-  }
-
   Stream<List<BusinessRuleData>> watchAllBusinessRule() {
     return (select(db.businessRule).watch());
+  }
+
+    Future<void> createOrUpdatePref(NonGlobalBusinessRuleData pref) {
+    return into(db.nonGlobalBusinessRule).insertOnConflictUpdate(pref);
   }
 
   Future insertBusinessRule(BusinessRuleData businessRuleData) =>

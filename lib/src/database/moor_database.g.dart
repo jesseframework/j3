@@ -6156,6 +6156,720 @@ class $BusinessRuleTable extends BusinessRule
   }
 }
 
+class NonGlobalBusinessRuleData extends DataClass
+    implements Insertable<NonGlobalBusinessRuleData> {
+  final String code;
+  final String ruleName;
+  final String value;
+  final String description;
+  final String deviceRule;
+  final String userRule;
+  final String domain;
+  final String deviceId;
+  final String userName;
+  final String screen;
+  final bool isApply;
+  final String syncError;
+  final DateTime expiredDateTime;
+  NonGlobalBusinessRuleData(
+      {@required this.code,
+      this.ruleName,
+      @required this.value,
+      this.description,
+      this.deviceRule,
+      this.userRule,
+      this.domain,
+      this.deviceId,
+      @required this.userName,
+      @required this.screen,
+      @required this.isApply,
+      this.syncError,
+      this.expiredDateTime});
+  factory NonGlobalBusinessRuleData.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    return NonGlobalBusinessRuleData(
+      code: stringType.mapFromDatabaseResponse(data['${effectivePrefix}code']),
+      ruleName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}rule_name']),
+      value:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}value']),
+      description: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}description']),
+      deviceRule: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}device_rule']),
+      userRule: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}user_rule']),
+      domain:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}domain']),
+      deviceId: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}device_id']),
+      userName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}user_name']),
+      screen:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}screen']),
+      isApply:
+          boolType.mapFromDatabaseResponse(data['${effectivePrefix}is_apply']),
+      syncError: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}sync_error']),
+      expiredDateTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}expired_date_time']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || code != null) {
+      map['code'] = Variable<String>(code);
+    }
+    if (!nullToAbsent || ruleName != null) {
+      map['rule_name'] = Variable<String>(ruleName);
+    }
+    if (!nullToAbsent || value != null) {
+      map['value'] = Variable<String>(value);
+    }
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    if (!nullToAbsent || deviceRule != null) {
+      map['device_rule'] = Variable<String>(deviceRule);
+    }
+    if (!nullToAbsent || userRule != null) {
+      map['user_rule'] = Variable<String>(userRule);
+    }
+    if (!nullToAbsent || domain != null) {
+      map['domain'] = Variable<String>(domain);
+    }
+    if (!nullToAbsent || deviceId != null) {
+      map['device_id'] = Variable<String>(deviceId);
+    }
+    if (!nullToAbsent || userName != null) {
+      map['user_name'] = Variable<String>(userName);
+    }
+    if (!nullToAbsent || screen != null) {
+      map['screen'] = Variable<String>(screen);
+    }
+    if (!nullToAbsent || isApply != null) {
+      map['is_apply'] = Variable<bool>(isApply);
+    }
+    if (!nullToAbsent || syncError != null) {
+      map['sync_error'] = Variable<String>(syncError);
+    }
+    if (!nullToAbsent || expiredDateTime != null) {
+      map['expired_date_time'] = Variable<DateTime>(expiredDateTime);
+    }
+    return map;
+  }
+
+  NonGlobalBusinessRuleCompanion toCompanion(bool nullToAbsent) {
+    return NonGlobalBusinessRuleCompanion(
+      code: code == null && nullToAbsent ? const Value.absent() : Value(code),
+      ruleName: ruleName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(ruleName),
+      value:
+          value == null && nullToAbsent ? const Value.absent() : Value(value),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      deviceRule: deviceRule == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deviceRule),
+      userRule: userRule == null && nullToAbsent
+          ? const Value.absent()
+          : Value(userRule),
+      domain:
+          domain == null && nullToAbsent ? const Value.absent() : Value(domain),
+      deviceId: deviceId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deviceId),
+      userName: userName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(userName),
+      screen:
+          screen == null && nullToAbsent ? const Value.absent() : Value(screen),
+      isApply: isApply == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isApply),
+      syncError: syncError == null && nullToAbsent
+          ? const Value.absent()
+          : Value(syncError),
+      expiredDateTime: expiredDateTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(expiredDateTime),
+    );
+  }
+
+  factory NonGlobalBusinessRuleData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return NonGlobalBusinessRuleData(
+      code: serializer.fromJson<String>(json['code']),
+      ruleName: serializer.fromJson<String>(json['ruleName']),
+      value: serializer.fromJson<String>(json['value']),
+      description: serializer.fromJson<String>(json['description']),
+      deviceRule: serializer.fromJson<String>(json['deviceRule']),
+      userRule: serializer.fromJson<String>(json['userRule']),
+      domain: serializer.fromJson<String>(json['domain']),
+      deviceId: serializer.fromJson<String>(json['deviceId']),
+      userName: serializer.fromJson<String>(json['userName']),
+      screen: serializer.fromJson<String>(json['screen']),
+      isApply: serializer.fromJson<bool>(json['isApply']),
+      syncError: serializer.fromJson<String>(json['syncError']),
+      expiredDateTime: serializer.fromJson<DateTime>(json['expiredDateTime']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'code': serializer.toJson<String>(code),
+      'ruleName': serializer.toJson<String>(ruleName),
+      'value': serializer.toJson<String>(value),
+      'description': serializer.toJson<String>(description),
+      'deviceRule': serializer.toJson<String>(deviceRule),
+      'userRule': serializer.toJson<String>(userRule),
+      'domain': serializer.toJson<String>(domain),
+      'deviceId': serializer.toJson<String>(deviceId),
+      'userName': serializer.toJson<String>(userName),
+      'screen': serializer.toJson<String>(screen),
+      'isApply': serializer.toJson<bool>(isApply),
+      'syncError': serializer.toJson<String>(syncError),
+      'expiredDateTime': serializer.toJson<DateTime>(expiredDateTime),
+    };
+  }
+
+  NonGlobalBusinessRuleData copyWith(
+          {String code,
+          String ruleName,
+          String value,
+          String description,
+          String deviceRule,
+          String userRule,
+          String domain,
+          String deviceId,
+          String userName,
+          String screen,
+          bool isApply,
+          String syncError,
+          DateTime expiredDateTime}) =>
+      NonGlobalBusinessRuleData(
+        code: code ?? this.code,
+        ruleName: ruleName ?? this.ruleName,
+        value: value ?? this.value,
+        description: description ?? this.description,
+        deviceRule: deviceRule ?? this.deviceRule,
+        userRule: userRule ?? this.userRule,
+        domain: domain ?? this.domain,
+        deviceId: deviceId ?? this.deviceId,
+        userName: userName ?? this.userName,
+        screen: screen ?? this.screen,
+        isApply: isApply ?? this.isApply,
+        syncError: syncError ?? this.syncError,
+        expiredDateTime: expiredDateTime ?? this.expiredDateTime,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('NonGlobalBusinessRuleData(')
+          ..write('code: $code, ')
+          ..write('ruleName: $ruleName, ')
+          ..write('value: $value, ')
+          ..write('description: $description, ')
+          ..write('deviceRule: $deviceRule, ')
+          ..write('userRule: $userRule, ')
+          ..write('domain: $domain, ')
+          ..write('deviceId: $deviceId, ')
+          ..write('userName: $userName, ')
+          ..write('screen: $screen, ')
+          ..write('isApply: $isApply, ')
+          ..write('syncError: $syncError, ')
+          ..write('expiredDateTime: $expiredDateTime')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      code.hashCode,
+      $mrjc(
+          ruleName.hashCode,
+          $mrjc(
+              value.hashCode,
+              $mrjc(
+                  description.hashCode,
+                  $mrjc(
+                      deviceRule.hashCode,
+                      $mrjc(
+                          userRule.hashCode,
+                          $mrjc(
+                              domain.hashCode,
+                              $mrjc(
+                                  deviceId.hashCode,
+                                  $mrjc(
+                                      userName.hashCode,
+                                      $mrjc(
+                                          screen.hashCode,
+                                          $mrjc(
+                                              isApply.hashCode,
+                                              $mrjc(
+                                                  syncError.hashCode,
+                                                  expiredDateTime
+                                                      .hashCode)))))))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is NonGlobalBusinessRuleData &&
+          other.code == this.code &&
+          other.ruleName == this.ruleName &&
+          other.value == this.value &&
+          other.description == this.description &&
+          other.deviceRule == this.deviceRule &&
+          other.userRule == this.userRule &&
+          other.domain == this.domain &&
+          other.deviceId == this.deviceId &&
+          other.userName == this.userName &&
+          other.screen == this.screen &&
+          other.isApply == this.isApply &&
+          other.syncError == this.syncError &&
+          other.expiredDateTime == this.expiredDateTime);
+}
+
+class NonGlobalBusinessRuleCompanion
+    extends UpdateCompanion<NonGlobalBusinessRuleData> {
+  final Value<String> code;
+  final Value<String> ruleName;
+  final Value<String> value;
+  final Value<String> description;
+  final Value<String> deviceRule;
+  final Value<String> userRule;
+  final Value<String> domain;
+  final Value<String> deviceId;
+  final Value<String> userName;
+  final Value<String> screen;
+  final Value<bool> isApply;
+  final Value<String> syncError;
+  final Value<DateTime> expiredDateTime;
+  const NonGlobalBusinessRuleCompanion({
+    this.code = const Value.absent(),
+    this.ruleName = const Value.absent(),
+    this.value = const Value.absent(),
+    this.description = const Value.absent(),
+    this.deviceRule = const Value.absent(),
+    this.userRule = const Value.absent(),
+    this.domain = const Value.absent(),
+    this.deviceId = const Value.absent(),
+    this.userName = const Value.absent(),
+    this.screen = const Value.absent(),
+    this.isApply = const Value.absent(),
+    this.syncError = const Value.absent(),
+    this.expiredDateTime = const Value.absent(),
+  });
+  NonGlobalBusinessRuleCompanion.insert({
+    @required String code,
+    this.ruleName = const Value.absent(),
+    @required String value,
+    this.description = const Value.absent(),
+    this.deviceRule = const Value.absent(),
+    this.userRule = const Value.absent(),
+    this.domain = const Value.absent(),
+    this.deviceId = const Value.absent(),
+    @required String userName,
+    @required String screen,
+    this.isApply = const Value.absent(),
+    this.syncError = const Value.absent(),
+    this.expiredDateTime = const Value.absent(),
+  })  : code = Value(code),
+        value = Value(value),
+        userName = Value(userName),
+        screen = Value(screen);
+  static Insertable<NonGlobalBusinessRuleData> custom({
+    Expression<String> code,
+    Expression<String> ruleName,
+    Expression<String> value,
+    Expression<String> description,
+    Expression<String> deviceRule,
+    Expression<String> userRule,
+    Expression<String> domain,
+    Expression<String> deviceId,
+    Expression<String> userName,
+    Expression<String> screen,
+    Expression<bool> isApply,
+    Expression<String> syncError,
+    Expression<DateTime> expiredDateTime,
+  }) {
+    return RawValuesInsertable({
+      if (code != null) 'code': code,
+      if (ruleName != null) 'rule_name': ruleName,
+      if (value != null) 'value': value,
+      if (description != null) 'description': description,
+      if (deviceRule != null) 'device_rule': deviceRule,
+      if (userRule != null) 'user_rule': userRule,
+      if (domain != null) 'domain': domain,
+      if (deviceId != null) 'device_id': deviceId,
+      if (userName != null) 'user_name': userName,
+      if (screen != null) 'screen': screen,
+      if (isApply != null) 'is_apply': isApply,
+      if (syncError != null) 'sync_error': syncError,
+      if (expiredDateTime != null) 'expired_date_time': expiredDateTime,
+    });
+  }
+
+  NonGlobalBusinessRuleCompanion copyWith(
+      {Value<String> code,
+      Value<String> ruleName,
+      Value<String> value,
+      Value<String> description,
+      Value<String> deviceRule,
+      Value<String> userRule,
+      Value<String> domain,
+      Value<String> deviceId,
+      Value<String> userName,
+      Value<String> screen,
+      Value<bool> isApply,
+      Value<String> syncError,
+      Value<DateTime> expiredDateTime}) {
+    return NonGlobalBusinessRuleCompanion(
+      code: code ?? this.code,
+      ruleName: ruleName ?? this.ruleName,
+      value: value ?? this.value,
+      description: description ?? this.description,
+      deviceRule: deviceRule ?? this.deviceRule,
+      userRule: userRule ?? this.userRule,
+      domain: domain ?? this.domain,
+      deviceId: deviceId ?? this.deviceId,
+      userName: userName ?? this.userName,
+      screen: screen ?? this.screen,
+      isApply: isApply ?? this.isApply,
+      syncError: syncError ?? this.syncError,
+      expiredDateTime: expiredDateTime ?? this.expiredDateTime,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (code.present) {
+      map['code'] = Variable<String>(code.value);
+    }
+    if (ruleName.present) {
+      map['rule_name'] = Variable<String>(ruleName.value);
+    }
+    if (value.present) {
+      map['value'] = Variable<String>(value.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (deviceRule.present) {
+      map['device_rule'] = Variable<String>(deviceRule.value);
+    }
+    if (userRule.present) {
+      map['user_rule'] = Variable<String>(userRule.value);
+    }
+    if (domain.present) {
+      map['domain'] = Variable<String>(domain.value);
+    }
+    if (deviceId.present) {
+      map['device_id'] = Variable<String>(deviceId.value);
+    }
+    if (userName.present) {
+      map['user_name'] = Variable<String>(userName.value);
+    }
+    if (screen.present) {
+      map['screen'] = Variable<String>(screen.value);
+    }
+    if (isApply.present) {
+      map['is_apply'] = Variable<bool>(isApply.value);
+    }
+    if (syncError.present) {
+      map['sync_error'] = Variable<String>(syncError.value);
+    }
+    if (expiredDateTime.present) {
+      map['expired_date_time'] = Variable<DateTime>(expiredDateTime.value);
+    }
+    return map;
+  }
+}
+
+class $NonGlobalBusinessRuleTable extends NonGlobalBusinessRule
+    with TableInfo<$NonGlobalBusinessRuleTable, NonGlobalBusinessRuleData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $NonGlobalBusinessRuleTable(this._db, [this._alias]);
+  final VerificationMeta _codeMeta = const VerificationMeta('code');
+  GeneratedTextColumn _code;
+  @override
+  GeneratedTextColumn get code => _code ??= _constructCode();
+  GeneratedTextColumn _constructCode() {
+    return GeneratedTextColumn(
+      'code',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _ruleNameMeta = const VerificationMeta('ruleName');
+  GeneratedTextColumn _ruleName;
+  @override
+  GeneratedTextColumn get ruleName => _ruleName ??= _constructRuleName();
+  GeneratedTextColumn _constructRuleName() {
+    return GeneratedTextColumn(
+      'rule_name',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _valueMeta = const VerificationMeta('value');
+  GeneratedTextColumn _value;
+  @override
+  GeneratedTextColumn get value => _value ??= _constructValue();
+  GeneratedTextColumn _constructValue() {
+    return GeneratedTextColumn(
+      'value',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  GeneratedTextColumn _description;
+  @override
+  GeneratedTextColumn get description =>
+      _description ??= _constructDescription();
+  GeneratedTextColumn _constructDescription() {
+    return GeneratedTextColumn(
+      'description',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deviceRuleMeta = const VerificationMeta('deviceRule');
+  GeneratedTextColumn _deviceRule;
+  @override
+  GeneratedTextColumn get deviceRule => _deviceRule ??= _constructDeviceRule();
+  GeneratedTextColumn _constructDeviceRule() {
+    return GeneratedTextColumn(
+      'device_rule',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _userRuleMeta = const VerificationMeta('userRule');
+  GeneratedTextColumn _userRule;
+  @override
+  GeneratedTextColumn get userRule => _userRule ??= _constructUserRule();
+  GeneratedTextColumn _constructUserRule() {
+    return GeneratedTextColumn(
+      'user_rule',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _domainMeta = const VerificationMeta('domain');
+  GeneratedTextColumn _domain;
+  @override
+  GeneratedTextColumn get domain => _domain ??= _constructDomain();
+  GeneratedTextColumn _constructDomain() {
+    return GeneratedTextColumn(
+      'domain',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _deviceIdMeta = const VerificationMeta('deviceId');
+  GeneratedTextColumn _deviceId;
+  @override
+  GeneratedTextColumn get deviceId => _deviceId ??= _constructDeviceId();
+  GeneratedTextColumn _constructDeviceId() {
+    return GeneratedTextColumn(
+      'device_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _userNameMeta = const VerificationMeta('userName');
+  GeneratedTextColumn _userName;
+  @override
+  GeneratedTextColumn get userName => _userName ??= _constructUserName();
+  GeneratedTextColumn _constructUserName() {
+    return GeneratedTextColumn(
+      'user_name',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _screenMeta = const VerificationMeta('screen');
+  GeneratedTextColumn _screen;
+  @override
+  GeneratedTextColumn get screen => _screen ??= _constructScreen();
+  GeneratedTextColumn _constructScreen() {
+    return GeneratedTextColumn(
+      'screen',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _isApplyMeta = const VerificationMeta('isApply');
+  GeneratedBoolColumn _isApply;
+  @override
+  GeneratedBoolColumn get isApply => _isApply ??= _constructIsApply();
+  GeneratedBoolColumn _constructIsApply() {
+    return GeneratedBoolColumn('is_apply', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _syncErrorMeta = const VerificationMeta('syncError');
+  GeneratedTextColumn _syncError;
+  @override
+  GeneratedTextColumn get syncError => _syncError ??= _constructSyncError();
+  GeneratedTextColumn _constructSyncError() {
+    return GeneratedTextColumn(
+      'sync_error',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _expiredDateTimeMeta =
+      const VerificationMeta('expiredDateTime');
+  GeneratedDateTimeColumn _expiredDateTime;
+  @override
+  GeneratedDateTimeColumn get expiredDateTime =>
+      _expiredDateTime ??= _constructExpiredDateTime();
+  GeneratedDateTimeColumn _constructExpiredDateTime() {
+    return GeneratedDateTimeColumn(
+      'expired_date_time',
+      $tableName,
+      true,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        code,
+        ruleName,
+        value,
+        description,
+        deviceRule,
+        userRule,
+        domain,
+        deviceId,
+        userName,
+        screen,
+        isApply,
+        syncError,
+        expiredDateTime
+      ];
+  @override
+  $NonGlobalBusinessRuleTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'non_global_business_rule';
+  @override
+  final String actualTableName = 'non_global_business_rule';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<NonGlobalBusinessRuleData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('code')) {
+      context.handle(
+          _codeMeta, code.isAcceptableOrUnknown(data['code'], _codeMeta));
+    } else if (isInserting) {
+      context.missing(_codeMeta);
+    }
+    if (data.containsKey('rule_name')) {
+      context.handle(_ruleNameMeta,
+          ruleName.isAcceptableOrUnknown(data['rule_name'], _ruleNameMeta));
+    }
+    if (data.containsKey('value')) {
+      context.handle(
+          _valueMeta, value.isAcceptableOrUnknown(data['value'], _valueMeta));
+    } else if (isInserting) {
+      context.missing(_valueMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description'], _descriptionMeta));
+    }
+    if (data.containsKey('device_rule')) {
+      context.handle(
+          _deviceRuleMeta,
+          deviceRule.isAcceptableOrUnknown(
+              data['device_rule'], _deviceRuleMeta));
+    }
+    if (data.containsKey('user_rule')) {
+      context.handle(_userRuleMeta,
+          userRule.isAcceptableOrUnknown(data['user_rule'], _userRuleMeta));
+    }
+    if (data.containsKey('domain')) {
+      context.handle(_domainMeta,
+          domain.isAcceptableOrUnknown(data['domain'], _domainMeta));
+    }
+    if (data.containsKey('device_id')) {
+      context.handle(_deviceIdMeta,
+          deviceId.isAcceptableOrUnknown(data['device_id'], _deviceIdMeta));
+    }
+    if (data.containsKey('user_name')) {
+      context.handle(_userNameMeta,
+          userName.isAcceptableOrUnknown(data['user_name'], _userNameMeta));
+    } else if (isInserting) {
+      context.missing(_userNameMeta);
+    }
+    if (data.containsKey('screen')) {
+      context.handle(_screenMeta,
+          screen.isAcceptableOrUnknown(data['screen'], _screenMeta));
+    } else if (isInserting) {
+      context.missing(_screenMeta);
+    }
+    if (data.containsKey('is_apply')) {
+      context.handle(_isApplyMeta,
+          isApply.isAcceptableOrUnknown(data['is_apply'], _isApplyMeta));
+    }
+    if (data.containsKey('sync_error')) {
+      context.handle(_syncErrorMeta,
+          syncError.isAcceptableOrUnknown(data['sync_error'], _syncErrorMeta));
+    }
+    if (data.containsKey('expired_date_time')) {
+      context.handle(
+          _expiredDateTimeMeta,
+          expiredDateTime.isAcceptableOrUnknown(
+              data['expired_date_time'], _expiredDateTimeMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {code};
+  @override
+  NonGlobalBusinessRuleData map(Map<String, dynamic> data,
+      {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return NonGlobalBusinessRuleData.fromData(data, _db,
+        prefix: effectivePrefix);
+  }
+
+  @override
+  $NonGlobalBusinessRuleTable createAlias(String alias) {
+    return $NonGlobalBusinessRuleTable(_db, alias);
+  }
+}
+
 class ApplicationLoggerData extends DataClass
     implements Insertable<ApplicationLoggerData> {
   final int tenantId;
@@ -7875,6 +8589,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $BusinessRuleTable _businessRule;
   $BusinessRuleTable get businessRule =>
       _businessRule ??= $BusinessRuleTable(this);
+  $NonGlobalBusinessRuleTable _nonGlobalBusinessRule;
+  $NonGlobalBusinessRuleTable get nonGlobalBusinessRule =>
+      _nonGlobalBusinessRule ??= $NonGlobalBusinessRuleTable(this);
   $ApplicationLoggerTable _applicationLogger;
   $ApplicationLoggerTable get applicationLogger =>
       _applicationLogger ??= $ApplicationLoggerTable(this);
@@ -7894,6 +8611,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         preference,
         mobileDevice,
         businessRule,
+        nonGlobalBusinessRule,
         applicationLogger,
         tenant,
         nonGlobalPreference

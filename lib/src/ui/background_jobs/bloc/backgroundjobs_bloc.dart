@@ -25,6 +25,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/repositories/applogger_repositiry.dart';
+import 'package:j3enterprise/src/resources/repositories/business_rule_repositiry.dart';
 import 'package:j3enterprise/src/resources/repositories/preference_repository.dart';
 import 'package:j3enterprise/src/resources/shared/function/schedule_background_jobs.dart';
 import 'package:j3enterprise/src/resources/shared/function/update_backgroung_job_schedule_status.dart';
@@ -46,11 +47,13 @@ class BackgroundJobsBloc
   AppLoggerRepository appLoggerRepository;
   BackgroundJobScheduleDao backgroundJobScheduleDao;
   PreferenceRepository preferenceRepository;
+  BusinessRuleRepository businessRuleRepository;
   UpdateBackgroundJobStatus updateBackgroundJobStatus;
   BackgroundJobsBloc() {
     db = AppDatabase();
     appLoggerRepository = new AppLoggerRepository();
     preferenceRepository = new PreferenceRepository();
+    businessRuleRepository = new BusinessRuleRepository();
     updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
     scheduler = new Scheduler();
@@ -113,6 +116,18 @@ class BackgroundJobsBloc
               event.jobname,
               (Timer timer) async => await preferenceRepository
                   .getNonGlobalPrefFromServer(event.jobname));
+
+          scheduler.scheduleJobs(
+              event.syncFrequency,
+              event.jobname,
+              (Timer timer) async => await businessRuleRepository
+                  .getBusinessRuleFromServer(event.jobname));
+
+          scheduler.scheduleJobs(
+              event.syncFrequency,
+              event.jobname,
+              (Timer timer) async => await businessRuleRepository
+                  .getNonGlobalBusinessRuleFromServer(event.jobname));
         }
 
         yield BackgroundJobsSuccess(userMessage: userMessage);
