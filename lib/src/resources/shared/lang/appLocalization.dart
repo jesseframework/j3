@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AppLocalization {
-
+final locale;
   AppLocalization(this.locale);
 
   static const LocalizationsDelegate<AppLocalization> delegate =
