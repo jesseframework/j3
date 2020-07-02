@@ -99,6 +99,6 @@ class _BackgroundJobsPageState extends State<BackgroundJobsPage> {
           ),
         ),
       ),
-    );
+    ));
   }
 }
