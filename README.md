@@ -9,14 +9,8 @@ Computer Expert Ltd. (JessieFramework) owner and oversesees the trade mark for J
 -To make it easy for anyone to used J3 Enterprise Solution name or logo for according to the open source agrement and to help improve the quality of J3 opensource framework.
 # This framework will include but not limited to:
 ### Security
-- AD
 - OAuth (Google,Office365)
-- 2FA
-- Password Polices
-- Password Age
-- Force Password Reset
-- Device Enrollment
-- IP White Listing
+- Device MDM
 ### Database
 Application must support the following database typos with the ability to switch database type at anytime
 - SQLite 
