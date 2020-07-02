@@ -27,50 +27,51 @@ class _FirebaseMessageWrapperState extends State<FirebaseMessageWrapper> {
 
   @override
   void dispose() {
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      initialData: null,
-      stream: _messageStream.messageStream,
-      builder: (BuildContext context,
-          AsyncSnapshot<Map<String, dynamic>> snapshot) {
-        Map<String, dynamic> message = snapshot.data;
-       print(snapshot.data);
-        if (message != null) {
-          _serialiseAndNavigate(message, context);
-        }
-        return widget.child;
-      });
+        initialData: null,
+        stream: _messageStream.messageStream,
+        builder: (BuildContext context,
+            AsyncSnapshot<Map<String, dynamic>> snapshot) {
+          if (snapshot.hasData) {
+            Map<String, dynamic> message = snapshot.data;
+            print('hasData');
+            _serialiseAndNavigate(message, context);
+            //snapshot.data.clear();
+          }
 
+          return widget.child;
+        });
   }
 
-  void _serialiseAndNavigate(Map<String, dynamic> message, context)async {
-
-   bool hasToken=await  getIt<UserRepository>().hasToken();
+  void _serialiseAndNavigate(Map<String, dynamic> message, context) async {
+    bool hasToken = await getIt<UserRepository>().hasToken();
     Priority priority = getPriority(message['priority']);
-    if (ModalRoute.of(context).isCurrent) {
-      WidgetsBinding.instance.addPostFrameCallback((_) =>
-          BotToast.showNotification(
-              crossPage: true,
-              title: (_) => Text(message['notification']["title"]),
-              leading: (_) => Image.asset(
-                    'images/logo.png',
-                  ),
-              subtitle: (_) => Text(message['notification']["body"]),
-              duration: Duration(
-                  seconds: priority == Priority.HIGH
-                      ? 1000
-                      : priority == Priority.MEDIUM ? 5 : 3),
-              enableSlideOff: priority == Priority.HIGH ? false : true,
-              dismissDirections: [DismissDirection.horizontal],
-              onTap: () {
-                BotToast.cleanAll();
-                BlocProvider.of<AuthenticationBloc>(context).add(PushNotification(route: hasToken?message['view']:'login'));
-              }));
+    // if (ModalRoute.of(context).isCurrent) {
+    if (hasToken) {
+      print('showToast');
+      BotToast.showNotification(
+          crossPage: true,
+          title: (_) => Text(message['notification']["title"]),
+          leading: (_) => Image.asset(
+                'images/logo.png',
+              ),
+          subtitle: (_) => Text(message['notification']["body"]),
+          duration: Duration(
+              seconds: priority == Priority.HIGH
+                  ? double.infinity
+                  : priority == Priority.MEDIUM ? 5 : 3),
+          enableSlideOff: priority == Priority.HIGH ? false : true,
+          dismissDirections: [DismissDirection.horizontal],
+          onTap: () {
+            BotToast.cleanAll();
+            BlocProvider.of<AuthenticationBloc>(context).add(PushNotification(
+                route: hasToken ? message['data']['view'] : 'login'));
+          });
     }
   }
 

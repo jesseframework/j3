@@ -2,7 +2,6 @@ import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
-
 import 'dart:io' show Platform;
 
 class About extends StatefulWidget {
@@ -60,7 +59,7 @@ class _AboutState extends State<About> {
                 );
               }
 
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             }));
   }
 }

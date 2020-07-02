@@ -105,12 +105,16 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      builder: BotToastInit(),
-      // navigatorObservers: [BotToastNavigatorObserver()],
-      home: FirebaseMessageWrapper(
-        child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+    return FirebaseMessageWrapper(
+      child: MaterialApp(
+        builder: BotToastInit(),
+        // navigatorObservers: [BotToastNavigatorObserver()],
+        home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
+            if (state is PushNotificationState) {
+              print(state.route);
+              return getRoute(state.route);
+            }
             if (state is AuthenticationCreateMobileHash) {
               return OfflineLoginPage(userRepository: widget.userRepository);
             }
@@ -126,42 +130,42 @@ class _AppState extends State<App> {
             return SplashPage();
           },
         ),
-      ),
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      locale: _locale,
-      routes: routes,
-      supportedLocales: [
-        Locale('en', 'US'),
-        Locale('es', 'ES'),
-        Locale('sk', 'SK'),
-      ],
-      localizationsDelegates: [
-        AppLocalization.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      localeResolutionCallback: (locale, supportedLocales) {
-        // Check if the current device locale is supported
-        if (Platform.isAndroid) {
-          for (var supportedLocale in supportedLocales) {
-            if (supportedLocale.languageCode == locale.languageCode &&
-                supportedLocale.countryCode == locale.countryCode) {
-              return supportedLocale;
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        locale: _locale,
+        routes: routes,
+        supportedLocales: [
+          Locale('en', 'US'),
+          Locale('es', 'ES'),
+          Locale('sk', 'SK'),
+        ],
+        localizationsDelegates: [
+          AppLocalization.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        localeResolutionCallback: (locale, supportedLocales) {
+          // Check if the current device locale is supported
+          if (Platform.isAndroid) {
+            for (var supportedLocale in supportedLocales) {
+              if (supportedLocale.languageCode == locale.languageCode &&
+                  supportedLocale.countryCode == locale.countryCode) {
+                return supportedLocale;
+              }
+            }
+          } else if (Platform.isIOS) {
+            for (var supportedLocale in supportedLocales) {
+              if (supportedLocale.languageCode == locale.languageCode &&
+                  supportedLocale.countryCode == locale.countryCode) {
+                return supportedLocale;
+              }
             }
           }
-        } else if (Platform.isIOS) {
-          for (var supportedLocale in supportedLocales) {
-            if (supportedLocale.languageCode == locale.languageCode &&
-                supportedLocale.countryCode == locale.countryCode) {
-              return supportedLocale;
-            }
-          }
-        }
 
-        return supportedLocales.first;
-      },
+          return supportedLocales.first;
+        },
+      ),
     );
   }
 

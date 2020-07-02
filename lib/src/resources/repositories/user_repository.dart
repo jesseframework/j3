@@ -1,16 +1,15 @@
 import 'dart:async';
 
 import 'package:chopper/chopper.dart';
-import 'package:devicelocale/devicelocale.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:j3enterprise/main.dart';
+import 'package:devicelocale/devicelocale.dart';
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
 import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
-import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/langcustomdialogbox.dart';
-import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:meta/meta.dart';
+import 'dart:io' show Platform;
 
 class UserRepository {
   var api = ApiClient.chopper.getService<RestApiService>();
@@ -185,19 +184,23 @@ class UserRepository {
   Future getDeviceLocale() async {
     List languages;
     String currentLocale;
-    try {
-      languages = await Devicelocale.preferredLanguages;
-      print(languages);
-    } on PlatformException {
-      print("Error obtaining preferred languages");
-      return null;
+    if (Platform.isAndroid || Platform.isIOS) {
+      try {
+        languages = await Devicelocale.preferredLanguages;
+        print(languages);
+      } on PlatformException {
+        print("Error obtaining preferred languages");
+        return null;
+      }
+      try {
+        currentLocale = await Devicelocale.currentLocale;
+      } on PlatformException {
+        print("Error obtaining current locale");
+        return null;
+      }
+      return currentLocale.substring(0, 2);
     }
-    try {
-      currentLocale = await Devicelocale.currentLocale;
-    } on PlatformException {
-      print("Error obtaining current locale");
-      return null;
-    }
-    return currentLocale.substring(0, 2);
+
+    return null;
   }
 }

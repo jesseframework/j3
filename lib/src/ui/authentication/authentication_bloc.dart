@@ -40,12 +40,9 @@ class AuthenticationBloc
   Stream<AuthenticationState> mapEventToState(
     AuthenticationEvent event,
   ) async* {
-//    if(event is PushNotification){
-//
-//    yield PushNotificationState(route: event.route);
-//
-//
-//    }
+    if (event is PushNotification) {
+      yield PushNotificationState(route: event.route);
+    }
     if (event is AppStarted) {
       await Future.delayed(Duration(seconds: 9));
       final bool hasToken = await userRepository.hasToken();
