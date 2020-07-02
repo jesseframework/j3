@@ -25,9 +25,11 @@ class BusinessRuleRepository {
   UserSharedData userSharedData;
 
   BusinessRuleRepository() {
+    _log.finest("BusinessRule repository constructer call");
     db = AppDatabase();
     updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
+    businessRuleDao = new BusinessRuleDao(db);
     nonGlobalBusinessRuleDao = NonGlobalBusinessRuleDao(db);
     userSharedData = new UserSharedData();
   }
@@ -35,13 +37,19 @@ class BusinessRuleRepository {
   Future<void> getBusinessRuleFromServer(String jobName) async {
     try {
       //ToDo code review to get a better way to push bulk data to API and update bulk data in database
+      _log.finest("Executing BusinessRule date from server");
       var isSchedulerEnable = await backgroundJobScheduleDao.getJob(jobName);
       if (isSchedulerEnable != null) {
+        _log.finest("BusinessRule job found in background Jobs scheduler");
         if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
           if (isSchedulerEnable.enableJob == true) {
+            DateTime startDate = isSchedulerEnable.startDateTime;
+            _log.finest("BusinessRule jobs start date is $startDate ");
             final Response response = await api.getBusinessRule();
+            _log.finest("Checking server resopnses for businessRule ");
             Map<String, dynamic> map = json.decode(response.bodyString);
             if (response.isSuccessful && map['success']) {
+              _log.finest("Server resopnses successful for businessRule ");
               Map<String, dynamic> result = map['result'];
               var items = (result['items'] as List).map((e) {
                 return BusinessRuleData.fromJson(e,
@@ -51,8 +59,11 @@ class BusinessRuleRepository {
               for (var item in items) {
                 await businessRuleDao.createOrUpdatePref(item);
               }
+              updateBackgroundJobStatus.updateJobStatus(jobName, "Success");
             } else {
               updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
+              _log.shout(
+                  "BusinessRule API call failed. Server did not respond successful ");
             }
           }
         }
@@ -66,13 +77,23 @@ class BusinessRuleRepository {
   Future<void> getNonGlobalBusinessRuleFromServer(String jobName) async {
     try {
       //ToDo code review to get a better way to push bulk data to API and update bulk data in database
+      _log.finest("Executing Non Global businessRule date from server");
       var isSchedulerEnable = await backgroundJobScheduleDao.getJob(jobName);
       if (isSchedulerEnable != null) {
+        _log.finest(
+            "Non Global businessRule job found in background Jobs scheduler");
         if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
           if (isSchedulerEnable.enableJob == true) {
+            DateTime startDate = isSchedulerEnable.startDateTime;
+            _log.finest(
+                "Non Global businessRule jobs start date is $startDate ");
             final Response response = await api.getNonGlobalBusinessRule();
+            _log.finest(
+                "Checking server resopnses for Non global businessRule ");
             Map<String, dynamic> map = json.decode(response.bodyString);
             if (response.isSuccessful && map['success']) {
+              _log.finest(
+                  "Server resopnses successful for non global businessRule ");
               Map<String, dynamic> result = map['result'];
               var items = (result['items'] as List).map((e) {
                 return NonGlobalBusinessRuleData.fromJson(e,
@@ -82,8 +103,11 @@ class BusinessRuleRepository {
               for (var item in items) {
                 await nonGlobalBusinessRuleDao.createOrUpdatePref(item);
               }
+              updateBackgroundJobStatus.updateJobStatus(jobName, "Success");
             } else {
               updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
+              _log.shout(
+                  "Non Global businessRule API call failed. Server did not respond successful ");
             }
           }
         }

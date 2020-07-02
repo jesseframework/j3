@@ -5,11 +5,14 @@ class NonGlobalPreference extends Table {
   TextColumn get parentCode => text()();
   TextColumn get code => text()();
   TextColumn get value => text()();
-  TextColumn get settingType => text()();
+  TextColumn get settingType => text().nullable()();
   TextColumn get deviceId => text().nullable()();
-  TextColumn get userName => text()();
-  TextColumn get screen => text()();
+  TextColumn get userName => text().nullable()();
+  TextColumn get screen => text().nullable()();
   BoolColumn get isApply => boolean().withDefault(Constant(false))();
   DateTimeColumn get expiredDateTime => dateTime().nullable()();
   TextColumn get syncError => text().nullable()();
+
+  @override
+  Set<Column> get primaryKey => {id};
 }

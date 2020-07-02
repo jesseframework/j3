@@ -38,7 +38,7 @@ class InitServiceSetup {
     if (saveLogToDd != null) {
       if (saveLogToDd.value == "Yes" &&
           saveLogToDd.isGlobal == false &&
-          (saveLogToDd.expiredDateTime.isBefore(DateTime.now()) ||
+          (saveLogToDd.expiredDateTime.isAfter(DateTime.now()) ||
               saveLogToDd.expiredDateTime == null)) {
         var nonGlobalDb = await nonGlobalPreferenceDao.getSingleNonGlobalPref(
             'LOGGERON', 'LOGGERON', userName, deviceID, screen);
@@ -46,7 +46,7 @@ class InitServiceSetup {
             nonGlobalDb.value == "Yes" &&
             nonGlobalDb.isApply == true) {
           //Set not global
-          if (nonGlobalDb.expiredDateTime.isBefore(DateTime.now()) ||
+          if (nonGlobalDb.expiredDateTime.isAfter(DateTime.now()) ||
               nonGlobalDb.expiredDateTime == null) {
             var setLogLevel = await nonGlobalPreferenceDao.getSingleNonGlobalPref(
                 'LOGGERLEVEL', 'LOGGERLEVEL', userName, deviceID, screen);

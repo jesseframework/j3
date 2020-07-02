@@ -5010,20 +5010,6 @@ class $MobileDeviceTable extends MobileDevice
 
 class BusinessRuleData extends DataClass
     implements Insertable<BusinessRuleData> {
-  final DateTime creationTime;
-  final DateTime deleteTime;
-  final int createUserId;
-  final String creatorUser;
-  final String lastModifierUser;
-  final int lastModifierUserId;
-  final int deleteUserId;
-  final String deleterUserId;
-  final bool isDeleted;
-  final DateTime importDateTime;
-  final DateTime exportDateTime;
-  final String exportStatus;
-  final String importStatus;
-  final String syncError;
   final String code;
   final String ruleName;
   final String value;
@@ -5032,66 +5018,27 @@ class BusinessRuleData extends DataClass
   final String deviceRule;
   final String userRule;
   final String domain;
+  final DateTime expiredDateTime;
+  final String syncError;
   BusinessRuleData(
-      {this.creationTime,
-      this.deleteTime,
-      this.createUserId,
-      this.creatorUser,
-      this.lastModifierUser,
-      this.lastModifierUserId,
-      this.deleteUserId,
-      this.deleterUserId,
-      @required this.isDeleted,
-      this.importDateTime,
-      this.exportDateTime,
-      @required this.exportStatus,
-      @required this.importStatus,
-      this.syncError,
-      @required this.code,
+      {@required this.code,
       this.ruleName,
       @required this.value,
       this.description,
       @required this.isGlobalRule,
       this.deviceRule,
       this.userRule,
-      this.domain});
+      this.domain,
+      this.expiredDateTime,
+      this.syncError});
   factory BusinessRuleData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
-    final dateTimeType = db.typeSystem.forDartType<DateTime>();
-    final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
     final boolType = db.typeSystem.forDartType<bool>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     return BusinessRuleData(
-      creationTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
-      deleteTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_time']),
-      createUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}create_user_id']),
-      creatorUser: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}creator_user']),
-      lastModifierUser: stringType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user']),
-      lastModifierUserId: intType.mapFromDatabaseResponse(
-          data['${effectivePrefix}last_modifier_user_id']),
-      deleteUserId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}delete_user_id']),
-      deleterUserId: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}deleter_user_id']),
-      isDeleted: boolType
-          .mapFromDatabaseResponse(data['${effectivePrefix}is_deleted']),
-      importDateTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}import_date_time']),
-      exportDateTime: dateTimeType
-          .mapFromDatabaseResponse(data['${effectivePrefix}export_date_time']),
-      exportStatus: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}export_status']),
-      importStatus: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}import_status']),
-      syncError: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}sync_error']),
       code: stringType.mapFromDatabaseResponse(data['${effectivePrefix}code']),
       ruleName: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}rule_name']),
@@ -5107,53 +5054,15 @@ class BusinessRuleData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}user_rule']),
       domain:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}domain']),
+      expiredDateTime: dateTimeType
+          .mapFromDatabaseResponse(data['${effectivePrefix}expired_date_time']),
+      syncError: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}sync_error']),
     );
   }
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (!nullToAbsent || creationTime != null) {
-      map['creation_time'] = Variable<DateTime>(creationTime);
-    }
-    if (!nullToAbsent || deleteTime != null) {
-      map['delete_time'] = Variable<DateTime>(deleteTime);
-    }
-    if (!nullToAbsent || createUserId != null) {
-      map['create_user_id'] = Variable<int>(createUserId);
-    }
-    if (!nullToAbsent || creatorUser != null) {
-      map['creator_user'] = Variable<String>(creatorUser);
-    }
-    if (!nullToAbsent || lastModifierUser != null) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser);
-    }
-    if (!nullToAbsent || lastModifierUserId != null) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId);
-    }
-    if (!nullToAbsent || deleteUserId != null) {
-      map['delete_user_id'] = Variable<int>(deleteUserId);
-    }
-    if (!nullToAbsent || deleterUserId != null) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId);
-    }
-    if (!nullToAbsent || isDeleted != null) {
-      map['is_deleted'] = Variable<bool>(isDeleted);
-    }
-    if (!nullToAbsent || importDateTime != null) {
-      map['import_date_time'] = Variable<DateTime>(importDateTime);
-    }
-    if (!nullToAbsent || exportDateTime != null) {
-      map['export_date_time'] = Variable<DateTime>(exportDateTime);
-    }
-    if (!nullToAbsent || exportStatus != null) {
-      map['export_status'] = Variable<String>(exportStatus);
-    }
-    if (!nullToAbsent || importStatus != null) {
-      map['import_status'] = Variable<String>(importStatus);
-    }
-    if (!nullToAbsent || syncError != null) {
-      map['sync_error'] = Variable<String>(syncError);
-    }
     if (!nullToAbsent || code != null) {
       map['code'] = Variable<String>(code);
     }
@@ -5178,53 +5087,17 @@ class BusinessRuleData extends DataClass
     if (!nullToAbsent || domain != null) {
       map['domain'] = Variable<String>(domain);
     }
+    if (!nullToAbsent || expiredDateTime != null) {
+      map['expired_date_time'] = Variable<DateTime>(expiredDateTime);
+    }
+    if (!nullToAbsent || syncError != null) {
+      map['sync_error'] = Variable<String>(syncError);
+    }
     return map;
   }
 
   BusinessRuleCompanion toCompanion(bool nullToAbsent) {
     return BusinessRuleCompanion(
-      creationTime: creationTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creationTime),
-      deleteTime: deleteTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteTime),
-      createUserId: createUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(createUserId),
-      creatorUser: creatorUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(creatorUser),
-      lastModifierUser: lastModifierUser == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUser),
-      lastModifierUserId: lastModifierUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastModifierUserId),
-      deleteUserId: deleteUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleteUserId),
-      deleterUserId: deleterUserId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deleterUserId),
-      isDeleted: isDeleted == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isDeleted),
-      importDateTime: importDateTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(importDateTime),
-      exportDateTime: exportDateTime == null && nullToAbsent
-          ? const Value.absent()
-          : Value(exportDateTime),
-      exportStatus: exportStatus == null && nullToAbsent
-          ? const Value.absent()
-          : Value(exportStatus),
-      importStatus: importStatus == null && nullToAbsent
-          ? const Value.absent()
-          : Value(importStatus),
-      syncError: syncError == null && nullToAbsent
-          ? const Value.absent()
-          : Value(syncError),
       code: code == null && nullToAbsent ? const Value.absent() : Value(code),
       ruleName: ruleName == null && nullToAbsent
           ? const Value.absent()
@@ -5245,6 +5118,12 @@ class BusinessRuleData extends DataClass
           : Value(userRule),
       domain:
           domain == null && nullToAbsent ? const Value.absent() : Value(domain),
+      expiredDateTime: expiredDateTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(expiredDateTime),
+      syncError: syncError == null && nullToAbsent
+          ? const Value.absent()
+          : Value(syncError),
     );
   }
 
@@ -5252,20 +5131,6 @@ class BusinessRuleData extends DataClass
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return BusinessRuleData(
-      creationTime: serializer.fromJson<DateTime>(json['creationTime']),
-      deleteTime: serializer.fromJson<DateTime>(json['deleteTime']),
-      createUserId: serializer.fromJson<int>(json['createUserId']),
-      creatorUser: serializer.fromJson<String>(json['creatorUser']),
-      lastModifierUser: serializer.fromJson<String>(json['lastModifierUser']),
-      lastModifierUserId: serializer.fromJson<int>(json['lastModifierUserId']),
-      deleteUserId: serializer.fromJson<int>(json['deleteUserId']),
-      deleterUserId: serializer.fromJson<String>(json['deleterUserId']),
-      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
-      importDateTime: serializer.fromJson<DateTime>(json['importDateTime']),
-      exportDateTime: serializer.fromJson<DateTime>(json['exportDateTime']),
-      exportStatus: serializer.fromJson<String>(json['exportStatus']),
-      importStatus: serializer.fromJson<String>(json['importStatus']),
-      syncError: serializer.fromJson<String>(json['syncError']),
       code: serializer.fromJson<String>(json['code']),
       ruleName: serializer.fromJson<String>(json['ruleName']),
       value: serializer.fromJson<String>(json['value']),
@@ -5274,26 +5139,14 @@ class BusinessRuleData extends DataClass
       deviceRule: serializer.fromJson<String>(json['deviceRule']),
       userRule: serializer.fromJson<String>(json['userRule']),
       domain: serializer.fromJson<String>(json['domain']),
+      expiredDateTime: serializer.fromJson<DateTime>(json['expiredDateTime']),
+      syncError: serializer.fromJson<String>(json['syncError']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'creationTime': serializer.toJson<DateTime>(creationTime),
-      'deleteTime': serializer.toJson<DateTime>(deleteTime),
-      'createUserId': serializer.toJson<int>(createUserId),
-      'creatorUser': serializer.toJson<String>(creatorUser),
-      'lastModifierUser': serializer.toJson<String>(lastModifierUser),
-      'lastModifierUserId': serializer.toJson<int>(lastModifierUserId),
-      'deleteUserId': serializer.toJson<int>(deleteUserId),
-      'deleterUserId': serializer.toJson<String>(deleterUserId),
-      'isDeleted': serializer.toJson<bool>(isDeleted),
-      'importDateTime': serializer.toJson<DateTime>(importDateTime),
-      'exportDateTime': serializer.toJson<DateTime>(exportDateTime),
-      'exportStatus': serializer.toJson<String>(exportStatus),
-      'importStatus': serializer.toJson<String>(importStatus),
-      'syncError': serializer.toJson<String>(syncError),
       'code': serializer.toJson<String>(code),
       'ruleName': serializer.toJson<String>(ruleName),
       'value': serializer.toJson<String>(value),
@@ -5302,47 +5155,23 @@ class BusinessRuleData extends DataClass
       'deviceRule': serializer.toJson<String>(deviceRule),
       'userRule': serializer.toJson<String>(userRule),
       'domain': serializer.toJson<String>(domain),
+      'expiredDateTime': serializer.toJson<DateTime>(expiredDateTime),
+      'syncError': serializer.toJson<String>(syncError),
     };
   }
 
   BusinessRuleData copyWith(
-          {DateTime creationTime,
-          DateTime deleteTime,
-          int createUserId,
-          String creatorUser,
-          String lastModifierUser,
-          int lastModifierUserId,
-          int deleteUserId,
-          String deleterUserId,
-          bool isDeleted,
-          DateTime importDateTime,
-          DateTime exportDateTime,
-          String exportStatus,
-          String importStatus,
-          String syncError,
-          String code,
+          {String code,
           String ruleName,
           String value,
           String description,
           bool isGlobalRule,
           String deviceRule,
           String userRule,
-          String domain}) =>
+          String domain,
+          DateTime expiredDateTime,
+          String syncError}) =>
       BusinessRuleData(
-        creationTime: creationTime ?? this.creationTime,
-        deleteTime: deleteTime ?? this.deleteTime,
-        createUserId: createUserId ?? this.createUserId,
-        creatorUser: creatorUser ?? this.creatorUser,
-        lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-        lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-        deleteUserId: deleteUserId ?? this.deleteUserId,
-        deleterUserId: deleterUserId ?? this.deleterUserId,
-        isDeleted: isDeleted ?? this.isDeleted,
-        importDateTime: importDateTime ?? this.importDateTime,
-        exportDateTime: exportDateTime ?? this.exportDateTime,
-        exportStatus: exportStatus ?? this.exportStatus,
-        importStatus: importStatus ?? this.importStatus,
-        syncError: syncError ?? this.syncError,
         code: code ?? this.code,
         ruleName: ruleName ?? this.ruleName,
         value: value ?? this.value,
@@ -5351,24 +5180,12 @@ class BusinessRuleData extends DataClass
         deviceRule: deviceRule ?? this.deviceRule,
         userRule: userRule ?? this.userRule,
         domain: domain ?? this.domain,
+        expiredDateTime: expiredDateTime ?? this.expiredDateTime,
+        syncError: syncError ?? this.syncError,
       );
   @override
   String toString() {
     return (StringBuffer('BusinessRuleData(')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
-          ..write('importDateTime: $importDateTime, ')
-          ..write('exportDateTime: $exportDateTime, ')
-          ..write('exportStatus: $exportStatus, ')
-          ..write('importStatus: $importStatus, ')
-          ..write('syncError: $syncError, ')
           ..write('code: $code, ')
           ..write('ruleName: $ruleName, ')
           ..write('value: $value, ')
@@ -5376,72 +5193,36 @@ class BusinessRuleData extends DataClass
           ..write('isGlobalRule: $isGlobalRule, ')
           ..write('deviceRule: $deviceRule, ')
           ..write('userRule: $userRule, ')
-          ..write('domain: $domain')
+          ..write('domain: $domain, ')
+          ..write('expiredDateTime: $expiredDateTime, ')
+          ..write('syncError: $syncError')
           ..write(')'))
         .toString();
   }
 
   @override
   int get hashCode => $mrjf($mrjc(
-      creationTime.hashCode,
+      code.hashCode,
       $mrjc(
-          deleteTime.hashCode,
+          ruleName.hashCode,
           $mrjc(
-              createUserId.hashCode,
+              value.hashCode,
               $mrjc(
-                  creatorUser.hashCode,
+                  description.hashCode,
                   $mrjc(
-                      lastModifierUser.hashCode,
+                      isGlobalRule.hashCode,
                       $mrjc(
-                          lastModifierUserId.hashCode,
+                          deviceRule.hashCode,
                           $mrjc(
-                              deleteUserId.hashCode,
+                              userRule.hashCode,
                               $mrjc(
-                                  deleterUserId.hashCode,
-                                  $mrjc(
-                                      isDeleted.hashCode,
-                                      $mrjc(
-                                          importDateTime.hashCode,
-                                          $mrjc(
-                                              exportDateTime.hashCode,
-                                              $mrjc(
-                                                  exportStatus.hashCode,
-                                                  $mrjc(
-                                                      importStatus.hashCode,
-                                                      $mrjc(
-                                                          syncError.hashCode,
-                                                          $mrjc(
-                                                              code.hashCode,
-                                                              $mrjc(
-                                                                  ruleName
-                                                                      .hashCode,
-                                                                  $mrjc(
-                                                                      value
-                                                                          .hashCode,
-                                                                      $mrjc(
-                                                                          description
-                                                                              .hashCode,
-                                                                          $mrjc(
-                                                                              isGlobalRule.hashCode,
-                                                                              $mrjc(deviceRule.hashCode, $mrjc(userRule.hashCode, domain.hashCode))))))))))))))))))))));
+                                  domain.hashCode,
+                                  $mrjc(expiredDateTime.hashCode,
+                                      syncError.hashCode))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is BusinessRuleData &&
-          other.creationTime == this.creationTime &&
-          other.deleteTime == this.deleteTime &&
-          other.createUserId == this.createUserId &&
-          other.creatorUser == this.creatorUser &&
-          other.lastModifierUser == this.lastModifierUser &&
-          other.lastModifierUserId == this.lastModifierUserId &&
-          other.deleteUserId == this.deleteUserId &&
-          other.deleterUserId == this.deleterUserId &&
-          other.isDeleted == this.isDeleted &&
-          other.importDateTime == this.importDateTime &&
-          other.exportDateTime == this.exportDateTime &&
-          other.exportStatus == this.exportStatus &&
-          other.importStatus == this.importStatus &&
-          other.syncError == this.syncError &&
           other.code == this.code &&
           other.ruleName == this.ruleName &&
           other.value == this.value &&
@@ -5449,24 +5230,12 @@ class BusinessRuleData extends DataClass
           other.isGlobalRule == this.isGlobalRule &&
           other.deviceRule == this.deviceRule &&
           other.userRule == this.userRule &&
-          other.domain == this.domain);
+          other.domain == this.domain &&
+          other.expiredDateTime == this.expiredDateTime &&
+          other.syncError == this.syncError);
 }
 
 class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
-  final Value<DateTime> creationTime;
-  final Value<DateTime> deleteTime;
-  final Value<int> createUserId;
-  final Value<String> creatorUser;
-  final Value<String> lastModifierUser;
-  final Value<int> lastModifierUserId;
-  final Value<int> deleteUserId;
-  final Value<String> deleterUserId;
-  final Value<bool> isDeleted;
-  final Value<DateTime> importDateTime;
-  final Value<DateTime> exportDateTime;
-  final Value<String> exportStatus;
-  final Value<String> importStatus;
-  final Value<String> syncError;
   final Value<String> code;
   final Value<String> ruleName;
   final Value<String> value;
@@ -5475,21 +5244,9 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
   final Value<String> deviceRule;
   final Value<String> userRule;
   final Value<String> domain;
+  final Value<DateTime> expiredDateTime;
+  final Value<String> syncError;
   const BusinessRuleCompanion({
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
-    this.importDateTime = const Value.absent(),
-    this.exportDateTime = const Value.absent(),
-    this.exportStatus = const Value.absent(),
-    this.importStatus = const Value.absent(),
-    this.syncError = const Value.absent(),
     this.code = const Value.absent(),
     this.ruleName = const Value.absent(),
     this.value = const Value.absent(),
@@ -5498,22 +5255,10 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
     this.deviceRule = const Value.absent(),
     this.userRule = const Value.absent(),
     this.domain = const Value.absent(),
+    this.expiredDateTime = const Value.absent(),
+    this.syncError = const Value.absent(),
   });
   BusinessRuleCompanion.insert({
-    this.creationTime = const Value.absent(),
-    this.deleteTime = const Value.absent(),
-    this.createUserId = const Value.absent(),
-    this.creatorUser = const Value.absent(),
-    this.lastModifierUser = const Value.absent(),
-    this.lastModifierUserId = const Value.absent(),
-    this.deleteUserId = const Value.absent(),
-    this.deleterUserId = const Value.absent(),
-    this.isDeleted = const Value.absent(),
-    this.importDateTime = const Value.absent(),
-    this.exportDateTime = const Value.absent(),
-    this.exportStatus = const Value.absent(),
-    this.importStatus = const Value.absent(),
-    this.syncError = const Value.absent(),
     @required String code,
     this.ruleName = const Value.absent(),
     @required String value,
@@ -5522,23 +5267,11 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
     this.deviceRule = const Value.absent(),
     this.userRule = const Value.absent(),
     this.domain = const Value.absent(),
+    this.expiredDateTime = const Value.absent(),
+    this.syncError = const Value.absent(),
   })  : code = Value(code),
         value = Value(value);
   static Insertable<BusinessRuleData> custom({
-    Expression<DateTime> creationTime,
-    Expression<DateTime> deleteTime,
-    Expression<int> createUserId,
-    Expression<String> creatorUser,
-    Expression<String> lastModifierUser,
-    Expression<int> lastModifierUserId,
-    Expression<int> deleteUserId,
-    Expression<String> deleterUserId,
-    Expression<bool> isDeleted,
-    Expression<DateTime> importDateTime,
-    Expression<DateTime> exportDateTime,
-    Expression<String> exportStatus,
-    Expression<String> importStatus,
-    Expression<String> syncError,
     Expression<String> code,
     Expression<String> ruleName,
     Expression<String> value,
@@ -5547,23 +5280,10 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
     Expression<String> deviceRule,
     Expression<String> userRule,
     Expression<String> domain,
+    Expression<DateTime> expiredDateTime,
+    Expression<String> syncError,
   }) {
     return RawValuesInsertable({
-      if (creationTime != null) 'creation_time': creationTime,
-      if (deleteTime != null) 'delete_time': deleteTime,
-      if (createUserId != null) 'create_user_id': createUserId,
-      if (creatorUser != null) 'creator_user': creatorUser,
-      if (lastModifierUser != null) 'last_modifier_user': lastModifierUser,
-      if (lastModifierUserId != null)
-        'last_modifier_user_id': lastModifierUserId,
-      if (deleteUserId != null) 'delete_user_id': deleteUserId,
-      if (deleterUserId != null) 'deleter_user_id': deleterUserId,
-      if (isDeleted != null) 'is_deleted': isDeleted,
-      if (importDateTime != null) 'import_date_time': importDateTime,
-      if (exportDateTime != null) 'export_date_time': exportDateTime,
-      if (exportStatus != null) 'export_status': exportStatus,
-      if (importStatus != null) 'import_status': importStatus,
-      if (syncError != null) 'sync_error': syncError,
       if (code != null) 'code': code,
       if (ruleName != null) 'rule_name': ruleName,
       if (value != null) 'value': value,
@@ -5572,47 +5292,23 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
       if (deviceRule != null) 'device_rule': deviceRule,
       if (userRule != null) 'user_rule': userRule,
       if (domain != null) 'domain': domain,
+      if (expiredDateTime != null) 'expired_date_time': expiredDateTime,
+      if (syncError != null) 'sync_error': syncError,
     });
   }
 
   BusinessRuleCompanion copyWith(
-      {Value<DateTime> creationTime,
-      Value<DateTime> deleteTime,
-      Value<int> createUserId,
-      Value<String> creatorUser,
-      Value<String> lastModifierUser,
-      Value<int> lastModifierUserId,
-      Value<int> deleteUserId,
-      Value<String> deleterUserId,
-      Value<bool> isDeleted,
-      Value<DateTime> importDateTime,
-      Value<DateTime> exportDateTime,
-      Value<String> exportStatus,
-      Value<String> importStatus,
-      Value<String> syncError,
-      Value<String> code,
+      {Value<String> code,
       Value<String> ruleName,
       Value<String> value,
       Value<String> description,
       Value<bool> isGlobalRule,
       Value<String> deviceRule,
       Value<String> userRule,
-      Value<String> domain}) {
+      Value<String> domain,
+      Value<DateTime> expiredDateTime,
+      Value<String> syncError}) {
     return BusinessRuleCompanion(
-      creationTime: creationTime ?? this.creationTime,
-      deleteTime: deleteTime ?? this.deleteTime,
-      createUserId: createUserId ?? this.createUserId,
-      creatorUser: creatorUser ?? this.creatorUser,
-      lastModifierUser: lastModifierUser ?? this.lastModifierUser,
-      lastModifierUserId: lastModifierUserId ?? this.lastModifierUserId,
-      deleteUserId: deleteUserId ?? this.deleteUserId,
-      deleterUserId: deleterUserId ?? this.deleterUserId,
-      isDeleted: isDeleted ?? this.isDeleted,
-      importDateTime: importDateTime ?? this.importDateTime,
-      exportDateTime: exportDateTime ?? this.exportDateTime,
-      exportStatus: exportStatus ?? this.exportStatus,
-      importStatus: importStatus ?? this.importStatus,
-      syncError: syncError ?? this.syncError,
       code: code ?? this.code,
       ruleName: ruleName ?? this.ruleName,
       value: value ?? this.value,
@@ -5621,54 +5317,14 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
       deviceRule: deviceRule ?? this.deviceRule,
       userRule: userRule ?? this.userRule,
       domain: domain ?? this.domain,
+      expiredDateTime: expiredDateTime ?? this.expiredDateTime,
+      syncError: syncError ?? this.syncError,
     );
   }
 
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (creationTime.present) {
-      map['creation_time'] = Variable<DateTime>(creationTime.value);
-    }
-    if (deleteTime.present) {
-      map['delete_time'] = Variable<DateTime>(deleteTime.value);
-    }
-    if (createUserId.present) {
-      map['create_user_id'] = Variable<int>(createUserId.value);
-    }
-    if (creatorUser.present) {
-      map['creator_user'] = Variable<String>(creatorUser.value);
-    }
-    if (lastModifierUser.present) {
-      map['last_modifier_user'] = Variable<String>(lastModifierUser.value);
-    }
-    if (lastModifierUserId.present) {
-      map['last_modifier_user_id'] = Variable<int>(lastModifierUserId.value);
-    }
-    if (deleteUserId.present) {
-      map['delete_user_id'] = Variable<int>(deleteUserId.value);
-    }
-    if (deleterUserId.present) {
-      map['deleter_user_id'] = Variable<String>(deleterUserId.value);
-    }
-    if (isDeleted.present) {
-      map['is_deleted'] = Variable<bool>(isDeleted.value);
-    }
-    if (importDateTime.present) {
-      map['import_date_time'] = Variable<DateTime>(importDateTime.value);
-    }
-    if (exportDateTime.present) {
-      map['export_date_time'] = Variable<DateTime>(exportDateTime.value);
-    }
-    if (exportStatus.present) {
-      map['export_status'] = Variable<String>(exportStatus.value);
-    }
-    if (importStatus.present) {
-      map['import_status'] = Variable<String>(importStatus.value);
-    }
-    if (syncError.present) {
-      map['sync_error'] = Variable<String>(syncError.value);
-    }
     if (code.present) {
       map['code'] = Variable<String>(code.value);
     }
@@ -5693,6 +5349,12 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
     if (domain.present) {
       map['domain'] = Variable<String>(domain.value);
     }
+    if (expiredDateTime.present) {
+      map['expired_date_time'] = Variable<DateTime>(expiredDateTime.value);
+    }
+    if (syncError.present) {
+      map['sync_error'] = Variable<String>(syncError.value);
+    }
     return map;
   }
 }
@@ -5702,188 +5364,6 @@ class $BusinessRuleTable extends BusinessRule
   final GeneratedDatabase _db;
   final String _alias;
   $BusinessRuleTable(this._db, [this._alias]);
-  final VerificationMeta _creationTimeMeta =
-      const VerificationMeta('creationTime');
-  GeneratedDateTimeColumn _creationTime;
-  @override
-  GeneratedDateTimeColumn get creationTime =>
-      _creationTime ??= _constructCreationTime();
-  GeneratedDateTimeColumn _constructCreationTime() {
-    return GeneratedDateTimeColumn(
-      'creation_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteTimeMeta = const VerificationMeta('deleteTime');
-  GeneratedDateTimeColumn _deleteTime;
-  @override
-  GeneratedDateTimeColumn get deleteTime =>
-      _deleteTime ??= _constructDeleteTime();
-  GeneratedDateTimeColumn _constructDeleteTime() {
-    return GeneratedDateTimeColumn(
-      'delete_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _createUserIdMeta =
-      const VerificationMeta('createUserId');
-  GeneratedIntColumn _createUserId;
-  @override
-  GeneratedIntColumn get createUserId =>
-      _createUserId ??= _constructCreateUserId();
-  GeneratedIntColumn _constructCreateUserId() {
-    return GeneratedIntColumn(
-      'create_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _creatorUserMeta =
-      const VerificationMeta('creatorUser');
-  GeneratedTextColumn _creatorUser;
-  @override
-  GeneratedTextColumn get creatorUser =>
-      _creatorUser ??= _constructCreatorUser();
-  GeneratedTextColumn _constructCreatorUser() {
-    return GeneratedTextColumn(
-      'creator_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserMeta =
-      const VerificationMeta('lastModifierUser');
-  GeneratedTextColumn _lastModifierUser;
-  @override
-  GeneratedTextColumn get lastModifierUser =>
-      _lastModifierUser ??= _constructLastModifierUser();
-  GeneratedTextColumn _constructLastModifierUser() {
-    return GeneratedTextColumn(
-      'last_modifier_user',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _lastModifierUserIdMeta =
-      const VerificationMeta('lastModifierUserId');
-  GeneratedIntColumn _lastModifierUserId;
-  @override
-  GeneratedIntColumn get lastModifierUserId =>
-      _lastModifierUserId ??= _constructLastModifierUserId();
-  GeneratedIntColumn _constructLastModifierUserId() {
-    return GeneratedIntColumn(
-      'last_modifier_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleteUserIdMeta =
-      const VerificationMeta('deleteUserId');
-  GeneratedIntColumn _deleteUserId;
-  @override
-  GeneratedIntColumn get deleteUserId =>
-      _deleteUserId ??= _constructDeleteUserId();
-  GeneratedIntColumn _constructDeleteUserId() {
-    return GeneratedIntColumn(
-      'delete_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _deleterUserIdMeta =
-      const VerificationMeta('deleterUserId');
-  GeneratedTextColumn _deleterUserId;
-  @override
-  GeneratedTextColumn get deleterUserId =>
-      _deleterUserId ??= _constructDeleterUserId();
-  GeneratedTextColumn _constructDeleterUserId() {
-    return GeneratedTextColumn(
-      'deleter_user_id',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _isDeletedMeta = const VerificationMeta('isDeleted');
-  GeneratedBoolColumn _isDeleted;
-  @override
-  GeneratedBoolColumn get isDeleted => _isDeleted ??= _constructIsDeleted();
-  GeneratedBoolColumn _constructIsDeleted() {
-    return GeneratedBoolColumn('is_deleted', $tableName, false,
-        defaultValue: Constant(false));
-  }
-
-  final VerificationMeta _importDateTimeMeta =
-      const VerificationMeta('importDateTime');
-  GeneratedDateTimeColumn _importDateTime;
-  @override
-  GeneratedDateTimeColumn get importDateTime =>
-      _importDateTime ??= _constructImportDateTime();
-  GeneratedDateTimeColumn _constructImportDateTime() {
-    return GeneratedDateTimeColumn(
-      'import_date_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _exportDateTimeMeta =
-      const VerificationMeta('exportDateTime');
-  GeneratedDateTimeColumn _exportDateTime;
-  @override
-  GeneratedDateTimeColumn get exportDateTime =>
-      _exportDateTime ??= _constructExportDateTime();
-  GeneratedDateTimeColumn _constructExportDateTime() {
-    return GeneratedDateTimeColumn(
-      'export_date_time',
-      $tableName,
-      true,
-    );
-  }
-
-  final VerificationMeta _exportStatusMeta =
-      const VerificationMeta('exportStatus');
-  GeneratedTextColumn _exportStatus;
-  @override
-  GeneratedTextColumn get exportStatus =>
-      _exportStatus ??= _constructExportStatus();
-  GeneratedTextColumn _constructExportStatus() {
-    return GeneratedTextColumn('export_status', $tableName, false,
-        defaultValue: Constant('Pending'));
-  }
-
-  final VerificationMeta _importStatusMeta =
-      const VerificationMeta('importStatus');
-  GeneratedTextColumn _importStatus;
-  @override
-  GeneratedTextColumn get importStatus =>
-      _importStatus ??= _constructImportStatus();
-  GeneratedTextColumn _constructImportStatus() {
-    return GeneratedTextColumn('import_status', $tableName, false,
-        defaultValue: Constant('Pending'));
-  }
-
-  final VerificationMeta _syncErrorMeta = const VerificationMeta('syncError');
-  GeneratedTextColumn _syncError;
-  @override
-  GeneratedTextColumn get syncError => _syncError ??= _constructSyncError();
-  GeneratedTextColumn _constructSyncError() {
-    return GeneratedTextColumn(
-      'sync_error',
-      $tableName,
-      true,
-    );
-  }
-
   final VerificationMeta _codeMeta = const VerificationMeta('code');
   GeneratedTextColumn _code;
   @override
@@ -5981,22 +5461,34 @@ class $BusinessRuleTable extends BusinessRule
     );
   }
 
+  final VerificationMeta _expiredDateTimeMeta =
+      const VerificationMeta('expiredDateTime');
+  GeneratedDateTimeColumn _expiredDateTime;
+  @override
+  GeneratedDateTimeColumn get expiredDateTime =>
+      _expiredDateTime ??= _constructExpiredDateTime();
+  GeneratedDateTimeColumn _constructExpiredDateTime() {
+    return GeneratedDateTimeColumn(
+      'expired_date_time',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _syncErrorMeta = const VerificationMeta('syncError');
+  GeneratedTextColumn _syncError;
+  @override
+  GeneratedTextColumn get syncError => _syncError ??= _constructSyncError();
+  GeneratedTextColumn _constructSyncError() {
+    return GeneratedTextColumn(
+      'sync_error',
+      $tableName,
+      true,
+    );
+  }
+
   @override
   List<GeneratedColumn> get $columns => [
-        creationTime,
-        deleteTime,
-        createUserId,
-        creatorUser,
-        lastModifierUser,
-        lastModifierUserId,
-        deleteUserId,
-        deleterUserId,
-        isDeleted,
-        importDateTime,
-        exportDateTime,
-        exportStatus,
-        importStatus,
-        syncError,
         code,
         ruleName,
         value,
@@ -6004,7 +5496,9 @@ class $BusinessRuleTable extends BusinessRule
         isGlobalRule,
         deviceRule,
         userRule,
-        domain
+        domain,
+        expiredDateTime,
+        syncError
       ];
   @override
   $BusinessRuleTable get asDslTable => this;
@@ -6017,86 +5511,6 @@ class $BusinessRuleTable extends BusinessRule
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('creation_time')) {
-      context.handle(
-          _creationTimeMeta,
-          creationTime.isAcceptableOrUnknown(
-              data['creation_time'], _creationTimeMeta));
-    }
-    if (data.containsKey('delete_time')) {
-      context.handle(
-          _deleteTimeMeta,
-          deleteTime.isAcceptableOrUnknown(
-              data['delete_time'], _deleteTimeMeta));
-    }
-    if (data.containsKey('create_user_id')) {
-      context.handle(
-          _createUserIdMeta,
-          createUserId.isAcceptableOrUnknown(
-              data['create_user_id'], _createUserIdMeta));
-    }
-    if (data.containsKey('creator_user')) {
-      context.handle(
-          _creatorUserMeta,
-          creatorUser.isAcceptableOrUnknown(
-              data['creator_user'], _creatorUserMeta));
-    }
-    if (data.containsKey('last_modifier_user')) {
-      context.handle(
-          _lastModifierUserMeta,
-          lastModifierUser.isAcceptableOrUnknown(
-              data['last_modifier_user'], _lastModifierUserMeta));
-    }
-    if (data.containsKey('last_modifier_user_id')) {
-      context.handle(
-          _lastModifierUserIdMeta,
-          lastModifierUserId.isAcceptableOrUnknown(
-              data['last_modifier_user_id'], _lastModifierUserIdMeta));
-    }
-    if (data.containsKey('delete_user_id')) {
-      context.handle(
-          _deleteUserIdMeta,
-          deleteUserId.isAcceptableOrUnknown(
-              data['delete_user_id'], _deleteUserIdMeta));
-    }
-    if (data.containsKey('deleter_user_id')) {
-      context.handle(
-          _deleterUserIdMeta,
-          deleterUserId.isAcceptableOrUnknown(
-              data['deleter_user_id'], _deleterUserIdMeta));
-    }
-    if (data.containsKey('is_deleted')) {
-      context.handle(_isDeletedMeta,
-          isDeleted.isAcceptableOrUnknown(data['is_deleted'], _isDeletedMeta));
-    }
-    if (data.containsKey('import_date_time')) {
-      context.handle(
-          _importDateTimeMeta,
-          importDateTime.isAcceptableOrUnknown(
-              data['import_date_time'], _importDateTimeMeta));
-    }
-    if (data.containsKey('export_date_time')) {
-      context.handle(
-          _exportDateTimeMeta,
-          exportDateTime.isAcceptableOrUnknown(
-              data['export_date_time'], _exportDateTimeMeta));
-    }
-    if (data.containsKey('export_status')) {
-      context.handle(
-          _exportStatusMeta,
-          exportStatus.isAcceptableOrUnknown(
-              data['export_status'], _exportStatusMeta));
-    }
-    if (data.containsKey('import_status')) {
-      context.handle(
-          _importStatusMeta,
-          importStatus.isAcceptableOrUnknown(
-              data['import_status'], _importStatusMeta));
-    }
-    if (data.containsKey('sync_error')) {
-      context.handle(_syncErrorMeta,
-          syncError.isAcceptableOrUnknown(data['sync_error'], _syncErrorMeta));
-    }
     if (data.containsKey('code')) {
       context.handle(
           _codeMeta, code.isAcceptableOrUnknown(data['code'], _codeMeta));
@@ -6139,6 +5553,16 @@ class $BusinessRuleTable extends BusinessRule
       context.handle(_domainMeta,
           domain.isAcceptableOrUnknown(data['domain'], _domainMeta));
     }
+    if (data.containsKey('expired_date_time')) {
+      context.handle(
+          _expiredDateTimeMeta,
+          expiredDateTime.isAcceptableOrUnknown(
+              data['expired_date_time'], _expiredDateTimeMeta));
+    }
+    if (data.containsKey('sync_error')) {
+      context.handle(_syncErrorMeta,
+          syncError.isAcceptableOrUnknown(data['sync_error'], _syncErrorMeta));
+    }
     return context;
   }
 
@@ -6159,6 +5583,7 @@ class $BusinessRuleTable extends BusinessRule
 class NonGlobalBusinessRuleData extends DataClass
     implements Insertable<NonGlobalBusinessRuleData> {
   final String code;
+  final String parentCode;
   final String ruleName;
   final String value;
   final String description;
@@ -6173,6 +5598,7 @@ class NonGlobalBusinessRuleData extends DataClass
   final DateTime expiredDateTime;
   NonGlobalBusinessRuleData(
       {@required this.code,
+      @required this.parentCode,
       this.ruleName,
       @required this.value,
       this.description,
@@ -6180,8 +5606,8 @@ class NonGlobalBusinessRuleData extends DataClass
       this.userRule,
       this.domain,
       this.deviceId,
-      @required this.userName,
-      @required this.screen,
+      this.userName,
+      this.screen,
       @required this.isApply,
       this.syncError,
       this.expiredDateTime});
@@ -6194,6 +5620,8 @@ class NonGlobalBusinessRuleData extends DataClass
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
     return NonGlobalBusinessRuleData(
       code: stringType.mapFromDatabaseResponse(data['${effectivePrefix}code']),
+      parentCode: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}parent_code']),
       ruleName: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}rule_name']),
       value:
@@ -6225,6 +5653,9 @@ class NonGlobalBusinessRuleData extends DataClass
     final map = <String, Expression>{};
     if (!nullToAbsent || code != null) {
       map['code'] = Variable<String>(code);
+    }
+    if (!nullToAbsent || parentCode != null) {
+      map['parent_code'] = Variable<String>(parentCode);
     }
     if (!nullToAbsent || ruleName != null) {
       map['rule_name'] = Variable<String>(ruleName);
@@ -6268,6 +5699,9 @@ class NonGlobalBusinessRuleData extends DataClass
   NonGlobalBusinessRuleCompanion toCompanion(bool nullToAbsent) {
     return NonGlobalBusinessRuleCompanion(
       code: code == null && nullToAbsent ? const Value.absent() : Value(code),
+      parentCode: parentCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(parentCode),
       ruleName: ruleName == null && nullToAbsent
           ? const Value.absent()
           : Value(ruleName),
@@ -6309,6 +5743,7 @@ class NonGlobalBusinessRuleData extends DataClass
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return NonGlobalBusinessRuleData(
       code: serializer.fromJson<String>(json['code']),
+      parentCode: serializer.fromJson<String>(json['parentCode']),
       ruleName: serializer.fromJson<String>(json['ruleName']),
       value: serializer.fromJson<String>(json['value']),
       description: serializer.fromJson<String>(json['description']),
@@ -6328,6 +5763,7 @@ class NonGlobalBusinessRuleData extends DataClass
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'code': serializer.toJson<String>(code),
+      'parentCode': serializer.toJson<String>(parentCode),
       'ruleName': serializer.toJson<String>(ruleName),
       'value': serializer.toJson<String>(value),
       'description': serializer.toJson<String>(description),
@@ -6345,6 +5781,7 @@ class NonGlobalBusinessRuleData extends DataClass
 
   NonGlobalBusinessRuleData copyWith(
           {String code,
+          String parentCode,
           String ruleName,
           String value,
           String description,
@@ -6359,6 +5796,7 @@ class NonGlobalBusinessRuleData extends DataClass
           DateTime expiredDateTime}) =>
       NonGlobalBusinessRuleData(
         code: code ?? this.code,
+        parentCode: parentCode ?? this.parentCode,
         ruleName: ruleName ?? this.ruleName,
         value: value ?? this.value,
         description: description ?? this.description,
@@ -6376,6 +5814,7 @@ class NonGlobalBusinessRuleData extends DataClass
   String toString() {
     return (StringBuffer('NonGlobalBusinessRuleData(')
           ..write('code: $code, ')
+          ..write('parentCode: $parentCode, ')
           ..write('ruleName: $ruleName, ')
           ..write('value: $value, ')
           ..write('description: $description, ')
@@ -6396,34 +5835,37 @@ class NonGlobalBusinessRuleData extends DataClass
   int get hashCode => $mrjf($mrjc(
       code.hashCode,
       $mrjc(
-          ruleName.hashCode,
+          parentCode.hashCode,
           $mrjc(
-              value.hashCode,
+              ruleName.hashCode,
               $mrjc(
-                  description.hashCode,
+                  value.hashCode,
                   $mrjc(
-                      deviceRule.hashCode,
+                      description.hashCode,
                       $mrjc(
-                          userRule.hashCode,
+                          deviceRule.hashCode,
                           $mrjc(
-                              domain.hashCode,
+                              userRule.hashCode,
                               $mrjc(
-                                  deviceId.hashCode,
+                                  domain.hashCode,
                                   $mrjc(
-                                      userName.hashCode,
+                                      deviceId.hashCode,
                                       $mrjc(
-                                          screen.hashCode,
+                                          userName.hashCode,
                                           $mrjc(
-                                              isApply.hashCode,
+                                              screen.hashCode,
                                               $mrjc(
-                                                  syncError.hashCode,
-                                                  expiredDateTime
-                                                      .hashCode)))))))))))));
+                                                  isApply.hashCode,
+                                                  $mrjc(
+                                                      syncError.hashCode,
+                                                      expiredDateTime
+                                                          .hashCode))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is NonGlobalBusinessRuleData &&
           other.code == this.code &&
+          other.parentCode == this.parentCode &&
           other.ruleName == this.ruleName &&
           other.value == this.value &&
           other.description == this.description &&
@@ -6441,6 +5883,7 @@ class NonGlobalBusinessRuleData extends DataClass
 class NonGlobalBusinessRuleCompanion
     extends UpdateCompanion<NonGlobalBusinessRuleData> {
   final Value<String> code;
+  final Value<String> parentCode;
   final Value<String> ruleName;
   final Value<String> value;
   final Value<String> description;
@@ -6455,6 +5898,7 @@ class NonGlobalBusinessRuleCompanion
   final Value<DateTime> expiredDateTime;
   const NonGlobalBusinessRuleCompanion({
     this.code = const Value.absent(),
+    this.parentCode = const Value.absent(),
     this.ruleName = const Value.absent(),
     this.value = const Value.absent(),
     this.description = const Value.absent(),
@@ -6470,6 +5914,7 @@ class NonGlobalBusinessRuleCompanion
   });
   NonGlobalBusinessRuleCompanion.insert({
     @required String code,
+    @required String parentCode,
     this.ruleName = const Value.absent(),
     @required String value,
     this.description = const Value.absent(),
@@ -6477,17 +5922,17 @@ class NonGlobalBusinessRuleCompanion
     this.userRule = const Value.absent(),
     this.domain = const Value.absent(),
     this.deviceId = const Value.absent(),
-    @required String userName,
-    @required String screen,
+    this.userName = const Value.absent(),
+    this.screen = const Value.absent(),
     this.isApply = const Value.absent(),
     this.syncError = const Value.absent(),
     this.expiredDateTime = const Value.absent(),
   })  : code = Value(code),
-        value = Value(value),
-        userName = Value(userName),
-        screen = Value(screen);
+        parentCode = Value(parentCode),
+        value = Value(value);
   static Insertable<NonGlobalBusinessRuleData> custom({
     Expression<String> code,
+    Expression<String> parentCode,
     Expression<String> ruleName,
     Expression<String> value,
     Expression<String> description,
@@ -6503,6 +5948,7 @@ class NonGlobalBusinessRuleCompanion
   }) {
     return RawValuesInsertable({
       if (code != null) 'code': code,
+      if (parentCode != null) 'parent_code': parentCode,
       if (ruleName != null) 'rule_name': ruleName,
       if (value != null) 'value': value,
       if (description != null) 'description': description,
@@ -6520,6 +5966,7 @@ class NonGlobalBusinessRuleCompanion
 
   NonGlobalBusinessRuleCompanion copyWith(
       {Value<String> code,
+      Value<String> parentCode,
       Value<String> ruleName,
       Value<String> value,
       Value<String> description,
@@ -6534,6 +5981,7 @@ class NonGlobalBusinessRuleCompanion
       Value<DateTime> expiredDateTime}) {
     return NonGlobalBusinessRuleCompanion(
       code: code ?? this.code,
+      parentCode: parentCode ?? this.parentCode,
       ruleName: ruleName ?? this.ruleName,
       value: value ?? this.value,
       description: description ?? this.description,
@@ -6554,6 +6002,9 @@ class NonGlobalBusinessRuleCompanion
     final map = <String, Expression>{};
     if (code.present) {
       map['code'] = Variable<String>(code.value);
+    }
+    if (parentCode.present) {
+      map['parent_code'] = Variable<String>(parentCode.value);
     }
     if (ruleName.present) {
       map['rule_name'] = Variable<String>(ruleName.value);
@@ -6607,6 +6058,18 @@ class $NonGlobalBusinessRuleTable extends NonGlobalBusinessRule
   GeneratedTextColumn _constructCode() {
     return GeneratedTextColumn(
       'code',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _parentCodeMeta = const VerificationMeta('parentCode');
+  GeneratedTextColumn _parentCode;
+  @override
+  GeneratedTextColumn get parentCode => _parentCode ??= _constructParentCode();
+  GeneratedTextColumn _constructParentCode() {
+    return GeneratedTextColumn(
+      'parent_code',
       $tableName,
       false,
     );
@@ -6706,7 +6169,7 @@ class $NonGlobalBusinessRuleTable extends NonGlobalBusinessRule
     return GeneratedTextColumn(
       'user_name',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -6718,7 +6181,7 @@ class $NonGlobalBusinessRuleTable extends NonGlobalBusinessRule
     return GeneratedTextColumn(
       'screen',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -6760,6 +6223,7 @@ class $NonGlobalBusinessRuleTable extends NonGlobalBusinessRule
   @override
   List<GeneratedColumn> get $columns => [
         code,
+        parentCode,
         ruleName,
         value,
         description,
@@ -6790,6 +6254,14 @@ class $NonGlobalBusinessRuleTable extends NonGlobalBusinessRule
           _codeMeta, code.isAcceptableOrUnknown(data['code'], _codeMeta));
     } else if (isInserting) {
       context.missing(_codeMeta);
+    }
+    if (data.containsKey('parent_code')) {
+      context.handle(
+          _parentCodeMeta,
+          parentCode.isAcceptableOrUnknown(
+              data['parent_code'], _parentCodeMeta));
+    } else if (isInserting) {
+      context.missing(_parentCodeMeta);
     }
     if (data.containsKey('rule_name')) {
       context.handle(_ruleNameMeta,
@@ -6828,14 +6300,10 @@ class $NonGlobalBusinessRuleTable extends NonGlobalBusinessRule
     if (data.containsKey('user_name')) {
       context.handle(_userNameMeta,
           userName.isAcceptableOrUnknown(data['user_name'], _userNameMeta));
-    } else if (isInserting) {
-      context.missing(_userNameMeta);
     }
     if (data.containsKey('screen')) {
       context.handle(_screenMeta,
           screen.isAcceptableOrUnknown(data['screen'], _screenMeta));
-    } else if (isInserting) {
-      context.missing(_screenMeta);
     }
     if (data.containsKey('is_apply')) {
       context.handle(_isApplyMeta,
@@ -7959,10 +7427,10 @@ class NonGlobalPreferenceData extends DataClass
       @required this.parentCode,
       @required this.code,
       @required this.value,
-      @required this.settingType,
+      this.settingType,
       this.deviceId,
-      @required this.userName,
-      @required this.screen,
+      this.userName,
+      this.screen,
       @required this.isApply,
       this.expiredDateTime,
       this.syncError});
@@ -8211,24 +7679,20 @@ class NonGlobalPreferenceCompanion
     this.syncError = const Value.absent(),
   });
   NonGlobalPreferenceCompanion.insert({
-    @required int id,
+    this.id = const Value.absent(),
     @required String parentCode,
     @required String code,
     @required String value,
-    @required String settingType,
+    this.settingType = const Value.absent(),
     this.deviceId = const Value.absent(),
-    @required String userName,
-    @required String screen,
+    this.userName = const Value.absent(),
+    this.screen = const Value.absent(),
     this.isApply = const Value.absent(),
     this.expiredDateTime = const Value.absent(),
     this.syncError = const Value.absent(),
-  })  : id = Value(id),
-        parentCode = Value(parentCode),
+  })  : parentCode = Value(parentCode),
         code = Value(code),
-        value = Value(value),
-        settingType = Value(settingType),
-        userName = Value(userName),
-        screen = Value(screen);
+        value = Value(value);
   static Insertable<NonGlobalPreferenceData> custom({
     Expression<int> id,
     Expression<String> parentCode,
@@ -8387,7 +7851,7 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
     return GeneratedTextColumn(
       'setting_type',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -8411,7 +7875,7 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
     return GeneratedTextColumn(
       'user_name',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -8423,7 +7887,7 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
     return GeneratedTextColumn(
       'screen',
       $tableName,
-      false,
+      true,
     );
   }
 
@@ -8490,8 +7954,6 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (data.containsKey('parent_code')) {
       context.handle(
@@ -8518,8 +7980,6 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
           _settingTypeMeta,
           settingType.isAcceptableOrUnknown(
               data['setting_type'], _settingTypeMeta));
-    } else if (isInserting) {
-      context.missing(_settingTypeMeta);
     }
     if (data.containsKey('device_id')) {
       context.handle(_deviceIdMeta,
@@ -8528,14 +7988,10 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
     if (data.containsKey('user_name')) {
       context.handle(_userNameMeta,
           userName.isAcceptableOrUnknown(data['user_name'], _userNameMeta));
-    } else if (isInserting) {
-      context.missing(_userNameMeta);
     }
     if (data.containsKey('screen')) {
       context.handle(_screenMeta,
           screen.isAcceptableOrUnknown(data['screen'], _screenMeta));
-    } else if (isInserting) {
-      context.missing(_screenMeta);
     }
     if (data.containsKey('is_apply')) {
       context.handle(_isApplyMeta,
@@ -8555,7 +8011,7 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => <GeneratedColumn>{};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   NonGlobalPreferenceData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
