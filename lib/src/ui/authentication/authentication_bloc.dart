@@ -1,6 +1,6 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
+import 'package:j3enterprise/main.dart';
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/repositories/applogger_repositiry.dart';
@@ -9,14 +9,13 @@ import 'package:j3enterprise/src/resources/shared/function/check_for_user_data_o
 import 'package:j3enterprise/src/resources/shared/function/schedule_background_jobs.dart';
 import 'package:j3enterprise/src/resources/shared/utils/user_hashdigest.dart';
 import 'package:logging/logging.dart';
-
 import 'authentication_event.dart';
 import 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   var db;
-  final UserRepository userRepository;
+  final UserRepository userRepository = getIt<UserRepository>();
   UserFromServer userFromServer;
   UserHashSave userHash;
   AppLoggerRepository appLoggerRepository;
@@ -25,8 +24,7 @@ class AuthenticationBloc
 
   static final _log = Logger('LoginBloc');
 
-  AuthenticationBloc({this.userRepository}) {
-    assert(userRepository != null);
+  AuthenticationBloc() {
     db = AppDatabase();
     userFromServer = new UserFromServer(userRepository: userRepository);
     userHash = new UserHashSave(userRepository: userRepository);
@@ -42,10 +40,12 @@ class AuthenticationBloc
   Stream<AuthenticationState> mapEventToState(
     AuthenticationEvent event,
   ) async* {
+    if (event is PushNotification) {
+      yield PushNotificationState(route: event.route);
+    }
     if (event is AppStarted) {
       await Future.delayed(Duration(seconds: 9));
       final bool hasToken = await userRepository.hasToken();
-
       if (hasToken) {
         yield AuthenticationAuthenticated();
       } else {
@@ -58,7 +58,6 @@ class AuthenticationBloc
       await userRepository.persistToken(
           event.token, event.userId, event.tenantId);
       yield AuthenticationAuthenticated();
-
       _log.finest('Starting background Jobs');
 
       // var jobData = await backgroundJobScheduleDao.getAllJobs();

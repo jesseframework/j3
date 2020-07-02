@@ -1,14 +1,18 @@
 import 'dart:async';
 
 import 'package:chopper/chopper.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:devicelocale/devicelocale.dart';
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
 import 'package:j3enterprise/src/resources/services/rest_api_service.dart';
-import 'package:meta/meta.dart';
+import 'package:j3enterprise/src/resources/shared/utils/langcustomdialogbox.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:meta/meta.dart';
+import 'dart:io' show Platform;
 
 class UserRepository {
   var api = ApiClient.chopper.getService<RestApiService>();
-
   Future<Response> authenticate({
     @required String username,
     @required String password,
@@ -56,12 +60,6 @@ class UserRepository {
     return;
   }
 
-  Future<void> setTenantIntoSharedPref(String tenantName) async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    await _prefs.setString('tenatName', tenantName);
-    return;
-  }
-
   Future<void> setUserSharedPref(
       String deviceId,
       String deviceState,
@@ -104,9 +102,15 @@ class UserRepository {
   }
 
   Future<String> getTenantFromSharedPref() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    String result = await _prefs.get('tenatName');
+    final _prefs = await SharedPreferences.getInstance();
+    String result = _prefs.getString('tenatName');
     return result;
+  }
+
+  Future<void> setTenantIntoSharedPref(String tenantName) async {
+    final _prefs = await SharedPreferences.getInstance();
+    await _prefs.setString('tenatName', tenantName);
+    return;
   }
 
   Future<bool> hasToken() async {
@@ -127,5 +131,76 @@ class UserRepository {
     };
 
     return map;
+  }
+
+//        ********** GET LOCALE FROM SHARED_PREFERENCE **********
+
+  Future<Locale> setLocale(String languageCode) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(USER_LANGUAGE_CODE_KEY, languageCode);
+    return _locale(languageCode);
+  }
+
+  Locale _locale(String languageCode) {
+    Locale _tempLocale;
+    switch (languageCode) {
+      case ENGLISH:
+        _tempLocale = Locale(ENGLISH, 'US');
+        break;
+      case SPANISH:
+        _tempLocale = Locale(SPANISH, 'ES');
+        break;
+      case HINDI:
+        _tempLocale = Locale(HINDI, 'SK');
+        break;
+      default:
+        _tempLocale = Locale(ENGLISH, 'US');
+        break;
+    }
+
+    return _tempLocale;
+  }
+
+  Future<Locale> getLocale() async {
+    String finalLocale;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userLocale = prefs.getString(USER_LANGUAGE_CODE_KEY);
+    String deviceLocale = prefs.getString(DEVICE_LANGUAGE_CODE_KEY);
+    String defalutDeviceLocale = await getDeviceLocale();
+    if (deviceLocale == null) {
+      prefs.setString(DEVICE_LANGUAGE_CODE_KEY, defalutDeviceLocale);
+      finalLocale = defalutDeviceLocale;
+    } else if (userLocale != null) {
+      finalLocale = userLocale;
+    } else {
+      finalLocale = defalutDeviceLocale;
+    }
+    if (defalutDeviceLocale != deviceLocale) {
+      prefs.setString(DEVICE_LANGUAGE_CODE_KEY, defalutDeviceLocale);
+    }
+    return _locale(finalLocale);
+  }
+
+  Future getDeviceLocale() async {
+    List languages;
+    String currentLocale;
+    if (Platform.isAndroid || Platform.isIOS) {
+      try {
+        languages = await Devicelocale.preferredLanguages;
+        print(languages);
+      } on PlatformException {
+        print("Error obtaining preferred languages");
+        return null;
+      }
+      try {
+        currentLocale = await Devicelocale.currentLocale;
+      } on PlatformException {
+        print("Error obtaining current locale");
+        return null;
+      }
+      return currentLocale.substring(0, 2);
+    }
+
+    return null;
   }
 }

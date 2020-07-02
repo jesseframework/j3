@@ -24,8 +24,15 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/ui/background_jobs/backgroundjobs_from.dart';
 import 'package:j3enterprise/src/ui/background_jobs/bloc/backgroundjobs_bloc.dart';
 
-class BackgroundJobsPage extends StatelessWidget {
-  //ToDo add button transulation
+class BackgroundJobsPage extends StatefulWidget {
+  static final route='/BackgroundJobs';
+
+  @override
+  _BackgroundJobsPageState createState() => _BackgroundJobsPageState();
+}
+
+class _BackgroundJobsPageState extends State<BackgroundJobsPage> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -74,13 +81,22 @@ class BackgroundJobsPage extends StatelessWidget {
             ),
           ],
         ),
-        body: SafeArea(
-          child: Stack(children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[Flexible(child: BackgroundJobsForm())],
-            )
-          ]),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          return Duration(milliseconds: 3000);
+        },
+        child: SafeArea(
+          child: BlocProvider(
+            create: (context) {
+              return BackgroundJobsBloc();
+            },
+            child: Stack(children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[Flexible(child: BackgroundJobsForm())],
+              )
+            ]),
+          ),
         ),
       ),
     );

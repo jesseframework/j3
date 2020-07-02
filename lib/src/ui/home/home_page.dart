@@ -1,19 +1,15 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
-import 'package:j3enterprise/src/resources/services/firebase_notification_service.dart';
 import 'package:j3enterprise/src/resources/shared/function/schedule_background_jobs.dart';
-
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/ui/preferences/preferences.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/custom_drawer.dart';
 import 'dart:io' show Platform;
 
-// Future<dynamic> backgroundMessageHandler(Map<String, dynamic> message) {
-//   print(message);
-// }
+
 
 class HomePage extends StatefulWidget {
-  
+  static final route = '/home';
   
   @override
   _HomePageState createState() => _HomePageState();
@@ -22,14 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   //final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
-  @override
-  void initState() {
-    if (!Platform.isWindows && !Platform.isMacOS) {
-      FirebaseNotificationService.instance.getIOSPermission();
 
-      super.initState();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +38,7 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.red,
                         );
                       } else {
-                        return Icon(Icons.wifi);
+                        return Icon(Icons.wifi,  color: Colors.greenAccent,);
                       }
                     }))
           ],
@@ -89,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Preferences()));
+                        MaterialPageRoute(builder: (context) => PreferencesPage()));
                   },
                   child: Container(
                     child: Column(

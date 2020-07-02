@@ -19,10 +19,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:j3enterprise/main.dart';
+import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/password_field.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/text_field_nullable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'bloc/login_bloc.dart';
 
@@ -32,17 +35,30 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _tenantController = TextEditingController();
   final formKey = new GlobalKey<FormState>();
   bool pass = true;
   String selected;
   bool isSwitched = false;
-  final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _tenantController = TextEditingController();
+
+  @override
+  void didChangeDependencies() {
+   getIt<UserRepository>().getTenantFromSharedPref().then((value){
+    setState(() {
+      _tenantController.text=value;
+    });
+   });
+    super.didChangeDependencies();
+  }
   @override
   Widget build(BuildContext context) {
-    _onLoginButtonPressed() {
+    _onLoginButtonPressed() async {
+
       formKey.currentState.validate();
+   //  await getIt<UserRepository>().setTenantIntoSharedPref(_tenantController.text);
+
       BlocProvider.of<LoginBloc>(context).add(
         LoginButtonPressed(
             username: _usernameController.text.trim(),
@@ -131,40 +147,7 @@ class _LoginFormState extends State<LoginForm> {
                               ),
                             ),
                           ),
-                          // Row(
-                          //   children: <Widget>[
-                          //     Icon(
-                          //       CustomIcons.pushpin,
-                          //       color: Colors.grey.shade600,
-                          //     ),
-                          //     SizedBox(
-                          //       width: 15,
-                          //     ),
-                          //     Expanded(
-                          //       child: Text(
-                          //         AppLocalization.of(context)
-                          //                 .translate('pin_only_label') ??
-                          //             'Ping Only',
-                          //         style: TextStyle(
-                          //           fontSize: 16,
-                          //           fontWeight: FontWeight.w300,
-                          //           color: Colors.grey.shade600,
-                          //         ),
-                          //       ),
-                          //     ),
-                          //     Switch(
-                          //       value: isSwitched,
-                          //       onChanged: (value) {
-                          //         setState(() {
-                          //           isSwitched = value;
-                          //           if (value = true) {}
-                          //           print(isSwitched);
-                          //         });
-                          //       },
-                          //       activeColor: Colors.black,
-                          //     ),
-                          //   ],
-                          // ),
+
                           ButtonTheme(
                             minWidth: double.infinity,
                             child: RaisedButton(

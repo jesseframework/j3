@@ -22,7 +22,6 @@ class FirebaseNotificationService {
   // get the message stream
   MessageStream _messageStream = MessageStream.instance;
   FirebaseMessaging _firebaseMessaging;
-
   // getter for firebase messaging client
   get firebaseMessaging => _firebaseMessaging;
 
@@ -34,21 +33,28 @@ class FirebaseNotificationService {
     });
   }
 
-  void firebaseCloudMessagingListeners() {
-    if (Platform.isIOS) getIOSPermission();
+  void firebaseCloudMessagingListeners() async {
+    if (Platform.isIOS) {
+      getIOSPermission();
+    }
 
     _firebaseMessaging.configure(
+      // onBackgroundMessage: (Map<String, dynamic> message) {
+      //   _messageStream.addMessage(message);
+      // },
       onMessage: (Map<String, dynamic> message) async {
         print('on message $message');
-
-        // add message to stream
+        //add message to stream
         _messageStream.addMessage(message);
+        //_serialiseAndNavigate(message);
       },
       onResume: (Map<String, dynamic> message) async {
         print('on resume $message');
+        _messageStream.addMessage(message);
       },
       onLaunch: (Map<String, dynamic> message) async {
-        print('on launch $message');
+        _messageStream.addMessage(message);
+        // print('on launch $message');
       },
     );
   }

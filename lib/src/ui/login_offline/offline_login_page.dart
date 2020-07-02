@@ -10,6 +10,7 @@ import 'package:j3enterprise/src/ui/login/bloc/login_bloc.dart';
 import 'offline_login_form.dart';
 
 class OfflineLoginPage extends StatelessWidget {
+  static final route='/offline_login';
   final UserRepository userRepository;
 
   OfflineLoginPage({Key key, @required this.userRepository})
