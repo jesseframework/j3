@@ -13,8 +13,19 @@ class TenantDao extends DatabaseAccessor<AppDatabase> with _$TenantDaoMixin {
     return (select(db.tenant).get());
   }
 
+  Future<TenantData> getSingleTenant(String tenantName, String userName) {
+    return (select(db.tenant)
+          ..where((t) =>
+              t.tenantName.equals(tenantName) & t.userName.equals(userName)))
+        .getSingle();
+  }
+
   Stream<List<TenantData>> watchAllTenant() {
     return (select(db.tenant).watch());
+  }
+
+  Future<void> createOrUpdate(TenantCompanion tenantData) {
+    return into(db.tenant).insertOnConflictUpdate(tenantData);
   }
 
   Future insertTenant(TenantData tenantData) =>
