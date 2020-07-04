@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:j3enterprise/src/database/crud/prefrence/preference_crud.dart';
+import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication.dart';
 
 class PreferencesPage extends StatefulWidget {
   static final route = '/preferences';
+  var db;
+  PreferenceDao preferenceDao;
+  PreferencesPage() {
+    db = AppDatabase();
+    preferenceDao = PreferenceDao(db);
+  }
   @override
   _PreferencesPageState createState() => _PreferencesPageState();
 }
@@ -19,7 +28,10 @@ class _PreferencesPageState extends State<PreferencesPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('J3 ENTERPRISE'),
+          //ToDo add translation for preferences title
+          title: Text(
+              AppLocalization.of(context).translate('preferences_title') ??
+                  "Preferences"),
           actions: <Widget>[
             Padding(
               padding: const EdgeInsets.only(right: 18),
@@ -30,80 +42,51 @@ class _PreferencesPageState extends State<PreferencesPage> {
             ),
           ],
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white, boxShadow: kElevationToShadow[4]),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 6.0),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.chevron_left,
-                        size: 36,
-                      ),
-                      Expanded(
-                          child: Text(
-                        'Preferences',
-                        style: TextStyle(fontSize: 22),
-                      )),
-                      Icon(
-                        Icons.stop,
-                        size: 36,
-                        color: Colors.red,
-                      ),
-                      Icon(
-                        Icons.sync,
-                        size: 28,
-                      ),
-                      Icon(
-                        Icons.file_download,
-                        size: 28,
-                        color: Colors.green,
-                      ),
-                      Icon(
-                        Icons.lock_open,
-                        size: 28,
-                        color: Colors.redAccent,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 24.0, top: 16),
-                child: Text(
-                  'Login Validations',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-              LTile('Enable/Disable case sensitivity'),
-              LTile('Enable/Disable password remainder'),
-              LTile('Enable/Disable password history(prevent reuse)'),
-              LTile('Enable/Disable Two Factor Authentication(2FA)'),
-              LTile(
-                  'Enable/Disable open authentication for Office 365, Google, Facebook, Twitter'),
-              LTile(
-                  'Enable/Disable enterprise support for windows active directory'),
-              DropWid(
-                name: 'Set regular expression for password strength',
-                list: 'alpha-numeric',
-              ),
-              Counter1('Set password age', 'days'),
-              Counter1(
-                  'Block user if attempt exceeds-(IP address should also be blacklisted',
-                  'tries'),
-              Counter2('Set min/max length for username'),
-              Counter2('Set min/max length for password'),
-              SizedBox(
-                height: 40,
-              )
-            ],
-          ),
-        ),
+        body: StreamBuilder(
+            stream: widget.preferenceDao.watchAllPreferences(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data.toString());
+              }
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }),
+        //        body: SingleChildScrollView(
+//          child: Column(
+//            crossAxisAlignment: CrossAxisAlignment.start,
+//            children: <Widget>[
+//              Padding(
+//                padding: const EdgeInsets.only(left: 24.0, top: 16),
+//                child: Text(
+//                  'Login Validations',
+//                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+//                ),
+//              ),
+//              LTile('Enable/Disable case sensitivity'),
+//              LTile('Enable/Disable password remainder'),
+//              LTile('Enable/Disable password history(prevent reuse)'),
+//              LTile('Enable/Disable Two Factor Authentication(2FA)'),
+//              LTile(
+//                  'Enable/Disable open authentication for Office 365, Google, Facebook, Twitter'),
+//              LTile(
+//                  'Enable/Disable enterprise support for windows active directory'),
+//              DropWid(
+//                name: 'Set regular expression for password strength',
+//                list: 'alpha-numeric',
+//              ),
+//              Counter1('Set password age', 'days'),
+//              Counter1(
+//                  'Block user if attempt exceeds-(IP address should also be blacklisted',
+//                  'tries'),
+//              Counter2('Set min/max length for username'),
+//              Counter2('Set min/max length for password'),
+//              SizedBox(
+//                height: 40,
+//              )
+//            ],
+//          ),
+//        ),
       ),
     );
   }

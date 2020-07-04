@@ -10,10 +10,9 @@ class NonGlobalPreferenceDao extends DatabaseAccessor<AppDatabase>
   final AppDatabase db;
   NonGlobalPreferenceDao(this.db) : super(db);
 
-   Future<void> createOrUpdatePref(NonGlobalPreferenceData pref) {
+  Future<void> createOrUpdatePref(NonGlobalPreferenceData pref) {
     return into(db.nonGlobalPreference).insertOnConflictUpdate(pref);
   }
-
 
   Future<NonGlobalPreferenceData> getSingleNonGlobalPref(String parentCode,
       String code, String userName, String deviceId, String screen) {
@@ -26,5 +25,4 @@ class NonGlobalPreferenceDao extends DatabaseAccessor<AppDatabase>
                   u.screen.like(screen))))
         .getSingle();
   }
-
 }

@@ -49,7 +49,7 @@ class PreferenceRepository {
             _log.finest("Checking server resopnses for preference ");
             Map<String, dynamic> map = json.decode(response.bodyString);
             if (response.isSuccessful && map['success']) {
-               _log.finest("Server resopnses successful for preference ");
+              _log.finest("Server resopnses successful for preference ");
               Map<String, dynamic> result = map['result'];
               var items = (result['items'] as List).map((e) {
                 return PreferenceData.fromJson(e,
@@ -61,8 +61,10 @@ class PreferenceRepository {
               }
               updateBackgroundJobStatus.updateJobStatus(jobName, "Success");
             } else {
+              String error = map["error"]["details"].toString();
               updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-              _log.shout("Preference API call failed. Server did not respond successful ");
+              _log.shout(
+                  "Preference API call failed. Server respond with error : $error  ");
             }
           }
         }
@@ -76,19 +78,21 @@ class PreferenceRepository {
   Future<void> getNonGlobalPrefFromServer(String jobName) async {
     try {
       //ToDo code review to get a better way to push bulk data to API and update bulk data in database
-       _log.finest("Executing Non Global preference date from server");
+      _log.finest("Executing Non Global preference date from server");
       var isSchedulerEnable = await backgroundJobScheduleDao.getJob(jobName);
       if (isSchedulerEnable != null) {
-         _log.finest("Non Global Preference job found in background Jobs scheduler");
+        _log.finest(
+            "Non Global Preference job found in background Jobs scheduler");
         if (isSchedulerEnable.startDateTime.isBefore(DateTime.now())) {
           if (isSchedulerEnable.enableJob == true) {
-             DateTime startDate = isSchedulerEnable.startDateTime;
+            DateTime startDate = isSchedulerEnable.startDateTime;
             _log.finest("Non Global Preference jobs start date is $startDate ");
             final Response response = await api.getNonGlobalPreference();
-              _log.finest("Checking server resopnses for Non global preference ");
+            _log.finest("Checking server resopnses for Non global preference ");
             Map<String, dynamic> map = json.decode(response.bodyString);
             if (response.isSuccessful && map['success']) {
-               _log.finest("Server resopnses successful for non global preference ");
+              _log.finest(
+                  "Server resopnses successful for non global preference ");
               Map<String, dynamic> result = map['result'];
               var items = (result['items'] as List).map((e) {
                 return NonGlobalPreferenceData.fromJson(e,
@@ -100,8 +104,10 @@ class PreferenceRepository {
               }
               updateBackgroundJobStatus.updateJobStatus(jobName, "Success");
             } else {
+              String error = map["error"]["details"].toString();
               updateBackgroundJobStatus.updateJobStatus(jobName, "Error");
-              _log.shout("Non Global Preference API call failed. Server did not respond successful ");
+              _log.shout(
+                  "Non Global Preference API call failed. Server respond with error: $error ");
             }
           }
         }
