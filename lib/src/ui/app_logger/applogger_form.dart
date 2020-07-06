@@ -20,7 +20,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
-import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/ui/app_logger/bloc/applogger_bloc.dart';
 
 class AppLoggerForm extends StatefulWidget {
@@ -29,6 +28,9 @@ class AppLoggerForm extends StatefulWidget {
 }
 
 class _AppLoggerForm extends State<AppLoggerForm> {
+  ScrollController _scrollController = new ScrollController();
+  bool isLoading = false;
+  List names = new List();
   final formKey = new GlobalKey<FormState>();
 
   @override
@@ -60,59 +62,75 @@ class _AppLoggerForm extends State<AppLoggerForm> {
                   final data = snapshot.data ?? List();
                   return Expanded(
                       child: ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: 9,
-                          itemBuilder: (_, index) {
-                            return Container(
-                              color: (index % 2 == 0)
-                                  ? Colors.blue[50]
-                                  : Colors.white,
-                              child: Row(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      if (index == names.length) {
+                        return _buildProgressIndicator();
+                      } else {
+                        return Container(
+                          color:
+                              (index % 2 == 0) ? Colors.blue[50] : Colors.white,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Expanded(
-                                      child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Divider(
-                                        height: 0.5,
-                                      ),
-                                      ListTile(
-                                        leading: CircleAvatar(
-                                          backgroundColor: Colors.blue[100],
-                                          child: Text(
-                                              '${data[index].logSeverity}'),
-                                        ),
-                                        title: Row(
-                                          children: [
-                                            Expanded(
-                                                child: Text(
-                                                    '${data[index].functionName}')),
-                                            Expanded(
-                                                child: Text(
-                                                    '${data[index].logDateTime}')),
-                                          ],
-                                        ),
-                                        subtitle: Row(
-                                          children: [
-                                            Expanded(
-                                                child: Text(
-                                                    '${data[index].logDescription}')),
-                                            Expanded(
-                                                child: Text(
-                                                    '${data[index].documentNo}')),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ))
+                                  Divider(
+                                    height: 0.5,
+                                  ),
+                                  ListTile(
+                                    onTap: null,
+                                    title: Row(
+                                      children: [
+                                        Expanded(
+                                            child: Text(
+                                                '${data[index].functionName}')),
+                                        Expanded(
+                                            child: Text(
+                                                '${data[index].logSeverity}')),
+                                        Expanded(
+                                            child: Text(
+                                                '${data[index].logDateTime}')),
+                                      ],
+                                    ),
+                                    subtitle: Row(
+                                      children: [
+                                        Expanded(
+                                            child: Text(
+                                                '${data[index].logDescription}')),
+                                        Expanded(
+                                            child: Text(
+                                                '${data[index].documentNo}')),
+                                      ],
+                                    ),
+                                  )
                                 ],
-                              ),
-                            );
-                          }));
+                              ))
+                            ],
+                          ),
+                        );
+                      }
+                    },
+                    controller: _scrollController,
+                  ));
                 })
           ],
         )));
+  }
+
+  Widget _buildProgressIndicator() {
+    return new Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: new Center(
+        child: new Opacity(
+          opacity: isLoading ? 1.0 : 00,
+          child: new CircularProgressIndicator(),
+        ),
+      ),
+    );
   }
 }

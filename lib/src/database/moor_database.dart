@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:j3enterprise/src/database/crud/prefrence/preference_crud.dart';
 import 'package:j3enterprise/src/models/application_logger_model.dart';
 import 'package:j3enterprise/src/models/background_job_schedule_model.dart';
 import 'package:j3enterprise/src/models/background_jobs_logs_model.dart';
@@ -9,13 +10,14 @@ import 'package:j3enterprise/src/models/mobile_device_model.dart';
 import 'package:j3enterprise/src/models/non_global_business_rule.dart';
 import 'package:j3enterprise/src/models/non_global_preference_setting.dart';
 import 'package:j3enterprise/src/models/preference_model.dart';
-
 import 'package:j3enterprise/src/models/tenant_model.dart';
 import 'package:j3enterprise/src/models/user_model.dart';
 import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart' as paths;
+
+import 'crud/prefrence/non_preference_crud.dart';
 
 part 'moor_database.g.dart';
 
@@ -31,6 +33,9 @@ part 'moor_database.g.dart';
   ApplicationLogger,
   Tenant,
   NonGlobalPreference
+], daos: [
+  PreferenceDao,
+  NonGlobalPreferenceDao
 ])
 class AppDatabase extends _$AppDatabase {
   static AppDatabase _db = _constructDb();
@@ -80,7 +85,7 @@ class AppDatabase extends _$AppDatabase {
       return AppDatabase._internal(
           VmDatabase(file, logStatements: logStatements));
     }
-    
+
     return AppDatabase._internal(
         VmDatabase.memory(logStatements: logStatements));
   }

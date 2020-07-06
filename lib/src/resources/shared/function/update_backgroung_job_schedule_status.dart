@@ -18,7 +18,7 @@ class UpdateBackgroundJobStatus {
         jobStatus: moor.Value(jobStatus),
         lastRun: moor.Value(DateTime.tryParse(formatted)));
 
-    await backgroundJobScheduleDao.updateBackgroundJobStstus(
+    await backgroundJobScheduleDao.updateBackgroundJobStatus(
         fromData, jobName, DateTime.now());
   }
 }

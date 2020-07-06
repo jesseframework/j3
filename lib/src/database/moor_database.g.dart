@@ -444,6 +444,26 @@ class UsersCompanion extends UpdateCompanion<User> {
     }
     return map;
   }
+
+  @override
+  String toString() {
+    return (StringBuffer('UsersCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('userName: $userName, ')
+          ..write('name: $name, ')
+          ..write('surname: $surname, ')
+          ..write('emailAddress: $emailAddress, ')
+          ..write('isActive: $isActive, ')
+          ..write('fullName: $fullName, ')
+          ..write('mobileHash: $mobileHash, ')
+          ..write('enableOfflineLogin: $enableOfflineLogin, ')
+          ..write('firebaseToken: $firebaseToken, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('lastLoginTime: $lastLoginTime')
+          ..write(')'))
+        .toString();
+  }
 }
 
 class $UsersTable extends Users with TableInfo<$UsersTable, User> {
@@ -1402,6 +1422,35 @@ class CommunicationCompanion extends UpdateCompanion<CommunicationData> {
     }
     return map;
   }
+
+  @override
+  String toString() {
+    return (StringBuffer('CommunicationCompanion(')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('importDateTime: $importDateTime, ')
+          ..write('exportDateTime: $exportDateTime, ')
+          ..write('exportStatus: $exportStatus, ')
+          ..write('importStatus: $importStatus, ')
+          ..write('syncError: $syncError, ')
+          ..write('id: $id, ')
+          ..write('serverUrl: $serverUrl, ')
+          ..write('userName: $userName, ')
+          ..write('newPasskey: $newPasskey, ')
+          ..write('confirmPasskey: $confirmPasskey, ')
+          ..write('syncFrequency: $syncFrequency, ')
+          ..write('communicationType: $communicationType, ')
+          ..write('typeofErp: $typeofErp')
+          ..write(')'))
+        .toString();
+  }
 }
 
 class $CommunicationTable extends Communication
@@ -2138,6 +2187,20 @@ class BackgroundJobScheduleCompanion
     }
     return map;
   }
+
+  @override
+  String toString() {
+    return (StringBuffer('BackgroundJobScheduleCompanion(')
+          ..write('id: $id, ')
+          ..write('jobName: $jobName, ')
+          ..write('startDateTime: $startDateTime, ')
+          ..write('syncFrequency: $syncFrequency, ')
+          ..write('enableJob: $enableJob, ')
+          ..write('lastRun: $lastRun, ')
+          ..write('jobStatus: $jobStatus')
+          ..write(')'))
+        .toString();
+  }
 }
 
 class $BackgroundJobScheduleTable extends BackgroundJobSchedule
@@ -2519,6 +2582,18 @@ class BackgroundJobLogsCompanion extends UpdateCompanion<BackgroundJobLog> {
       map['job_description'] = Variable<String>(jobDescription.value);
     }
     return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BackgroundJobLogsCompanion(')
+          ..write('id: $id, ')
+          ..write('jobName: $jobName, ')
+          ..write('lastRun: $lastRun, ')
+          ..write('jobStatus: $jobStatus, ')
+          ..write('jobDescription: $jobDescription')
+          ..write(')'))
+        .toString();
   }
 }
 
@@ -2995,6 +3070,23 @@ class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
       map['expired_date_time'] = Variable<DateTime>(expiredDateTime.value);
     }
     return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PreferenceCompanion(')
+          ..write('id: $id, ')
+          ..write('tenantId: $tenantId, ')
+          ..write('code: $code, ')
+          ..write('preferenceName: $preferenceName, ')
+          ..write('value: $value, ')
+          ..write('description: $description, ')
+          ..write('domain: $domain, ')
+          ..write('isGlobal: $isGlobal, ')
+          ..write('syncError: $syncError, ')
+          ..write('expiredDateTime: $expiredDateTime')
+          ..write(')'))
+        .toString();
   }
 }
 
@@ -4273,6 +4365,49 @@ class MobileDeviceCompanion extends UpdateCompanion<MobileDeviceData> {
     }
     return map;
   }
+
+  @override
+  String toString() {
+    return (StringBuffer('MobileDeviceCompanion(')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('importDateTime: $importDateTime, ')
+          ..write('exportDateTime: $exportDateTime, ')
+          ..write('exportStatus: $exportStatus, ')
+          ..write('importStatus: $importStatus, ')
+          ..write('syncError: $syncError, ')
+          ..write('deviceId: $deviceId, ')
+          ..write('deviceName: $deviceName, ')
+          ..write('versionRelease: $versionRelease, ')
+          ..write('versionEnvrement: $versionEnvrement, ')
+          ..write('bootLoader: $bootLoader, ')
+          ..write('manufacture: $manufacture, ')
+          ..write('model: $model, ')
+          ..write('sdkNumber: $sdkNumber, ')
+          ..write('hardware: $hardware, ')
+          ..write('deviceHost: $deviceHost, ')
+          ..write('deviceTime: $deviceTime, ')
+          ..write('deviceSerial: $deviceSerial, ')
+          ..write('deviceMac: $deviceMac, ')
+          ..write('deviceIp: $deviceIp, ')
+          ..write('deviceMode: $deviceMode, ')
+          ..write('activationDate: $activationDate, ')
+          ..write('expirationDate: $expirationDate, ')
+          ..write('deviceStatus: $deviceStatus, ')
+          ..write('companyName: $companyName, ')
+          ..write('deviceNickName: $deviceNickName, ')
+          ..write('latitude: $latitude, ')
+          ..write('longitude: $longitude')
+          ..write(')'))
+        .toString();
+  }
 }
 
 class $MobileDeviceTable extends MobileDevice
@@ -5357,6 +5492,23 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
     }
     return map;
   }
+
+  @override
+  String toString() {
+    return (StringBuffer('BusinessRuleCompanion(')
+          ..write('code: $code, ')
+          ..write('ruleName: $ruleName, ')
+          ..write('value: $value, ')
+          ..write('description: $description, ')
+          ..write('isGlobalRule: $isGlobalRule, ')
+          ..write('deviceRule: $deviceRule, ')
+          ..write('userRule: $userRule, ')
+          ..write('domain: $domain, ')
+          ..write('expiredDateTime: $expiredDateTime, ')
+          ..write('syncError: $syncError')
+          ..write(')'))
+        .toString();
+  }
 }
 
 class $BusinessRuleTable extends BusinessRule
@@ -6043,6 +6195,27 @@ class NonGlobalBusinessRuleCompanion
       map['expired_date_time'] = Variable<DateTime>(expiredDateTime.value);
     }
     return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('NonGlobalBusinessRuleCompanion(')
+          ..write('code: $code, ')
+          ..write('parentCode: $parentCode, ')
+          ..write('ruleName: $ruleName, ')
+          ..write('value: $value, ')
+          ..write('description: $description, ')
+          ..write('deviceRule: $deviceRule, ')
+          ..write('userRule: $userRule, ')
+          ..write('domain: $domain, ')
+          ..write('deviceId: $deviceId, ')
+          ..write('userName: $userName, ')
+          ..write('screen: $screen, ')
+          ..write('isApply: $isApply, ')
+          ..write('syncError: $syncError, ')
+          ..write('expiredDateTime: $expiredDateTime')
+          ..write(')'))
+        .toString();
   }
 }
 
@@ -6837,6 +7010,28 @@ class ApplicationLoggerCompanion
     }
     return map;
   }
+
+  @override
+  String toString() {
+    return (StringBuffer('ApplicationLoggerCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('uerName: $uerName, ')
+          ..write('userId: $userId, ')
+          ..write('id: $id, ')
+          ..write('functionName: $functionName, ')
+          ..write('logDateTime: $logDateTime, ')
+          ..write('syncFrequency: $syncFrequency, ')
+          ..write('logDescription: $logDescription, ')
+          ..write('documentNo: $documentNo, ')
+          ..write('deviceId: $deviceId, ')
+          ..write('logCode: $logCode, ')
+          ..write('logSeverity: $logSeverity, ')
+          ..write('exportDateTime: $exportDateTime, ')
+          ..write('exportStatus: $exportStatus, ')
+          ..write('syncError: $syncError')
+          ..write(')'))
+        .toString();
+  }
 }
 
 class $ApplicationLoggerTable extends ApplicationLogger
@@ -7318,6 +7513,16 @@ class TenantCompanion extends UpdateCompanion<TenantData> {
     }
     return map;
   }
+
+  @override
+  String toString() {
+    return (StringBuffer('TenantCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('tenantName: $tenantName, ')
+          ..write('tenantState: $tenantState')
+          ..write(')'))
+        .toString();
+  }
 }
 
 class $TenantTable extends Tenant with TableInfo<$TenantTable, TenantData> {
@@ -7413,6 +7618,7 @@ class NonGlobalPreferenceData extends DataClass
     implements Insertable<NonGlobalPreferenceData> {
   final int id;
   final String parentCode;
+  final String description;
   final String code;
   final String value;
   final String settingType;
@@ -7425,6 +7631,7 @@ class NonGlobalPreferenceData extends DataClass
   NonGlobalPreferenceData(
       {@required this.id,
       @required this.parentCode,
+      @required this.description,
       @required this.code,
       @required this.value,
       this.settingType,
@@ -7446,6 +7653,8 @@ class NonGlobalPreferenceData extends DataClass
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       parentCode: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}parent_code']),
+      description: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}description']),
       code: stringType.mapFromDatabaseResponse(data['${effectivePrefix}code']),
       value:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}value']),
@@ -7473,6 +7682,9 @@ class NonGlobalPreferenceData extends DataClass
     }
     if (!nullToAbsent || parentCode != null) {
       map['parent_code'] = Variable<String>(parentCode);
+    }
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
     }
     if (!nullToAbsent || code != null) {
       map['code'] = Variable<String>(code);
@@ -7510,6 +7722,9 @@ class NonGlobalPreferenceData extends DataClass
       parentCode: parentCode == null && nullToAbsent
           ? const Value.absent()
           : Value(parentCode),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
       code: code == null && nullToAbsent ? const Value.absent() : Value(code),
       value:
           value == null && nullToAbsent ? const Value.absent() : Value(value),
@@ -7542,6 +7757,7 @@ class NonGlobalPreferenceData extends DataClass
     return NonGlobalPreferenceData(
       id: serializer.fromJson<int>(json['id']),
       parentCode: serializer.fromJson<String>(json['parentCode']),
+      description: serializer.fromJson<String>(json['description']),
       code: serializer.fromJson<String>(json['code']),
       value: serializer.fromJson<String>(json['value']),
       settingType: serializer.fromJson<String>(json['settingType']),
@@ -7559,6 +7775,7 @@ class NonGlobalPreferenceData extends DataClass
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'parentCode': serializer.toJson<String>(parentCode),
+      'description': serializer.toJson<String>(description),
       'code': serializer.toJson<String>(code),
       'value': serializer.toJson<String>(value),
       'settingType': serializer.toJson<String>(settingType),
@@ -7574,6 +7791,7 @@ class NonGlobalPreferenceData extends DataClass
   NonGlobalPreferenceData copyWith(
           {int id,
           String parentCode,
+          String description,
           String code,
           String value,
           String settingType,
@@ -7586,6 +7804,7 @@ class NonGlobalPreferenceData extends DataClass
       NonGlobalPreferenceData(
         id: id ?? this.id,
         parentCode: parentCode ?? this.parentCode,
+        description: description ?? this.description,
         code: code ?? this.code,
         value: value ?? this.value,
         settingType: settingType ?? this.settingType,
@@ -7601,6 +7820,7 @@ class NonGlobalPreferenceData extends DataClass
     return (StringBuffer('NonGlobalPreferenceData(')
           ..write('id: $id, ')
           ..write('parentCode: $parentCode, ')
+          ..write('description: $description, ')
           ..write('code: $code, ')
           ..write('value: $value, ')
           ..write('settingType: $settingType, ')
@@ -7620,27 +7840,30 @@ class NonGlobalPreferenceData extends DataClass
       $mrjc(
           parentCode.hashCode,
           $mrjc(
-              code.hashCode,
+              description.hashCode,
               $mrjc(
-                  value.hashCode,
+                  code.hashCode,
                   $mrjc(
-                      settingType.hashCode,
+                      value.hashCode,
                       $mrjc(
-                          deviceId.hashCode,
+                          settingType.hashCode,
                           $mrjc(
-                              userName.hashCode,
+                              deviceId.hashCode,
                               $mrjc(
-                                  screen.hashCode,
+                                  userName.hashCode,
                                   $mrjc(
-                                      isApply.hashCode,
-                                      $mrjc(expiredDateTime.hashCode,
-                                          syncError.hashCode)))))))))));
+                                      screen.hashCode,
+                                      $mrjc(
+                                          isApply.hashCode,
+                                          $mrjc(expiredDateTime.hashCode,
+                                              syncError.hashCode))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is NonGlobalPreferenceData &&
           other.id == this.id &&
           other.parentCode == this.parentCode &&
+          other.description == this.description &&
           other.code == this.code &&
           other.value == this.value &&
           other.settingType == this.settingType &&
@@ -7656,6 +7879,7 @@ class NonGlobalPreferenceCompanion
     extends UpdateCompanion<NonGlobalPreferenceData> {
   final Value<int> id;
   final Value<String> parentCode;
+  final Value<String> description;
   final Value<String> code;
   final Value<String> value;
   final Value<String> settingType;
@@ -7668,6 +7892,7 @@ class NonGlobalPreferenceCompanion
   const NonGlobalPreferenceCompanion({
     this.id = const Value.absent(),
     this.parentCode = const Value.absent(),
+    this.description = const Value.absent(),
     this.code = const Value.absent(),
     this.value = const Value.absent(),
     this.settingType = const Value.absent(),
@@ -7681,6 +7906,7 @@ class NonGlobalPreferenceCompanion
   NonGlobalPreferenceCompanion.insert({
     this.id = const Value.absent(),
     @required String parentCode,
+    @required String description,
     @required String code,
     @required String value,
     this.settingType = const Value.absent(),
@@ -7691,11 +7917,13 @@ class NonGlobalPreferenceCompanion
     this.expiredDateTime = const Value.absent(),
     this.syncError = const Value.absent(),
   })  : parentCode = Value(parentCode),
+        description = Value(description),
         code = Value(code),
         value = Value(value);
   static Insertable<NonGlobalPreferenceData> custom({
     Expression<int> id,
     Expression<String> parentCode,
+    Expression<String> description,
     Expression<String> code,
     Expression<String> value,
     Expression<String> settingType,
@@ -7709,6 +7937,7 @@ class NonGlobalPreferenceCompanion
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (parentCode != null) 'parent_code': parentCode,
+      if (description != null) 'description': description,
       if (code != null) 'code': code,
       if (value != null) 'value': value,
       if (settingType != null) 'setting_type': settingType,
@@ -7724,6 +7953,7 @@ class NonGlobalPreferenceCompanion
   NonGlobalPreferenceCompanion copyWith(
       {Value<int> id,
       Value<String> parentCode,
+      Value<String> description,
       Value<String> code,
       Value<String> value,
       Value<String> settingType,
@@ -7736,6 +7966,7 @@ class NonGlobalPreferenceCompanion
     return NonGlobalPreferenceCompanion(
       id: id ?? this.id,
       parentCode: parentCode ?? this.parentCode,
+      description: description ?? this.description,
       code: code ?? this.code,
       value: value ?? this.value,
       settingType: settingType ?? this.settingType,
@@ -7756,6 +7987,9 @@ class NonGlobalPreferenceCompanion
     }
     if (parentCode.present) {
       map['parent_code'] = Variable<String>(parentCode.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
     }
     if (code.present) {
       map['code'] = Variable<String>(code.value);
@@ -7786,6 +8020,25 @@ class NonGlobalPreferenceCompanion
     }
     return map;
   }
+
+  @override
+  String toString() {
+    return (StringBuffer('NonGlobalPreferenceCompanion(')
+          ..write('id: $id, ')
+          ..write('parentCode: $parentCode, ')
+          ..write('description: $description, ')
+          ..write('code: $code, ')
+          ..write('value: $value, ')
+          ..write('settingType: $settingType, ')
+          ..write('deviceId: $deviceId, ')
+          ..write('userName: $userName, ')
+          ..write('screen: $screen, ')
+          ..write('isApply: $isApply, ')
+          ..write('expiredDateTime: $expiredDateTime, ')
+          ..write('syncError: $syncError')
+          ..write(')'))
+        .toString();
+  }
 }
 
 class $NonGlobalPreferenceTable extends NonGlobalPreference
@@ -7812,6 +8065,20 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
   GeneratedTextColumn _constructParentCode() {
     return GeneratedTextColumn(
       'parent_code',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  GeneratedTextColumn _description;
+  @override
+  GeneratedTextColumn get description =>
+      _description ??= _constructDescription();
+  GeneratedTextColumn _constructDescription() {
+    return GeneratedTextColumn(
+      'description',
       $tableName,
       false,
     );
@@ -7930,6 +8197,7 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
   List<GeneratedColumn> get $columns => [
         id,
         parentCode,
+        description,
         code,
         value,
         settingType,
@@ -7962,6 +8230,14 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
               data['parent_code'], _parentCodeMeta));
     } else if (isInserting) {
       context.missing(_parentCodeMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description'], _descriptionMeta));
+    } else if (isInserting) {
+      context.missing(_descriptionMeta);
     }
     if (data.containsKey('code')) {
       context.handle(
@@ -8056,6 +8332,12 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $NonGlobalPreferenceTable _nonGlobalPreference;
   $NonGlobalPreferenceTable get nonGlobalPreference =>
       _nonGlobalPreference ??= $NonGlobalPreferenceTable(this);
+  PreferenceDao _preferenceDao;
+  PreferenceDao get preferenceDao =>
+      _preferenceDao ??= PreferenceDao(this as AppDatabase);
+  NonGlobalPreferenceDao _nonGlobalPreferenceDao;
+  NonGlobalPreferenceDao get nonGlobalPreferenceDao =>
+      _nonGlobalPreferenceDao ??= NonGlobalPreferenceDao(this as AppDatabase);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
