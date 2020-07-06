@@ -7618,7 +7618,6 @@ class NonGlobalPreferenceData extends DataClass
     implements Insertable<NonGlobalPreferenceData> {
   final int id;
   final String parentCode;
-  final String description;
   final String code;
   final String value;
   final String settingType;
@@ -7631,7 +7630,6 @@ class NonGlobalPreferenceData extends DataClass
   NonGlobalPreferenceData(
       {@required this.id,
       @required this.parentCode,
-      @required this.description,
       @required this.code,
       @required this.value,
       this.settingType,
@@ -7653,8 +7651,6 @@ class NonGlobalPreferenceData extends DataClass
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       parentCode: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}parent_code']),
-      description: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}description']),
       code: stringType.mapFromDatabaseResponse(data['${effectivePrefix}code']),
       value:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}value']),
@@ -7682,9 +7678,6 @@ class NonGlobalPreferenceData extends DataClass
     }
     if (!nullToAbsent || parentCode != null) {
       map['parent_code'] = Variable<String>(parentCode);
-    }
-    if (!nullToAbsent || description != null) {
-      map['description'] = Variable<String>(description);
     }
     if (!nullToAbsent || code != null) {
       map['code'] = Variable<String>(code);
@@ -7722,9 +7715,6 @@ class NonGlobalPreferenceData extends DataClass
       parentCode: parentCode == null && nullToAbsent
           ? const Value.absent()
           : Value(parentCode),
-      description: description == null && nullToAbsent
-          ? const Value.absent()
-          : Value(description),
       code: code == null && nullToAbsent ? const Value.absent() : Value(code),
       value:
           value == null && nullToAbsent ? const Value.absent() : Value(value),
@@ -7757,7 +7747,6 @@ class NonGlobalPreferenceData extends DataClass
     return NonGlobalPreferenceData(
       id: serializer.fromJson<int>(json['id']),
       parentCode: serializer.fromJson<String>(json['parentCode']),
-      description: serializer.fromJson<String>(json['description']),
       code: serializer.fromJson<String>(json['code']),
       value: serializer.fromJson<String>(json['value']),
       settingType: serializer.fromJson<String>(json['settingType']),
@@ -7775,7 +7764,6 @@ class NonGlobalPreferenceData extends DataClass
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'parentCode': serializer.toJson<String>(parentCode),
-      'description': serializer.toJson<String>(description),
       'code': serializer.toJson<String>(code),
       'value': serializer.toJson<String>(value),
       'settingType': serializer.toJson<String>(settingType),
@@ -7791,7 +7779,6 @@ class NonGlobalPreferenceData extends DataClass
   NonGlobalPreferenceData copyWith(
           {int id,
           String parentCode,
-          String description,
           String code,
           String value,
           String settingType,
@@ -7804,7 +7791,6 @@ class NonGlobalPreferenceData extends DataClass
       NonGlobalPreferenceData(
         id: id ?? this.id,
         parentCode: parentCode ?? this.parentCode,
-        description: description ?? this.description,
         code: code ?? this.code,
         value: value ?? this.value,
         settingType: settingType ?? this.settingType,
@@ -7820,7 +7806,6 @@ class NonGlobalPreferenceData extends DataClass
     return (StringBuffer('NonGlobalPreferenceData(')
           ..write('id: $id, ')
           ..write('parentCode: $parentCode, ')
-          ..write('description: $description, ')
           ..write('code: $code, ')
           ..write('value: $value, ')
           ..write('settingType: $settingType, ')
@@ -7840,30 +7825,27 @@ class NonGlobalPreferenceData extends DataClass
       $mrjc(
           parentCode.hashCode,
           $mrjc(
-              description.hashCode,
+              code.hashCode,
               $mrjc(
-                  code.hashCode,
+                  value.hashCode,
                   $mrjc(
-                      value.hashCode,
+                      settingType.hashCode,
                       $mrjc(
-                          settingType.hashCode,
+                          deviceId.hashCode,
                           $mrjc(
-                              deviceId.hashCode,
+                              userName.hashCode,
                               $mrjc(
-                                  userName.hashCode,
+                                  screen.hashCode,
                                   $mrjc(
-                                      screen.hashCode,
-                                      $mrjc(
-                                          isApply.hashCode,
-                                          $mrjc(expiredDateTime.hashCode,
-                                              syncError.hashCode))))))))))));
+                                      isApply.hashCode,
+                                      $mrjc(expiredDateTime.hashCode,
+                                          syncError.hashCode)))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is NonGlobalPreferenceData &&
           other.id == this.id &&
           other.parentCode == this.parentCode &&
-          other.description == this.description &&
           other.code == this.code &&
           other.value == this.value &&
           other.settingType == this.settingType &&
@@ -7879,7 +7861,6 @@ class NonGlobalPreferenceCompanion
     extends UpdateCompanion<NonGlobalPreferenceData> {
   final Value<int> id;
   final Value<String> parentCode;
-  final Value<String> description;
   final Value<String> code;
   final Value<String> value;
   final Value<String> settingType;
@@ -7892,7 +7873,6 @@ class NonGlobalPreferenceCompanion
   const NonGlobalPreferenceCompanion({
     this.id = const Value.absent(),
     this.parentCode = const Value.absent(),
-    this.description = const Value.absent(),
     this.code = const Value.absent(),
     this.value = const Value.absent(),
     this.settingType = const Value.absent(),
@@ -7906,7 +7886,6 @@ class NonGlobalPreferenceCompanion
   NonGlobalPreferenceCompanion.insert({
     this.id = const Value.absent(),
     @required String parentCode,
-    @required String description,
     @required String code,
     @required String value,
     this.settingType = const Value.absent(),
@@ -7917,13 +7896,11 @@ class NonGlobalPreferenceCompanion
     this.expiredDateTime = const Value.absent(),
     this.syncError = const Value.absent(),
   })  : parentCode = Value(parentCode),
-        description = Value(description),
         code = Value(code),
         value = Value(value);
   static Insertable<NonGlobalPreferenceData> custom({
     Expression<int> id,
     Expression<String> parentCode,
-    Expression<String> description,
     Expression<String> code,
     Expression<String> value,
     Expression<String> settingType,
@@ -7937,7 +7914,6 @@ class NonGlobalPreferenceCompanion
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (parentCode != null) 'parent_code': parentCode,
-      if (description != null) 'description': description,
       if (code != null) 'code': code,
       if (value != null) 'value': value,
       if (settingType != null) 'setting_type': settingType,
@@ -7953,7 +7929,6 @@ class NonGlobalPreferenceCompanion
   NonGlobalPreferenceCompanion copyWith(
       {Value<int> id,
       Value<String> parentCode,
-      Value<String> description,
       Value<String> code,
       Value<String> value,
       Value<String> settingType,
@@ -7966,7 +7941,6 @@ class NonGlobalPreferenceCompanion
     return NonGlobalPreferenceCompanion(
       id: id ?? this.id,
       parentCode: parentCode ?? this.parentCode,
-      description: description ?? this.description,
       code: code ?? this.code,
       value: value ?? this.value,
       settingType: settingType ?? this.settingType,
@@ -7987,9 +7961,6 @@ class NonGlobalPreferenceCompanion
     }
     if (parentCode.present) {
       map['parent_code'] = Variable<String>(parentCode.value);
-    }
-    if (description.present) {
-      map['description'] = Variable<String>(description.value);
     }
     if (code.present) {
       map['code'] = Variable<String>(code.value);
@@ -8026,7 +7997,6 @@ class NonGlobalPreferenceCompanion
     return (StringBuffer('NonGlobalPreferenceCompanion(')
           ..write('id: $id, ')
           ..write('parentCode: $parentCode, ')
-          ..write('description: $description, ')
           ..write('code: $code, ')
           ..write('value: $value, ')
           ..write('settingType: $settingType, ')
@@ -8065,20 +8035,6 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
   GeneratedTextColumn _constructParentCode() {
     return GeneratedTextColumn(
       'parent_code',
-      $tableName,
-      false,
-    );
-  }
-
-  final VerificationMeta _descriptionMeta =
-      const VerificationMeta('description');
-  GeneratedTextColumn _description;
-  @override
-  GeneratedTextColumn get description =>
-      _description ??= _constructDescription();
-  GeneratedTextColumn _constructDescription() {
-    return GeneratedTextColumn(
-      'description',
       $tableName,
       false,
     );
@@ -8197,7 +8153,6 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
   List<GeneratedColumn> get $columns => [
         id,
         parentCode,
-        description,
         code,
         value,
         settingType,
@@ -8230,14 +8185,6 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
               data['parent_code'], _parentCodeMeta));
     } else if (isInserting) {
       context.missing(_parentCodeMeta);
-    }
-    if (data.containsKey('description')) {
-      context.handle(
-          _descriptionMeta,
-          description.isAcceptableOrUnknown(
-              data['description'], _descriptionMeta));
-    } else if (isInserting) {
-      context.missing(_descriptionMeta);
     }
     if (data.containsKey('code')) {
       context.handle(
@@ -8332,12 +8279,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $NonGlobalPreferenceTable _nonGlobalPreference;
   $NonGlobalPreferenceTable get nonGlobalPreference =>
       _nonGlobalPreference ??= $NonGlobalPreferenceTable(this);
-  PreferenceDao _preferenceDao;
-  PreferenceDao get preferenceDao =>
-      _preferenceDao ??= PreferenceDao(this as AppDatabase);
-  NonGlobalPreferenceDao _nonGlobalPreferenceDao;
-  NonGlobalPreferenceDao get nonGlobalPreferenceDao =>
-      _nonGlobalPreferenceDao ??= NonGlobalPreferenceDao(this as AppDatabase);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override

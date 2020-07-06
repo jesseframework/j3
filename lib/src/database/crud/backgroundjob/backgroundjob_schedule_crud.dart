@@ -47,7 +47,7 @@ class BackgroundJobScheduleDao extends DatabaseAccessor<AppDatabase>
             jobStatus: backgroundJobScheduleCompanion.jobStatus));
   }
 
-  Future updateBackgroundJobStatus(
+  Future updateBackgroundJobStstus(
       BackgroundJobScheduleCompanion backgroundJobScheduleCompanion,
       String jobName,
       DateTime lastRunDate) {

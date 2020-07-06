@@ -3,7 +3,6 @@ import 'package:moor/moor.dart';
 class NonGlobalPreference extends Table {
   IntColumn get id => integer()();
   TextColumn get parentCode => text()();
-  TextColumn get description => text()();
   TextColumn get code => text()();
   TextColumn get value => text()();
   TextColumn get settingType => text().nullable()();
