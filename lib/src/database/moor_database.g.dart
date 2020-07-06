@@ -444,26 +444,6 @@ class UsersCompanion extends UpdateCompanion<User> {
     }
     return map;
   }
-
-  @override
-  String toString() {
-    return (StringBuffer('UsersCompanion(')
-          ..write('tenantId: $tenantId, ')
-          ..write('id: $id, ')
-          ..write('userName: $userName, ')
-          ..write('name: $name, ')
-          ..write('surname: $surname, ')
-          ..write('emailAddress: $emailAddress, ')
-          ..write('isActive: $isActive, ')
-          ..write('fullName: $fullName, ')
-          ..write('mobileHash: $mobileHash, ')
-          ..write('enableOfflineLogin: $enableOfflineLogin, ')
-          ..write('firebaseToken: $firebaseToken, ')
-          ..write('creationTime: $creationTime, ')
-          ..write('lastLoginTime: $lastLoginTime')
-          ..write(')'))
-        .toString();
-  }
 }
 
 class $UsersTable extends Users with TableInfo<$UsersTable, User> {
@@ -1422,35 +1402,6 @@ class CommunicationCompanion extends UpdateCompanion<CommunicationData> {
     }
     return map;
   }
-
-  @override
-  String toString() {
-    return (StringBuffer('CommunicationCompanion(')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
-          ..write('importDateTime: $importDateTime, ')
-          ..write('exportDateTime: $exportDateTime, ')
-          ..write('exportStatus: $exportStatus, ')
-          ..write('importStatus: $importStatus, ')
-          ..write('syncError: $syncError, ')
-          ..write('id: $id, ')
-          ..write('serverUrl: $serverUrl, ')
-          ..write('userName: $userName, ')
-          ..write('newPasskey: $newPasskey, ')
-          ..write('confirmPasskey: $confirmPasskey, ')
-          ..write('syncFrequency: $syncFrequency, ')
-          ..write('communicationType: $communicationType, ')
-          ..write('typeofErp: $typeofErp')
-          ..write(')'))
-        .toString();
-  }
 }
 
 class $CommunicationTable extends Communication
@@ -2187,20 +2138,6 @@ class BackgroundJobScheduleCompanion
     }
     return map;
   }
-
-  @override
-  String toString() {
-    return (StringBuffer('BackgroundJobScheduleCompanion(')
-          ..write('id: $id, ')
-          ..write('jobName: $jobName, ')
-          ..write('startDateTime: $startDateTime, ')
-          ..write('syncFrequency: $syncFrequency, ')
-          ..write('enableJob: $enableJob, ')
-          ..write('lastRun: $lastRun, ')
-          ..write('jobStatus: $jobStatus')
-          ..write(')'))
-        .toString();
-  }
 }
 
 class $BackgroundJobScheduleTable extends BackgroundJobSchedule
@@ -2582,18 +2519,6 @@ class BackgroundJobLogsCompanion extends UpdateCompanion<BackgroundJobLog> {
       map['job_description'] = Variable<String>(jobDescription.value);
     }
     return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('BackgroundJobLogsCompanion(')
-          ..write('id: $id, ')
-          ..write('jobName: $jobName, ')
-          ..write('lastRun: $lastRun, ')
-          ..write('jobStatus: $jobStatus, ')
-          ..write('jobDescription: $jobDescription')
-          ..write(')'))
-        .toString();
   }
 }
 
@@ -3070,23 +2995,6 @@ class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
       map['expired_date_time'] = Variable<DateTime>(expiredDateTime.value);
     }
     return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('PreferenceCompanion(')
-          ..write('id: $id, ')
-          ..write('tenantId: $tenantId, ')
-          ..write('code: $code, ')
-          ..write('preferenceName: $preferenceName, ')
-          ..write('value: $value, ')
-          ..write('description: $description, ')
-          ..write('domain: $domain, ')
-          ..write('isGlobal: $isGlobal, ')
-          ..write('syncError: $syncError, ')
-          ..write('expiredDateTime: $expiredDateTime')
-          ..write(')'))
-        .toString();
   }
 }
 
@@ -4365,49 +4273,6 @@ class MobileDeviceCompanion extends UpdateCompanion<MobileDeviceData> {
     }
     return map;
   }
-
-  @override
-  String toString() {
-    return (StringBuffer('MobileDeviceCompanion(')
-          ..write('creationTime: $creationTime, ')
-          ..write('deleteTime: $deleteTime, ')
-          ..write('createUserId: $createUserId, ')
-          ..write('creatorUser: $creatorUser, ')
-          ..write('lastModifierUser: $lastModifierUser, ')
-          ..write('lastModifierUserId: $lastModifierUserId, ')
-          ..write('deleteUserId: $deleteUserId, ')
-          ..write('deleterUserId: $deleterUserId, ')
-          ..write('isDeleted: $isDeleted, ')
-          ..write('importDateTime: $importDateTime, ')
-          ..write('exportDateTime: $exportDateTime, ')
-          ..write('exportStatus: $exportStatus, ')
-          ..write('importStatus: $importStatus, ')
-          ..write('syncError: $syncError, ')
-          ..write('deviceId: $deviceId, ')
-          ..write('deviceName: $deviceName, ')
-          ..write('versionRelease: $versionRelease, ')
-          ..write('versionEnvrement: $versionEnvrement, ')
-          ..write('bootLoader: $bootLoader, ')
-          ..write('manufacture: $manufacture, ')
-          ..write('model: $model, ')
-          ..write('sdkNumber: $sdkNumber, ')
-          ..write('hardware: $hardware, ')
-          ..write('deviceHost: $deviceHost, ')
-          ..write('deviceTime: $deviceTime, ')
-          ..write('deviceSerial: $deviceSerial, ')
-          ..write('deviceMac: $deviceMac, ')
-          ..write('deviceIp: $deviceIp, ')
-          ..write('deviceMode: $deviceMode, ')
-          ..write('activationDate: $activationDate, ')
-          ..write('expirationDate: $expirationDate, ')
-          ..write('deviceStatus: $deviceStatus, ')
-          ..write('companyName: $companyName, ')
-          ..write('deviceNickName: $deviceNickName, ')
-          ..write('latitude: $latitude, ')
-          ..write('longitude: $longitude')
-          ..write(')'))
-        .toString();
-  }
 }
 
 class $MobileDeviceTable extends MobileDevice
@@ -5492,23 +5357,6 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
     }
     return map;
   }
-
-  @override
-  String toString() {
-    return (StringBuffer('BusinessRuleCompanion(')
-          ..write('code: $code, ')
-          ..write('ruleName: $ruleName, ')
-          ..write('value: $value, ')
-          ..write('description: $description, ')
-          ..write('isGlobalRule: $isGlobalRule, ')
-          ..write('deviceRule: $deviceRule, ')
-          ..write('userRule: $userRule, ')
-          ..write('domain: $domain, ')
-          ..write('expiredDateTime: $expiredDateTime, ')
-          ..write('syncError: $syncError')
-          ..write(')'))
-        .toString();
-  }
 }
 
 class $BusinessRuleTable extends BusinessRule
@@ -6195,27 +6043,6 @@ class NonGlobalBusinessRuleCompanion
       map['expired_date_time'] = Variable<DateTime>(expiredDateTime.value);
     }
     return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('NonGlobalBusinessRuleCompanion(')
-          ..write('code: $code, ')
-          ..write('parentCode: $parentCode, ')
-          ..write('ruleName: $ruleName, ')
-          ..write('value: $value, ')
-          ..write('description: $description, ')
-          ..write('deviceRule: $deviceRule, ')
-          ..write('userRule: $userRule, ')
-          ..write('domain: $domain, ')
-          ..write('deviceId: $deviceId, ')
-          ..write('userName: $userName, ')
-          ..write('screen: $screen, ')
-          ..write('isApply: $isApply, ')
-          ..write('syncError: $syncError, ')
-          ..write('expiredDateTime: $expiredDateTime')
-          ..write(')'))
-        .toString();
   }
 }
 
@@ -7010,28 +6837,6 @@ class ApplicationLoggerCompanion
     }
     return map;
   }
-
-  @override
-  String toString() {
-    return (StringBuffer('ApplicationLoggerCompanion(')
-          ..write('tenantId: $tenantId, ')
-          ..write('uerName: $uerName, ')
-          ..write('userId: $userId, ')
-          ..write('id: $id, ')
-          ..write('functionName: $functionName, ')
-          ..write('logDateTime: $logDateTime, ')
-          ..write('syncFrequency: $syncFrequency, ')
-          ..write('logDescription: $logDescription, ')
-          ..write('documentNo: $documentNo, ')
-          ..write('deviceId: $deviceId, ')
-          ..write('logCode: $logCode, ')
-          ..write('logSeverity: $logSeverity, ')
-          ..write('exportDateTime: $exportDateTime, ')
-          ..write('exportStatus: $exportStatus, ')
-          ..write('syncError: $syncError')
-          ..write(')'))
-        .toString();
-  }
 }
 
 class $ApplicationLoggerTable extends ApplicationLogger
@@ -7513,16 +7318,6 @@ class TenantCompanion extends UpdateCompanion<TenantData> {
     }
     return map;
   }
-
-  @override
-  String toString() {
-    return (StringBuffer('TenantCompanion(')
-          ..write('tenantId: $tenantId, ')
-          ..write('tenantName: $tenantName, ')
-          ..write('tenantState: $tenantState')
-          ..write(')'))
-        .toString();
-  }
 }
 
 class $TenantTable extends Tenant with TableInfo<$TenantTable, TenantData> {
@@ -7990,24 +7785,6 @@ class NonGlobalPreferenceCompanion
       map['sync_error'] = Variable<String>(syncError.value);
     }
     return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('NonGlobalPreferenceCompanion(')
-          ..write('id: $id, ')
-          ..write('parentCode: $parentCode, ')
-          ..write('code: $code, ')
-          ..write('value: $value, ')
-          ..write('settingType: $settingType, ')
-          ..write('deviceId: $deviceId, ')
-          ..write('userName: $userName, ')
-          ..write('screen: $screen, ')
-          ..write('isApply: $isApply, ')
-          ..write('expiredDateTime: $expiredDateTime, ')
-          ..write('syncError: $syncError')
-          ..write(')'))
-        .toString();
   }
 }
 
