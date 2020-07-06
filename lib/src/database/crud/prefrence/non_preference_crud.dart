@@ -25,4 +25,11 @@ class NonGlobalPreferenceDao extends DatabaseAccessor<AppDatabase>
                   u.screen.like(screen))))
         .getSingle();
   }
+
+  Stream<List<NonGlobalPreferenceData>> watchAllNonGlobalPreferences(
+      String parentCode) {
+    return (select(db.nonGlobalPreference)
+          ..where((t) => t.parentCode.equals(parentCode)))
+        .watch();
+  }
 }
