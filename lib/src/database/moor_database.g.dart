@@ -444,6 +444,26 @@ class UsersCompanion extends UpdateCompanion<User> {
     }
     return map;
   }
+
+  @override
+  String toString() {
+    return (StringBuffer('UsersCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('id: $id, ')
+          ..write('userName: $userName, ')
+          ..write('name: $name, ')
+          ..write('surname: $surname, ')
+          ..write('emailAddress: $emailAddress, ')
+          ..write('isActive: $isActive, ')
+          ..write('fullName: $fullName, ')
+          ..write('mobileHash: $mobileHash, ')
+          ..write('enableOfflineLogin: $enableOfflineLogin, ')
+          ..write('firebaseToken: $firebaseToken, ')
+          ..write('creationTime: $creationTime, ')
+          ..write('lastLoginTime: $lastLoginTime')
+          ..write(')'))
+        .toString();
+  }
 }
 
 class $UsersTable extends Users with TableInfo<$UsersTable, User> {
@@ -1402,6 +1422,35 @@ class CommunicationCompanion extends UpdateCompanion<CommunicationData> {
     }
     return map;
   }
+
+  @override
+  String toString() {
+    return (StringBuffer('CommunicationCompanion(')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('importDateTime: $importDateTime, ')
+          ..write('exportDateTime: $exportDateTime, ')
+          ..write('exportStatus: $exportStatus, ')
+          ..write('importStatus: $importStatus, ')
+          ..write('syncError: $syncError, ')
+          ..write('id: $id, ')
+          ..write('serverUrl: $serverUrl, ')
+          ..write('userName: $userName, ')
+          ..write('newPasskey: $newPasskey, ')
+          ..write('confirmPasskey: $confirmPasskey, ')
+          ..write('syncFrequency: $syncFrequency, ')
+          ..write('communicationType: $communicationType, ')
+          ..write('typeofErp: $typeofErp')
+          ..write(')'))
+        .toString();
+  }
 }
 
 class $CommunicationTable extends Communication
@@ -2138,6 +2187,20 @@ class BackgroundJobScheduleCompanion
     }
     return map;
   }
+
+  @override
+  String toString() {
+    return (StringBuffer('BackgroundJobScheduleCompanion(')
+          ..write('id: $id, ')
+          ..write('jobName: $jobName, ')
+          ..write('startDateTime: $startDateTime, ')
+          ..write('syncFrequency: $syncFrequency, ')
+          ..write('enableJob: $enableJob, ')
+          ..write('lastRun: $lastRun, ')
+          ..write('jobStatus: $jobStatus')
+          ..write(')'))
+        .toString();
+  }
 }
 
 class $BackgroundJobScheduleTable extends BackgroundJobSchedule
@@ -2519,6 +2582,18 @@ class BackgroundJobLogsCompanion extends UpdateCompanion<BackgroundJobLog> {
       map['job_description'] = Variable<String>(jobDescription.value);
     }
     return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BackgroundJobLogsCompanion(')
+          ..write('id: $id, ')
+          ..write('jobName: $jobName, ')
+          ..write('lastRun: $lastRun, ')
+          ..write('jobStatus: $jobStatus, ')
+          ..write('jobDescription: $jobDescription')
+          ..write(')'))
+        .toString();
   }
 }
 
@@ -2995,6 +3070,23 @@ class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
       map['expired_date_time'] = Variable<DateTime>(expiredDateTime.value);
     }
     return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PreferenceCompanion(')
+          ..write('id: $id, ')
+          ..write('tenantId: $tenantId, ')
+          ..write('code: $code, ')
+          ..write('preferenceName: $preferenceName, ')
+          ..write('value: $value, ')
+          ..write('description: $description, ')
+          ..write('domain: $domain, ')
+          ..write('isGlobal: $isGlobal, ')
+          ..write('syncError: $syncError, ')
+          ..write('expiredDateTime: $expiredDateTime')
+          ..write(')'))
+        .toString();
   }
 }
 
@@ -4273,6 +4365,49 @@ class MobileDeviceCompanion extends UpdateCompanion<MobileDeviceData> {
     }
     return map;
   }
+
+  @override
+  String toString() {
+    return (StringBuffer('MobileDeviceCompanion(')
+          ..write('creationTime: $creationTime, ')
+          ..write('deleteTime: $deleteTime, ')
+          ..write('createUserId: $createUserId, ')
+          ..write('creatorUser: $creatorUser, ')
+          ..write('lastModifierUser: $lastModifierUser, ')
+          ..write('lastModifierUserId: $lastModifierUserId, ')
+          ..write('deleteUserId: $deleteUserId, ')
+          ..write('deleterUserId: $deleterUserId, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('importDateTime: $importDateTime, ')
+          ..write('exportDateTime: $exportDateTime, ')
+          ..write('exportStatus: $exportStatus, ')
+          ..write('importStatus: $importStatus, ')
+          ..write('syncError: $syncError, ')
+          ..write('deviceId: $deviceId, ')
+          ..write('deviceName: $deviceName, ')
+          ..write('versionRelease: $versionRelease, ')
+          ..write('versionEnvrement: $versionEnvrement, ')
+          ..write('bootLoader: $bootLoader, ')
+          ..write('manufacture: $manufacture, ')
+          ..write('model: $model, ')
+          ..write('sdkNumber: $sdkNumber, ')
+          ..write('hardware: $hardware, ')
+          ..write('deviceHost: $deviceHost, ')
+          ..write('deviceTime: $deviceTime, ')
+          ..write('deviceSerial: $deviceSerial, ')
+          ..write('deviceMac: $deviceMac, ')
+          ..write('deviceIp: $deviceIp, ')
+          ..write('deviceMode: $deviceMode, ')
+          ..write('activationDate: $activationDate, ')
+          ..write('expirationDate: $expirationDate, ')
+          ..write('deviceStatus: $deviceStatus, ')
+          ..write('companyName: $companyName, ')
+          ..write('deviceNickName: $deviceNickName, ')
+          ..write('latitude: $latitude, ')
+          ..write('longitude: $longitude')
+          ..write(')'))
+        .toString();
+  }
 }
 
 class $MobileDeviceTable extends MobileDevice
@@ -5357,6 +5492,23 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
     }
     return map;
   }
+
+  @override
+  String toString() {
+    return (StringBuffer('BusinessRuleCompanion(')
+          ..write('code: $code, ')
+          ..write('ruleName: $ruleName, ')
+          ..write('value: $value, ')
+          ..write('description: $description, ')
+          ..write('isGlobalRule: $isGlobalRule, ')
+          ..write('deviceRule: $deviceRule, ')
+          ..write('userRule: $userRule, ')
+          ..write('domain: $domain, ')
+          ..write('expiredDateTime: $expiredDateTime, ')
+          ..write('syncError: $syncError')
+          ..write(')'))
+        .toString();
+  }
 }
 
 class $BusinessRuleTable extends BusinessRule
@@ -6043,6 +6195,27 @@ class NonGlobalBusinessRuleCompanion
       map['expired_date_time'] = Variable<DateTime>(expiredDateTime.value);
     }
     return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('NonGlobalBusinessRuleCompanion(')
+          ..write('code: $code, ')
+          ..write('parentCode: $parentCode, ')
+          ..write('ruleName: $ruleName, ')
+          ..write('value: $value, ')
+          ..write('description: $description, ')
+          ..write('deviceRule: $deviceRule, ')
+          ..write('userRule: $userRule, ')
+          ..write('domain: $domain, ')
+          ..write('deviceId: $deviceId, ')
+          ..write('userName: $userName, ')
+          ..write('screen: $screen, ')
+          ..write('isApply: $isApply, ')
+          ..write('syncError: $syncError, ')
+          ..write('expiredDateTime: $expiredDateTime')
+          ..write(')'))
+        .toString();
   }
 }
 
@@ -6837,6 +7010,28 @@ class ApplicationLoggerCompanion
     }
     return map;
   }
+
+  @override
+  String toString() {
+    return (StringBuffer('ApplicationLoggerCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('uerName: $uerName, ')
+          ..write('userId: $userId, ')
+          ..write('id: $id, ')
+          ..write('functionName: $functionName, ')
+          ..write('logDateTime: $logDateTime, ')
+          ..write('syncFrequency: $syncFrequency, ')
+          ..write('logDescription: $logDescription, ')
+          ..write('documentNo: $documentNo, ')
+          ..write('deviceId: $deviceId, ')
+          ..write('logCode: $logCode, ')
+          ..write('logSeverity: $logSeverity, ')
+          ..write('exportDateTime: $exportDateTime, ')
+          ..write('exportStatus: $exportStatus, ')
+          ..write('syncError: $syncError')
+          ..write(')'))
+        .toString();
+  }
 }
 
 class $ApplicationLoggerTable extends ApplicationLogger
@@ -7174,10 +7369,14 @@ class TenantData extends DataClass implements Insertable<TenantData> {
   final int tenantId;
   final String tenantName;
   final int tenantState;
+  final int userId;
+  final String userName;
   TenantData(
       {@required this.tenantId,
-      @required this.tenantName,
-      @required this.tenantState});
+      this.tenantName,
+      this.tenantState,
+      this.userId,
+      this.userName});
   factory TenantData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -7190,6 +7389,10 @@ class TenantData extends DataClass implements Insertable<TenantData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}tenant_name']),
       tenantState: intType
           .mapFromDatabaseResponse(data['${effectivePrefix}tenant_state']),
+      userId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}user_id']),
+      userName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}user_name']),
     );
   }
   @override
@@ -7203,6 +7406,12 @@ class TenantData extends DataClass implements Insertable<TenantData> {
     }
     if (!nullToAbsent || tenantState != null) {
       map['tenant_state'] = Variable<int>(tenantState);
+    }
+    if (!nullToAbsent || userId != null) {
+      map['user_id'] = Variable<int>(userId);
+    }
+    if (!nullToAbsent || userName != null) {
+      map['user_name'] = Variable<String>(userName);
     }
     return map;
   }
@@ -7218,6 +7427,11 @@ class TenantData extends DataClass implements Insertable<TenantData> {
       tenantState: tenantState == null && nullToAbsent
           ? const Value.absent()
           : Value(tenantState),
+      userId:
+          userId == null && nullToAbsent ? const Value.absent() : Value(userId),
+      userName: userName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(userName),
     );
   }
 
@@ -7228,6 +7442,8 @@ class TenantData extends DataClass implements Insertable<TenantData> {
       tenantId: serializer.fromJson<int>(json['tenantId']),
       tenantName: serializer.fromJson<String>(json['tenantName']),
       tenantState: serializer.fromJson<int>(json['tenantState']),
+      userId: serializer.fromJson<int>(json['userId']),
+      userName: serializer.fromJson<String>(json['userName']),
     );
   }
   @override
@@ -7237,70 +7453,102 @@ class TenantData extends DataClass implements Insertable<TenantData> {
       'tenantId': serializer.toJson<int>(tenantId),
       'tenantName': serializer.toJson<String>(tenantName),
       'tenantState': serializer.toJson<int>(tenantState),
+      'userId': serializer.toJson<int>(userId),
+      'userName': serializer.toJson<String>(userName),
     };
   }
 
-  TenantData copyWith({int tenantId, String tenantName, int tenantState}) =>
+  TenantData copyWith(
+          {int tenantId,
+          String tenantName,
+          int tenantState,
+          int userId,
+          String userName}) =>
       TenantData(
         tenantId: tenantId ?? this.tenantId,
         tenantName: tenantName ?? this.tenantName,
         tenantState: tenantState ?? this.tenantState,
+        userId: userId ?? this.userId,
+        userName: userName ?? this.userName,
       );
   @override
   String toString() {
     return (StringBuffer('TenantData(')
           ..write('tenantId: $tenantId, ')
           ..write('tenantName: $tenantName, ')
-          ..write('tenantState: $tenantState')
+          ..write('tenantState: $tenantState, ')
+          ..write('userId: $userId, ')
+          ..write('userName: $userName')
           ..write(')'))
         .toString();
   }
 
   @override
   int get hashCode => $mrjf($mrjc(
-      tenantId.hashCode, $mrjc(tenantName.hashCode, tenantState.hashCode)));
+      tenantId.hashCode,
+      $mrjc(
+          tenantName.hashCode,
+          $mrjc(tenantState.hashCode,
+              $mrjc(userId.hashCode, userName.hashCode)))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is TenantData &&
           other.tenantId == this.tenantId &&
           other.tenantName == this.tenantName &&
-          other.tenantState == this.tenantState);
+          other.tenantState == this.tenantState &&
+          other.userId == this.userId &&
+          other.userName == this.userName);
 }
 
 class TenantCompanion extends UpdateCompanion<TenantData> {
   final Value<int> tenantId;
   final Value<String> tenantName;
   final Value<int> tenantState;
+  final Value<int> userId;
+  final Value<String> userName;
   const TenantCompanion({
     this.tenantId = const Value.absent(),
     this.tenantName = const Value.absent(),
     this.tenantState = const Value.absent(),
+    this.userId = const Value.absent(),
+    this.userName = const Value.absent(),
   });
   TenantCompanion.insert({
     this.tenantId = const Value.absent(),
-    @required String tenantName,
-    @required int tenantState,
-  })  : tenantName = Value(tenantName),
-        tenantState = Value(tenantState);
+    this.tenantName = const Value.absent(),
+    this.tenantState = const Value.absent(),
+    this.userId = const Value.absent(),
+    this.userName = const Value.absent(),
+  });
   static Insertable<TenantData> custom({
     Expression<int> tenantId,
     Expression<String> tenantName,
     Expression<int> tenantState,
+    Expression<int> userId,
+    Expression<String> userName,
   }) {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
       if (tenantName != null) 'tenant_name': tenantName,
       if (tenantState != null) 'tenant_state': tenantState,
+      if (userId != null) 'user_id': userId,
+      if (userName != null) 'user_name': userName,
     });
   }
 
   TenantCompanion copyWith(
-      {Value<int> tenantId, Value<String> tenantName, Value<int> tenantState}) {
+      {Value<int> tenantId,
+      Value<String> tenantName,
+      Value<int> tenantState,
+      Value<int> userId,
+      Value<String> userName}) {
     return TenantCompanion(
       tenantId: tenantId ?? this.tenantId,
       tenantName: tenantName ?? this.tenantName,
       tenantState: tenantState ?? this.tenantState,
+      userId: userId ?? this.userId,
+      userName: userName ?? this.userName,
     );
   }
 
@@ -7316,7 +7564,25 @@ class TenantCompanion extends UpdateCompanion<TenantData> {
     if (tenantState.present) {
       map['tenant_state'] = Variable<int>(tenantState.value);
     }
+    if (userId.present) {
+      map['user_id'] = Variable<int>(userId.value);
+    }
+    if (userName.present) {
+      map['user_name'] = Variable<String>(userName.value);
+    }
     return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TenantCompanion(')
+          ..write('tenantId: $tenantId, ')
+          ..write('tenantName: $tenantName, ')
+          ..write('tenantState: $tenantState, ')
+          ..write('userId: $userId, ')
+          ..write('userName: $userName')
+          ..write(')'))
+        .toString();
   }
 }
 
@@ -7329,11 +7595,8 @@ class $TenantTable extends Tenant with TableInfo<$TenantTable, TenantData> {
   @override
   GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
   GeneratedIntColumn _constructTenantId() {
-    return GeneratedIntColumn(
-      'tenant_id',
-      $tableName,
-      false,
-    );
+    return GeneratedIntColumn('tenant_id', $tableName, false,
+        hasAutoIncrement: true, declaredAsPrimaryKey: true);
   }
 
   final VerificationMeta _tenantNameMeta = const VerificationMeta('tenantName');
@@ -7341,8 +7604,11 @@ class $TenantTable extends Tenant with TableInfo<$TenantTable, TenantData> {
   @override
   GeneratedTextColumn get tenantName => _tenantName ??= _constructTenantName();
   GeneratedTextColumn _constructTenantName() {
-    return GeneratedTextColumn('tenant_name', $tableName, false,
-        minTextLength: 1, maxTextLength: 100);
+    return GeneratedTextColumn(
+      'tenant_name',
+      $tableName,
+      true,
+    );
   }
 
   final VerificationMeta _tenantStateMeta =
@@ -7355,12 +7621,37 @@ class $TenantTable extends Tenant with TableInfo<$TenantTable, TenantData> {
     return GeneratedIntColumn(
       'tenant_state',
       $tableName,
-      false,
+      true,
+    );
+  }
+
+  final VerificationMeta _userIdMeta = const VerificationMeta('userId');
+  GeneratedIntColumn _userId;
+  @override
+  GeneratedIntColumn get userId => _userId ??= _constructUserId();
+  GeneratedIntColumn _constructUserId() {
+    return GeneratedIntColumn(
+      'user_id',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _userNameMeta = const VerificationMeta('userName');
+  GeneratedTextColumn _userName;
+  @override
+  GeneratedTextColumn get userName => _userName ??= _constructUserName();
+  GeneratedTextColumn _constructUserName() {
+    return GeneratedTextColumn(
+      'user_name',
+      $tableName,
+      true,
     );
   }
 
   @override
-  List<GeneratedColumn> get $columns => [tenantId, tenantName, tenantState];
+  List<GeneratedColumn> get $columns =>
+      [tenantId, tenantName, tenantState, userId, userName];
   @override
   $TenantTable get asDslTable => this;
   @override
@@ -7381,16 +7672,20 @@ class $TenantTable extends Tenant with TableInfo<$TenantTable, TenantData> {
           _tenantNameMeta,
           tenantName.isAcceptableOrUnknown(
               data['tenant_name'], _tenantNameMeta));
-    } else if (isInserting) {
-      context.missing(_tenantNameMeta);
     }
     if (data.containsKey('tenant_state')) {
       context.handle(
           _tenantStateMeta,
           tenantState.isAcceptableOrUnknown(
               data['tenant_state'], _tenantStateMeta));
-    } else if (isInserting) {
-      context.missing(_tenantStateMeta);
+    }
+    if (data.containsKey('user_id')) {
+      context.handle(_userIdMeta,
+          userId.isAcceptableOrUnknown(data['user_id'], _userIdMeta));
+    }
+    if (data.containsKey('user_name')) {
+      context.handle(_userNameMeta,
+          userName.isAcceptableOrUnknown(data['user_name'], _userNameMeta));
     }
     return context;
   }
@@ -7785,6 +8080,24 @@ class NonGlobalPreferenceCompanion
       map['sync_error'] = Variable<String>(syncError.value);
     }
     return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('NonGlobalPreferenceCompanion(')
+          ..write('id: $id, ')
+          ..write('parentCode: $parentCode, ')
+          ..write('code: $code, ')
+          ..write('value: $value, ')
+          ..write('settingType: $settingType, ')
+          ..write('deviceId: $deviceId, ')
+          ..write('userName: $userName, ')
+          ..write('screen: $screen, ')
+          ..write('isApply: $isApply, ')
+          ..write('expiredDateTime: $expiredDateTime, ')
+          ..write('syncError: $syncError')
+          ..write(')'))
+        .toString();
   }
 }
 
