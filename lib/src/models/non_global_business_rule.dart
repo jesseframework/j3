@@ -15,6 +15,9 @@ class NonGlobalBusinessRule extends Table {
   BoolColumn get isApply => boolean().withDefault(Constant(false))();
   TextColumn get syncError => text().nullable()();
   DateTimeColumn get expiredDateTime => dateTime().nullable()();
+   TextColumn get dataType => text().nullable()();
+  TextColumn get dataValue => text().nullable()();
+  TextColumn get groups => text().nullable()();
 
   @override
   Set<Column> get primaryKey => {code};
