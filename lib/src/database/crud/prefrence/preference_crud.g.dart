@@ -8,4 +8,6 @@ part of 'preference_crud.dart';
 
 mixin _$PreferenceDaoMixin on DatabaseAccessor<AppDatabase> {
   $PreferenceTable get preference => attachedDatabase.preference;
+  $NonGlobalPreferenceTable get nonGlobalPreference =>
+      attachedDatabase.nonGlobalPreference;
 }
