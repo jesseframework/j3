@@ -11,6 +11,9 @@ class Preference extends Table {
   BoolColumn get isGlobal => boolean().withDefault(Constant(true))();
   TextColumn get syncError => text().nullable()();
   DateTimeColumn get  expiredDateTime =>  dateTime().nullable()();
+  TextColumn get dataType => text().nullable()();
+  TextColumn get dataValue => text().nullable()();
+  TextColumn get groups => text().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};

@@ -1,9 +1,11 @@
+import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/non_preference_crud.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/preference_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
+import 'package:xlive_switch/xlive_switch.dart';
 
 class PreferenceDetailPage extends StatefulWidget {
   final code;
@@ -21,6 +23,7 @@ class PreferenceDetailPage extends StatefulWidget {
 }
 
 class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
+  String selectedValue;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,18 +43,21 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
         ],
       ),
       body: Container(
-          child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          child: ListView(children: [
+        Padding(
+          padding: const EdgeInsets.all(4.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.symmetric(vertical: 10),
+                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Text(
-                  "Preference",
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  "Edit Preference",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black45),
                 ),
               ),
               StreamBuilder(
@@ -61,121 +67,161 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                     if (snapshot.hasData) {
                       PreferenceData prefData;
                       prefData = snapshot.data;
+
                       //  print(prefData[1]);
-                      return Container(
-                        height: 150,
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8),
-                                  child: Text(
-                                    'Code',
+                      return Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        elevation: 4.0,
+                        //  height: 150,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 1,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: Text(
+                                      'Name',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black45,
+                                          fontSize: 16),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(right: 15),
+                                    child: Text(
+                                      prefData.preferenceName,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black45,
+                                          fontSize: 16),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: Text(
+                                      'Is Global',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black45,
+                                          fontSize: 16),
+                                    ),
+                                  ),
+                                  Container(
+                                    child: XlivSwitch(
+                                        value: prefData.isGlobal == false
+                                            ? false
+                                            : true,
+                                        onChanged: (value) async {
+                                          await widget.preferenceDao
+                                              .updatePreferenceValue(
+                                                  prefData.copyWith(
+                                            isGlobal: value,
+                                          ));
+                                        }),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Option',
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
+                                        color: Colors.black45,
                                         fontSize: 16),
                                   ),
-                                ),
-                                Text(widget.code),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Preference Name',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16),
-                                ),
-                                Text(prefData.preferenceName),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'IS Global',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16),
-                                ),
-                                Container(
-                                  height: 30,
-                                  child: Switch(
-                                      inactiveThumbColor:
-                                          Theme.of(context).primaryColor,
-                                      value: prefData.isGlobal == false
-                                          ? false
-                                          : true,
-                                      onChanged: (value) async {
-                                        await widget.preferenceDao
-                                            .updatePreferenceValue(
-                                                PreferenceData(
-                                                    expiredDateTime: prefData
-                                                        .expiredDateTime,
-                                                    description:
-                                                        prefData.description,
-                                                    domain: prefData.domain,
-                                                    id: prefData.id,
-                                                    tenantId: prefData.tenantId,
-                                                    code: prefData.code,
-                                                    value: prefData.value,
-                                                    preferenceName:
-                                                        prefData.preferenceName,
-                                                    isGlobal: value));
-                                      }),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Value',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16),
-                                ),
-                                Container(
-                                  height: 30,
-                                  child: Switch(
-                                      inactiveThumbColor:
-                                          Theme.of(context).primaryColor,
-                                      value:
-                                          prefData.value == 'No' ? false : true,
-                                      onChanged: (value) async {
-                                        await widget.preferenceDao
-                                            .updatePreferenceValue(
-                                                PreferenceData(
-                                                    expiredDateTime: prefData
-                                                        .expiredDateTime,
-                                                    description: prefData
-                                                        .description,
-                                                    domain: prefData.domain,
-                                                    id: prefData.id,
-                                                    tenantId: prefData.tenantId,
-                                                    code: prefData.code,
-                                                    value:
-                                                        value ==
-                                                                true
-                                                            ? 'Yes'
-                                                            : 'No',
-                                                    preferenceName:
-                                                        prefData.preferenceName,
-                                                    isGlobal:
-                                                        prefData.isGlobal));
-                                      }),
-                                ),
-                              ],
-                            ),
-                          ],
+                                  Container(
+                                      child: prefData.dataType == 'Bool'
+                                          ? XlivSwitch(
+                                              value: prefData.value == 'OFF'
+                                                  ? false
+                                                  : true,
+                                              onChanged: (value) async {
+                                                await widget.preferenceDao
+                                                    .updatePreferenceValue(
+                                                        prefData.copyWith(
+                                                  value: value == true
+                                                      ? 'ON'
+                                                      : 'OFF',
+                                                ));
+                                              })
+//
+                                          : prefData.dataType == 'Text'
+                                              ? Text('Text')
+                                              : FindDropdown(
+                                                  onFind: (value) async {
+                                                    print(value);
+                                                    return prefData.dataValue
+                                                        .split(',')
+                                                        .map((e) => e)
+                                                        .toList();
+                                                  },
+                                                  selectedItem: prefData.value,
+                                                  showSearchBox: true,
+                                                  items: prefData.dataValue
+                                                      .split(',')
+                                                      .map((e) => e)
+                                                      .toList(),
+                                                  onChanged: (value) async {
+                                                    await widget.preferenceDao
+                                                        .updatePreferenceValue(
+                                                            prefData.copyWith(
+                                                                value: value));
+                                                  })),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0),
+                                    child: Text(
+                                      'Expiry Date',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black45,
+                                          fontSize: 16),
+                                    ),
+                                  ),
+                                  Expanded(child: Container()),
+                                  Text(
+                                    "${prefData.expiredDateTime.day}-${prefData.expiredDateTime.month}-${prefData.expiredDateTime.year}",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black45,
+                                        fontSize: 16),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(right: 10, left: 8),
+                                    child: Icon(
+                                      Icons.calendar_today,
+                                      color: Colors.black54,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     }
@@ -184,10 +230,13 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                     );
                   }),
               Container(
-                margin: EdgeInsets.symmetric(vertical: 10),
+                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 child: Text(
-                  "Non Globle Preference",
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  "Non-Global",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black45),
                 ),
               ),
               Container(
@@ -199,78 +248,94 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                       if (snapshot.hasData) {
                         List<NonGlobalPreferenceData> nonGloblePrefData;
                         nonGloblePrefData = snapshot.data;
+                        if (nonGloblePrefData.isEmpty) {
+                          return Center(
+                            child: Text(
+                              "No Preference Foud",
+                              style: TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  color: Colors.black45,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 25),
+                            ),
+                          );
+                        }
                         //  print(prefData[1]);
-                        return ListView.separated(
-                            itemCount: nonGloblePrefData.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
+                        return ListView.builder(
+                          itemCount: nonGloblePrefData.length,
+                          itemBuilder: (context, index) {
+                            return Card(
+                              elevation: 4.0,
+                              child: Padding(
                                 padding: const EdgeInsets.all(5.0),
-                                child: InkWell(
-                                  onTap: () {},
-                                  child: Container(
-                                    child: Row(
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'DeviceId: ${nonGloblePrefData[index].deviceId}',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 15),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Text(
-                                                'User: ${nonGloblePrefData[index].userName.toString()}'),
-                                          ],
+                                        Text(
+                                          'DeviceId: ${nonGloblePrefData[index].deviceId}',
+                                          style: TextStyle(
+                                              color: Colors.black45,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18),
                                         ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Screen: ${nonGloblePrefData[index].screen}',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 15),
-                                            ),
-                                          ],
+                                        Container(
+                                          height: 20,
+                                          child: Switch(
+                                              activeTrackColor: Colors.black54,
+                                              activeColor: Colors.white,
+                                              value: nonGloblePrefData[index]
+                                                          .value ==
+                                                      'No'
+                                                  ? false
+                                                  : true,
+                                              onChanged: (value) {}),
                                         ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            Container(
-                                              height: 33,
-                                              child: Switch(
-                                                  value:
-                                                      nonGloblePrefData[index]
-                                                                  .value ==
-                                                              'No'
-                                                          ? false
-                                                          : true,
-                                                  onChanged: null),
-                                            ),
-                                            Text(
-                                                "Expired Date: ${nonGloblePrefData[index].expiredDateTime.year}-${nonGloblePrefData[index].expiredDateTime.month}-${nonGloblePrefData[index].expiredDateTime.day}"),
-                                          ],
-                                        )
                                       ],
                                     ),
-                                  ),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'User: ${nonGloblePrefData[index].userName.toString()}',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.black45,
+                                              fontSize: 16),
+                                        ),
+                                        Text(
+                                          'Screen: ${nonGloblePrefData[index].screen}',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.black45,
+                                              fontSize: 16),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(right: 15),
+                                          child: Text(
+                                            "${nonGloblePrefData[index].expiredDateTime.day}-${nonGloblePrefData[index].expiredDateTime.month}-${nonGloblePrefData[index].expiredDateTime.year}",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black45,
+                                                fontSize: 16),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
                                 ),
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return Divider(
-                                height: 2,
-                              );
-                            });
+                              ),
+                            );
+                          },
+                        );
                       }
                       return Center(
                         child: CircularProgressIndicator(),
@@ -280,7 +345,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
             ],
           ),
         ),
-      )),
+      ])),
     );
   }
 }

@@ -3,7 +3,6 @@ import 'dart:io' show Platform;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/database/crud/communication/communication_setup_crud.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/non_preference_crud.dart';
-
 import 'package:j3enterprise/src/database/crud/prefrence/preference_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
@@ -36,20 +35,21 @@ class InitServiceSetup {
     //Turn on/off logs. Default value yes isGlobal no
     var saveLogToDd = await preferenceDao.getSinglePreferences('LOGGERON');
     if (saveLogToDd != null) {
-      if (saveLogToDd.value == "Yes" &&
+      if (saveLogToDd.value == "ON" &&
           saveLogToDd.isGlobal == false &&
           (saveLogToDd.expiredDateTime.isAfter(DateTime.now()) ||
               saveLogToDd.expiredDateTime == null)) {
         var nonGlobalDb = await nonGlobalPreferenceDao.getSingleNonGlobalPref(
             'LOGGERON', 'LOGGERON', userName, deviceID, screen);
         if (nonGlobalDb != null &&
-            nonGlobalDb.value == "Yes" &&
+            nonGlobalDb.value == "ON" &&
             nonGlobalDb.isApply == true) {
           //Set not global
           if (nonGlobalDb.expiredDateTime.isAfter(DateTime.now()) ||
               nonGlobalDb.expiredDateTime == null) {
-            var setLogLevel = await nonGlobalPreferenceDao.getSingleNonGlobalPref(
-                'LOGGERLEVEL', 'LOGGERLEVEL', userName, deviceID, screen);
+            var setLogLevel =
+                await nonGlobalPreferenceDao.getSingleNonGlobalPref(
+                    'LOGGERLEVEL', 'LOGGERLEVEL', userName, deviceID, screen);
             if (setLogLevel != null) {
               await logLevelCheck(setLogLevel.value);
             }
@@ -75,7 +75,7 @@ class InitServiceSetup {
       var logHttp =
           await preferenceDao.getSinglePreferences('HTTPLOGINGTOSERVER');
       if (logHttp != null) {
-        if (logHttp.value == "Yes" &&
+        if (logHttp.value == "ON" &&
             logHttp.isGlobal == false &&
             logHttp.expiredDateTime.isBefore(DateTime.now())) {
           var nonGlobalDb = await nonGlobalPreferenceDao.getSingleNonGlobalPref(
@@ -85,7 +85,7 @@ class InitServiceSetup {
               deviceID,
               screen);
           if (nonGlobalDb != null &&
-              nonGlobalDb.value == "Yes" &&
+              nonGlobalDb.value == "ON" &&
               nonGlobalDb.isApply == true) {
             if (_functionName == "Chopper") {
               await appLogger.saveAppLog(rec.loggerName, rec.time, "NA",
@@ -100,7 +100,7 @@ class InitServiceSetup {
                   rec.message, "NA", "NA", "NA", rec.level.name, 0, "NA", 0);
             }
           }
-        } else if (logHttp.value == "Yes" &&
+        } else if (logHttp.value == "ON" &&
             logHttp.isGlobal == true &&
             logHttp.expiredDateTime.isBefore(DateTime.now())) {
           if (_functionName == "Chopper") {
