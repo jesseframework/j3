@@ -1,4 +1,5 @@
 import 'package:background_fetch/background_fetch.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:j3enterprise/src/resources/services/background_fetch_service.dart';
 import 'dart:io' show Platform;
 import 'package:bot_toast/bot_toast.dart';
@@ -105,6 +106,7 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return FirebaseMessageWrapper(
       child: MaterialApp(
+
         builder: BotToastInit(),
         // navigatorObservers: [BotToastNavigatorObserver()],
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
@@ -129,6 +131,7 @@ class _AppState extends State<App> {
           },
         ),
         theme: ThemeData(
+          fontFamily: 'MyFont',
           primarySwatch: Colors.blue,
         ),
         locale: _locale,
