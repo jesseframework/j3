@@ -139,6 +139,7 @@ class BackgroundJobsBloc
         scheduler.cancel(event.jobName);
         //AppLoggerRepository.isStopped = true;
         appLoggerRepository.isStopped = true;
+        preferenceRepository.isStopped = true;
         userMessage = AppLocalization.of(event.context)
                 .translate('job_cancel_user_message') ??
             "Job Cancel Successful";

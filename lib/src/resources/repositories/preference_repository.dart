@@ -16,6 +16,8 @@ class PreferenceRepository {
   var api = ApiClient.chopper.getService<RestApiService>();
   var db;
 
+  bool isStopped = false;
+
   static final _log = Logger('PreferenceRepository');
   UpdateBackgroundJobStatus updateBackgroundJobStatus;
   BackgroundJobScheduleDao backgroundJobScheduleDao;
@@ -57,6 +59,7 @@ class PreferenceRepository {
               });
 
               for (var item in items) {
+                if (isStopped) break;
                 await preferenceDao.createOrUpdatePref(item);
               }
               updateBackgroundJobStatus.updateJobStatus(jobName, "Success");
@@ -100,6 +103,7 @@ class PreferenceRepository {
               });
 
               for (var item in items) {
+                if (isStopped) break;
                 await nonGlobalPreferenceDao.createOrUpdatePref(item);
               }
               updateBackgroundJobStatus.updateJobStatus(jobName, "Success");
