@@ -25,8 +25,8 @@ class PreferenceDao extends DatabaseAccessor<AppDatabase>
     return (select(db.preference).get());
   }
 
-  Stream<List<PreferenceData>> watchAllPreferences() {
-    return (select(db.preference).watch());
+  Stream<List<PreferenceData>> watchAllPreferences(String searchText) {
+    return (select(db.preference)..where((t) => t.preferenceName.contains(searchText))).watch();
   }
 
   Stream<PreferenceData> watchSinglePreferences(String prefCode) {

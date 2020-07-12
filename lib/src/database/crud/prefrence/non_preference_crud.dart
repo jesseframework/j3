@@ -32,4 +32,7 @@ class NonGlobalPreferenceDao extends DatabaseAccessor<AppDatabase>
           ..where((t) => t.parentCode.equals(parentCode)))
         .watch();
   }
+
+  Future updateNonGlobalPreferenceValue(NonGlobalPreferenceData nonGlobalPreferenceData) =>
+      update(db.nonGlobalPreference).replace(nonGlobalPreferenceData);
 }
