@@ -14,16 +14,23 @@ class NonGlobalBusinessRuleDao extends DatabaseAccessor<AppDatabase>
     return (select(db.businessRule).get());
   }
 
-  Stream<List<BusinessRuleData>> watchAllBusinessRule() {
-    return (select(db.businessRule).watch());
+  Stream<List<NonGlobalBusinessRuleData>> watchAllNonGlobalBussinessRule(
+      String parentCode) {
+    return (select(db.nonGlobalBusinessRule)
+          ..where((t) => t.parentCode.equals(parentCode)))
+        .watch();
   }
 
-    Future<void> createOrUpdatePref(NonGlobalBusinessRuleData pref) {
+  Future<void> createOrUpdatePref(NonGlobalBusinessRuleData pref) {
     return into(db.nonGlobalBusinessRule).insertOnConflictUpdate(pref);
   }
 
   Future insertBusinessRule(BusinessRuleData businessRuleData) =>
       into(db.businessRule).insert(businessRuleData);
+
+  Future updateNonGlobalBussinessRuleValue(
+          NonGlobalBusinessRuleData nonGlobalBusinessRuleData) =>
+      update(db.nonGlobalBusinessRule).replace(nonGlobalBusinessRuleData);
 
   Future deleteAllBusinessRule() => delete(db.businessRule).go();
 }

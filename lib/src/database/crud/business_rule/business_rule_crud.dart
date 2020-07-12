@@ -14,16 +14,26 @@ class BusinessRuleDao extends DatabaseAccessor<AppDatabase>
     return (select(db.businessRule).get());
   }
 
-   Future<void> createOrUpdatePref(BusinessRuleData pref) {
+  Future<void> createOrUpdatePref(BusinessRuleData pref) {
     return into(db.businessRule).insertOnConflictUpdate(pref);
   }
 
-  Stream<List<BusinessRuleData>> watchAllBusinessRule() {
-    return (select(db.businessRule).watch());
+  Stream<List<BusinessRuleData>> watchAllBusinessRule(String searchText) {
+    return (select(db.businessRule)
+          ..where((tbl) => tbl.ruleName.contains(searchText)))
+        .watch();
+  }
+
+  Stream<BusinessRuleData> watchSingleBussinessRule(String prefCode) {
+    return (select(db.businessRule)..where((u) => u.ruleName.equals(prefCode)))
+        .watchSingle();
   }
 
   Future insertBusinessRule(BusinessRuleData businessRuleData) =>
       into(db.businessRule).insert(businessRuleData);
+
+  Future updateBussinessRule(BusinessRuleData businessRuleData) =>
+      update(db.businessRule).replace(businessRuleData);
 
   Future deleteAllBusinessRule() => delete(db.businessRule).go();
 }
