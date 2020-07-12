@@ -4,22 +4,29 @@ part 'rest_api_service.chopper.dart';
 
 @ChopperApi(baseUrl: "/api")
 abstract class RestApiService extends ChopperService {
+  //Authenticate
   @Post(path: '/TokenAuth/Authenticate')
   Future<Response> login(@Body() Map<String, dynamic> body);
 
   @Post(path: '/services/app/Account/IsTenantAvailable')
   Future<Response> isTenantAvailable(@Body() Map<String, dynamic> body);
 
+  @Get(path: '/services/app/User/Get')
+  Future<Response> getUser(@Query() int id);
+
+  @Put(path: '/services/app/User/UpdateMobileHash')
+  Future<Response> updateUserHash(@Body() Map<String, dynamic> body);
+
+  //AppLogger
   @Post(path: '/services/app/MobileAppLogger/Create')
   Future<Response> mobileAppLogger(@Body() Map<String, dynamic> body);
 
-  @Get(path: '/services/app/User/Get')
-  Future<Response> getUser(@Query() int id);
+  //System Setting
 
   @Get(path: '/services/app/Preference/GetAll')
   Future<Response> getPreference();
 
-    @Get(path: '/services/app/NonGlobalPreference/GetAll')
+  @Get(path: '/services/app/NonGlobalPreference/GetAll')
   Future<Response> getNonGlobalPreference();
 
   @Get(path: '/services/app/BusinessRule/GetAll')
@@ -28,8 +35,9 @@ abstract class RestApiService extends ChopperService {
   @Get(path: '/services/app/NonGlobalBusinessRule/GetAll')
   Future<Response> getNonGlobalBusinessRule();
 
-  @Put(path: '/services/app/User/UpdateMobileHash')
-  Future<Response> updateUserHash(@Body() Map<String, dynamic> body);
+  //Mobile Desktop
+  @Get(path: 'services/app/MobileDesktop/GetAll')
+  Future<Response> getMobileDesktop();
 
   //End user Point
 

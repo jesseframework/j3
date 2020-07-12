@@ -8889,6 +8889,455 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
   }
 }
 
+class DesktopData extends DataClass implements Insertable<DesktopData> {
+  final int id;
+  final String iconName;
+  final String iconImages;
+  final String navigationRoute;
+  final String iconGroup;
+  final bool isFavorit;
+  final String userPermission;
+  DesktopData(
+      {@required this.id,
+      @required this.iconName,
+      @required this.iconImages,
+      @required this.navigationRoute,
+      @required this.iconGroup,
+      @required this.isFavorit,
+      @required this.userPermission});
+  factory DesktopData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    return DesktopData(
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      iconName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}icon_name']),
+      iconImages: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}icon_images']),
+      navigationRoute: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}navigation_route']),
+      iconGroup: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}icon_group']),
+      isFavorit: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_favorit']),
+      userPermission: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}user_permission']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || iconName != null) {
+      map['icon_name'] = Variable<String>(iconName);
+    }
+    if (!nullToAbsent || iconImages != null) {
+      map['icon_images'] = Variable<String>(iconImages);
+    }
+    if (!nullToAbsent || navigationRoute != null) {
+      map['navigation_route'] = Variable<String>(navigationRoute);
+    }
+    if (!nullToAbsent || iconGroup != null) {
+      map['icon_group'] = Variable<String>(iconGroup);
+    }
+    if (!nullToAbsent || isFavorit != null) {
+      map['is_favorit'] = Variable<bool>(isFavorit);
+    }
+    if (!nullToAbsent || userPermission != null) {
+      map['user_permission'] = Variable<String>(userPermission);
+    }
+    return map;
+  }
+
+  DesktopCompanion toCompanion(bool nullToAbsent) {
+    return DesktopCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      iconName: iconName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(iconName),
+      iconImages: iconImages == null && nullToAbsent
+          ? const Value.absent()
+          : Value(iconImages),
+      navigationRoute: navigationRoute == null && nullToAbsent
+          ? const Value.absent()
+          : Value(navigationRoute),
+      iconGroup: iconGroup == null && nullToAbsent
+          ? const Value.absent()
+          : Value(iconGroup),
+      isFavorit: isFavorit == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isFavorit),
+      userPermission: userPermission == null && nullToAbsent
+          ? const Value.absent()
+          : Value(userPermission),
+    );
+  }
+
+  factory DesktopData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return DesktopData(
+      id: serializer.fromJson<int>(json['id']),
+      iconName: serializer.fromJson<String>(json['iconName']),
+      iconImages: serializer.fromJson<String>(json['iconImages']),
+      navigationRoute: serializer.fromJson<String>(json['navigationRoute']),
+      iconGroup: serializer.fromJson<String>(json['iconGroup']),
+      isFavorit: serializer.fromJson<bool>(json['isFavorit']),
+      userPermission: serializer.fromJson<String>(json['userPermission']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'iconName': serializer.toJson<String>(iconName),
+      'iconImages': serializer.toJson<String>(iconImages),
+      'navigationRoute': serializer.toJson<String>(navigationRoute),
+      'iconGroup': serializer.toJson<String>(iconGroup),
+      'isFavorit': serializer.toJson<bool>(isFavorit),
+      'userPermission': serializer.toJson<String>(userPermission),
+    };
+  }
+
+  DesktopData copyWith(
+          {int id,
+          String iconName,
+          String iconImages,
+          String navigationRoute,
+          String iconGroup,
+          bool isFavorit,
+          String userPermission}) =>
+      DesktopData(
+        id: id ?? this.id,
+        iconName: iconName ?? this.iconName,
+        iconImages: iconImages ?? this.iconImages,
+        navigationRoute: navigationRoute ?? this.navigationRoute,
+        iconGroup: iconGroup ?? this.iconGroup,
+        isFavorit: isFavorit ?? this.isFavorit,
+        userPermission: userPermission ?? this.userPermission,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('DesktopData(')
+          ..write('id: $id, ')
+          ..write('iconName: $iconName, ')
+          ..write('iconImages: $iconImages, ')
+          ..write('navigationRoute: $navigationRoute, ')
+          ..write('iconGroup: $iconGroup, ')
+          ..write('isFavorit: $isFavorit, ')
+          ..write('userPermission: $userPermission')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      id.hashCode,
+      $mrjc(
+          iconName.hashCode,
+          $mrjc(
+              iconImages.hashCode,
+              $mrjc(
+                  navigationRoute.hashCode,
+                  $mrjc(iconGroup.hashCode,
+                      $mrjc(isFavorit.hashCode, userPermission.hashCode)))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is DesktopData &&
+          other.id == this.id &&
+          other.iconName == this.iconName &&
+          other.iconImages == this.iconImages &&
+          other.navigationRoute == this.navigationRoute &&
+          other.iconGroup == this.iconGroup &&
+          other.isFavorit == this.isFavorit &&
+          other.userPermission == this.userPermission);
+}
+
+class DesktopCompanion extends UpdateCompanion<DesktopData> {
+  final Value<int> id;
+  final Value<String> iconName;
+  final Value<String> iconImages;
+  final Value<String> navigationRoute;
+  final Value<String> iconGroup;
+  final Value<bool> isFavorit;
+  final Value<String> userPermission;
+  const DesktopCompanion({
+    this.id = const Value.absent(),
+    this.iconName = const Value.absent(),
+    this.iconImages = const Value.absent(),
+    this.navigationRoute = const Value.absent(),
+    this.iconGroup = const Value.absent(),
+    this.isFavorit = const Value.absent(),
+    this.userPermission = const Value.absent(),
+  });
+  DesktopCompanion.insert({
+    this.id = const Value.absent(),
+    @required String iconName,
+    @required String iconImages,
+    @required String navigationRoute,
+    @required String iconGroup,
+    this.isFavorit = const Value.absent(),
+    @required String userPermission,
+  })  : iconName = Value(iconName),
+        iconImages = Value(iconImages),
+        navigationRoute = Value(navigationRoute),
+        iconGroup = Value(iconGroup),
+        userPermission = Value(userPermission);
+  static Insertable<DesktopData> custom({
+    Expression<int> id,
+    Expression<String> iconName,
+    Expression<String> iconImages,
+    Expression<String> navigationRoute,
+    Expression<String> iconGroup,
+    Expression<bool> isFavorit,
+    Expression<String> userPermission,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (iconName != null) 'icon_name': iconName,
+      if (iconImages != null) 'icon_images': iconImages,
+      if (navigationRoute != null) 'navigation_route': navigationRoute,
+      if (iconGroup != null) 'icon_group': iconGroup,
+      if (isFavorit != null) 'is_favorit': isFavorit,
+      if (userPermission != null) 'user_permission': userPermission,
+    });
+  }
+
+  DesktopCompanion copyWith(
+      {Value<int> id,
+      Value<String> iconName,
+      Value<String> iconImages,
+      Value<String> navigationRoute,
+      Value<String> iconGroup,
+      Value<bool> isFavorit,
+      Value<String> userPermission}) {
+    return DesktopCompanion(
+      id: id ?? this.id,
+      iconName: iconName ?? this.iconName,
+      iconImages: iconImages ?? this.iconImages,
+      navigationRoute: navigationRoute ?? this.navigationRoute,
+      iconGroup: iconGroup ?? this.iconGroup,
+      isFavorit: isFavorit ?? this.isFavorit,
+      userPermission: userPermission ?? this.userPermission,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (iconName.present) {
+      map['icon_name'] = Variable<String>(iconName.value);
+    }
+    if (iconImages.present) {
+      map['icon_images'] = Variable<String>(iconImages.value);
+    }
+    if (navigationRoute.present) {
+      map['navigation_route'] = Variable<String>(navigationRoute.value);
+    }
+    if (iconGroup.present) {
+      map['icon_group'] = Variable<String>(iconGroup.value);
+    }
+    if (isFavorit.present) {
+      map['is_favorit'] = Variable<bool>(isFavorit.value);
+    }
+    if (userPermission.present) {
+      map['user_permission'] = Variable<String>(userPermission.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DesktopCompanion(')
+          ..write('id: $id, ')
+          ..write('iconName: $iconName, ')
+          ..write('iconImages: $iconImages, ')
+          ..write('navigationRoute: $navigationRoute, ')
+          ..write('iconGroup: $iconGroup, ')
+          ..write('isFavorit: $isFavorit, ')
+          ..write('userPermission: $userPermission')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $DesktopTable extends Desktop with TableInfo<$DesktopTable, DesktopData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $DesktopTable(this._db, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn('id', $tableName, false,
+        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+  }
+
+  final VerificationMeta _iconNameMeta = const VerificationMeta('iconName');
+  GeneratedTextColumn _iconName;
+  @override
+  GeneratedTextColumn get iconName => _iconName ??= _constructIconName();
+  GeneratedTextColumn _constructIconName() {
+    return GeneratedTextColumn(
+      'icon_name',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _iconImagesMeta = const VerificationMeta('iconImages');
+  GeneratedTextColumn _iconImages;
+  @override
+  GeneratedTextColumn get iconImages => _iconImages ??= _constructIconImages();
+  GeneratedTextColumn _constructIconImages() {
+    return GeneratedTextColumn(
+      'icon_images',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _navigationRouteMeta =
+      const VerificationMeta('navigationRoute');
+  GeneratedTextColumn _navigationRoute;
+  @override
+  GeneratedTextColumn get navigationRoute =>
+      _navigationRoute ??= _constructNavigationRoute();
+  GeneratedTextColumn _constructNavigationRoute() {
+    return GeneratedTextColumn(
+      'navigation_route',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _iconGroupMeta = const VerificationMeta('iconGroup');
+  GeneratedTextColumn _iconGroup;
+  @override
+  GeneratedTextColumn get iconGroup => _iconGroup ??= _constructIconGroup();
+  GeneratedTextColumn _constructIconGroup() {
+    return GeneratedTextColumn(
+      'icon_group',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _isFavoritMeta = const VerificationMeta('isFavorit');
+  GeneratedBoolColumn _isFavorit;
+  @override
+  GeneratedBoolColumn get isFavorit => _isFavorit ??= _constructIsFavorit();
+  GeneratedBoolColumn _constructIsFavorit() {
+    return GeneratedBoolColumn('is_favorit', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _userPermissionMeta =
+      const VerificationMeta('userPermission');
+  GeneratedTextColumn _userPermission;
+  @override
+  GeneratedTextColumn get userPermission =>
+      _userPermission ??= _constructUserPermission();
+  GeneratedTextColumn _constructUserPermission() {
+    return GeneratedTextColumn(
+      'user_permission',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        iconName,
+        iconImages,
+        navigationRoute,
+        iconGroup,
+        isFavorit,
+        userPermission
+      ];
+  @override
+  $DesktopTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'desktop';
+  @override
+  final String actualTableName = 'desktop';
+  @override
+  VerificationContext validateIntegrity(Insertable<DesktopData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('icon_name')) {
+      context.handle(_iconNameMeta,
+          iconName.isAcceptableOrUnknown(data['icon_name'], _iconNameMeta));
+    } else if (isInserting) {
+      context.missing(_iconNameMeta);
+    }
+    if (data.containsKey('icon_images')) {
+      context.handle(
+          _iconImagesMeta,
+          iconImages.isAcceptableOrUnknown(
+              data['icon_images'], _iconImagesMeta));
+    } else if (isInserting) {
+      context.missing(_iconImagesMeta);
+    }
+    if (data.containsKey('navigation_route')) {
+      context.handle(
+          _navigationRouteMeta,
+          navigationRoute.isAcceptableOrUnknown(
+              data['navigation_route'], _navigationRouteMeta));
+    } else if (isInserting) {
+      context.missing(_navigationRouteMeta);
+    }
+    if (data.containsKey('icon_group')) {
+      context.handle(_iconGroupMeta,
+          iconGroup.isAcceptableOrUnknown(data['icon_group'], _iconGroupMeta));
+    } else if (isInserting) {
+      context.missing(_iconGroupMeta);
+    }
+    if (data.containsKey('is_favorit')) {
+      context.handle(_isFavoritMeta,
+          isFavorit.isAcceptableOrUnknown(data['is_favorit'], _isFavoritMeta));
+    }
+    if (data.containsKey('user_permission')) {
+      context.handle(
+          _userPermissionMeta,
+          userPermission.isAcceptableOrUnknown(
+              data['user_permission'], _userPermissionMeta));
+    } else if (isInserting) {
+      context.missing(_userPermissionMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  DesktopData map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return DesktopData.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $DesktopTable createAlias(String alias) {
+    return $DesktopTable(_db, alias);
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $UsersTable _users;
@@ -8921,6 +9370,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $NonGlobalPreferenceTable _nonGlobalPreference;
   $NonGlobalPreferenceTable get nonGlobalPreference =>
       _nonGlobalPreference ??= $NonGlobalPreferenceTable(this);
+  $DesktopTable _desktop;
+  $DesktopTable get desktop => _desktop ??= $DesktopTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
@@ -8935,6 +9386,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         nonGlobalBusinessRule,
         applicationLogger,
         tenant,
-        nonGlobalPreference
+        nonGlobalPreference,
+        desktop
       ];
 }

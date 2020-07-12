@@ -143,7 +143,14 @@ class BackgroundJobsBloc
         userMessage = AppLocalization.of(event.context)
                 .translate('job_cancel_user_message') ??
             "Job Cancel Successful";
-        //yield BackgroundJobsStoped(userMessage: userMessage);
+        String formatted = await formatDate(DateTime.now().toString());
+         var fromEvent = new BackgroundJobScheduleCompanion(           
+            enableJob: moor.Value(false),
+            jobStatus: moor.Value("Cancel"),
+            lastRun: moor.Value(DateTime.tryParse(formatted)));
+
+             await backgroundJobScheduleDao.updateBackgroundJob(
+              fromEvent, event.jobName);
 
         yield BackgroundJobsSuccess(userMessage: userMessage);
       }
