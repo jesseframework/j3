@@ -1,9 +1,11 @@
 import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/non_preference_crud.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/preference_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/resources/shared/colors/my_color.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:xlive_switch/xlive_switch.dart';
 
@@ -23,10 +25,12 @@ class PreferenceDetailPage extends StatefulWidget {
 }
 
 class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
+  TextEditingController _textFieldController=TextEditingController();
   String selectedValue;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: JasseColors.BackgroundColor,
       appBar: AppBar(
         //ToDo add translation for preferences title
         title: Text(
@@ -51,7 +55,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: Text(
                   "Edit Preference",
                   style: TextStyle(
@@ -69,158 +73,169 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                       prefData = snapshot.data;
 
                       //  print(prefData[1]);
-                      return Card(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        elevation: 4.0,
-                        //  height: 150,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 1,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    child: Text(
+                      return Container(
+                        height: 200,
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5)),
+                          elevation: 4.0,
+                          //  height: 150,
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
                                       'Name',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           color: Colors.black45,
                                           fontSize: 16),
                                     ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(right: 15),
-                                    child: Text(
-                                      prefData.preferenceName,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black45,
-                                          fontSize: 16),
+                                    Container(
+                                      margin: EdgeInsets.only(right: 5),
+                                      child: Text(
+                                        prefData.preferenceName,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black45,
+                                            fontSize: 16),
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 10),
-                                    child: Text(
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
                                       'Is Global',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           color: Colors.black45,
                                           fontSize: 16),
                                     ),
-                                  ),
-                                  Container(
-                                    child: XlivSwitch(
-                                        value: prefData.isGlobal == false
-                                            ? false
-                                            : true,
-                                        onChanged: (value) async {
-                                          await widget.preferenceDao
-                                              .updatePreferenceValue(
-                                                  prefData.copyWith(
-                                            isGlobal: value,
-                                          ));
-                                        }),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Option',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black45,
-                                        fontSize: 16),
-                                  ),
-                                  Container(
-                                      child: prefData.dataType == 'Bool'
-                                          ? XlivSwitch(
-                                              value: prefData.value == 'OFF'
-                                                  ? false
-                                                  : true,
-                                              onChanged: (value) async {
-                                                await widget.preferenceDao
-                                                    .updatePreferenceValue(
-                                                        prefData.copyWith(
-                                                  value: value == true
-                                                      ? 'ON'
-                                                      : 'OFF',
-                                                ));
-                                              })
+                                    Container(
+                                      child: XlivSwitch(
+                                          value: prefData.isGlobal == false
+                                              ? false
+                                              : true,
+                                          onChanged: (value) async {
+                                            await widget.preferenceDao
+                                                .updatePreferenceValue(
+                                                    prefData.copyWith(
+                                              isGlobal: value,
+                                            ));
+                                          }),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Option',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black45,
+                                          fontSize: 16),
+                                    ),
+                                    Container(
+                                        child: prefData.dataType == 'Bool'
+                                            ? XlivSwitch(
+                                                value: prefData.value == 'OFF'
+                                                    ? false
+                                                    : true,
+                                                onChanged: (value) async {
+                                                  await widget.preferenceDao
+                                                      .updatePreferenceValue(
+                                                          prefData.copyWith(
+                                                    value: value == true
+                                                        ? 'ON'
+                                                        : 'OFF',
+                                                  ));
+                                                })
 //
-                                          : prefData.dataType == 'Text'
-                                              ? Text('Text')
-                                              : FindDropdown(
-                                                  onFind: (value) async {
-                                                    print(value);
-                                                    return prefData.dataValue
+                                            : prefData.dataType == 'Text'
+                                                ?Row(
+                                          children: [
+                                            Text(prefData.value, style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.black45,
+                                                fontSize: 16),),
+                                             InkWell(child: Container(
+                                                 margin: EdgeInsets.only(left: 8),
+                                                 child: Icon(Icons.edit)),
+                                             onTap: (){
+                                               _textFieldController=TextEditingController(text:prefData.value);
+                                               _displayDialog(context,()=>widget.preferenceDao.updatePreferenceValue(prefData.copyWith(value: _textFieldController.text)));
+                                               },),
+                                          ],
+                                        )
+                                                : FindDropdown(
+                                                    onFind: (value) async {
+                                                      print(value);
+                                                      return prefData.dataValue
+                                                          .split(',')
+                                                          .map((e) => e)
+                                                          .toList();
+                                                    },
+                                                    selectedItem: prefData.value,
+                                                    showSearchBox: true,
+                                                    items: prefData.dataValue
                                                         .split(',')
                                                         .map((e) => e)
-                                                        .toList();
-                                                  },
-                                                  selectedItem: prefData.value,
-                                                  showSearchBox: true,
-                                                  items: prefData.dataValue
-                                                      .split(',')
-                                                      .map((e) => e)
-                                                      .toList(),
-                                                  onChanged: (value) async {
-                                                    await widget.preferenceDao
-                                                        .updatePreferenceValue(
-                                                            prefData.copyWith(
-                                                                value: value));
-                                                  })),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10.0),
-                                    child: Text(
+                                                        .toList(),
+                                                    onChanged: (value) async {
+                                                      await widget.preferenceDao
+                                                          .updatePreferenceValue(
+                                                              prefData.copyWith(
+                                                                  value: value));
+                                                    })),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
                                       'Expiry Date',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           color: Colors.black45,
                                           fontSize: 16),
                                     ),
-                                  ),
-                                  Expanded(child: Container()),
-                                  Text(
-                                    "${prefData.expiredDateTime.day}-${prefData.expiredDateTime.month}-${prefData.expiredDateTime.year}",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.black45,
-                                        fontSize: 16),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(right: 10, left: 8),
-                                    child: Icon(
-                                      Icons.calendar_today,
-                                      color: Colors.black54,
+                                    Expanded(child: Container()),
+                                    Text(
+                                      "${prefData.expiredDateTime.day}-${prefData.expiredDateTime.month}-${prefData.expiredDateTime.year}",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black45,
+                                          fontSize: 16),
                                     ),
-                                  )
-                                ],
-                              ),
-                            ],
+                                    InkWell(
+                                      onTap: ()async{
+                                        var result = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(1970),
+                                            lastDate: DateTime(2100));
+                                        await widget.preferenceDao.updatePreferenceValue(prefData.copyWith(expiredDateTime: result));
+                                      },
+                                        child: Container(
+
+                                      margin: EdgeInsets.only(left: 8),
+                                        child: Icon(Icons.calendar_today))),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );
@@ -267,7 +282,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                             return Card(
                               elevation: 4.0,
                               child: Padding(
-                                padding: const EdgeInsets.all(5.0),
+                                padding: const EdgeInsets.symmetric( vertical: 5,horizontal: 12),
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -284,16 +299,20 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                               fontSize: 18),
                                         ),
                                         Container(
-                                          height: 20,
-                                          child: Switch(
-                                              activeTrackColor: Colors.black54,
-                                              activeColor: Colors.white,
-                                              value: nonGloblePrefData[index]
-                                                          .value ==
-                                                      'No'
+                                        //  height: 20,
+                                          child: XlivSwitch(
+                                              value: nonGloblePrefData[index].value == 'OFF'
                                                   ? false
                                                   : true,
-                                              onChanged: (value) {}),
+                                              onChanged: (value) async {
+                                                await widget.nonGlobalPreferenceDao
+                                                    .updateNonGlobalPreferenceValue(
+                                                    nonGloblePrefData[index].copyWith(
+                                                      value: value == true
+                                                          ? 'ON'
+                                                          : 'OFF',
+                                                    ));
+                                              })
                                         ),
                                       ],
                                     ),
@@ -319,7 +338,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                               fontSize: 16),
                                         ),
                                         Container(
-                                          margin: EdgeInsets.only(right: 15),
+                                          margin: EdgeInsets.only(right: 7),
                                           child: Text(
                                             "${nonGloblePrefData[index].expiredDateTime.day}-${nonGloblePrefData[index].expiredDateTime.month}-${nonGloblePrefData[index].expiredDateTime.year}",
                                             style: TextStyle(
@@ -348,4 +367,39 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
       ])),
     );
   }
+
+  _displayDialog(BuildContext context ,callBack) async {
+    return showDialog(
+
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+shape: RoundedRectangleBorder(
+  borderRadius: BorderRadius.circular(8)
+),
+            title: Text('Option'),
+            content: TextField(
+              controller: _textFieldController,
+
+            ),
+            actions: <Widget>[
+                FlatButton(
+                child:  Text('Discard'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+
+              FlatButton(
+                child:  Text('Save'),
+                onPressed: ()async {
+                 await callBack();
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
 }
+
