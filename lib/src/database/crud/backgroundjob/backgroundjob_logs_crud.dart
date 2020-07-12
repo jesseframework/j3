@@ -16,9 +16,7 @@ class BackgroundJobLogsDao extends DatabaseAccessor<AppDatabase>
 
   Stream<List<BackgroundJobLog>> watchAllJobsLog() {
     return (select(db.backgroundJobLogs).watch());
-  }
-
-  
+  }  
 
   Future insertJobLog(BackgroundJobLog backgroundJoblog) =>
       into(db.backgroundJobLogs).insert(backgroundJoblog);
