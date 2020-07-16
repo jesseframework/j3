@@ -215,7 +215,8 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
                 'Device Setting',
                 'Log Shipping',
                 'Validate Enrollment',
-                'Configuration'
+                'Configuration',
+                'Mobile Desktop'
               ],
             ),
           ),

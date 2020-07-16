@@ -60,3 +60,4 @@ doc/api/
 *.js.map
 
 # End of https://www.toptal.com/developers/gitignore/api/dart
+db.sqlite

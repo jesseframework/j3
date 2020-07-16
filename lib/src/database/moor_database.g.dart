@@ -2735,6 +2735,9 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
   final bool isGlobal;
   final String syncError;
   final DateTime expiredDateTime;
+  final String dataType;
+  final String dataValue;
+  final String groups;
   PreferenceData(
       {@required this.id,
       @required this.tenantId,
@@ -2745,7 +2748,10 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
       this.domain,
       @required this.isGlobal,
       this.syncError,
-      this.expiredDateTime});
+      this.expiredDateTime,
+      this.dataType,
+      this.dataValue,
+      this.groups});
   factory PreferenceData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -2773,6 +2779,12 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}sync_error']),
       expiredDateTime: dateTimeType
           .mapFromDatabaseResponse(data['${effectivePrefix}expired_date_time']),
+      dataType: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}data_type']),
+      dataValue: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}data_value']),
+      groups:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}groups']),
     );
   }
   @override
@@ -2808,6 +2820,15 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
     if (!nullToAbsent || expiredDateTime != null) {
       map['expired_date_time'] = Variable<DateTime>(expiredDateTime);
     }
+    if (!nullToAbsent || dataType != null) {
+      map['data_type'] = Variable<String>(dataType);
+    }
+    if (!nullToAbsent || dataValue != null) {
+      map['data_value'] = Variable<String>(dataValue);
+    }
+    if (!nullToAbsent || groups != null) {
+      map['groups'] = Variable<String>(groups);
+    }
     return map;
   }
 
@@ -2837,6 +2858,14 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
       expiredDateTime: expiredDateTime == null && nullToAbsent
           ? const Value.absent()
           : Value(expiredDateTime),
+      dataType: dataType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(dataType),
+      dataValue: dataValue == null && nullToAbsent
+          ? const Value.absent()
+          : Value(dataValue),
+      groups:
+          groups == null && nullToAbsent ? const Value.absent() : Value(groups),
     );
   }
 
@@ -2854,6 +2883,9 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
       isGlobal: serializer.fromJson<bool>(json['isGlobal']),
       syncError: serializer.fromJson<String>(json['syncError']),
       expiredDateTime: serializer.fromJson<DateTime>(json['expiredDateTime']),
+      dataType: serializer.fromJson<String>(json['dataType']),
+      dataValue: serializer.fromJson<String>(json['dataValue']),
+      groups: serializer.fromJson<String>(json['groups']),
     );
   }
   @override
@@ -2870,6 +2902,9 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
       'isGlobal': serializer.toJson<bool>(isGlobal),
       'syncError': serializer.toJson<String>(syncError),
       'expiredDateTime': serializer.toJson<DateTime>(expiredDateTime),
+      'dataType': serializer.toJson<String>(dataType),
+      'dataValue': serializer.toJson<String>(dataValue),
+      'groups': serializer.toJson<String>(groups),
     };
   }
 
@@ -2883,7 +2918,10 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
           String domain,
           bool isGlobal,
           String syncError,
-          DateTime expiredDateTime}) =>
+          DateTime expiredDateTime,
+          String dataType,
+          String dataValue,
+          String groups}) =>
       PreferenceData(
         id: id ?? this.id,
         tenantId: tenantId ?? this.tenantId,
@@ -2895,6 +2933,9 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
         isGlobal: isGlobal ?? this.isGlobal,
         syncError: syncError ?? this.syncError,
         expiredDateTime: expiredDateTime ?? this.expiredDateTime,
+        dataType: dataType ?? this.dataType,
+        dataValue: dataValue ?? this.dataValue,
+        groups: groups ?? this.groups,
       );
   @override
   String toString() {
@@ -2908,7 +2949,10 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
           ..write('domain: $domain, ')
           ..write('isGlobal: $isGlobal, ')
           ..write('syncError: $syncError, ')
-          ..write('expiredDateTime: $expiredDateTime')
+          ..write('expiredDateTime: $expiredDateTime, ')
+          ..write('dataType: $dataType, ')
+          ..write('dataValue: $dataValue, ')
+          ..write('groups: $groups')
           ..write(')'))
         .toString();
   }
@@ -2930,8 +2974,14 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
                               domain.hashCode,
                               $mrjc(
                                   isGlobal.hashCode,
-                                  $mrjc(syncError.hashCode,
-                                      expiredDateTime.hashCode))))))))));
+                                  $mrjc(
+                                      syncError.hashCode,
+                                      $mrjc(
+                                          expiredDateTime.hashCode,
+                                          $mrjc(
+                                              dataType.hashCode,
+                                              $mrjc(dataValue.hashCode,
+                                                  groups.hashCode)))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -2945,7 +2995,10 @@ class PreferenceData extends DataClass implements Insertable<PreferenceData> {
           other.domain == this.domain &&
           other.isGlobal == this.isGlobal &&
           other.syncError == this.syncError &&
-          other.expiredDateTime == this.expiredDateTime);
+          other.expiredDateTime == this.expiredDateTime &&
+          other.dataType == this.dataType &&
+          other.dataValue == this.dataValue &&
+          other.groups == this.groups);
 }
 
 class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
@@ -2959,6 +3012,9 @@ class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
   final Value<bool> isGlobal;
   final Value<String> syncError;
   final Value<DateTime> expiredDateTime;
+  final Value<String> dataType;
+  final Value<String> dataValue;
+  final Value<String> groups;
   const PreferenceCompanion({
     this.id = const Value.absent(),
     this.tenantId = const Value.absent(),
@@ -2970,6 +3026,9 @@ class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
     this.isGlobal = const Value.absent(),
     this.syncError = const Value.absent(),
     this.expiredDateTime = const Value.absent(),
+    this.dataType = const Value.absent(),
+    this.dataValue = const Value.absent(),
+    this.groups = const Value.absent(),
   });
   PreferenceCompanion.insert({
     this.id = const Value.absent(),
@@ -2982,6 +3041,9 @@ class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
     this.isGlobal = const Value.absent(),
     this.syncError = const Value.absent(),
     this.expiredDateTime = const Value.absent(),
+    this.dataType = const Value.absent(),
+    this.dataValue = const Value.absent(),
+    this.groups = const Value.absent(),
   })  : tenantId = Value(tenantId),
         code = Value(code),
         value = Value(value);
@@ -2996,6 +3058,9 @@ class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
     Expression<bool> isGlobal,
     Expression<String> syncError,
     Expression<DateTime> expiredDateTime,
+    Expression<String> dataType,
+    Expression<String> dataValue,
+    Expression<String> groups,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -3008,6 +3073,9 @@ class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
       if (isGlobal != null) 'is_global': isGlobal,
       if (syncError != null) 'sync_error': syncError,
       if (expiredDateTime != null) 'expired_date_time': expiredDateTime,
+      if (dataType != null) 'data_type': dataType,
+      if (dataValue != null) 'data_value': dataValue,
+      if (groups != null) 'groups': groups,
     });
   }
 
@@ -3021,7 +3089,10 @@ class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
       Value<String> domain,
       Value<bool> isGlobal,
       Value<String> syncError,
-      Value<DateTime> expiredDateTime}) {
+      Value<DateTime> expiredDateTime,
+      Value<String> dataType,
+      Value<String> dataValue,
+      Value<String> groups}) {
     return PreferenceCompanion(
       id: id ?? this.id,
       tenantId: tenantId ?? this.tenantId,
@@ -3033,6 +3104,9 @@ class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
       isGlobal: isGlobal ?? this.isGlobal,
       syncError: syncError ?? this.syncError,
       expiredDateTime: expiredDateTime ?? this.expiredDateTime,
+      dataType: dataType ?? this.dataType,
+      dataValue: dataValue ?? this.dataValue,
+      groups: groups ?? this.groups,
     );
   }
 
@@ -3069,6 +3143,15 @@ class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
     if (expiredDateTime.present) {
       map['expired_date_time'] = Variable<DateTime>(expiredDateTime.value);
     }
+    if (dataType.present) {
+      map['data_type'] = Variable<String>(dataType.value);
+    }
+    if (dataValue.present) {
+      map['data_value'] = Variable<String>(dataValue.value);
+    }
+    if (groups.present) {
+      map['groups'] = Variable<String>(groups.value);
+    }
     return map;
   }
 
@@ -3084,7 +3167,10 @@ class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
           ..write('domain: $domain, ')
           ..write('isGlobal: $isGlobal, ')
           ..write('syncError: $syncError, ')
-          ..write('expiredDateTime: $expiredDateTime')
+          ..write('expiredDateTime: $expiredDateTime, ')
+          ..write('dataType: $dataType, ')
+          ..write('dataValue: $dataValue, ')
+          ..write('groups: $groups')
           ..write(')'))
         .toString();
   }
@@ -3218,6 +3304,42 @@ class $PreferenceTable extends Preference
     );
   }
 
+  final VerificationMeta _dataTypeMeta = const VerificationMeta('dataType');
+  GeneratedTextColumn _dataType;
+  @override
+  GeneratedTextColumn get dataType => _dataType ??= _constructDataType();
+  GeneratedTextColumn _constructDataType() {
+    return GeneratedTextColumn(
+      'data_type',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _dataValueMeta = const VerificationMeta('dataValue');
+  GeneratedTextColumn _dataValue;
+  @override
+  GeneratedTextColumn get dataValue => _dataValue ??= _constructDataValue();
+  GeneratedTextColumn _constructDataValue() {
+    return GeneratedTextColumn(
+      'data_value',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _groupsMeta = const VerificationMeta('groups');
+  GeneratedTextColumn _groups;
+  @override
+  GeneratedTextColumn get groups => _groups ??= _constructGroups();
+  GeneratedTextColumn _constructGroups() {
+    return GeneratedTextColumn(
+      'groups',
+      $tableName,
+      true,
+    );
+  }
+
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -3229,7 +3351,10 @@ class $PreferenceTable extends Preference
         domain,
         isGlobal,
         syncError,
-        expiredDateTime
+        expiredDateTime,
+        dataType,
+        dataValue,
+        groups
       ];
   @override
   $PreferenceTable get asDslTable => this;
@@ -3292,6 +3417,18 @@ class $PreferenceTable extends Preference
           _expiredDateTimeMeta,
           expiredDateTime.isAcceptableOrUnknown(
               data['expired_date_time'], _expiredDateTimeMeta));
+    }
+    if (data.containsKey('data_type')) {
+      context.handle(_dataTypeMeta,
+          dataType.isAcceptableOrUnknown(data['data_type'], _dataTypeMeta));
+    }
+    if (data.containsKey('data_value')) {
+      context.handle(_dataValueMeta,
+          dataValue.isAcceptableOrUnknown(data['data_value'], _dataValueMeta));
+    }
+    if (data.containsKey('groups')) {
+      context.handle(_groupsMeta,
+          groups.isAcceptableOrUnknown(data['groups'], _groupsMeta));
     }
     return context;
   }
@@ -5155,6 +5292,9 @@ class BusinessRuleData extends DataClass
   final String domain;
   final DateTime expiredDateTime;
   final String syncError;
+  final String dataType;
+  final String dataValue;
+  final String groups;
   BusinessRuleData(
       {@required this.code,
       this.ruleName,
@@ -5165,7 +5305,10 @@ class BusinessRuleData extends DataClass
       this.userRule,
       this.domain,
       this.expiredDateTime,
-      this.syncError});
+      this.syncError,
+      this.dataType,
+      this.dataValue,
+      this.groups});
   factory BusinessRuleData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -5193,6 +5336,12 @@ class BusinessRuleData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}expired_date_time']),
       syncError: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}sync_error']),
+      dataType: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}data_type']),
+      dataValue: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}data_value']),
+      groups:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}groups']),
     );
   }
   @override
@@ -5228,6 +5377,15 @@ class BusinessRuleData extends DataClass
     if (!nullToAbsent || syncError != null) {
       map['sync_error'] = Variable<String>(syncError);
     }
+    if (!nullToAbsent || dataType != null) {
+      map['data_type'] = Variable<String>(dataType);
+    }
+    if (!nullToAbsent || dataValue != null) {
+      map['data_value'] = Variable<String>(dataValue);
+    }
+    if (!nullToAbsent || groups != null) {
+      map['groups'] = Variable<String>(groups);
+    }
     return map;
   }
 
@@ -5259,6 +5417,14 @@ class BusinessRuleData extends DataClass
       syncError: syncError == null && nullToAbsent
           ? const Value.absent()
           : Value(syncError),
+      dataType: dataType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(dataType),
+      dataValue: dataValue == null && nullToAbsent
+          ? const Value.absent()
+          : Value(dataValue),
+      groups:
+          groups == null && nullToAbsent ? const Value.absent() : Value(groups),
     );
   }
 
@@ -5276,6 +5442,9 @@ class BusinessRuleData extends DataClass
       domain: serializer.fromJson<String>(json['domain']),
       expiredDateTime: serializer.fromJson<DateTime>(json['expiredDateTime']),
       syncError: serializer.fromJson<String>(json['syncError']),
+      dataType: serializer.fromJson<String>(json['dataType']),
+      dataValue: serializer.fromJson<String>(json['dataValue']),
+      groups: serializer.fromJson<String>(json['groups']),
     );
   }
   @override
@@ -5292,6 +5461,9 @@ class BusinessRuleData extends DataClass
       'domain': serializer.toJson<String>(domain),
       'expiredDateTime': serializer.toJson<DateTime>(expiredDateTime),
       'syncError': serializer.toJson<String>(syncError),
+      'dataType': serializer.toJson<String>(dataType),
+      'dataValue': serializer.toJson<String>(dataValue),
+      'groups': serializer.toJson<String>(groups),
     };
   }
 
@@ -5305,7 +5477,10 @@ class BusinessRuleData extends DataClass
           String userRule,
           String domain,
           DateTime expiredDateTime,
-          String syncError}) =>
+          String syncError,
+          String dataType,
+          String dataValue,
+          String groups}) =>
       BusinessRuleData(
         code: code ?? this.code,
         ruleName: ruleName ?? this.ruleName,
@@ -5317,6 +5492,9 @@ class BusinessRuleData extends DataClass
         domain: domain ?? this.domain,
         expiredDateTime: expiredDateTime ?? this.expiredDateTime,
         syncError: syncError ?? this.syncError,
+        dataType: dataType ?? this.dataType,
+        dataValue: dataValue ?? this.dataValue,
+        groups: groups ?? this.groups,
       );
   @override
   String toString() {
@@ -5330,7 +5508,10 @@ class BusinessRuleData extends DataClass
           ..write('userRule: $userRule, ')
           ..write('domain: $domain, ')
           ..write('expiredDateTime: $expiredDateTime, ')
-          ..write('syncError: $syncError')
+          ..write('syncError: $syncError, ')
+          ..write('dataType: $dataType, ')
+          ..write('dataValue: $dataValue, ')
+          ..write('groups: $groups')
           ..write(')'))
         .toString();
   }
@@ -5352,8 +5533,14 @@ class BusinessRuleData extends DataClass
                               userRule.hashCode,
                               $mrjc(
                                   domain.hashCode,
-                                  $mrjc(expiredDateTime.hashCode,
-                                      syncError.hashCode))))))))));
+                                  $mrjc(
+                                      expiredDateTime.hashCode,
+                                      $mrjc(
+                                          syncError.hashCode,
+                                          $mrjc(
+                                              dataType.hashCode,
+                                              $mrjc(dataValue.hashCode,
+                                                  groups.hashCode)))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -5367,7 +5554,10 @@ class BusinessRuleData extends DataClass
           other.userRule == this.userRule &&
           other.domain == this.domain &&
           other.expiredDateTime == this.expiredDateTime &&
-          other.syncError == this.syncError);
+          other.syncError == this.syncError &&
+          other.dataType == this.dataType &&
+          other.dataValue == this.dataValue &&
+          other.groups == this.groups);
 }
 
 class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
@@ -5381,6 +5571,9 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
   final Value<String> domain;
   final Value<DateTime> expiredDateTime;
   final Value<String> syncError;
+  final Value<String> dataType;
+  final Value<String> dataValue;
+  final Value<String> groups;
   const BusinessRuleCompanion({
     this.code = const Value.absent(),
     this.ruleName = const Value.absent(),
@@ -5392,6 +5585,9 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
     this.domain = const Value.absent(),
     this.expiredDateTime = const Value.absent(),
     this.syncError = const Value.absent(),
+    this.dataType = const Value.absent(),
+    this.dataValue = const Value.absent(),
+    this.groups = const Value.absent(),
   });
   BusinessRuleCompanion.insert({
     @required String code,
@@ -5404,6 +5600,9 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
     this.domain = const Value.absent(),
     this.expiredDateTime = const Value.absent(),
     this.syncError = const Value.absent(),
+    this.dataType = const Value.absent(),
+    this.dataValue = const Value.absent(),
+    this.groups = const Value.absent(),
   })  : code = Value(code),
         value = Value(value);
   static Insertable<BusinessRuleData> custom({
@@ -5417,6 +5616,9 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
     Expression<String> domain,
     Expression<DateTime> expiredDateTime,
     Expression<String> syncError,
+    Expression<String> dataType,
+    Expression<String> dataValue,
+    Expression<String> groups,
   }) {
     return RawValuesInsertable({
       if (code != null) 'code': code,
@@ -5429,6 +5631,9 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
       if (domain != null) 'domain': domain,
       if (expiredDateTime != null) 'expired_date_time': expiredDateTime,
       if (syncError != null) 'sync_error': syncError,
+      if (dataType != null) 'data_type': dataType,
+      if (dataValue != null) 'data_value': dataValue,
+      if (groups != null) 'groups': groups,
     });
   }
 
@@ -5442,7 +5647,10 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
       Value<String> userRule,
       Value<String> domain,
       Value<DateTime> expiredDateTime,
-      Value<String> syncError}) {
+      Value<String> syncError,
+      Value<String> dataType,
+      Value<String> dataValue,
+      Value<String> groups}) {
     return BusinessRuleCompanion(
       code: code ?? this.code,
       ruleName: ruleName ?? this.ruleName,
@@ -5454,6 +5662,9 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
       domain: domain ?? this.domain,
       expiredDateTime: expiredDateTime ?? this.expiredDateTime,
       syncError: syncError ?? this.syncError,
+      dataType: dataType ?? this.dataType,
+      dataValue: dataValue ?? this.dataValue,
+      groups: groups ?? this.groups,
     );
   }
 
@@ -5490,6 +5701,15 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
     if (syncError.present) {
       map['sync_error'] = Variable<String>(syncError.value);
     }
+    if (dataType.present) {
+      map['data_type'] = Variable<String>(dataType.value);
+    }
+    if (dataValue.present) {
+      map['data_value'] = Variable<String>(dataValue.value);
+    }
+    if (groups.present) {
+      map['groups'] = Variable<String>(groups.value);
+    }
     return map;
   }
 
@@ -5505,7 +5725,10 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
           ..write('userRule: $userRule, ')
           ..write('domain: $domain, ')
           ..write('expiredDateTime: $expiredDateTime, ')
-          ..write('syncError: $syncError')
+          ..write('syncError: $syncError, ')
+          ..write('dataType: $dataType, ')
+          ..write('dataValue: $dataValue, ')
+          ..write('groups: $groups')
           ..write(')'))
         .toString();
   }
@@ -5639,6 +5862,42 @@ class $BusinessRuleTable extends BusinessRule
     );
   }
 
+  final VerificationMeta _dataTypeMeta = const VerificationMeta('dataType');
+  GeneratedTextColumn _dataType;
+  @override
+  GeneratedTextColumn get dataType => _dataType ??= _constructDataType();
+  GeneratedTextColumn _constructDataType() {
+    return GeneratedTextColumn(
+      'data_type',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _dataValueMeta = const VerificationMeta('dataValue');
+  GeneratedTextColumn _dataValue;
+  @override
+  GeneratedTextColumn get dataValue => _dataValue ??= _constructDataValue();
+  GeneratedTextColumn _constructDataValue() {
+    return GeneratedTextColumn(
+      'data_value',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _groupsMeta = const VerificationMeta('groups');
+  GeneratedTextColumn _groups;
+  @override
+  GeneratedTextColumn get groups => _groups ??= _constructGroups();
+  GeneratedTextColumn _constructGroups() {
+    return GeneratedTextColumn(
+      'groups',
+      $tableName,
+      true,
+    );
+  }
+
   @override
   List<GeneratedColumn> get $columns => [
         code,
@@ -5650,7 +5909,10 @@ class $BusinessRuleTable extends BusinessRule
         userRule,
         domain,
         expiredDateTime,
-        syncError
+        syncError,
+        dataType,
+        dataValue,
+        groups
       ];
   @override
   $BusinessRuleTable get asDslTable => this;
@@ -5715,6 +5977,18 @@ class $BusinessRuleTable extends BusinessRule
       context.handle(_syncErrorMeta,
           syncError.isAcceptableOrUnknown(data['sync_error'], _syncErrorMeta));
     }
+    if (data.containsKey('data_type')) {
+      context.handle(_dataTypeMeta,
+          dataType.isAcceptableOrUnknown(data['data_type'], _dataTypeMeta));
+    }
+    if (data.containsKey('data_value')) {
+      context.handle(_dataValueMeta,
+          dataValue.isAcceptableOrUnknown(data['data_value'], _dataValueMeta));
+    }
+    if (data.containsKey('groups')) {
+      context.handle(_groupsMeta,
+          groups.isAcceptableOrUnknown(data['groups'], _groupsMeta));
+    }
     return context;
   }
 
@@ -5748,6 +6022,9 @@ class NonGlobalBusinessRuleData extends DataClass
   final bool isApply;
   final String syncError;
   final DateTime expiredDateTime;
+  final String dataType;
+  final String dataValue;
+  final String groups;
   NonGlobalBusinessRuleData(
       {@required this.code,
       @required this.parentCode,
@@ -5762,7 +6039,10 @@ class NonGlobalBusinessRuleData extends DataClass
       this.screen,
       @required this.isApply,
       this.syncError,
-      this.expiredDateTime});
+      this.expiredDateTime,
+      this.dataType,
+      this.dataValue,
+      this.groups});
   factory NonGlobalBusinessRuleData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -5798,6 +6078,12 @@ class NonGlobalBusinessRuleData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}sync_error']),
       expiredDateTime: dateTimeType
           .mapFromDatabaseResponse(data['${effectivePrefix}expired_date_time']),
+      dataType: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}data_type']),
+      dataValue: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}data_value']),
+      groups:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}groups']),
     );
   }
   @override
@@ -5845,6 +6131,15 @@ class NonGlobalBusinessRuleData extends DataClass
     if (!nullToAbsent || expiredDateTime != null) {
       map['expired_date_time'] = Variable<DateTime>(expiredDateTime);
     }
+    if (!nullToAbsent || dataType != null) {
+      map['data_type'] = Variable<String>(dataType);
+    }
+    if (!nullToAbsent || dataValue != null) {
+      map['data_value'] = Variable<String>(dataValue);
+    }
+    if (!nullToAbsent || groups != null) {
+      map['groups'] = Variable<String>(groups);
+    }
     return map;
   }
 
@@ -5887,6 +6182,14 @@ class NonGlobalBusinessRuleData extends DataClass
       expiredDateTime: expiredDateTime == null && nullToAbsent
           ? const Value.absent()
           : Value(expiredDateTime),
+      dataType: dataType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(dataType),
+      dataValue: dataValue == null && nullToAbsent
+          ? const Value.absent()
+          : Value(dataValue),
+      groups:
+          groups == null && nullToAbsent ? const Value.absent() : Value(groups),
     );
   }
 
@@ -5908,6 +6211,9 @@ class NonGlobalBusinessRuleData extends DataClass
       isApply: serializer.fromJson<bool>(json['isApply']),
       syncError: serializer.fromJson<String>(json['syncError']),
       expiredDateTime: serializer.fromJson<DateTime>(json['expiredDateTime']),
+      dataType: serializer.fromJson<String>(json['dataType']),
+      dataValue: serializer.fromJson<String>(json['dataValue']),
+      groups: serializer.fromJson<String>(json['groups']),
     );
   }
   @override
@@ -5928,6 +6234,9 @@ class NonGlobalBusinessRuleData extends DataClass
       'isApply': serializer.toJson<bool>(isApply),
       'syncError': serializer.toJson<String>(syncError),
       'expiredDateTime': serializer.toJson<DateTime>(expiredDateTime),
+      'dataType': serializer.toJson<String>(dataType),
+      'dataValue': serializer.toJson<String>(dataValue),
+      'groups': serializer.toJson<String>(groups),
     };
   }
 
@@ -5945,7 +6254,10 @@ class NonGlobalBusinessRuleData extends DataClass
           String screen,
           bool isApply,
           String syncError,
-          DateTime expiredDateTime}) =>
+          DateTime expiredDateTime,
+          String dataType,
+          String dataValue,
+          String groups}) =>
       NonGlobalBusinessRuleData(
         code: code ?? this.code,
         parentCode: parentCode ?? this.parentCode,
@@ -5961,6 +6273,9 @@ class NonGlobalBusinessRuleData extends DataClass
         isApply: isApply ?? this.isApply,
         syncError: syncError ?? this.syncError,
         expiredDateTime: expiredDateTime ?? this.expiredDateTime,
+        dataType: dataType ?? this.dataType,
+        dataValue: dataValue ?? this.dataValue,
+        groups: groups ?? this.groups,
       );
   @override
   String toString() {
@@ -5978,7 +6293,10 @@ class NonGlobalBusinessRuleData extends DataClass
           ..write('screen: $screen, ')
           ..write('isApply: $isApply, ')
           ..write('syncError: $syncError, ')
-          ..write('expiredDateTime: $expiredDateTime')
+          ..write('expiredDateTime: $expiredDateTime, ')
+          ..write('dataType: $dataType, ')
+          ..write('dataValue: $dataValue, ')
+          ..write('groups: $groups')
           ..write(')'))
         .toString();
   }
@@ -6010,8 +6328,16 @@ class NonGlobalBusinessRuleData extends DataClass
                                                   isApply.hashCode,
                                                   $mrjc(
                                                       syncError.hashCode,
-                                                      expiredDateTime
-                                                          .hashCode))))))))))))));
+                                                      $mrjc(
+                                                          expiredDateTime
+                                                              .hashCode,
+                                                          $mrjc(
+                                                              dataType.hashCode,
+                                                              $mrjc(
+                                                                  dataValue
+                                                                      .hashCode,
+                                                                  groups
+                                                                      .hashCode)))))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -6029,7 +6355,10 @@ class NonGlobalBusinessRuleData extends DataClass
           other.screen == this.screen &&
           other.isApply == this.isApply &&
           other.syncError == this.syncError &&
-          other.expiredDateTime == this.expiredDateTime);
+          other.expiredDateTime == this.expiredDateTime &&
+          other.dataType == this.dataType &&
+          other.dataValue == this.dataValue &&
+          other.groups == this.groups);
 }
 
 class NonGlobalBusinessRuleCompanion
@@ -6048,6 +6377,9 @@ class NonGlobalBusinessRuleCompanion
   final Value<bool> isApply;
   final Value<String> syncError;
   final Value<DateTime> expiredDateTime;
+  final Value<String> dataType;
+  final Value<String> dataValue;
+  final Value<String> groups;
   const NonGlobalBusinessRuleCompanion({
     this.code = const Value.absent(),
     this.parentCode = const Value.absent(),
@@ -6063,6 +6395,9 @@ class NonGlobalBusinessRuleCompanion
     this.isApply = const Value.absent(),
     this.syncError = const Value.absent(),
     this.expiredDateTime = const Value.absent(),
+    this.dataType = const Value.absent(),
+    this.dataValue = const Value.absent(),
+    this.groups = const Value.absent(),
   });
   NonGlobalBusinessRuleCompanion.insert({
     @required String code,
@@ -6079,6 +6414,9 @@ class NonGlobalBusinessRuleCompanion
     this.isApply = const Value.absent(),
     this.syncError = const Value.absent(),
     this.expiredDateTime = const Value.absent(),
+    this.dataType = const Value.absent(),
+    this.dataValue = const Value.absent(),
+    this.groups = const Value.absent(),
   })  : code = Value(code),
         parentCode = Value(parentCode),
         value = Value(value);
@@ -6097,6 +6435,9 @@ class NonGlobalBusinessRuleCompanion
     Expression<bool> isApply,
     Expression<String> syncError,
     Expression<DateTime> expiredDateTime,
+    Expression<String> dataType,
+    Expression<String> dataValue,
+    Expression<String> groups,
   }) {
     return RawValuesInsertable({
       if (code != null) 'code': code,
@@ -6113,6 +6454,9 @@ class NonGlobalBusinessRuleCompanion
       if (isApply != null) 'is_apply': isApply,
       if (syncError != null) 'sync_error': syncError,
       if (expiredDateTime != null) 'expired_date_time': expiredDateTime,
+      if (dataType != null) 'data_type': dataType,
+      if (dataValue != null) 'data_value': dataValue,
+      if (groups != null) 'groups': groups,
     });
   }
 
@@ -6130,7 +6474,10 @@ class NonGlobalBusinessRuleCompanion
       Value<String> screen,
       Value<bool> isApply,
       Value<String> syncError,
-      Value<DateTime> expiredDateTime}) {
+      Value<DateTime> expiredDateTime,
+      Value<String> dataType,
+      Value<String> dataValue,
+      Value<String> groups}) {
     return NonGlobalBusinessRuleCompanion(
       code: code ?? this.code,
       parentCode: parentCode ?? this.parentCode,
@@ -6146,6 +6493,9 @@ class NonGlobalBusinessRuleCompanion
       isApply: isApply ?? this.isApply,
       syncError: syncError ?? this.syncError,
       expiredDateTime: expiredDateTime ?? this.expiredDateTime,
+      dataType: dataType ?? this.dataType,
+      dataValue: dataValue ?? this.dataValue,
+      groups: groups ?? this.groups,
     );
   }
 
@@ -6194,6 +6544,15 @@ class NonGlobalBusinessRuleCompanion
     if (expiredDateTime.present) {
       map['expired_date_time'] = Variable<DateTime>(expiredDateTime.value);
     }
+    if (dataType.present) {
+      map['data_type'] = Variable<String>(dataType.value);
+    }
+    if (dataValue.present) {
+      map['data_value'] = Variable<String>(dataValue.value);
+    }
+    if (groups.present) {
+      map['groups'] = Variable<String>(groups.value);
+    }
     return map;
   }
 
@@ -6213,7 +6572,10 @@ class NonGlobalBusinessRuleCompanion
           ..write('screen: $screen, ')
           ..write('isApply: $isApply, ')
           ..write('syncError: $syncError, ')
-          ..write('expiredDateTime: $expiredDateTime')
+          ..write('expiredDateTime: $expiredDateTime, ')
+          ..write('dataType: $dataType, ')
+          ..write('dataValue: $dataValue, ')
+          ..write('groups: $groups')
           ..write(')'))
         .toString();
   }
@@ -6393,6 +6755,42 @@ class $NonGlobalBusinessRuleTable extends NonGlobalBusinessRule
     );
   }
 
+  final VerificationMeta _dataTypeMeta = const VerificationMeta('dataType');
+  GeneratedTextColumn _dataType;
+  @override
+  GeneratedTextColumn get dataType => _dataType ??= _constructDataType();
+  GeneratedTextColumn _constructDataType() {
+    return GeneratedTextColumn(
+      'data_type',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _dataValueMeta = const VerificationMeta('dataValue');
+  GeneratedTextColumn _dataValue;
+  @override
+  GeneratedTextColumn get dataValue => _dataValue ??= _constructDataValue();
+  GeneratedTextColumn _constructDataValue() {
+    return GeneratedTextColumn(
+      'data_value',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _groupsMeta = const VerificationMeta('groups');
+  GeneratedTextColumn _groups;
+  @override
+  GeneratedTextColumn get groups => _groups ??= _constructGroups();
+  GeneratedTextColumn _constructGroups() {
+    return GeneratedTextColumn(
+      'groups',
+      $tableName,
+      true,
+    );
+  }
+
   @override
   List<GeneratedColumn> get $columns => [
         code,
@@ -6408,7 +6806,10 @@ class $NonGlobalBusinessRuleTable extends NonGlobalBusinessRule
         screen,
         isApply,
         syncError,
-        expiredDateTime
+        expiredDateTime,
+        dataType,
+        dataValue,
+        groups
       ];
   @override
   $NonGlobalBusinessRuleTable get asDslTable => this;
@@ -6491,6 +6892,18 @@ class $NonGlobalBusinessRuleTable extends NonGlobalBusinessRule
           _expiredDateTimeMeta,
           expiredDateTime.isAcceptableOrUnknown(
               data['expired_date_time'], _expiredDateTimeMeta));
+    }
+    if (data.containsKey('data_type')) {
+      context.handle(_dataTypeMeta,
+          dataType.isAcceptableOrUnknown(data['data_type'], _dataTypeMeta));
+    }
+    if (data.containsKey('data_value')) {
+      context.handle(_dataValueMeta,
+          dataValue.isAcceptableOrUnknown(data['data_value'], _dataValueMeta));
+    }
+    if (data.containsKey('groups')) {
+      context.handle(_groupsMeta,
+          groups.isAcceptableOrUnknown(data['groups'], _groupsMeta));
     }
     return context;
   }
@@ -7717,6 +8130,9 @@ class NonGlobalPreferenceData extends DataClass
   final bool isApply;
   final DateTime expiredDateTime;
   final String syncError;
+  final String dataType;
+  final String dataValue;
+  final String groups;
   NonGlobalPreferenceData(
       {@required this.id,
       @required this.parentCode,
@@ -7728,7 +8144,10 @@ class NonGlobalPreferenceData extends DataClass
       this.screen,
       @required this.isApply,
       this.expiredDateTime,
-      this.syncError});
+      this.syncError,
+      this.dataType,
+      this.dataValue,
+      this.groups});
   factory NonGlobalPreferenceData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -7758,6 +8177,12 @@ class NonGlobalPreferenceData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}expired_date_time']),
       syncError: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}sync_error']),
+      dataType: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}data_type']),
+      dataValue: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}data_value']),
+      groups:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}groups']),
     );
   }
   @override
@@ -7796,6 +8221,15 @@ class NonGlobalPreferenceData extends DataClass
     if (!nullToAbsent || syncError != null) {
       map['sync_error'] = Variable<String>(syncError);
     }
+    if (!nullToAbsent || dataType != null) {
+      map['data_type'] = Variable<String>(dataType);
+    }
+    if (!nullToAbsent || dataValue != null) {
+      map['data_value'] = Variable<String>(dataValue);
+    }
+    if (!nullToAbsent || groups != null) {
+      map['groups'] = Variable<String>(groups);
+    }
     return map;
   }
 
@@ -7828,6 +8262,14 @@ class NonGlobalPreferenceData extends DataClass
       syncError: syncError == null && nullToAbsent
           ? const Value.absent()
           : Value(syncError),
+      dataType: dataType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(dataType),
+      dataValue: dataValue == null && nullToAbsent
+          ? const Value.absent()
+          : Value(dataValue),
+      groups:
+          groups == null && nullToAbsent ? const Value.absent() : Value(groups),
     );
   }
 
@@ -7846,6 +8288,9 @@ class NonGlobalPreferenceData extends DataClass
       isApply: serializer.fromJson<bool>(json['isApply']),
       expiredDateTime: serializer.fromJson<DateTime>(json['expiredDateTime']),
       syncError: serializer.fromJson<String>(json['syncError']),
+      dataType: serializer.fromJson<String>(json['dataType']),
+      dataValue: serializer.fromJson<String>(json['dataValue']),
+      groups: serializer.fromJson<String>(json['groups']),
     );
   }
   @override
@@ -7863,6 +8308,9 @@ class NonGlobalPreferenceData extends DataClass
       'isApply': serializer.toJson<bool>(isApply),
       'expiredDateTime': serializer.toJson<DateTime>(expiredDateTime),
       'syncError': serializer.toJson<String>(syncError),
+      'dataType': serializer.toJson<String>(dataType),
+      'dataValue': serializer.toJson<String>(dataValue),
+      'groups': serializer.toJson<String>(groups),
     };
   }
 
@@ -7877,7 +8325,10 @@ class NonGlobalPreferenceData extends DataClass
           String screen,
           bool isApply,
           DateTime expiredDateTime,
-          String syncError}) =>
+          String syncError,
+          String dataType,
+          String dataValue,
+          String groups}) =>
       NonGlobalPreferenceData(
         id: id ?? this.id,
         parentCode: parentCode ?? this.parentCode,
@@ -7890,6 +8341,9 @@ class NonGlobalPreferenceData extends DataClass
         isApply: isApply ?? this.isApply,
         expiredDateTime: expiredDateTime ?? this.expiredDateTime,
         syncError: syncError ?? this.syncError,
+        dataType: dataType ?? this.dataType,
+        dataValue: dataValue ?? this.dataValue,
+        groups: groups ?? this.groups,
       );
   @override
   String toString() {
@@ -7904,7 +8358,10 @@ class NonGlobalPreferenceData extends DataClass
           ..write('screen: $screen, ')
           ..write('isApply: $isApply, ')
           ..write('expiredDateTime: $expiredDateTime, ')
-          ..write('syncError: $syncError')
+          ..write('syncError: $syncError, ')
+          ..write('dataType: $dataType, ')
+          ..write('dataValue: $dataValue, ')
+          ..write('groups: $groups')
           ..write(')'))
         .toString();
   }
@@ -7928,8 +8385,16 @@ class NonGlobalPreferenceData extends DataClass
                                   screen.hashCode,
                                   $mrjc(
                                       isApply.hashCode,
-                                      $mrjc(expiredDateTime.hashCode,
-                                          syncError.hashCode)))))))))));
+                                      $mrjc(
+                                          expiredDateTime.hashCode,
+                                          $mrjc(
+                                              syncError.hashCode,
+                                              $mrjc(
+                                                  dataType.hashCode,
+                                                  $mrjc(
+                                                      dataValue.hashCode,
+                                                      groups
+                                                          .hashCode))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -7944,7 +8409,10 @@ class NonGlobalPreferenceData extends DataClass
           other.screen == this.screen &&
           other.isApply == this.isApply &&
           other.expiredDateTime == this.expiredDateTime &&
-          other.syncError == this.syncError);
+          other.syncError == this.syncError &&
+          other.dataType == this.dataType &&
+          other.dataValue == this.dataValue &&
+          other.groups == this.groups);
 }
 
 class NonGlobalPreferenceCompanion
@@ -7960,6 +8428,9 @@ class NonGlobalPreferenceCompanion
   final Value<bool> isApply;
   final Value<DateTime> expiredDateTime;
   final Value<String> syncError;
+  final Value<String> dataType;
+  final Value<String> dataValue;
+  final Value<String> groups;
   const NonGlobalPreferenceCompanion({
     this.id = const Value.absent(),
     this.parentCode = const Value.absent(),
@@ -7972,6 +8443,9 @@ class NonGlobalPreferenceCompanion
     this.isApply = const Value.absent(),
     this.expiredDateTime = const Value.absent(),
     this.syncError = const Value.absent(),
+    this.dataType = const Value.absent(),
+    this.dataValue = const Value.absent(),
+    this.groups = const Value.absent(),
   });
   NonGlobalPreferenceCompanion.insert({
     this.id = const Value.absent(),
@@ -7985,6 +8459,9 @@ class NonGlobalPreferenceCompanion
     this.isApply = const Value.absent(),
     this.expiredDateTime = const Value.absent(),
     this.syncError = const Value.absent(),
+    this.dataType = const Value.absent(),
+    this.dataValue = const Value.absent(),
+    this.groups = const Value.absent(),
   })  : parentCode = Value(parentCode),
         code = Value(code),
         value = Value(value);
@@ -8000,6 +8477,9 @@ class NonGlobalPreferenceCompanion
     Expression<bool> isApply,
     Expression<DateTime> expiredDateTime,
     Expression<String> syncError,
+    Expression<String> dataType,
+    Expression<String> dataValue,
+    Expression<String> groups,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -8013,6 +8493,9 @@ class NonGlobalPreferenceCompanion
       if (isApply != null) 'is_apply': isApply,
       if (expiredDateTime != null) 'expired_date_time': expiredDateTime,
       if (syncError != null) 'sync_error': syncError,
+      if (dataType != null) 'data_type': dataType,
+      if (dataValue != null) 'data_value': dataValue,
+      if (groups != null) 'groups': groups,
     });
   }
 
@@ -8027,7 +8510,10 @@ class NonGlobalPreferenceCompanion
       Value<String> screen,
       Value<bool> isApply,
       Value<DateTime> expiredDateTime,
-      Value<String> syncError}) {
+      Value<String> syncError,
+      Value<String> dataType,
+      Value<String> dataValue,
+      Value<String> groups}) {
     return NonGlobalPreferenceCompanion(
       id: id ?? this.id,
       parentCode: parentCode ?? this.parentCode,
@@ -8040,6 +8526,9 @@ class NonGlobalPreferenceCompanion
       isApply: isApply ?? this.isApply,
       expiredDateTime: expiredDateTime ?? this.expiredDateTime,
       syncError: syncError ?? this.syncError,
+      dataType: dataType ?? this.dataType,
+      dataValue: dataValue ?? this.dataValue,
+      groups: groups ?? this.groups,
     );
   }
 
@@ -8079,6 +8568,15 @@ class NonGlobalPreferenceCompanion
     if (syncError.present) {
       map['sync_error'] = Variable<String>(syncError.value);
     }
+    if (dataType.present) {
+      map['data_type'] = Variable<String>(dataType.value);
+    }
+    if (dataValue.present) {
+      map['data_value'] = Variable<String>(dataValue.value);
+    }
+    if (groups.present) {
+      map['groups'] = Variable<String>(groups.value);
+    }
     return map;
   }
 
@@ -8095,7 +8593,10 @@ class NonGlobalPreferenceCompanion
           ..write('screen: $screen, ')
           ..write('isApply: $isApply, ')
           ..write('expiredDateTime: $expiredDateTime, ')
-          ..write('syncError: $syncError')
+          ..write('syncError: $syncError, ')
+          ..write('dataType: $dataType, ')
+          ..write('dataValue: $dataValue, ')
+          ..write('groups: $groups')
           ..write(')'))
         .toString();
   }
@@ -8239,6 +8740,42 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
     );
   }
 
+  final VerificationMeta _dataTypeMeta = const VerificationMeta('dataType');
+  GeneratedTextColumn _dataType;
+  @override
+  GeneratedTextColumn get dataType => _dataType ??= _constructDataType();
+  GeneratedTextColumn _constructDataType() {
+    return GeneratedTextColumn(
+      'data_type',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _dataValueMeta = const VerificationMeta('dataValue');
+  GeneratedTextColumn _dataValue;
+  @override
+  GeneratedTextColumn get dataValue => _dataValue ??= _constructDataValue();
+  GeneratedTextColumn _constructDataValue() {
+    return GeneratedTextColumn(
+      'data_value',
+      $tableName,
+      true,
+    );
+  }
+
+  final VerificationMeta _groupsMeta = const VerificationMeta('groups');
+  GeneratedTextColumn _groups;
+  @override
+  GeneratedTextColumn get groups => _groups ??= _constructGroups();
+  GeneratedTextColumn _constructGroups() {
+    return GeneratedTextColumn(
+      'groups',
+      $tableName,
+      true,
+    );
+  }
+
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -8251,7 +8788,10 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
         screen,
         isApply,
         expiredDateTime,
-        syncError
+        syncError,
+        dataType,
+        dataValue,
+        groups
       ];
   @override
   $NonGlobalPreferenceTable get asDslTable => this;
@@ -8320,6 +8860,18 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
       context.handle(_syncErrorMeta,
           syncError.isAcceptableOrUnknown(data['sync_error'], _syncErrorMeta));
     }
+    if (data.containsKey('data_type')) {
+      context.handle(_dataTypeMeta,
+          dataType.isAcceptableOrUnknown(data['data_type'], _dataTypeMeta));
+    }
+    if (data.containsKey('data_value')) {
+      context.handle(_dataValueMeta,
+          dataValue.isAcceptableOrUnknown(data['data_value'], _dataValueMeta));
+    }
+    if (data.containsKey('groups')) {
+      context.handle(_groupsMeta,
+          groups.isAcceptableOrUnknown(data['groups'], _groupsMeta));
+    }
     return context;
   }
 
@@ -8334,6 +8886,557 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
   @override
   $NonGlobalPreferenceTable createAlias(String alias) {
     return $NonGlobalPreferenceTable(_db, alias);
+  }
+}
+
+class DesktopData extends DataClass implements Insertable<DesktopData> {
+  final int id;
+  final String iconName;
+  final String iconCode;
+  final String iconColour;
+  final String iconFamily;
+  final String navigationRoute;
+  final String iconGroup;
+  final bool isFavorit;
+  final String userPermission;
+  DesktopData(
+      {@required this.id,
+      @required this.iconName,
+      @required this.iconCode,
+      @required this.iconColour,
+      @required this.iconFamily,
+      @required this.navigationRoute,
+      @required this.iconGroup,
+      @required this.isFavorit,
+      @required this.userPermission});
+  factory DesktopData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    return DesktopData(
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      iconName: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}icon_name']),
+      iconCode: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}icon_code']),
+      iconColour: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}icon_colour']),
+      iconFamily: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}icon_family']),
+      navigationRoute: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}navigation_route']),
+      iconGroup: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}icon_group']),
+      isFavorit: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_favorit']),
+      userPermission: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}user_permission']),
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || iconName != null) {
+      map['icon_name'] = Variable<String>(iconName);
+    }
+    if (!nullToAbsent || iconCode != null) {
+      map['icon_code'] = Variable<String>(iconCode);
+    }
+    if (!nullToAbsent || iconColour != null) {
+      map['icon_colour'] = Variable<String>(iconColour);
+    }
+    if (!nullToAbsent || iconFamily != null) {
+      map['icon_family'] = Variable<String>(iconFamily);
+    }
+    if (!nullToAbsent || navigationRoute != null) {
+      map['navigation_route'] = Variable<String>(navigationRoute);
+    }
+    if (!nullToAbsent || iconGroup != null) {
+      map['icon_group'] = Variable<String>(iconGroup);
+    }
+    if (!nullToAbsent || isFavorit != null) {
+      map['is_favorit'] = Variable<bool>(isFavorit);
+    }
+    if (!nullToAbsent || userPermission != null) {
+      map['user_permission'] = Variable<String>(userPermission);
+    }
+    return map;
+  }
+
+  DesktopCompanion toCompanion(bool nullToAbsent) {
+    return DesktopCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      iconName: iconName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(iconName),
+      iconCode: iconCode == null && nullToAbsent
+          ? const Value.absent()
+          : Value(iconCode),
+      iconColour: iconColour == null && nullToAbsent
+          ? const Value.absent()
+          : Value(iconColour),
+      iconFamily: iconFamily == null && nullToAbsent
+          ? const Value.absent()
+          : Value(iconFamily),
+      navigationRoute: navigationRoute == null && nullToAbsent
+          ? const Value.absent()
+          : Value(navigationRoute),
+      iconGroup: iconGroup == null && nullToAbsent
+          ? const Value.absent()
+          : Value(iconGroup),
+      isFavorit: isFavorit == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isFavorit),
+      userPermission: userPermission == null && nullToAbsent
+          ? const Value.absent()
+          : Value(userPermission),
+    );
+  }
+
+  factory DesktopData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return DesktopData(
+      id: serializer.fromJson<int>(json['id']),
+      iconName: serializer.fromJson<String>(json['iconName']),
+      iconCode: serializer.fromJson<String>(json['iconCode']),
+      iconColour: serializer.fromJson<String>(json['iconColour']),
+      iconFamily: serializer.fromJson<String>(json['iconFamily']),
+      navigationRoute: serializer.fromJson<String>(json['navigationRoute']),
+      iconGroup: serializer.fromJson<String>(json['iconGroup']),
+      isFavorit: serializer.fromJson<bool>(json['isFavorit']),
+      userPermission: serializer.fromJson<String>(json['userPermission']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'iconName': serializer.toJson<String>(iconName),
+      'iconCode': serializer.toJson<String>(iconCode),
+      'iconColour': serializer.toJson<String>(iconColour),
+      'iconFamily': serializer.toJson<String>(iconFamily),
+      'navigationRoute': serializer.toJson<String>(navigationRoute),
+      'iconGroup': serializer.toJson<String>(iconGroup),
+      'isFavorit': serializer.toJson<bool>(isFavorit),
+      'userPermission': serializer.toJson<String>(userPermission),
+    };
+  }
+
+  DesktopData copyWith(
+          {int id,
+          String iconName,
+          String iconCode,
+          String iconColour,
+          String iconFamily,
+          String navigationRoute,
+          String iconGroup,
+          bool isFavorit,
+          String userPermission}) =>
+      DesktopData(
+        id: id ?? this.id,
+        iconName: iconName ?? this.iconName,
+        iconCode: iconCode ?? this.iconCode,
+        iconColour: iconColour ?? this.iconColour,
+        iconFamily: iconFamily ?? this.iconFamily,
+        navigationRoute: navigationRoute ?? this.navigationRoute,
+        iconGroup: iconGroup ?? this.iconGroup,
+        isFavorit: isFavorit ?? this.isFavorit,
+        userPermission: userPermission ?? this.userPermission,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('DesktopData(')
+          ..write('id: $id, ')
+          ..write('iconName: $iconName, ')
+          ..write('iconCode: $iconCode, ')
+          ..write('iconColour: $iconColour, ')
+          ..write('iconFamily: $iconFamily, ')
+          ..write('navigationRoute: $navigationRoute, ')
+          ..write('iconGroup: $iconGroup, ')
+          ..write('isFavorit: $isFavorit, ')
+          ..write('userPermission: $userPermission')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      id.hashCode,
+      $mrjc(
+          iconName.hashCode,
+          $mrjc(
+              iconCode.hashCode,
+              $mrjc(
+                  iconColour.hashCode,
+                  $mrjc(
+                      iconFamily.hashCode,
+                      $mrjc(
+                          navigationRoute.hashCode,
+                          $mrjc(
+                              iconGroup.hashCode,
+                              $mrjc(isFavorit.hashCode,
+                                  userPermission.hashCode)))))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is DesktopData &&
+          other.id == this.id &&
+          other.iconName == this.iconName &&
+          other.iconCode == this.iconCode &&
+          other.iconColour == this.iconColour &&
+          other.iconFamily == this.iconFamily &&
+          other.navigationRoute == this.navigationRoute &&
+          other.iconGroup == this.iconGroup &&
+          other.isFavorit == this.isFavorit &&
+          other.userPermission == this.userPermission);
+}
+
+class DesktopCompanion extends UpdateCompanion<DesktopData> {
+  final Value<int> id;
+  final Value<String> iconName;
+  final Value<String> iconCode;
+  final Value<String> iconColour;
+  final Value<String> iconFamily;
+  final Value<String> navigationRoute;
+  final Value<String> iconGroup;
+  final Value<bool> isFavorit;
+  final Value<String> userPermission;
+  const DesktopCompanion({
+    this.id = const Value.absent(),
+    this.iconName = const Value.absent(),
+    this.iconCode = const Value.absent(),
+    this.iconColour = const Value.absent(),
+    this.iconFamily = const Value.absent(),
+    this.navigationRoute = const Value.absent(),
+    this.iconGroup = const Value.absent(),
+    this.isFavorit = const Value.absent(),
+    this.userPermission = const Value.absent(),
+  });
+  DesktopCompanion.insert({
+    this.id = const Value.absent(),
+    @required String iconName,
+    @required String iconCode,
+    @required String iconColour,
+    @required String iconFamily,
+    @required String navigationRoute,
+    @required String iconGroup,
+    this.isFavorit = const Value.absent(),
+    @required String userPermission,
+  })  : iconName = Value(iconName),
+        iconCode = Value(iconCode),
+        iconColour = Value(iconColour),
+        iconFamily = Value(iconFamily),
+        navigationRoute = Value(navigationRoute),
+        iconGroup = Value(iconGroup),
+        userPermission = Value(userPermission);
+  static Insertable<DesktopData> custom({
+    Expression<int> id,
+    Expression<String> iconName,
+    Expression<String> iconCode,
+    Expression<String> iconColour,
+    Expression<String> iconFamily,
+    Expression<String> navigationRoute,
+    Expression<String> iconGroup,
+    Expression<bool> isFavorit,
+    Expression<String> userPermission,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (iconName != null) 'icon_name': iconName,
+      if (iconCode != null) 'icon_code': iconCode,
+      if (iconColour != null) 'icon_colour': iconColour,
+      if (iconFamily != null) 'icon_family': iconFamily,
+      if (navigationRoute != null) 'navigation_route': navigationRoute,
+      if (iconGroup != null) 'icon_group': iconGroup,
+      if (isFavorit != null) 'is_favorit': isFavorit,
+      if (userPermission != null) 'user_permission': userPermission,
+    });
+  }
+
+  DesktopCompanion copyWith(
+      {Value<int> id,
+      Value<String> iconName,
+      Value<String> iconCode,
+      Value<String> iconColour,
+      Value<String> iconFamily,
+      Value<String> navigationRoute,
+      Value<String> iconGroup,
+      Value<bool> isFavorit,
+      Value<String> userPermission}) {
+    return DesktopCompanion(
+      id: id ?? this.id,
+      iconName: iconName ?? this.iconName,
+      iconCode: iconCode ?? this.iconCode,
+      iconColour: iconColour ?? this.iconColour,
+      iconFamily: iconFamily ?? this.iconFamily,
+      navigationRoute: navigationRoute ?? this.navigationRoute,
+      iconGroup: iconGroup ?? this.iconGroup,
+      isFavorit: isFavorit ?? this.isFavorit,
+      userPermission: userPermission ?? this.userPermission,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (iconName.present) {
+      map['icon_name'] = Variable<String>(iconName.value);
+    }
+    if (iconCode.present) {
+      map['icon_code'] = Variable<String>(iconCode.value);
+    }
+    if (iconColour.present) {
+      map['icon_colour'] = Variable<String>(iconColour.value);
+    }
+    if (iconFamily.present) {
+      map['icon_family'] = Variable<String>(iconFamily.value);
+    }
+    if (navigationRoute.present) {
+      map['navigation_route'] = Variable<String>(navigationRoute.value);
+    }
+    if (iconGroup.present) {
+      map['icon_group'] = Variable<String>(iconGroup.value);
+    }
+    if (isFavorit.present) {
+      map['is_favorit'] = Variable<bool>(isFavorit.value);
+    }
+    if (userPermission.present) {
+      map['user_permission'] = Variable<String>(userPermission.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DesktopCompanion(')
+          ..write('id: $id, ')
+          ..write('iconName: $iconName, ')
+          ..write('iconCode: $iconCode, ')
+          ..write('iconColour: $iconColour, ')
+          ..write('iconFamily: $iconFamily, ')
+          ..write('navigationRoute: $navigationRoute, ')
+          ..write('iconGroup: $iconGroup, ')
+          ..write('isFavorit: $isFavorit, ')
+          ..write('userPermission: $userPermission')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $DesktopTable extends Desktop with TableInfo<$DesktopTable, DesktopData> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $DesktopTable(this._db, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn('id', $tableName, false,
+        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+  }
+
+  final VerificationMeta _iconNameMeta = const VerificationMeta('iconName');
+  GeneratedTextColumn _iconName;
+  @override
+  GeneratedTextColumn get iconName => _iconName ??= _constructIconName();
+  GeneratedTextColumn _constructIconName() {
+    return GeneratedTextColumn(
+      'icon_name',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _iconCodeMeta = const VerificationMeta('iconCode');
+  GeneratedTextColumn _iconCode;
+  @override
+  GeneratedTextColumn get iconCode => _iconCode ??= _constructIconCode();
+  GeneratedTextColumn _constructIconCode() {
+    return GeneratedTextColumn(
+      'icon_code',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _iconColourMeta = const VerificationMeta('iconColour');
+  GeneratedTextColumn _iconColour;
+  @override
+  GeneratedTextColumn get iconColour => _iconColour ??= _constructIconColour();
+  GeneratedTextColumn _constructIconColour() {
+    return GeneratedTextColumn(
+      'icon_colour',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _iconFamilyMeta = const VerificationMeta('iconFamily');
+  GeneratedTextColumn _iconFamily;
+  @override
+  GeneratedTextColumn get iconFamily => _iconFamily ??= _constructIconFamily();
+  GeneratedTextColumn _constructIconFamily() {
+    return GeneratedTextColumn(
+      'icon_family',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _navigationRouteMeta =
+      const VerificationMeta('navigationRoute');
+  GeneratedTextColumn _navigationRoute;
+  @override
+  GeneratedTextColumn get navigationRoute =>
+      _navigationRoute ??= _constructNavigationRoute();
+  GeneratedTextColumn _constructNavigationRoute() {
+    return GeneratedTextColumn(
+      'navigation_route',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _iconGroupMeta = const VerificationMeta('iconGroup');
+  GeneratedTextColumn _iconGroup;
+  @override
+  GeneratedTextColumn get iconGroup => _iconGroup ??= _constructIconGroup();
+  GeneratedTextColumn _constructIconGroup() {
+    return GeneratedTextColumn(
+      'icon_group',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _isFavoritMeta = const VerificationMeta('isFavorit');
+  GeneratedBoolColumn _isFavorit;
+  @override
+  GeneratedBoolColumn get isFavorit => _isFavorit ??= _constructIsFavorit();
+  GeneratedBoolColumn _constructIsFavorit() {
+    return GeneratedBoolColumn('is_favorit', $tableName, false,
+        defaultValue: Constant(false));
+  }
+
+  final VerificationMeta _userPermissionMeta =
+      const VerificationMeta('userPermission');
+  GeneratedTextColumn _userPermission;
+  @override
+  GeneratedTextColumn get userPermission =>
+      _userPermission ??= _constructUserPermission();
+  GeneratedTextColumn _constructUserPermission() {
+    return GeneratedTextColumn(
+      'user_permission',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        iconName,
+        iconCode,
+        iconColour,
+        iconFamily,
+        navigationRoute,
+        iconGroup,
+        isFavorit,
+        userPermission
+      ];
+  @override
+  $DesktopTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'desktop';
+  @override
+  final String actualTableName = 'desktop';
+  @override
+  VerificationContext validateIntegrity(Insertable<DesktopData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    }
+    if (data.containsKey('icon_name')) {
+      context.handle(_iconNameMeta,
+          iconName.isAcceptableOrUnknown(data['icon_name'], _iconNameMeta));
+    } else if (isInserting) {
+      context.missing(_iconNameMeta);
+    }
+    if (data.containsKey('icon_code')) {
+      context.handle(_iconCodeMeta,
+          iconCode.isAcceptableOrUnknown(data['icon_code'], _iconCodeMeta));
+    } else if (isInserting) {
+      context.missing(_iconCodeMeta);
+    }
+    if (data.containsKey('icon_colour')) {
+      context.handle(
+          _iconColourMeta,
+          iconColour.isAcceptableOrUnknown(
+              data['icon_colour'], _iconColourMeta));
+    } else if (isInserting) {
+      context.missing(_iconColourMeta);
+    }
+    if (data.containsKey('icon_family')) {
+      context.handle(
+          _iconFamilyMeta,
+          iconFamily.isAcceptableOrUnknown(
+              data['icon_family'], _iconFamilyMeta));
+    } else if (isInserting) {
+      context.missing(_iconFamilyMeta);
+    }
+    if (data.containsKey('navigation_route')) {
+      context.handle(
+          _navigationRouteMeta,
+          navigationRoute.isAcceptableOrUnknown(
+              data['navigation_route'], _navigationRouteMeta));
+    } else if (isInserting) {
+      context.missing(_navigationRouteMeta);
+    }
+    if (data.containsKey('icon_group')) {
+      context.handle(_iconGroupMeta,
+          iconGroup.isAcceptableOrUnknown(data['icon_group'], _iconGroupMeta));
+    } else if (isInserting) {
+      context.missing(_iconGroupMeta);
+    }
+    if (data.containsKey('is_favorit')) {
+      context.handle(_isFavoritMeta,
+          isFavorit.isAcceptableOrUnknown(data['is_favorit'], _isFavoritMeta));
+    }
+    if (data.containsKey('user_permission')) {
+      context.handle(
+          _userPermissionMeta,
+          userPermission.isAcceptableOrUnknown(
+              data['user_permission'], _userPermissionMeta));
+    } else if (isInserting) {
+      context.missing(_userPermissionMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  DesktopData map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return DesktopData.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  $DesktopTable createAlias(String alias) {
+    return $DesktopTable(_db, alias);
   }
 }
 
@@ -8369,6 +9472,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $NonGlobalPreferenceTable _nonGlobalPreference;
   $NonGlobalPreferenceTable get nonGlobalPreference =>
       _nonGlobalPreference ??= $NonGlobalPreferenceTable(this);
+  $DesktopTable _desktop;
+  $DesktopTable get desktop => _desktop ??= $DesktopTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
@@ -8383,6 +9488,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         nonGlobalBusinessRule,
         applicationLogger,
         tenant,
-        nonGlobalPreference
+        nonGlobalPreference,
+        desktop
       ];
 }

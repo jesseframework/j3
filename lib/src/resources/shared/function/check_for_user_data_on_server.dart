@@ -45,10 +45,10 @@ class UserFromServer {
         //if (routeinfo["no_route"]?.isEmpty ?? true)
         if (isBlank(isUserInDb.mobileHash) &&
             isUserInDb.enableOfflineLogin == true) {
-          await userDao.updateUser(formData, id);
           isofflineready = true;
         } else {
           isofflineready = false;
+          await userDao.updateUser(formData, id);
         }
       } else {
         print('Create new user');
