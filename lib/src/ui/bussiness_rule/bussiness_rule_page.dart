@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:j3enterprise/src/database/crud/prefrence/preference_crud.dart';
+import 'package:j3enterprise/src/database/crud/business_rule/business_rule_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/shared/colors/my_color.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
@@ -8,21 +8,22 @@ import 'package:j3enterprise/src/resources/shared/widgets/circuler_indicator.dar
 import 'package:j3enterprise/src/resources/shared/widgets/no_data_found.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/search_bar.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication.dart';
+import 'package:j3enterprise/src/ui/bussiness_rule/bussiness_rule_detail_page.dart';
 import 'package:j3enterprise/src/ui/preferences/preference_detail.dart';
 
-class PreferencesPage extends StatefulWidget {
+class BussinessRulePage extends StatefulWidget {
   static final route = '/preferences';
   var db;
-  PreferenceDao preferenceDao;
-  PreferencesPage() {
+  BusinessRuleDao businessRuleDao;
+  BussinessRulePage() {
     db = AppDatabase();
-    preferenceDao = PreferenceDao(db);
+    businessRuleDao = BusinessRuleDao(db);
   }
   @override
-  _PreferencesPageState createState() => _PreferencesPageState();
+  _BussinessRulePageState createState() => _BussinessRulePageState();
 }
 
-class _PreferencesPageState extends State<PreferencesPage> {
+class _BussinessRulePageState extends State<BussinessRulePage> {
   String searchText = '';
 
   bool searchOn = false;
@@ -45,8 +46,8 @@ class _PreferencesPageState extends State<PreferencesPage> {
           shadowColor: Colors.transparent,
           //ToDo add translation for preferences title
           title: Text(
-              AppLocalization.of(context).translate('preferences_title') ??
-                  "Preferences"),
+              AppLocalization.of(context).translate('bussiness_rule_title') ??
+                  "Bussiness Rule"),
           actions: <Widget>[
             Padding(
               padding: const EdgeInsets.only(right: 18),
@@ -88,19 +89,19 @@ class _PreferencesPageState extends State<PreferencesPage> {
 
   _buildStreamBuilder() {
     return StreamBuilder(
-        stream: widget.preferenceDao.watchAllPreferences(searchText),
+        stream: widget.businessRuleDao.watchAllBusinessRule(searchText),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            List<PreferenceData> prefData = snapshot.data;
+            List<BusinessRuleData> bussinessRuleData = snapshot.data;
             List<String> groupsCollection = List<String>();
-            prefData.forEach((element) {
+            bussinessRuleData.forEach((element) {
               if (!groupsCollection.contains(element.groups)) {
                 groupsCollection.add(element.groups);
               }
             });
-            if (prefData.isEmpty) {
+            if (bussinessRuleData.isEmpty) {
               return BuildOnNoData(
-                message: "No Preference Found",
+                message: "No Bussiness Rule Found",
               );
             }
             return Expanded(
@@ -134,7 +135,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),
                                       child: Column(children: [
-                                        ...prefData.map((e) {
+                                        ...bussinessRuleData.map((e) {
                                           if (e.groups ==
                                               groupsCollection[index]) {
                                             return InkWell(
@@ -143,8 +144,8 @@ class _PreferencesPageState extends State<PreferencesPage> {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            PreferenceDetailPage(
-                                                                e.code)));
+                                                            BussinessRuleDetailPage(
+                                                                e.ruleName)));
                                               },
                                               child: Padding(
                                                 padding:
@@ -164,7 +165,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
                                                                           .spaceBetween,
                                                                   children: [
                                                                     Text(
-                                                                      e.preferenceName,
+                                                                      e.ruleName,
                                                                       style: TextStyle(
                                                                           fontWeight: FontWeight
                                                                               .bold,

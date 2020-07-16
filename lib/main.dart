@@ -16,6 +16,7 @@ import 'package:j3enterprise/src/ui/background_jobs/backgroundjobs_pages.dart';
 import 'package:j3enterprise/src/ui/communication/setup_communication_page.dart';
 import 'package:j3enterprise/src/ui/login_offline/offline_login_page.dart';
 import 'package:j3enterprise/src/ui/preferences/preferences.dart';
+import 'package:j3enterprise/src/ui/profile/profile_page.dart';
 import 'package:j3enterprise/src/ui/splash/splash_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'src/resources/repositories/user_repository.dart';
@@ -106,7 +107,6 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return FirebaseMessageWrapper(
       child: MaterialApp(
-
         builder: BotToastInit(),
         // navigatorObservers: [BotToastNavigatorObserver()],
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
@@ -122,7 +122,7 @@ class _AppState extends State<App> {
               return HomePage();
             }
             if (state is AuthenticationUnauthenticated) {
-              return LoginPage();
+              return ProfileThreePage();
             }
             if (state is AuthenticationLoading) {
               return LoadingIndicator();

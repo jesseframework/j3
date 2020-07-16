@@ -1,12 +1,15 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:find_dropdown/find_dropdown.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:j3enterprise/main.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/non_preference_crud.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/preference_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/shared/colors/my_color.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:xlive_switch/xlive_switch.dart';
 
 class PreferenceDetailPage extends StatefulWidget {
@@ -25,7 +28,7 @@ class PreferenceDetailPage extends StatefulWidget {
 }
 
 class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
-  TextEditingController _textFieldController=TextEditingController();
+  TextEditingController _textFieldController = TextEditingController();
   String selectedValue;
   @override
   Widget build(BuildContext context) {
@@ -85,7 +88,6 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -163,21 +165,41 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                                 })
 //
                                             : prefData.dataType == 'Text'
-                                                ?Row(
-                                          children: [
-                                            Text(prefData.value, style: TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.black45,
-                                                fontSize: 16),),
-                                             InkWell(child: Container(
-                                                 margin: EdgeInsets.only(left: 8),
-                                                 child: Icon(Icons.edit)),
-                                             onTap: (){
-                                               _textFieldController=TextEditingController(text:prefData.value);
-                                               _displayDialog(context,()=>widget.preferenceDao.updatePreferenceValue(prefData.copyWith(value: _textFieldController.text)));
-                                               },),
-                                          ],
-                                        )
+                                                ? Row(
+                                                    children: [
+                                                      Text(
+                                                        prefData.value,
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color:
+                                                                Colors.black45,
+                                                            fontSize: 16),
+                                                      ),
+                                                      InkWell(
+                                                        child: Container(
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    left: 8),
+                                                            child: Icon(
+                                                                Icons.edit)),
+                                                        onTap: () {
+                                                          _textFieldController =
+                                                              TextEditingController(
+                                                                  text: prefData
+                                                                      .value);
+                                                          _displayDialog(
+                                                              context,
+                                                              () => widget
+                                                                  .preferenceDao
+                                                                  .updatePreferenceValue(
+                                                                      prefData.copyWith(
+                                                                          value:
+                                                                              _textFieldController.text)));
+                                                        },
+                                                      ),
+                                                    ],
+                                                  )
                                                 : FindDropdown(
                                                     onFind: (value) async {
                                                       print(value);
@@ -186,7 +208,8 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                                           .map((e) => e)
                                                           .toList();
                                                     },
-                                                    selectedItem: prefData.value,
+                                                    selectedItem:
+                                                        prefData.value,
                                                     showSearchBox: true,
                                                     items: prefData.dataValue
                                                         .split(',')
@@ -196,7 +219,8 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                                       await widget.preferenceDao
                                                           .updatePreferenceValue(
                                                               prefData.copyWith(
-                                                                  value: value));
+                                                                  value:
+                                                                      value));
                                                     })),
                                   ],
                                 ),
@@ -220,18 +244,20 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                           fontSize: 16),
                                     ),
                                     InkWell(
-                                      onTap: ()async{
-                                        var result = await showDatePicker(
-                                            context: context,
-                                            initialDate: DateTime.now(),
-                                            firstDate: DateTime(1970),
-                                            lastDate: DateTime(2100));
-                                        await widget.preferenceDao.updatePreferenceValue(prefData.copyWith(expiredDateTime: result));
-                                      },
+                                        onTap: () async {
+                                          var result = await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime(1970),
+                                              lastDate: DateTime(2100));
+                                          await widget.preferenceDao
+                                              .updatePreferenceValue(
+                                                  prefData.copyWith(
+                                                      expiredDateTime: result));
+                                        },
                                         child: Container(
-
-                                      margin: EdgeInsets.only(left: 8),
-                                        child: Icon(Icons.calendar_today))),
+                                            margin: EdgeInsets.only(left: 8),
+                                            child: Icon(Icons.calendar_today))),
                                   ],
                                 ),
                               ],
@@ -282,7 +308,8 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                             return Card(
                               elevation: 4.0,
                               child: Padding(
-                                padding: const EdgeInsets.symmetric( vertical: 5,horizontal: 12),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 12),
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -299,21 +326,25 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                               fontSize: 18),
                                         ),
                                         Container(
-                                        //  height: 20,
-                                          child: XlivSwitch(
-                                              value: nonGloblePrefData[index].value == 'OFF'
-                                                  ? false
-                                                  : true,
-                                              onChanged: (value) async {
-                                                await widget.nonGlobalPreferenceDao
-                                                    .updateNonGlobalPreferenceValue(
-                                                    nonGloblePrefData[index].copyWith(
-                                                      value: value == true
-                                                          ? 'ON'
-                                                          : 'OFF',
-                                                    ));
-                                              })
-                                        ),
+                                            //  height: 20,
+                                            child: XlivSwitch(
+                                                value: nonGloblePrefData[index]
+                                                            .value ==
+                                                        'OFF'
+                                                    ? false
+                                                    : true,
+                                                onChanged: (value) async {
+                                                  await widget
+                                                      .nonGlobalPreferenceDao
+                                                      .updateNonGlobalPreferenceValue(
+                                                          nonGloblePrefData[
+                                                                  index]
+                                                              .copyWith(
+                                                    value: value == true
+                                                        ? 'ON'
+                                                        : 'OFF',
+                                                  ));
+                                                })),
                                       ],
                                     ),
                                     SizedBox(
@@ -368,32 +399,28 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
     );
   }
 
-  _displayDialog(BuildContext context ,callBack) async {
+  _displayDialog(BuildContext context, callBack) async {
     return showDialog(
-
         context: context,
         builder: (context) {
           return AlertDialog(
-shape: RoundedRectangleBorder(
-  borderRadius: BorderRadius.circular(8)
-),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             title: Text('Option'),
             content: TextField(
               controller: _textFieldController,
-
             ),
             actions: <Widget>[
-                FlatButton(
-                child:  Text('Discard'),
+              FlatButton(
+                child: Text('Discard'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
-
               FlatButton(
-                child:  Text('Save'),
-                onPressed: ()async {
-                 await callBack();
+                child: Text('Save'),
+                onPressed: () async {
+                  await callBack();
                   Navigator.of(context).pop();
                 },
               )
@@ -402,4 +429,3 @@ shape: RoundedRectangleBorder(
         });
   }
 }
-
