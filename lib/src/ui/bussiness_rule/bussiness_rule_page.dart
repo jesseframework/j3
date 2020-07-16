@@ -101,7 +101,7 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
             });
             if (bussinessRuleData.isEmpty) {
               return BuildOnNoData(
-                message: "No Preference Found",
+                message: "No Bussiness Rule Found",
               );
             }
             return Expanded(

@@ -8892,7 +8892,9 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
 class DesktopData extends DataClass implements Insertable<DesktopData> {
   final int id;
   final String iconName;
-  final String iconImages;
+  final String iconCode;
+  final String iconColour;
+  final String iconFamily;
   final String navigationRoute;
   final String iconGroup;
   final bool isFavorit;
@@ -8900,7 +8902,9 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
   DesktopData(
       {@required this.id,
       @required this.iconName,
-      @required this.iconImages,
+      @required this.iconCode,
+      @required this.iconColour,
+      @required this.iconFamily,
       @required this.navigationRoute,
       @required this.iconGroup,
       @required this.isFavorit,
@@ -8915,8 +8919,12 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       iconName: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}icon_name']),
-      iconImages: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}icon_images']),
+      iconCode: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}icon_code']),
+      iconColour: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}icon_colour']),
+      iconFamily: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}icon_family']),
       navigationRoute: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}navigation_route']),
       iconGroup: stringType
@@ -8936,8 +8944,14 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
     if (!nullToAbsent || iconName != null) {
       map['icon_name'] = Variable<String>(iconName);
     }
-    if (!nullToAbsent || iconImages != null) {
-      map['icon_images'] = Variable<String>(iconImages);
+    if (!nullToAbsent || iconCode != null) {
+      map['icon_code'] = Variable<String>(iconCode);
+    }
+    if (!nullToAbsent || iconColour != null) {
+      map['icon_colour'] = Variable<String>(iconColour);
+    }
+    if (!nullToAbsent || iconFamily != null) {
+      map['icon_family'] = Variable<String>(iconFamily);
     }
     if (!nullToAbsent || navigationRoute != null) {
       map['navigation_route'] = Variable<String>(navigationRoute);
@@ -8960,9 +8974,15 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
       iconName: iconName == null && nullToAbsent
           ? const Value.absent()
           : Value(iconName),
-      iconImages: iconImages == null && nullToAbsent
+      iconCode: iconCode == null && nullToAbsent
           ? const Value.absent()
-          : Value(iconImages),
+          : Value(iconCode),
+      iconColour: iconColour == null && nullToAbsent
+          ? const Value.absent()
+          : Value(iconColour),
+      iconFamily: iconFamily == null && nullToAbsent
+          ? const Value.absent()
+          : Value(iconFamily),
       navigationRoute: navigationRoute == null && nullToAbsent
           ? const Value.absent()
           : Value(navigationRoute),
@@ -8984,7 +9004,9 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
     return DesktopData(
       id: serializer.fromJson<int>(json['id']),
       iconName: serializer.fromJson<String>(json['iconName']),
-      iconImages: serializer.fromJson<String>(json['iconImages']),
+      iconCode: serializer.fromJson<String>(json['iconCode']),
+      iconColour: serializer.fromJson<String>(json['iconColour']),
+      iconFamily: serializer.fromJson<String>(json['iconFamily']),
       navigationRoute: serializer.fromJson<String>(json['navigationRoute']),
       iconGroup: serializer.fromJson<String>(json['iconGroup']),
       isFavorit: serializer.fromJson<bool>(json['isFavorit']),
@@ -8997,7 +9019,9 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'iconName': serializer.toJson<String>(iconName),
-      'iconImages': serializer.toJson<String>(iconImages),
+      'iconCode': serializer.toJson<String>(iconCode),
+      'iconColour': serializer.toJson<String>(iconColour),
+      'iconFamily': serializer.toJson<String>(iconFamily),
       'navigationRoute': serializer.toJson<String>(navigationRoute),
       'iconGroup': serializer.toJson<String>(iconGroup),
       'isFavorit': serializer.toJson<bool>(isFavorit),
@@ -9008,7 +9032,9 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
   DesktopData copyWith(
           {int id,
           String iconName,
-          String iconImages,
+          String iconCode,
+          String iconColour,
+          String iconFamily,
           String navigationRoute,
           String iconGroup,
           bool isFavorit,
@@ -9016,7 +9042,9 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
       DesktopData(
         id: id ?? this.id,
         iconName: iconName ?? this.iconName,
-        iconImages: iconImages ?? this.iconImages,
+        iconCode: iconCode ?? this.iconCode,
+        iconColour: iconColour ?? this.iconColour,
+        iconFamily: iconFamily ?? this.iconFamily,
         navigationRoute: navigationRoute ?? this.navigationRoute,
         iconGroup: iconGroup ?? this.iconGroup,
         isFavorit: isFavorit ?? this.isFavorit,
@@ -9027,7 +9055,9 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
     return (StringBuffer('DesktopData(')
           ..write('id: $id, ')
           ..write('iconName: $iconName, ')
-          ..write('iconImages: $iconImages, ')
+          ..write('iconCode: $iconCode, ')
+          ..write('iconColour: $iconColour, ')
+          ..write('iconFamily: $iconFamily, ')
           ..write('navigationRoute: $navigationRoute, ')
           ..write('iconGroup: $iconGroup, ')
           ..write('isFavorit: $isFavorit, ')
@@ -9042,18 +9072,26 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
       $mrjc(
           iconName.hashCode,
           $mrjc(
-              iconImages.hashCode,
+              iconCode.hashCode,
               $mrjc(
-                  navigationRoute.hashCode,
-                  $mrjc(iconGroup.hashCode,
-                      $mrjc(isFavorit.hashCode, userPermission.hashCode)))))));
+                  iconColour.hashCode,
+                  $mrjc(
+                      iconFamily.hashCode,
+                      $mrjc(
+                          navigationRoute.hashCode,
+                          $mrjc(
+                              iconGroup.hashCode,
+                              $mrjc(isFavorit.hashCode,
+                                  userPermission.hashCode)))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is DesktopData &&
           other.id == this.id &&
           other.iconName == this.iconName &&
-          other.iconImages == this.iconImages &&
+          other.iconCode == this.iconCode &&
+          other.iconColour == this.iconColour &&
+          other.iconFamily == this.iconFamily &&
           other.navigationRoute == this.navigationRoute &&
           other.iconGroup == this.iconGroup &&
           other.isFavorit == this.isFavorit &&
@@ -9063,7 +9101,9 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
 class DesktopCompanion extends UpdateCompanion<DesktopData> {
   final Value<int> id;
   final Value<String> iconName;
-  final Value<String> iconImages;
+  final Value<String> iconCode;
+  final Value<String> iconColour;
+  final Value<String> iconFamily;
   final Value<String> navigationRoute;
   final Value<String> iconGroup;
   final Value<bool> isFavorit;
@@ -9071,7 +9111,9 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
   const DesktopCompanion({
     this.id = const Value.absent(),
     this.iconName = const Value.absent(),
-    this.iconImages = const Value.absent(),
+    this.iconCode = const Value.absent(),
+    this.iconColour = const Value.absent(),
+    this.iconFamily = const Value.absent(),
     this.navigationRoute = const Value.absent(),
     this.iconGroup = const Value.absent(),
     this.isFavorit = const Value.absent(),
@@ -9080,20 +9122,26 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
   DesktopCompanion.insert({
     this.id = const Value.absent(),
     @required String iconName,
-    @required String iconImages,
+    @required String iconCode,
+    @required String iconColour,
+    @required String iconFamily,
     @required String navigationRoute,
     @required String iconGroup,
     this.isFavorit = const Value.absent(),
     @required String userPermission,
   })  : iconName = Value(iconName),
-        iconImages = Value(iconImages),
+        iconCode = Value(iconCode),
+        iconColour = Value(iconColour),
+        iconFamily = Value(iconFamily),
         navigationRoute = Value(navigationRoute),
         iconGroup = Value(iconGroup),
         userPermission = Value(userPermission);
   static Insertable<DesktopData> custom({
     Expression<int> id,
     Expression<String> iconName,
-    Expression<String> iconImages,
+    Expression<String> iconCode,
+    Expression<String> iconColour,
+    Expression<String> iconFamily,
     Expression<String> navigationRoute,
     Expression<String> iconGroup,
     Expression<bool> isFavorit,
@@ -9102,7 +9150,9 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (iconName != null) 'icon_name': iconName,
-      if (iconImages != null) 'icon_images': iconImages,
+      if (iconCode != null) 'icon_code': iconCode,
+      if (iconColour != null) 'icon_colour': iconColour,
+      if (iconFamily != null) 'icon_family': iconFamily,
       if (navigationRoute != null) 'navigation_route': navigationRoute,
       if (iconGroup != null) 'icon_group': iconGroup,
       if (isFavorit != null) 'is_favorit': isFavorit,
@@ -9113,7 +9163,9 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
   DesktopCompanion copyWith(
       {Value<int> id,
       Value<String> iconName,
-      Value<String> iconImages,
+      Value<String> iconCode,
+      Value<String> iconColour,
+      Value<String> iconFamily,
       Value<String> navigationRoute,
       Value<String> iconGroup,
       Value<bool> isFavorit,
@@ -9121,7 +9173,9 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
     return DesktopCompanion(
       id: id ?? this.id,
       iconName: iconName ?? this.iconName,
-      iconImages: iconImages ?? this.iconImages,
+      iconCode: iconCode ?? this.iconCode,
+      iconColour: iconColour ?? this.iconColour,
+      iconFamily: iconFamily ?? this.iconFamily,
       navigationRoute: navigationRoute ?? this.navigationRoute,
       iconGroup: iconGroup ?? this.iconGroup,
       isFavorit: isFavorit ?? this.isFavorit,
@@ -9138,8 +9192,14 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
     if (iconName.present) {
       map['icon_name'] = Variable<String>(iconName.value);
     }
-    if (iconImages.present) {
-      map['icon_images'] = Variable<String>(iconImages.value);
+    if (iconCode.present) {
+      map['icon_code'] = Variable<String>(iconCode.value);
+    }
+    if (iconColour.present) {
+      map['icon_colour'] = Variable<String>(iconColour.value);
+    }
+    if (iconFamily.present) {
+      map['icon_family'] = Variable<String>(iconFamily.value);
     }
     if (navigationRoute.present) {
       map['navigation_route'] = Variable<String>(navigationRoute.value);
@@ -9161,7 +9221,9 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
     return (StringBuffer('DesktopCompanion(')
           ..write('id: $id, ')
           ..write('iconName: $iconName, ')
-          ..write('iconImages: $iconImages, ')
+          ..write('iconCode: $iconCode, ')
+          ..write('iconColour: $iconColour, ')
+          ..write('iconFamily: $iconFamily, ')
           ..write('navigationRoute: $navigationRoute, ')
           ..write('iconGroup: $iconGroup, ')
           ..write('isFavorit: $isFavorit, ')
@@ -9196,13 +9258,37 @@ class $DesktopTable extends Desktop with TableInfo<$DesktopTable, DesktopData> {
     );
   }
 
-  final VerificationMeta _iconImagesMeta = const VerificationMeta('iconImages');
-  GeneratedTextColumn _iconImages;
+  final VerificationMeta _iconCodeMeta = const VerificationMeta('iconCode');
+  GeneratedTextColumn _iconCode;
   @override
-  GeneratedTextColumn get iconImages => _iconImages ??= _constructIconImages();
-  GeneratedTextColumn _constructIconImages() {
+  GeneratedTextColumn get iconCode => _iconCode ??= _constructIconCode();
+  GeneratedTextColumn _constructIconCode() {
     return GeneratedTextColumn(
-      'icon_images',
+      'icon_code',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _iconColourMeta = const VerificationMeta('iconColour');
+  GeneratedTextColumn _iconColour;
+  @override
+  GeneratedTextColumn get iconColour => _iconColour ??= _constructIconColour();
+  GeneratedTextColumn _constructIconColour() {
+    return GeneratedTextColumn(
+      'icon_colour',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _iconFamilyMeta = const VerificationMeta('iconFamily');
+  GeneratedTextColumn _iconFamily;
+  @override
+  GeneratedTextColumn get iconFamily => _iconFamily ??= _constructIconFamily();
+  GeneratedTextColumn _constructIconFamily() {
+    return GeneratedTextColumn(
+      'icon_family',
       $tableName,
       false,
     );
@@ -9261,7 +9347,9 @@ class $DesktopTable extends Desktop with TableInfo<$DesktopTable, DesktopData> {
   List<GeneratedColumn> get $columns => [
         id,
         iconName,
-        iconImages,
+        iconCode,
+        iconColour,
+        iconFamily,
         navigationRoute,
         iconGroup,
         isFavorit,
@@ -9287,13 +9375,27 @@ class $DesktopTable extends Desktop with TableInfo<$DesktopTable, DesktopData> {
     } else if (isInserting) {
       context.missing(_iconNameMeta);
     }
-    if (data.containsKey('icon_images')) {
-      context.handle(
-          _iconImagesMeta,
-          iconImages.isAcceptableOrUnknown(
-              data['icon_images'], _iconImagesMeta));
+    if (data.containsKey('icon_code')) {
+      context.handle(_iconCodeMeta,
+          iconCode.isAcceptableOrUnknown(data['icon_code'], _iconCodeMeta));
     } else if (isInserting) {
-      context.missing(_iconImagesMeta);
+      context.missing(_iconCodeMeta);
+    }
+    if (data.containsKey('icon_colour')) {
+      context.handle(
+          _iconColourMeta,
+          iconColour.isAcceptableOrUnknown(
+              data['icon_colour'], _iconColourMeta));
+    } else if (isInserting) {
+      context.missing(_iconColourMeta);
+    }
+    if (data.containsKey('icon_family')) {
+      context.handle(
+          _iconFamilyMeta,
+          iconFamily.isAcceptableOrUnknown(
+              data['icon_family'], _iconFamilyMeta));
+    } else if (isInserting) {
+      context.missing(_iconFamilyMeta);
     }
     if (data.containsKey('navigation_route')) {
       context.handle(

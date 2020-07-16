@@ -23,16 +23,14 @@ class PreferencesPage extends StatefulWidget {
 }
 
 class _PreferencesPageState extends State<PreferencesPage> {
+  String searchText = '';
 
-  String searchText='';
-
-
-  bool searchOn=false;
+  bool searchOn = false;
   @override
   void initState() {
-
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -63,33 +61,33 @@ class _PreferencesPageState extends State<PreferencesPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 3
-                  ),
-                  child:  Container(
-                    height: 55,
-
-                    color: Colors.white,
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 3),
+                  child: Container(
+                      height: 55,
+                      color: Colors.white,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25,vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 25, vertical: 5),
                         child: Center(
-                          child: ListFilter(placeholder: 'Search', filter:searchText  , onFilterChanged: (search){
-                            setState(() {
-                              searchText=search;
-                            });
-                          }),
+                          child: ListFilter(
+                              placeholder: 'Search',
+                              filter: searchText,
+                              onFilterChanged: (search) {
+                                setState(() {
+                                  searchText = search;
+                                });
+                              }),
                         ),
-                      ))
-                ),
-
-            _buildStreamBuilder(),
+                      ))),
+              _buildStreamBuilder(),
             ]),
       ),
     );
   }
-  _buildStreamBuilder(){
-    return   StreamBuilder(
+
+  _buildStreamBuilder() {
+    return StreamBuilder(
         stream: widget.preferenceDao.watchAllPreferences(searchText),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -101,7 +99,9 @@ class _PreferencesPageState extends State<PreferencesPage> {
               }
             });
             if (prefData.isEmpty) {
-          return BuildOnNoData(message: "No Preference Found",);
+              return BuildOnNoData(
+                message: "No Preference Found",
+              );
             }
             return Expanded(
               child: ListView.builder(
@@ -115,8 +115,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
                           height: 10,
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16),
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: Text(
                             groupsCollection[index],
                             style: TextStyle(
@@ -130,9 +129,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
                                 padding: const EdgeInsets.all(5.0),
                                 child: Card(
                                     shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                        BorderRadius.circular(
-                                            5)),
+                                        borderRadius: BorderRadius.circular(5)),
                                     elevation: 5,
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),
@@ -151,57 +148,77 @@ class _PreferencesPageState extends State<PreferencesPage> {
                                               },
                                               child: Padding(
                                                 padding:
-                                                const EdgeInsets
-                                                    .symmetric(
-                                                    vertical: 10,
-                                                    horizontal: 5),
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 10,
+                                                        horizontal: 5),
                                                 child: Container(
                                                     height: 50,
-                                                    child: Column(
-                                                        children: [
-                                                          Row(
+                                                    child: Column(children: [
+                                                      Row(children: [
+                                                        Expanded(
+                                                          child: Column(
                                                               children: [
-                                                                Expanded(
-                                                                  child:
-                                                                  Column(children: [
-                                                                    Row(
-                                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                      children: [
-                                                                        Text(
-                                                                          e.preferenceName,
-                                                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black54),
-                                                                        ),
-                                                                        Expanded(child: Container()),
-                                                                        Text(
-                                                                          e.value,
-                                                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: e.value == 'OFF' ? Colors.red : Colors.green),
-                                                                        ),
-                                                                      ],
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Text(
+                                                                      e.preferenceName,
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          fontSize:
+                                                                              16,
+                                                                          color:
+                                                                              Colors.black54),
                                                                     ),
-                                                                    Row(
-                                                                      children: [
-                                                                        Text(
-                                                                          e.description,
-                                                                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14, color: Colors.black45),
-                                                                        ),
-                                                                      ],
-                                                                    )
-                                                                  ]),
+                                                                    Expanded(
+                                                                        child:
+                                                                            Container()),
+                                                                    Text(
+                                                                      e.value,
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          fontSize:
+                                                                              14,
+                                                                          color: e.value == 'OFF'
+                                                                              ? Colors.red
+                                                                              : Colors.green),
+                                                                    ),
+                                                                  ],
                                                                 ),
-                                                                Padding(
-                                                                  padding:
-                                                                  const EdgeInsets.all(5.0),
-                                                                  child:
-                                                                  Icon(
-                                                                    Icons.arrow_forward_ios,
-                                                                    color:
-                                                                    Colors.black54,
-                                                                    size:
-                                                                    20,
-                                                                  ),
+                                                                Row(
+                                                                  children: [
+                                                                    Text(
+                                                                      e.description,
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight
+                                                                              .w600,
+                                                                          fontSize:
+                                                                              14,
+                                                                          color:
+                                                                              Colors.black45),
+                                                                    ),
+                                                                  ],
                                                                 )
                                                               ]),
-                                                        ])),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(5.0),
+                                                          child: Icon(
+                                                            Icons
+                                                                .arrow_forward_ios,
+                                                            color:
+                                                                Colors.black54,
+                                                            size: 20,
+                                                          ),
+                                                        )
+                                                      ]),
+                                                    ])),
                                               ),
                                             );
                                           } else {
@@ -216,9 +233,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
             ); //                       return SingleChildScrollView(
 
           }
-        return BuildProgressIndicator();
+          return BuildProgressIndicator();
         });
   }
-
-
 }

@@ -23,9 +23,11 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
+import 'package:j3enterprise/src/database/crud/desktop/desktop_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/repositories/applogger_repositiry.dart';
 import 'package:j3enterprise/src/resources/repositories/business_rule_repositiry.dart';
+import 'package:j3enterprise/src/resources/repositories/mobile_desktop_repositiry.dart';
 import 'package:j3enterprise/src/resources/repositories/preference_repository.dart';
 import 'package:j3enterprise/src/resources/shared/function/schedule_background_jobs.dart';
 import 'package:j3enterprise/src/resources/shared/function/update_backgroung_job_schedule_status.dart';
@@ -48,14 +50,18 @@ class BackgroundJobsBloc
   BackgroundJobScheduleDao backgroundJobScheduleDao;
   PreferenceRepository preferenceRepository;
   BusinessRuleRepository businessRuleRepository;
+  MobileDesktopRepository mobileDesktopRepository;
+  DesktopDao desktopDao;
   UpdateBackgroundJobStatus updateBackgroundJobStatus;
   BackgroundJobsBloc() {
     db = AppDatabase();
     appLoggerRepository = new AppLoggerRepository();
     preferenceRepository = new PreferenceRepository();
     businessRuleRepository = new BusinessRuleRepository();
+    mobileDesktopRepository = new MobileDesktopRepository();
     updateBackgroundJobStatus = new UpdateBackgroundJobStatus();
     backgroundJobScheduleDao = new BackgroundJobScheduleDao(db);
+    desktopDao = new DesktopDao(db);
     scheduler = new Scheduler();
   }
 
@@ -130,6 +136,14 @@ class BackgroundJobsBloc
                   .getNonGlobalBusinessRuleFromServer(event.jobname));
         }
 
+        if (event.jobname == "Mobile Desktop") {
+          scheduler.scheduleJobs(
+              event.syncFrequency,
+              event.jobname,
+              (Timer timer) async => await mobileDesktopRepository
+                  .getMobileDesktopFromServer(event.jobname));
+        }
+
         yield BackgroundJobsSuccess(userMessage: userMessage);
       }
 
@@ -144,13 +158,13 @@ class BackgroundJobsBloc
                 .translate('job_cancel_user_message') ??
             "Job Cancel Successful";
         String formatted = await formatDate(DateTime.now().toString());
-         var fromEvent = new BackgroundJobScheduleCompanion(           
+        var fromEvent = new BackgroundJobScheduleCompanion(
             enableJob: moor.Value(false),
             jobStatus: moor.Value("Cancel"),
             lastRun: moor.Value(DateTime.tryParse(formatted)));
 
-             await backgroundJobScheduleDao.updateBackgroundJob(
-              fromEvent, event.jobName);
+        await backgroundJobScheduleDao.updateBackgroundJob(
+            fromEvent, event.jobName);
 
         yield BackgroundJobsSuccess(userMessage: userMessage);
       }
