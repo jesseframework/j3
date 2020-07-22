@@ -43,7 +43,7 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
       child: Scaffold(
         backgroundColor: JasseColors.BackgroundColor,
         appBar: AppBar(
-          shadowColor: Colors.transparent,
+           
           //ToDo add translation for preferences title
           title: Text(
               AppLocalization.of(context).translate('bussiness_rule_title') ??

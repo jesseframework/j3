@@ -1,6 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
+import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
+import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
+import 'package:j3enterprise/src/resources/shared/utils/langcustomdialogbox.dart';
 
-class ProfileThreePage extends StatelessWidget {
+import '../../../main.dart';
+
+class ProfileThreePage extends StatefulWidget {
+  @override
+  _ProfileThreePageState createState() => _ProfileThreePageState();
+}
+
+class _ProfileThreePageState extends State<ProfileThreePage> {
+  @override
+  void didChangeDependencies() async {
+    await getIt<UserRepository>().getLocale().then((value) {
+      setState(() {
+        selecteditem = value.languageCode;
+      });
+    });
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,35 +69,6 @@ class ProfileThreePage extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            SizedBox(height: 10.0),
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Text("285"),
-                                      Text("Likes")
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Text("3025"),
-                                      Text("Comments")
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    children: <Widget>[
-                                      Text("650"),
-                                      Text("Favourites")
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
                           ],
                         ),
                       ),
@@ -112,9 +104,22 @@ class ProfileThreePage extends StatelessWidget {
                           leading: Icon(Icons.email),
                         ),
                         ListTile(
-                          title: Text("Phone"),
-                          subtitle: Text("+977-9815225566"),
-                          leading: Icon(Icons.phone),
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return LangCustomDialog();
+                                });
+                          },
+                          title: Text(
+                            AppLocalization.of(context)
+                                    .translate('language_appdraw') ??
+                                'Language',
+                          ),
+                          subtitle: Text(selecteditem == 'es'
+                              ? 'Spanish'
+                              : selecteditem == 'en' ? 'English' : 'English'),
+                          leading: Icon(CustomIcons.language),
                         ),
                         ListTile(
                           title: Text("Website"),

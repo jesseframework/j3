@@ -9,6 +9,7 @@ import 'package:j3enterprise/src/ui/authentication/authentication.dart';
 import 'package:j3enterprise/src/ui/background_jobs/background_fetch_page.dart';
 import 'package:j3enterprise/src/ui/background_jobs/backgroundjobs_pages.dart';
 import 'package:j3enterprise/src/ui/communication/setup_communication_page.dart';
+import 'package:j3enterprise/src/ui/profile/profile_page.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override
@@ -145,20 +146,22 @@ class CustomDrawer extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return LangCustomDialog();
-                    });
+                Navigator.push(
+                  context,MaterialPageRoute(builder: (contex)=>ProfileThreePage())
+                );
+
+                
               },
               child: ListTile(
                 leading: Icon(
-                  CustomIcons.language,
+                  Icons.person,
                   color: Colors.blue,
                 ),
                 title: Text(
-                  AppLocalization.of(context).translate('language_appdraw') ??
-                      'Language',
+                  AppLocalization.of(context).translate('profile_appdraw') ??
+                      'Profile',
+                  // AppLocalization.of(context).translate('language_appdraw') ??
+                  //     'Language',
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
               ),
