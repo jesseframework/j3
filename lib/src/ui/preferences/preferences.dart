@@ -42,7 +42,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
       child: Scaffold(
         backgroundColor: JasseColors.BackgroundColor,
         appBar: AppBar(
-          shadowColor: Colors.transparent,
+          
           //ToDo add translation for preferences title
           title: Text(
               AppLocalization.of(context).translate('preferences_title') ??
