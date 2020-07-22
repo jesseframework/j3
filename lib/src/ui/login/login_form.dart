@@ -81,7 +81,7 @@ class _LoginFormState extends State<LoginForm> {
             key: formKey,
             child: Container(
               constraints: BoxConstraints(
-                  minWidth: 100, maxWidth: 400, minHeight: 200, maxHeight: 430),
+                  minWidth: 100, maxWidth: 400, minHeight: 200, maxHeight: 360),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: ClipRRect(
@@ -168,55 +168,55 @@ class _LoginFormState extends State<LoginForm> {
                                 ? LinearProgressIndicator()
                                 : null,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Expanded(
-                                child: Divider(
-                                    color: Colors.black.withOpacity(0.2)),
-                              ),
-                              SizedBox(width: 10.0, height: 10),
-                              Text(
-                                AppLocalization.of(context)
-                                        .translate('login_or') ??
-                                    'Or',
-                                style: TextStyle(
-                                    color: Colors.black.withOpacity(.5)),
-                              ),
-                              SizedBox(
-                                width: 10.0,
-                                height: 10,
-                              ),
-                              Expanded(
-                                child: Divider(
-                                    color: Colors.black.withOpacity(0.2)),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Icon(
-                                  CustomIcons.google_brands,
-                                  color: Colors.red,
-                                ),
-                              ),
-                              Expanded(
-                                child: Icon(CustomIcons.facebook_square_brands,
-                                    color: Colors.blue.shade900),
-                              ),
-                              Expanded(
-                                child: Icon(
-                                  CustomIcons.twitter_square_brands,
-                                  color: Colors.blue.shade500,
-                                ),
-                              ),
-                              Expanded(
-                                child: Icon(CustomIcons.envelope_solid,
-                                    color: Colors.orange),
-                              ),
-                            ],
-                          )
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.center,
+                          //   children: <Widget>[
+                          //     Expanded(
+                          //       child: Divider(
+                          //           color: Colors.black.withOpacity(0.2)),
+                          //     ),
+                          //     SizedBox(width: 10.0, height: 10),
+                          //     Text(
+                          //       AppLocalization.of(context)
+                          //               .translate('login_or') ??
+                          //           'Or',
+                          //       style: TextStyle(
+                          //           color: Colors.black.withOpacity(.5)),
+                          //     ),
+                          //     SizedBox(
+                          //       width: 10.0,
+                          //       height: 10,
+                          //     ),
+                          //     Expanded(
+                          //       child: Divider(
+                          //           color: Colors.black.withOpacity(0.2)),
+                          //     ),
+                          //   ],
+                          // ),
+                          // Row(
+                          //   children: <Widget>[
+                          //     Expanded(
+                          //       child: Icon(
+                          //         CustomIcons.google_brands,
+                          //         color: Colors.red,
+                          //       ),
+                          //     ),
+                          //     Expanded(
+                          //       child: Icon(CustomIcons.facebook_square_brands,
+                          //           color: Colors.blue.shade900),
+                          //     ),
+                          //     Expanded(
+                          //       child: Icon(
+                          //         CustomIcons.twitter_square_brands,
+                          //         color: Colors.blue.shade500,
+                          //       ),
+                          //     ),
+                          //     Expanded(
+                          //       child: Icon(CustomIcons.envelope_solid,
+                          //           color: Colors.orange),
+                          //     ),
+                          //   ],
+                          // )
                         ],
                       ),
                     ),
