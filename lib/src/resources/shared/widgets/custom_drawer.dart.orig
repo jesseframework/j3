@@ -94,6 +94,31 @@ class CustomDrawer extends StatelessWidget {
                           .translate('background_job_appdraw') ??
                       'Background Jobs',
                   style: TextStyle(fontSize: 16),
+                ),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+<<<<<<< HEAD
+=======
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BackgroundFetchPage()));
+              },
+              child: ListTile(
+                leading: Icon(
+                  Icons.sync,
+                  color: Colors.blue,
+                ),
+                title: Text(
+                  AppLocalization.of(context)
+                          .translate('background_fetch_appdraw') ??
+                      'Background Fetch',
                   style: TextStyle(fontSize: 16),
                 ),
               ),
@@ -104,6 +129,7 @@ class CustomDrawer extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
+>>>>>>> done
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => AppLoggerPage()));
               },

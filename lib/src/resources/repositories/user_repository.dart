@@ -222,4 +222,15 @@ class UserRepository {
 
     return null;
   }
+
+  Future setTheme(String theme) async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    await _prefs.setString('theme', theme);
+  }
+
+  Future<String> getTheme() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    String theme = await _prefs.getString('theme');
+    return theme;
+  }
 }

@@ -20,7 +20,6 @@
 import 'package:background_fetch/background_fetch.dart';
 import 'package:j3enterprise/src/resources/services/background_fetch_service.dart';
 import 'dart:io' show Platform;
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -29,6 +28,7 @@ import 'package:j3enterprise/src/resources/services/firebase_message_wrapper.dar
 import 'package:j3enterprise/src/resources/services/init_services.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/routes.dart';
+import 'package:j3enterprise/src/resources/shared/utils/theme.dart';
 import 'package:j3enterprise/src/ui/about/about.dart';
 import 'package:j3enterprise/src/ui/background_jobs/backgroundjobs_pages.dart';
 import 'package:j3enterprise/src/ui/communication/setup_communication_page.dart';
@@ -99,12 +99,19 @@ class App extends StatefulWidget {
     state.setLocale(locale);
   }
 
+  static void setTheme(BuildContext context) {
+    _AppState state = context.findAncestorStateOfType<_AppState>();
+    state.didChangeDependencies();
+  }
+
   @override
   _AppState createState() => _AppState();
 }
 
 class _AppState extends State<App> {
   Locale _locale;
+  ThemeData themeData;
+
   void setLocale(locale) {
     setState(() {
       _locale = locale;
@@ -114,8 +121,11 @@ class _AppState extends State<App> {
   @override
   void didChangeDependencies() {
     getIt<UserRepository>().getLocale().then((value) {
-      setState(() {
-        _locale = value;
+      getIt<UserRepository>().getTheme().then((value1) {
+        setState(() {
+          _locale = value;
+          themeData = value1 == 'dark' ? darkTheme : lightTheme;
+        });
       });
     });
     super.didChangeDependencies();
@@ -148,10 +158,7 @@ class _AppState extends State<App> {
               return SplashPage();
             },
           ),
-          theme: ThemeData(
-            fontFamily: 'MyFont',
-            primarySwatch: Colors.blue,
-          ),
+          theme: themeData,
           locale: _locale,
           routes: routes,
           supportedLocales: [

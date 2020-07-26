@@ -72,11 +72,6 @@ class _ListFilterState extends State<ListFilter> {
     final textColor = Theme.of(context).textTheme.bodyText1.color;
     final isFilterSet = (widget.filter ?? '').isNotEmpty;
 
-
-
-
-
-
     return Padding(
       padding: const EdgeInsets.only(top: 2),
       child: Container(
@@ -84,7 +79,7 @@ class _ListFilterState extends State<ListFilter> {
         height: 40,
         margin: EdgeInsets.only(bottom: 2.0),
         decoration: BoxDecoration(
-          color:  Color(0xffe7ebee),
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.all(Radius.circular(5)),
         ),
         child: TextField(
@@ -97,19 +92,19 @@ class _ListFilterState extends State<ListFilter> {
             contentPadding: EdgeInsets.only(left: 8, right: 8, bottom: 6),
             suffixIcon: _filterController.text.isNotEmpty
                 ? IconButton(
-              icon: Icon(
-                Icons.clear,
-                color: textColor,
-              ),
-              onPressed: () {
-                _filterController.text = '';
-                _focusNode.unfocus();
-                widget.onFilterChanged('');
-                setState(() {
-                  _placeholder = widget.placeholder;
-                });
-              },
-            )
+                    icon: Icon(
+                      Icons.clear,
+                      color: textColor,
+                    ),
+                    onPressed: () {
+                      _filterController.text = '';
+                      _focusNode.unfocus();
+                      widget.onFilterChanged('');
+                      setState(() {
+                        _placeholder = widget.placeholder;
+                      });
+                    },
+                  )
                 : Icon(Icons.search, color: textColor),
             border: InputBorder.none,
             hintText: _placeholder,

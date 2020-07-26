@@ -27,6 +27,7 @@ class UserSharedData {
       String userName,
       String tenantName,
       String tenantId,
+    
       String userId) async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     await _prefs.setString('deviceId', deviceId);
@@ -36,6 +37,7 @@ class UserSharedData {
     await _prefs.setString('tenantName', tenantName);
     await _prefs.setString('tenantId', tenantId);
     await _prefs.setString('userId', userId);
+     
     return;
   }
 
@@ -48,6 +50,7 @@ class UserSharedData {
     String tenantName = await _prefs.get('tenantName');
     String tenantId = await _prefs.get('tenantId');
     String userId = await _prefs.get('userId');
+   
 
     Map<String, String> map = {
       "deviceId": "$deviceId",
@@ -57,6 +60,7 @@ class UserSharedData {
       "tenantName": "$tenantName",
       "tenantId": "$tenantId",
       "userId": "$userId",
+       
     };
     return map;
   }

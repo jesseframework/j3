@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.only(bottom: 12),
                     child: Container(
                         height: 55,
-                        color: Colors.white,
+                        color: Theme.of(context).backgroundColor,
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 18, vertical: 5),
