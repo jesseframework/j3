@@ -94,7 +94,7 @@ class CustomDrawer extends StatelessWidget {
                           .translate('background_job_appdraw') ??
                       'Background Jobs',
                   style: TextStyle(fontSize: 16),
-                  style: TextStyle(fontSize: 16),
+                  
                 ),
               ),
             ),
