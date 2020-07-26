@@ -169,6 +169,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               _log.finest('Create share preference for user');
               int userId = int.tryParse(result['userId'].toString());
               userSharedData.setUserSharedPref(
+                  
                   event.deviceId,
                   deviceState,
                   tenantState,

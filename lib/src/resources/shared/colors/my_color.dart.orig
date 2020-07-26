@@ -33,4 +33,7 @@ class JasseColors {
   static const Color BackgroundColor =Color(0xffe7ebee);
 
 }
+<<<<<<< HEAD
+=======
 
+>>>>>>> done
