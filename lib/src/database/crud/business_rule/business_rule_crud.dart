@@ -33,6 +33,13 @@ class BusinessRuleDao extends DatabaseAccessor<AppDatabase>
     return (select(db.businessRule).get());
   }
 
+
+   Future<BusinessRuleData> getSingleBusinessRule(String brCode) {
+    return (select(db.businessRule)..where((u) => u.code.equals(brCode)))
+        .getSingle();
+  }
+
+
   Future<void> createOrUpdatePref(BusinessRuleData pref) {
     return into(db.businessRule).insertOnConflictUpdate(pref);
   }
