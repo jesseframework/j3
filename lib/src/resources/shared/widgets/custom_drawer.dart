@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/langcustomdialogbox.dart';
+import 'package:j3enterprise/src/resources/shared/widgets/snak_bar.dart';
 import 'package:j3enterprise/src/ui/about/about.dart';
 import 'package:j3enterprise/src/ui/app_logger/applogger_page.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication.dart';
@@ -166,6 +167,7 @@ class CustomDrawer extends StatelessWidget {
             alignment: Alignment.bottomLeft,
             child: GestureDetector(
               onTap: () {
+               
                 BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
               },
               child: ListTile(
