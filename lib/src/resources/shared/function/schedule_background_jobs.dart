@@ -32,7 +32,7 @@ class Scheduler {
   }
 
   Duration _getFromString(String setFrequency) {
-    if (setFrequency == "Every Minet")
+    if (setFrequency == "Every Minute")
       return Duration(minutes: 1);
     else if (setFrequency == "Every 5 Minutes")
       return Duration(minutes: 5);

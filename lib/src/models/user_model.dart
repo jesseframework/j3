@@ -15,6 +15,7 @@ class Users extends Table implements MustHaveTenant {
   DateTimeColumn get creationTime => dateTime().nullable()();
   DateTimeColumn get lastLoginTime => dateTime().nullable()();
   IntColumn get tenantId => integer().nullable()();
+
   @override
   Set<Column> get primaryKey => {id};
 }

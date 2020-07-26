@@ -229,7 +229,7 @@ class _BackgroundJobs extends State<BackgroundJobs> {
                   'Sync Frequency',
               selectedValue: syncfrequencySelectedItem,
               listData: [
-                'Every Minet',
+                'Every Minute',
                 'Every 5 Minutes',
                 'Every 20 Minutes',
                 'Every Day',
