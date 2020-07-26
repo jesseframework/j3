@@ -20,7 +20,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
-import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/ui/app_logger/bloc/applogger_bloc.dart';
 
 class AppLoggerForm extends StatefulWidget {
