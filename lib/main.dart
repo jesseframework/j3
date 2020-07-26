@@ -35,6 +35,7 @@ import 'package:j3enterprise/src/ui/communication/setup_communication_page.dart'
 import 'package:j3enterprise/src/ui/login_offline/offline_login_page.dart';
 import 'package:j3enterprise/src/ui/preferences/preferences.dart';
 import 'package:j3enterprise/src/ui/splash/splash_page.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'src/resources/repositories/user_repository.dart';
 import 'src/resources/shared/common/loading_indicator.dart';
@@ -123,66 +124,67 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return FirebaseMessageWrapper(
-      child: MaterialApp(
-        builder: BotToastInit(),
-        // navigatorObservers: [BotToastNavigatorObserver()],
-        home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-          builder: (context, state) {
-            if (state is PushNotificationState) {
-              print(state.route);
-              return getRoute(state.route);
+      child: OverlaySupport(
+        child: MaterialApp(
+          // navigatorObservers: [BotToastNavigatorObserver()],
+          home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+            builder: (context, state) {
+              if (state is PushNotificationState) {
+                print(state.route);
+                return getRoute(state.route);
+              }
+              if (state is AuthenticationCreateMobileHash) {
+                return OfflineLoginPage(userRepository: widget.userRepository);
+              }
+              if (state is AuthenticationAuthenticated) {
+                return HomePage();
+              }
+              if (state is AuthenticationUnauthenticated) {
+                return LoginPage();
+              }
+              if (state is AuthenticationLoading) {
+                return LoadingIndicator();
+              }
+              return SplashPage();
+            },
+          ),
+          theme: ThemeData(
+            fontFamily: 'MyFont',
+            primarySwatch: Colors.blue,
+          ),
+          locale: _locale,
+          routes: routes,
+          supportedLocales: [
+            Locale('en', 'US'),
+            Locale('es', 'ES'),
+            Locale('sk', 'SK'),
+          ],
+          localizationsDelegates: [
+            AppLocalization.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          localeResolutionCallback: (locale, supportedLocales) {
+            // Check if the current device locale is supported
+            if (Platform.isAndroid) {
+              for (var supportedLocale in supportedLocales) {
+                if (supportedLocale.languageCode == locale.languageCode &&
+                    supportedLocale.countryCode == locale.countryCode) {
+                  return supportedLocale;
+                }
+              }
+            } else if (Platform.isIOS) {
+              for (var supportedLocale in supportedLocales) {
+                if (supportedLocale.languageCode == locale.languageCode &&
+                    supportedLocale.countryCode == locale.countryCode) {
+                  return supportedLocale;
+                }
+              }
             }
-            if (state is AuthenticationCreateMobileHash) {
-              return OfflineLoginPage(userRepository: widget.userRepository);
-            }
-            if (state is AuthenticationAuthenticated) {
-              return HomePage();
-            }
-            if (state is AuthenticationUnauthenticated) {
-              return LoginPage();
-            }
-            if (state is AuthenticationLoading) {
-              return LoadingIndicator();
-            }
-            return SplashPage();
+
+            return supportedLocales.first;
           },
         ),
-        theme: ThemeData(
-          fontFamily: 'MyFont',
-          primarySwatch: Colors.blue,
-        ),
-        locale: _locale,
-        routes: routes,
-        supportedLocales: [
-          Locale('en', 'US'),
-          Locale('es', 'ES'),
-          Locale('sk', 'SK'),
-        ],
-        localizationsDelegates: [
-          AppLocalization.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
-        localeResolutionCallback: (locale, supportedLocales) {
-          // Check if the current device locale is supported
-          if (Platform.isAndroid) {
-            for (var supportedLocale in supportedLocales) {
-              if (supportedLocale.languageCode == locale.languageCode &&
-                  supportedLocale.countryCode == locale.countryCode) {
-                return supportedLocale;
-              }
-            }
-          } else if (Platform.isIOS) {
-            for (var supportedLocale in supportedLocales) {
-              if (supportedLocale.languageCode == locale.languageCode &&
-                  supportedLocale.countryCode == locale.countryCode) {
-                return supportedLocale;
-              }
-            }
-          }
-
-          return supportedLocales.first;
-        },
       ),
     );
   }

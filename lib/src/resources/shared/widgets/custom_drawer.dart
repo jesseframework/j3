@@ -1,30 +1,14 @@
-/*
- * Jesseframework - Computer Expertz Ltd - https://cpxz.us
- * Copyright (C) 2019-2021 Jesseframework
- *
- * This file is part of Jesseframework - https://github.com/jesseframework/j3.
- *
- * Jesseframework is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version. 
- *
- * Jesseframework is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- */
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
+import 'package:j3enterprise/src/resources/shared/utils/langcustomdialogbox.dart';
+import 'package:j3enterprise/src/resources/shared/widgets/snak_bar.dart';
 import 'package:j3enterprise/src/ui/about/about.dart';
 import 'package:j3enterprise/src/ui/app_logger/applogger_page.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication.dart';
-import 'package:j3enterprise/src/ui/background_jobs/background_jobs.dart';
+import 'package:j3enterprise/src/ui/background_jobs/background_fetch_page.dart';
+import 'package:j3enterprise/src/ui/background_jobs/backgroundjobs_pages.dart';
 import 'package:j3enterprise/src/ui/communication/setup_communication_page.dart';
 import 'package:j3enterprise/src/ui/profile/profile_page.dart';
 
@@ -97,7 +81,7 @@ class CustomDrawer extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => SetupBackgroundPage()));
+                        builder: (context) => BackgroundJobsPage()));
               },
               child: ListTile(
                 leading: Icon(
@@ -108,6 +92,30 @@ class CustomDrawer extends StatelessWidget {
                   AppLocalization.of(context)
                           .translate('background_job_appdraw') ??
                       'Background Jobs',
+                  style: TextStyle(color: Colors.black, fontSize: 16),
+                ),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BackgroundFetchPage()));
+              },
+              child: ListTile(
+                leading: Icon(
+                  Icons.sync,
+                  color: Colors.blue,
+                ),
+                title: Text(
+                  AppLocalization.of(context)
+                          .translate('background_fetch_appdraw') ??
+                      'Background Fetch',
                   style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
               ),
@@ -182,6 +190,7 @@ class CustomDrawer extends StatelessWidget {
             alignment: Alignment.bottomLeft,
             child: GestureDetector(
               onTap: () {
+               
                 BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
               },
               child: ListTile(
