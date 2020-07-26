@@ -24,12 +24,12 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/dropdown_box.dart';
 import 'package:j3enterprise/src/ui/background_jobs/bloc/backgroundjobs_bloc.dart';
 
-class BackgroundJobsForm extends StatefulWidget {
+class BackgroundJobs extends StatefulWidget {
   @override
-  State<BackgroundJobsForm> createState() => _BackgroundJobsForm();
+  State<BackgroundJobs> createState() => _BackgroundJobs();
 }
 
-class _BackgroundJobsForm extends State<BackgroundJobsForm> {
+class _BackgroundJobs extends State<BackgroundJobs> {
   final formKey = new GlobalKey<FormState>();
   int select = 0;
   TimeOfDay time = new TimeOfDay.now();
@@ -102,21 +102,21 @@ class _BackgroundJobsForm extends State<BackgroundJobsForm> {
             decoration: BoxDecoration(
                 color: Colors.white, boxShadow: kElevationToShadow[4]),
           ),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.grey,
-            ),
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14),
-              child: Text(
-                AppLocalization.of(context)
-                        .translate('schedule_jobs_sub_title_backgroundjob') ??
-                    'Schedule Jobs',
-                style: TextStyle(color: Colors.white, fontSize: 24),
-              ),
-            ),
-          ),
+          // Container(
+          //   decoration: BoxDecoration(
+          //     color: Colors.grey,
+          //   ),
+          //   child: Padding(
+          //     padding:
+          //         const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14),
+          //     child: Text(
+          //       AppLocalization.of(context)
+          //               .translate('schedule_jobs_sub_title_backgroundjob') ??
+          //           'Schedule Jobs',
+          //       style: TextStyle(color: Colors.white, fontSize: 24),
+          //     ),
+          //   ),
+          // ),
           SizedBox(
             height: 10,
           ),

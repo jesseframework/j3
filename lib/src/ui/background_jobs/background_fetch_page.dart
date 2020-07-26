@@ -150,51 +150,48 @@ class _BackgroundFetchPageState extends State<BackgroundFetchPage> {
         child: Text(
             'Waiting for fetch events.  Simulate one.\n [Android] \$ ./scripts/simulate-fetch\n [iOS] XCode->Debug->Simulate Background Fetch'));
 
-    return new MaterialApp(
-      home: new Scaffold(
-        appBar: new AppBar(
-            title: const Text('Background Fetch'),
-            leading: IconButton(
-              icon: Icon(Icons.chevron_left),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+    return Scaffold(
+      // appBar: new AppBar(
+      //     title: const Text('Background Fetch'),
+      //     leading: IconButton(
+      //       icon: Icon(Icons.chevron_left),
+      //       onPressed: () {
+      //         Navigator.pop(context);
+      //       },
+      //     ),
+      //     actions: <Widget>[
+      //       Switch(value: _enabled, onChanged: _onClickEnable),
+      //     ]),
+      body: (_events.isEmpty)
+          ? EMPTY_TEXT
+          : Container(
+              child: new ListView.builder(
+                  itemCount: _events.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    List<String> event = _events[index].split("@");
+                    return InputDecorator(
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(
+                                left: 5.0, top: 5.0, bottom: 5.0),
+                            labelStyle:
+                                TextStyle(color: Colors.blue, fontSize: 20.0),
+                            labelText: "[${event[0].toString()}]"),
+                        child: new Text(event[1],
+                            style: TextStyle(
+                                color: Colors.black, fontSize: 16.0)));
+                  }),
             ),
-            actions: <Widget>[
-              Switch(value: _enabled, onChanged: _onClickEnable),
-            ]),
-        body: (_events.isEmpty)
-            ? EMPTY_TEXT
-            : Container(
-                child: new ListView.builder(
-                    itemCount: _events.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      List<String> event = _events[index].split("@");
-                      return InputDecorator(
-                          decoration: InputDecoration(
-                              contentPadding: EdgeInsets.only(
-                                  left: 5.0, top: 5.0, bottom: 5.0),
-                              labelStyle:
-                                  TextStyle(color: Colors.blue, fontSize: 20.0),
-                              labelText: "[${event[0].toString()}]"),
-                          child: new Text(event[1],
-                              style: TextStyle(
-                                  color: Colors.black, fontSize: 16.0)));
-                    }),
-              ),
-        bottomNavigationBar: BottomAppBar(
-            child: Container(
-                padding: EdgeInsets.only(left: 5.0, right: 5.0),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      RaisedButton(
-                          onPressed: _onClickStatus,
-                          child: Text('Status: $_status')),
-                      RaisedButton(
-                          onPressed: _onClickClear, child: Text('Clear'))
-                    ]))),
-      ),
+      bottomNavigationBar: BottomAppBar(
+          child: Container(
+              padding: EdgeInsets.only(left: 5.0, right: 5.0),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    RaisedButton(
+                        onPressed: _onClickStatus,
+                        child: Text('Status: $_status')),
+                    RaisedButton(onPressed: _onClickClear, child: Text('Clear'))
+                  ]))),
     );
   }
 }
