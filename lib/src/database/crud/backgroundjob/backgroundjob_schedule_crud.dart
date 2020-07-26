@@ -1,8 +1,10 @@
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/models/background_job_schedule_model.dart';
+import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
 import 'package:moor/moor.dart';
-
+import 'package:moor/moor.dart' as moor;
 part 'backgroundjob_schedule_crud.g.dart';
+
 
 @UseDao(tables: [BackgroundJobSchedule])
 class BackgroundJobScheduleDao extends DatabaseAccessor<AppDatabase>
@@ -57,6 +59,41 @@ class BackgroundJobScheduleDao extends DatabaseAccessor<AppDatabase>
             jobStatus: backgroundJobScheduleCompanion.jobStatus,
             lastRun: backgroundJobScheduleCompanion.lastRun));
   }
+
+  Future<void> insertJobs() async{
+  await batch((batch) async {
+    // functions in a batch don't have to be awaited - just
+    // await the whole batch afterwards.
+     String systemDate = await formatDate(DateTime.now().toString());
+    batch.insertAll(backgroundJobSchedule, [
+      BackgroundJobScheduleCompanion(
+        jobName: moor.Value("Mobile Desktop"),
+        syncFrequency: moor.Value("Every 20 Minutes"),
+        startDateTime: moor.Value(DateTime.tryParse(systemDate)),
+        enableJob: moor.Value(true),
+        jobStatus: moor.Value("Never Run"),
+        lastRun: moor.Value(DateTime.tryParse(systemDate))
+      ),
+      BackgroundJobScheduleCompanion.insert(
+       jobName: "Configuration",
+        syncFrequency: "Every 20 Minutes",
+        startDateTime: DateTime.tryParse(systemDate),
+        enableJob: moor.Value(true),
+        jobStatus: "Never Run",
+        lastRun: DateTime.tryParse(systemDate)
+      ),
+       BackgroundJobScheduleCompanion.insert(
+       jobName: "Log Shipping",
+        syncFrequency: "Every Day",
+        startDateTime: DateTime.tryParse(systemDate),
+        enableJob: moor.Value(true),
+        jobStatus: "Never Run",
+        lastRun: DateTime.tryParse(systemDate)
+      ),
+      // ...
+    ]);
+  });
+}
 
   Future deleteBackgroundJobs() => delete(db.backgroundJobSchedule).go();
 }

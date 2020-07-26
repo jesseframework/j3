@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:j3enterprise/src/database/crud/backgroundjob/backgroundjob_schedule_crud.dart';
 import 'package:j3enterprise/src/models/application_logger_model.dart';
 import 'package:j3enterprise/src/models/background_job_schedule_model.dart';
 import 'package:j3enterprise/src/models/background_jobs_logs_model.dart';
@@ -13,9 +14,11 @@ import 'package:j3enterprise/src/models/preference_model.dart';
 
 import 'package:j3enterprise/src/models/tenant_model.dart';
 import 'package:j3enterprise/src/models/user_model.dart';
+import 'package:j3enterprise/src/resources/shared/utils/date_formating.dart';
 import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
 import 'package:path/path.dart' as p;
+import 'package:moor/moor.dart' as moor;
 import 'package:path_provider/path_provider.dart' as paths;
 
 part 'moor_database.g.dart';
@@ -48,20 +51,47 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
-        // Runs if the database has already been opened on the device with a lower version
-        onUpgrade: (doMigration, from, to) async {
-          if (from == 2) {
-            //await migrator.addColumn(tasks, tasks.tagName);
-            //await doMigration.createTable(ApplicationLogger);
-          }
+          // Runs if the database has already been opened on the device with a lower version
+          onUpgrade: (doMigration, from, to) async {
+        if (from == 2) {
+          //await migrator.addColumn(tasks, tasks.tagName);
+          //await doMigration.createTable(ApplicationLogger);
+        }
 
-          // ignore: unnecessary_statements
-          (db, details) async {
-            await db.customStatement(
-                'PRAGMA foreign_keys = ON ' + 'PRAGMA journal_mode=WAL');
-          };
-        },
-      );
+        // ignore: unnecessary_statements
+        (db, details) async {
+          await db.customStatement(
+              'PRAGMA foreign_keys = ON ' + 'PRAGMA journal_mode=WAL');
+        };
+      }, beforeOpen: (details) async {
+        if (details.wasCreated) {
+          String systemDate = await formatDate(DateTime.now().toString());
+          await into(backgroundJobSchedule).insert(BackgroundJobScheduleData(
+              id: 1,
+              jobName: "Mobile Desktop",
+              startDateTime: DateTime.tryParse(systemDate),
+              syncFrequency: "Every 20 Minutes",
+              enableJob: true,
+              lastRun: DateTime.tryParse(systemDate),
+              jobStatus: "Never Run"));
+          await into(backgroundJobSchedule).insert(BackgroundJobScheduleData(
+              id: 2,
+              jobName: "Configuration",
+              startDateTime: DateTime.tryParse(systemDate),
+              syncFrequency: "Every 20 Minutes",
+              enableJob: true,
+              lastRun: DateTime.tryParse(systemDate),
+              jobStatus: "Never Run"));
+          await into(backgroundJobSchedule).insert(BackgroundJobScheduleData(
+              id: 3,
+              jobName: "Log Shipping",
+              startDateTime: DateTime.tryParse(systemDate),
+              syncFrequency: "Every Day",
+              enableJob: true,
+              lastRun: DateTime.tryParse(systemDate),
+              jobStatus: "Never Run"));
+        }
+      });
 
   static AppDatabase _constructDb({bool logStatements = false}) {
     if (Platform.isIOS || Platform.isAndroid) {
@@ -82,7 +112,7 @@ class AppDatabase extends _$AppDatabase {
       return AppDatabase._internal(
           VmDatabase(file, logStatements: logStatements));
     }
-    
+
     return AppDatabase._internal(
         VmDatabase.memory(logStatements: logStatements));
   }
