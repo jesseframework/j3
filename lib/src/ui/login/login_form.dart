@@ -24,6 +24,7 @@ import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/password_field.dart';
+import 'package:j3enterprise/src/resources/shared/widgets/snak_bar.dart';
 import 'package:j3enterprise/src/resources/shared/widgets/text_field_nullable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -58,7 +59,7 @@ class _LoginFormState extends State<LoginForm> {
 
       formKey.currentState.validate();
    //  await getIt<UserRepository>().setTenantIntoSharedPref(_tenantController.text);
-
+ ShowSnakBar("gh","jg");
       BlocProvider.of<LoginBloc>(context).add(
         LoginButtonPressed(
             username: _usernameController.text.trim(),

@@ -23,6 +23,8 @@ import 'package:flutter/services.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'dart:io' show Platform;
 
+import 'package:j3enterprise/src/resources/shared/widgets/snak_bar.dart';
+
 class About extends StatefulWidget {
   static final route = '/about';
   @override
@@ -34,7 +36,13 @@ class _AboutState extends State<About> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          actions: [IconButton(icon: Icon(Icons.more_vert), onPressed: () {})],
+          actions: [
+            IconButton(
+                icon: Icon(Icons.more_vert),
+                onPressed: () {
+                  ShowSnakBar('khi', 'jgh');
+                })
+          ],
           title:
               Text(AppLocalization.of(context).translate('about_title_about')),
         ),
