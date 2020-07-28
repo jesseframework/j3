@@ -21,6 +21,7 @@ class User extends DataClass implements Insertable<User> {
   final String firebaseToken;
   final DateTime creationTime;
   final DateTime lastLoginTime;
+  final String currency;
   User(
       {this.tenantId,
       @required this.id,
@@ -34,7 +35,8 @@ class User extends DataClass implements Insertable<User> {
       @required this.enableOfflineLogin,
       this.firebaseToken,
       this.creationTime,
-      this.lastLoginTime});
+      this.lastLoginTime,
+      this.currency});
   factory User.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -67,6 +69,8 @@ class User extends DataClass implements Insertable<User> {
           .mapFromDatabaseResponse(data['${effectivePrefix}creation_time']),
       lastLoginTime: dateTimeType
           .mapFromDatabaseResponse(data['${effectivePrefix}last_login_time']),
+      currency: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}currency']),
     );
   }
   @override
@@ -111,6 +115,9 @@ class User extends DataClass implements Insertable<User> {
     if (!nullToAbsent || lastLoginTime != null) {
       map['last_login_time'] = Variable<DateTime>(lastLoginTime);
     }
+    if (!nullToAbsent || currency != null) {
+      map['currency'] = Variable<String>(currency);
+    }
     return map;
   }
 
@@ -151,6 +158,9 @@ class User extends DataClass implements Insertable<User> {
       lastLoginTime: lastLoginTime == null && nullToAbsent
           ? const Value.absent()
           : Value(lastLoginTime),
+      currency: currency == null && nullToAbsent
+          ? const Value.absent()
+          : Value(currency),
     );
   }
 
@@ -171,6 +181,7 @@ class User extends DataClass implements Insertable<User> {
       firebaseToken: serializer.fromJson<String>(json['firebaseToken']),
       creationTime: serializer.fromJson<DateTime>(json['creationTime']),
       lastLoginTime: serializer.fromJson<DateTime>(json['lastLoginTime']),
+      currency: serializer.fromJson<String>(json['currency']),
     );
   }
   @override
@@ -190,6 +201,7 @@ class User extends DataClass implements Insertable<User> {
       'firebaseToken': serializer.toJson<String>(firebaseToken),
       'creationTime': serializer.toJson<DateTime>(creationTime),
       'lastLoginTime': serializer.toJson<DateTime>(lastLoginTime),
+      'currency': serializer.toJson<String>(currency),
     };
   }
 
@@ -206,7 +218,8 @@ class User extends DataClass implements Insertable<User> {
           bool enableOfflineLogin,
           String firebaseToken,
           DateTime creationTime,
-          DateTime lastLoginTime}) =>
+          DateTime lastLoginTime,
+          String currency}) =>
       User(
         tenantId: tenantId ?? this.tenantId,
         id: id ?? this.id,
@@ -221,6 +234,7 @@ class User extends DataClass implements Insertable<User> {
         firebaseToken: firebaseToken ?? this.firebaseToken,
         creationTime: creationTime ?? this.creationTime,
         lastLoginTime: lastLoginTime ?? this.lastLoginTime,
+        currency: currency ?? this.currency,
       );
   @override
   String toString() {
@@ -237,7 +251,8 @@ class User extends DataClass implements Insertable<User> {
           ..write('enableOfflineLogin: $enableOfflineLogin, ')
           ..write('firebaseToken: $firebaseToken, ')
           ..write('creationTime: $creationTime, ')
-          ..write('lastLoginTime: $lastLoginTime')
+          ..write('lastLoginTime: $lastLoginTime, ')
+          ..write('currency: $currency')
           ..write(')'))
         .toString();
   }
@@ -267,8 +282,10 @@ class User extends DataClass implements Insertable<User> {
                                               firebaseToken.hashCode,
                                               $mrjc(
                                                   creationTime.hashCode,
-                                                  lastLoginTime
-                                                      .hashCode)))))))))))));
+                                                  $mrjc(
+                                                      lastLoginTime.hashCode,
+                                                      currency
+                                                          .hashCode))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -285,7 +302,8 @@ class User extends DataClass implements Insertable<User> {
           other.enableOfflineLogin == this.enableOfflineLogin &&
           other.firebaseToken == this.firebaseToken &&
           other.creationTime == this.creationTime &&
-          other.lastLoginTime == this.lastLoginTime);
+          other.lastLoginTime == this.lastLoginTime &&
+          other.currency == this.currency);
 }
 
 class UsersCompanion extends UpdateCompanion<User> {
@@ -302,6 +320,7 @@ class UsersCompanion extends UpdateCompanion<User> {
   final Value<String> firebaseToken;
   final Value<DateTime> creationTime;
   final Value<DateTime> lastLoginTime;
+  final Value<String> currency;
   const UsersCompanion({
     this.tenantId = const Value.absent(),
     this.id = const Value.absent(),
@@ -316,6 +335,7 @@ class UsersCompanion extends UpdateCompanion<User> {
     this.firebaseToken = const Value.absent(),
     this.creationTime = const Value.absent(),
     this.lastLoginTime = const Value.absent(),
+    this.currency = const Value.absent(),
   });
   UsersCompanion.insert({
     this.tenantId = const Value.absent(),
@@ -331,6 +351,7 @@ class UsersCompanion extends UpdateCompanion<User> {
     this.firebaseToken = const Value.absent(),
     this.creationTime = const Value.absent(),
     this.lastLoginTime = const Value.absent(),
+    this.currency = const Value.absent(),
   })  : userName = Value(userName),
         name = Value(name),
         surname = Value(surname),
@@ -350,6 +371,7 @@ class UsersCompanion extends UpdateCompanion<User> {
     Expression<String> firebaseToken,
     Expression<DateTime> creationTime,
     Expression<DateTime> lastLoginTime,
+    Expression<String> currency,
   }) {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
@@ -366,6 +388,7 @@ class UsersCompanion extends UpdateCompanion<User> {
       if (firebaseToken != null) 'firebase_token': firebaseToken,
       if (creationTime != null) 'creation_time': creationTime,
       if (lastLoginTime != null) 'last_login_time': lastLoginTime,
+      if (currency != null) 'currency': currency,
     });
   }
 
@@ -382,7 +405,8 @@ class UsersCompanion extends UpdateCompanion<User> {
       Value<bool> enableOfflineLogin,
       Value<String> firebaseToken,
       Value<DateTime> creationTime,
-      Value<DateTime> lastLoginTime}) {
+      Value<DateTime> lastLoginTime,
+      Value<String> currency}) {
     return UsersCompanion(
       tenantId: tenantId ?? this.tenantId,
       id: id ?? this.id,
@@ -397,6 +421,7 @@ class UsersCompanion extends UpdateCompanion<User> {
       firebaseToken: firebaseToken ?? this.firebaseToken,
       creationTime: creationTime ?? this.creationTime,
       lastLoginTime: lastLoginTime ?? this.lastLoginTime,
+      currency: currency ?? this.currency,
     );
   }
 
@@ -442,6 +467,9 @@ class UsersCompanion extends UpdateCompanion<User> {
     if (lastLoginTime.present) {
       map['last_login_time'] = Variable<DateTime>(lastLoginTime.value);
     }
+    if (currency.present) {
+      map['currency'] = Variable<String>(currency.value);
+    }
     return map;
   }
 
@@ -460,7 +488,8 @@ class UsersCompanion extends UpdateCompanion<User> {
           ..write('enableOfflineLogin: $enableOfflineLogin, ')
           ..write('firebaseToken: $firebaseToken, ')
           ..write('creationTime: $creationTime, ')
-          ..write('lastLoginTime: $lastLoginTime')
+          ..write('lastLoginTime: $lastLoginTime, ')
+          ..write('currency: $currency')
           ..write(')'))
         .toString();
   }
@@ -615,6 +644,18 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
     );
   }
 
+  final VerificationMeta _currencyMeta = const VerificationMeta('currency');
+  GeneratedTextColumn _currency;
+  @override
+  GeneratedTextColumn get currency => _currency ??= _constructCurrency();
+  GeneratedTextColumn _constructCurrency() {
+    return GeneratedTextColumn(
+      'currency',
+      $tableName,
+      true,
+    );
+  }
+
   @override
   List<GeneratedColumn> get $columns => [
         tenantId,
@@ -629,7 +670,8 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
         enableOfflineLogin,
         firebaseToken,
         creationTime,
-        lastLoginTime
+        lastLoginTime,
+        currency
       ];
   @override
   $UsersTable get asDslTable => this;
@@ -715,6 +757,10 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
           lastLoginTime.isAcceptableOrUnknown(
               data['last_login_time'], _lastLoginTimeMeta));
     }
+    if (data.containsKey('currency')) {
+      context.handle(_currencyMeta,
+          currency.isAcceptableOrUnknown(data['currency'], _currencyMeta));
+    }
     return context;
   }
 
@@ -756,6 +802,7 @@ class CommunicationData extends DataClass
   final String syncFrequency;
   final String communicationType;
   final String typeofErp;
+  final int tenantId;
   CommunicationData(
       {this.creationTime,
       this.deleteTime,
@@ -778,7 +825,8 @@ class CommunicationData extends DataClass
       this.confirmPasskey,
       @required this.syncFrequency,
       @required this.communicationType,
-      this.typeofErp});
+      this.typeofErp,
+      this.tenantId});
   factory CommunicationData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -831,6 +879,8 @@ class CommunicationData extends DataClass
           data['${effectivePrefix}communication_type']),
       typeofErp: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}typeof_erp']),
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
     );
   }
   @override
@@ -902,6 +952,9 @@ class CommunicationData extends DataClass
     if (!nullToAbsent || typeofErp != null) {
       map['typeof_erp'] = Variable<String>(typeofErp);
     }
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
     return map;
   }
 
@@ -971,6 +1024,9 @@ class CommunicationData extends DataClass
       typeofErp: typeofErp == null && nullToAbsent
           ? const Value.absent()
           : Value(typeofErp),
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
     );
   }
 
@@ -1000,6 +1056,7 @@ class CommunicationData extends DataClass
       syncFrequency: serializer.fromJson<String>(json['syncFrequency']),
       communicationType: serializer.fromJson<String>(json['communicationType']),
       typeofErp: serializer.fromJson<String>(json['typeofErp']),
+      tenantId: serializer.fromJson<int>(json['tenantId']),
     );
   }
   @override
@@ -1028,6 +1085,7 @@ class CommunicationData extends DataClass
       'syncFrequency': serializer.toJson<String>(syncFrequency),
       'communicationType': serializer.toJson<String>(communicationType),
       'typeofErp': serializer.toJson<String>(typeofErp),
+      'tenantId': serializer.toJson<int>(tenantId),
     };
   }
 
@@ -1053,7 +1111,8 @@ class CommunicationData extends DataClass
           String confirmPasskey,
           String syncFrequency,
           String communicationType,
-          String typeofErp}) =>
+          String typeofErp,
+          int tenantId}) =>
       CommunicationData(
         creationTime: creationTime ?? this.creationTime,
         deleteTime: deleteTime ?? this.deleteTime,
@@ -1077,6 +1136,7 @@ class CommunicationData extends DataClass
         syncFrequency: syncFrequency ?? this.syncFrequency,
         communicationType: communicationType ?? this.communicationType,
         typeofErp: typeofErp ?? this.typeofErp,
+        tenantId: tenantId ?? this.tenantId,
       );
   @override
   String toString() {
@@ -1102,7 +1162,8 @@ class CommunicationData extends DataClass
           ..write('confirmPasskey: $confirmPasskey, ')
           ..write('syncFrequency: $syncFrequency, ')
           ..write('communicationType: $communicationType, ')
-          ..write('typeofErp: $typeofErp')
+          ..write('typeofErp: $typeofErp, ')
+          ..write('tenantId: $tenantId')
           ..write(')'))
         .toString();
   }
@@ -1149,7 +1210,7 @@ class CommunicationData extends DataClass
                                                                               .hashCode,
                                                                           $mrjc(
                                                                               confirmPasskey.hashCode,
-                                                                              $mrjc(syncFrequency.hashCode, $mrjc(communicationType.hashCode, typeofErp.hashCode))))))))))))))))))))));
+                                                                              $mrjc(syncFrequency.hashCode, $mrjc(communicationType.hashCode, $mrjc(typeofErp.hashCode, tenantId.hashCode)))))))))))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -1175,7 +1236,8 @@ class CommunicationData extends DataClass
           other.confirmPasskey == this.confirmPasskey &&
           other.syncFrequency == this.syncFrequency &&
           other.communicationType == this.communicationType &&
-          other.typeofErp == this.typeofErp);
+          other.typeofErp == this.typeofErp &&
+          other.tenantId == this.tenantId);
 }
 
 class CommunicationCompanion extends UpdateCompanion<CommunicationData> {
@@ -1201,6 +1263,7 @@ class CommunicationCompanion extends UpdateCompanion<CommunicationData> {
   final Value<String> syncFrequency;
   final Value<String> communicationType;
   final Value<String> typeofErp;
+  final Value<int> tenantId;
   const CommunicationCompanion({
     this.creationTime = const Value.absent(),
     this.deleteTime = const Value.absent(),
@@ -1224,6 +1287,7 @@ class CommunicationCompanion extends UpdateCompanion<CommunicationData> {
     this.syncFrequency = const Value.absent(),
     this.communicationType = const Value.absent(),
     this.typeofErp = const Value.absent(),
+    this.tenantId = const Value.absent(),
   });
   CommunicationCompanion.insert({
     this.creationTime = const Value.absent(),
@@ -1248,6 +1312,7 @@ class CommunicationCompanion extends UpdateCompanion<CommunicationData> {
     @required String syncFrequency,
     @required String communicationType,
     this.typeofErp = const Value.absent(),
+    this.tenantId = const Value.absent(),
   })  : serverUrl = Value(serverUrl),
         syncFrequency = Value(syncFrequency),
         communicationType = Value(communicationType);
@@ -1274,6 +1339,7 @@ class CommunicationCompanion extends UpdateCompanion<CommunicationData> {
     Expression<String> syncFrequency,
     Expression<String> communicationType,
     Expression<String> typeofErp,
+    Expression<int> tenantId,
   }) {
     return RawValuesInsertable({
       if (creationTime != null) 'creation_time': creationTime,
@@ -1299,6 +1365,7 @@ class CommunicationCompanion extends UpdateCompanion<CommunicationData> {
       if (syncFrequency != null) 'sync_frequency': syncFrequency,
       if (communicationType != null) 'communication_type': communicationType,
       if (typeofErp != null) 'typeof_erp': typeofErp,
+      if (tenantId != null) 'tenant_id': tenantId,
     });
   }
 
@@ -1324,7 +1391,8 @@ class CommunicationCompanion extends UpdateCompanion<CommunicationData> {
       Value<String> confirmPasskey,
       Value<String> syncFrequency,
       Value<String> communicationType,
-      Value<String> typeofErp}) {
+      Value<String> typeofErp,
+      Value<int> tenantId}) {
     return CommunicationCompanion(
       creationTime: creationTime ?? this.creationTime,
       deleteTime: deleteTime ?? this.deleteTime,
@@ -1348,6 +1416,7 @@ class CommunicationCompanion extends UpdateCompanion<CommunicationData> {
       syncFrequency: syncFrequency ?? this.syncFrequency,
       communicationType: communicationType ?? this.communicationType,
       typeofErp: typeofErp ?? this.typeofErp,
+      tenantId: tenantId ?? this.tenantId,
     );
   }
 
@@ -1420,6 +1489,9 @@ class CommunicationCompanion extends UpdateCompanion<CommunicationData> {
     if (typeofErp.present) {
       map['typeof_erp'] = Variable<String>(typeofErp.value);
     }
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
     return map;
   }
 
@@ -1447,7 +1519,8 @@ class CommunicationCompanion extends UpdateCompanion<CommunicationData> {
           ..write('confirmPasskey: $confirmPasskey, ')
           ..write('syncFrequency: $syncFrequency, ')
           ..write('communicationType: $communicationType, ')
-          ..write('typeofErp: $typeofErp')
+          ..write('typeofErp: $typeofErp, ')
+          ..write('tenantId: $tenantId')
           ..write(')'))
         .toString();
   }
@@ -1739,6 +1812,18 @@ class $CommunicationTable extends Communication
     );
   }
 
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
   @override
   List<GeneratedColumn> get $columns => [
         creationTime,
@@ -1762,7 +1847,8 @@ class $CommunicationTable extends Communication
         confirmPasskey,
         syncFrequency,
         communicationType,
-        typeofErp
+        typeofErp,
+        tenantId
       ];
   @override
   $CommunicationTable get asDslTable => this;
@@ -1900,6 +1986,10 @@ class $CommunicationTable extends Communication
       context.handle(_typeofErpMeta,
           typeofErp.isAcceptableOrUnknown(data['typeof_erp'], _typeofErpMeta));
     }
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
     return context;
   }
 
@@ -1926,6 +2016,7 @@ class BackgroundJobScheduleData extends DataClass
   final bool enableJob;
   final DateTime lastRun;
   final String jobStatus;
+  final int tenantId;
   BackgroundJobScheduleData(
       {@required this.id,
       @required this.jobName,
@@ -1933,7 +2024,8 @@ class BackgroundJobScheduleData extends DataClass
       @required this.syncFrequency,
       @required this.enableJob,
       @required this.lastRun,
-      @required this.jobStatus});
+      @required this.jobStatus,
+      this.tenantId});
   factory BackgroundJobScheduleData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -1956,6 +2048,8 @@ class BackgroundJobScheduleData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}last_run']),
       jobStatus: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}job_status']),
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
     );
   }
   @override
@@ -1982,6 +2076,9 @@ class BackgroundJobScheduleData extends DataClass
     if (!nullToAbsent || jobStatus != null) {
       map['job_status'] = Variable<String>(jobStatus);
     }
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
     return map;
   }
 
@@ -2006,6 +2103,9 @@ class BackgroundJobScheduleData extends DataClass
       jobStatus: jobStatus == null && nullToAbsent
           ? const Value.absent()
           : Value(jobStatus),
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
     );
   }
 
@@ -2020,6 +2120,7 @@ class BackgroundJobScheduleData extends DataClass
       enableJob: serializer.fromJson<bool>(json['enableJob']),
       lastRun: serializer.fromJson<DateTime>(json['lastRun']),
       jobStatus: serializer.fromJson<String>(json['jobStatus']),
+      tenantId: serializer.fromJson<int>(json['tenantId']),
     );
   }
   @override
@@ -2033,6 +2134,7 @@ class BackgroundJobScheduleData extends DataClass
       'enableJob': serializer.toJson<bool>(enableJob),
       'lastRun': serializer.toJson<DateTime>(lastRun),
       'jobStatus': serializer.toJson<String>(jobStatus),
+      'tenantId': serializer.toJson<int>(tenantId),
     };
   }
 
@@ -2043,7 +2145,8 @@ class BackgroundJobScheduleData extends DataClass
           String syncFrequency,
           bool enableJob,
           DateTime lastRun,
-          String jobStatus}) =>
+          String jobStatus,
+          int tenantId}) =>
       BackgroundJobScheduleData(
         id: id ?? this.id,
         jobName: jobName ?? this.jobName,
@@ -2052,6 +2155,7 @@ class BackgroundJobScheduleData extends DataClass
         enableJob: enableJob ?? this.enableJob,
         lastRun: lastRun ?? this.lastRun,
         jobStatus: jobStatus ?? this.jobStatus,
+        tenantId: tenantId ?? this.tenantId,
       );
   @override
   String toString() {
@@ -2062,7 +2166,8 @@ class BackgroundJobScheduleData extends DataClass
           ..write('syncFrequency: $syncFrequency, ')
           ..write('enableJob: $enableJob, ')
           ..write('lastRun: $lastRun, ')
-          ..write('jobStatus: $jobStatus')
+          ..write('jobStatus: $jobStatus, ')
+          ..write('tenantId: $tenantId')
           ..write(')'))
         .toString();
   }
@@ -2076,8 +2181,10 @@ class BackgroundJobScheduleData extends DataClass
               startDateTime.hashCode,
               $mrjc(
                   syncFrequency.hashCode,
-                  $mrjc(enableJob.hashCode,
-                      $mrjc(lastRun.hashCode, jobStatus.hashCode)))))));
+                  $mrjc(
+                      enableJob.hashCode,
+                      $mrjc(lastRun.hashCode,
+                          $mrjc(jobStatus.hashCode, tenantId.hashCode))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -2088,7 +2195,8 @@ class BackgroundJobScheduleData extends DataClass
           other.syncFrequency == this.syncFrequency &&
           other.enableJob == this.enableJob &&
           other.lastRun == this.lastRun &&
-          other.jobStatus == this.jobStatus);
+          other.jobStatus == this.jobStatus &&
+          other.tenantId == this.tenantId);
 }
 
 class BackgroundJobScheduleCompanion
@@ -2100,6 +2208,7 @@ class BackgroundJobScheduleCompanion
   final Value<bool> enableJob;
   final Value<DateTime> lastRun;
   final Value<String> jobStatus;
+  final Value<int> tenantId;
   const BackgroundJobScheduleCompanion({
     this.id = const Value.absent(),
     this.jobName = const Value.absent(),
@@ -2108,6 +2217,7 @@ class BackgroundJobScheduleCompanion
     this.enableJob = const Value.absent(),
     this.lastRun = const Value.absent(),
     this.jobStatus = const Value.absent(),
+    this.tenantId = const Value.absent(),
   });
   BackgroundJobScheduleCompanion.insert({
     this.id = const Value.absent(),
@@ -2117,6 +2227,7 @@ class BackgroundJobScheduleCompanion
     this.enableJob = const Value.absent(),
     @required DateTime lastRun,
     @required String jobStatus,
+    this.tenantId = const Value.absent(),
   })  : jobName = Value(jobName),
         startDateTime = Value(startDateTime),
         syncFrequency = Value(syncFrequency),
@@ -2130,6 +2241,7 @@ class BackgroundJobScheduleCompanion
     Expression<bool> enableJob,
     Expression<DateTime> lastRun,
     Expression<String> jobStatus,
+    Expression<int> tenantId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -2139,6 +2251,7 @@ class BackgroundJobScheduleCompanion
       if (enableJob != null) 'enable_job': enableJob,
       if (lastRun != null) 'last_run': lastRun,
       if (jobStatus != null) 'job_status': jobStatus,
+      if (tenantId != null) 'tenant_id': tenantId,
     });
   }
 
@@ -2149,7 +2262,8 @@ class BackgroundJobScheduleCompanion
       Value<String> syncFrequency,
       Value<bool> enableJob,
       Value<DateTime> lastRun,
-      Value<String> jobStatus}) {
+      Value<String> jobStatus,
+      Value<int> tenantId}) {
     return BackgroundJobScheduleCompanion(
       id: id ?? this.id,
       jobName: jobName ?? this.jobName,
@@ -2158,6 +2272,7 @@ class BackgroundJobScheduleCompanion
       enableJob: enableJob ?? this.enableJob,
       lastRun: lastRun ?? this.lastRun,
       jobStatus: jobStatus ?? this.jobStatus,
+      tenantId: tenantId ?? this.tenantId,
     );
   }
 
@@ -2185,6 +2300,9 @@ class BackgroundJobScheduleCompanion
     if (jobStatus.present) {
       map['job_status'] = Variable<String>(jobStatus.value);
     }
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
     return map;
   }
 
@@ -2197,7 +2315,8 @@ class BackgroundJobScheduleCompanion
           ..write('syncFrequency: $syncFrequency, ')
           ..write('enableJob: $enableJob, ')
           ..write('lastRun: $lastRun, ')
-          ..write('jobStatus: $jobStatus')
+          ..write('jobStatus: $jobStatus, ')
+          ..write('tenantId: $tenantId')
           ..write(')'))
         .toString();
   }
@@ -2290,6 +2409,18 @@ class $BackgroundJobScheduleTable extends BackgroundJobSchedule
     );
   }
 
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -2298,7 +2429,8 @@ class $BackgroundJobScheduleTable extends BackgroundJobSchedule
         syncFrequency,
         enableJob,
         lastRun,
-        jobStatus
+        jobStatus,
+        tenantId
       ];
   @override
   $BackgroundJobScheduleTable get asDslTable => this;
@@ -2353,6 +2485,10 @@ class $BackgroundJobScheduleTable extends BackgroundJobSchedule
     } else if (isInserting) {
       context.missing(_jobStatusMeta);
     }
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
     return context;
   }
 
@@ -2379,12 +2515,14 @@ class BackgroundJobLog extends DataClass
   final DateTime lastRun;
   final String jobStatus;
   final String jobDescription;
+  final int tenantId;
   BackgroundJobLog(
       {@required this.id,
       @required this.jobName,
       @required this.lastRun,
       @required this.jobStatus,
-      @required this.jobDescription});
+      @required this.jobDescription,
+      this.tenantId});
   factory BackgroundJobLog.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -2402,6 +2540,8 @@ class BackgroundJobLog extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}job_status']),
       jobDescription: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}job_description']),
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
     );
   }
   @override
@@ -2422,6 +2562,9 @@ class BackgroundJobLog extends DataClass
     if (!nullToAbsent || jobDescription != null) {
       map['job_description'] = Variable<String>(jobDescription);
     }
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
     return map;
   }
 
@@ -2440,6 +2583,9 @@ class BackgroundJobLog extends DataClass
       jobDescription: jobDescription == null && nullToAbsent
           ? const Value.absent()
           : Value(jobDescription),
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
     );
   }
 
@@ -2452,6 +2598,7 @@ class BackgroundJobLog extends DataClass
       lastRun: serializer.fromJson<DateTime>(json['lastRun']),
       jobStatus: serializer.fromJson<String>(json['jobStatus']),
       jobDescription: serializer.fromJson<String>(json['jobDescription']),
+      tenantId: serializer.fromJson<int>(json['tenantId']),
     );
   }
   @override
@@ -2463,6 +2610,7 @@ class BackgroundJobLog extends DataClass
       'lastRun': serializer.toJson<DateTime>(lastRun),
       'jobStatus': serializer.toJson<String>(jobStatus),
       'jobDescription': serializer.toJson<String>(jobDescription),
+      'tenantId': serializer.toJson<int>(tenantId),
     };
   }
 
@@ -2471,13 +2619,15 @@ class BackgroundJobLog extends DataClass
           String jobName,
           DateTime lastRun,
           String jobStatus,
-          String jobDescription}) =>
+          String jobDescription,
+          int tenantId}) =>
       BackgroundJobLog(
         id: id ?? this.id,
         jobName: jobName ?? this.jobName,
         lastRun: lastRun ?? this.lastRun,
         jobStatus: jobStatus ?? this.jobStatus,
         jobDescription: jobDescription ?? this.jobDescription,
+        tenantId: tenantId ?? this.tenantId,
       );
   @override
   String toString() {
@@ -2486,7 +2636,8 @@ class BackgroundJobLog extends DataClass
           ..write('jobName: $jobName, ')
           ..write('lastRun: $lastRun, ')
           ..write('jobStatus: $jobStatus, ')
-          ..write('jobDescription: $jobDescription')
+          ..write('jobDescription: $jobDescription, ')
+          ..write('tenantId: $tenantId')
           ..write(')'))
         .toString();
   }
@@ -2496,8 +2647,10 @@ class BackgroundJobLog extends DataClass
       id.hashCode,
       $mrjc(
           jobName.hashCode,
-          $mrjc(lastRun.hashCode,
-              $mrjc(jobStatus.hashCode, jobDescription.hashCode)))));
+          $mrjc(
+              lastRun.hashCode,
+              $mrjc(jobStatus.hashCode,
+                  $mrjc(jobDescription.hashCode, tenantId.hashCode))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -2506,7 +2659,8 @@ class BackgroundJobLog extends DataClass
           other.jobName == this.jobName &&
           other.lastRun == this.lastRun &&
           other.jobStatus == this.jobStatus &&
-          other.jobDescription == this.jobDescription);
+          other.jobDescription == this.jobDescription &&
+          other.tenantId == this.tenantId);
 }
 
 class BackgroundJobLogsCompanion extends UpdateCompanion<BackgroundJobLog> {
@@ -2515,12 +2669,14 @@ class BackgroundJobLogsCompanion extends UpdateCompanion<BackgroundJobLog> {
   final Value<DateTime> lastRun;
   final Value<String> jobStatus;
   final Value<String> jobDescription;
+  final Value<int> tenantId;
   const BackgroundJobLogsCompanion({
     this.id = const Value.absent(),
     this.jobName = const Value.absent(),
     this.lastRun = const Value.absent(),
     this.jobStatus = const Value.absent(),
     this.jobDescription = const Value.absent(),
+    this.tenantId = const Value.absent(),
   });
   BackgroundJobLogsCompanion.insert({
     this.id = const Value.absent(),
@@ -2528,6 +2684,7 @@ class BackgroundJobLogsCompanion extends UpdateCompanion<BackgroundJobLog> {
     @required DateTime lastRun,
     @required String jobStatus,
     @required String jobDescription,
+    this.tenantId = const Value.absent(),
   })  : jobName = Value(jobName),
         lastRun = Value(lastRun),
         jobStatus = Value(jobStatus),
@@ -2538,6 +2695,7 @@ class BackgroundJobLogsCompanion extends UpdateCompanion<BackgroundJobLog> {
     Expression<DateTime> lastRun,
     Expression<String> jobStatus,
     Expression<String> jobDescription,
+    Expression<int> tenantId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -2545,6 +2703,7 @@ class BackgroundJobLogsCompanion extends UpdateCompanion<BackgroundJobLog> {
       if (lastRun != null) 'last_run': lastRun,
       if (jobStatus != null) 'job_status': jobStatus,
       if (jobDescription != null) 'job_description': jobDescription,
+      if (tenantId != null) 'tenant_id': tenantId,
     });
   }
 
@@ -2553,13 +2712,15 @@ class BackgroundJobLogsCompanion extends UpdateCompanion<BackgroundJobLog> {
       Value<String> jobName,
       Value<DateTime> lastRun,
       Value<String> jobStatus,
-      Value<String> jobDescription}) {
+      Value<String> jobDescription,
+      Value<int> tenantId}) {
     return BackgroundJobLogsCompanion(
       id: id ?? this.id,
       jobName: jobName ?? this.jobName,
       lastRun: lastRun ?? this.lastRun,
       jobStatus: jobStatus ?? this.jobStatus,
       jobDescription: jobDescription ?? this.jobDescription,
+      tenantId: tenantId ?? this.tenantId,
     );
   }
 
@@ -2581,6 +2742,9 @@ class BackgroundJobLogsCompanion extends UpdateCompanion<BackgroundJobLog> {
     if (jobDescription.present) {
       map['job_description'] = Variable<String>(jobDescription.value);
     }
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
     return map;
   }
 
@@ -2591,7 +2755,8 @@ class BackgroundJobLogsCompanion extends UpdateCompanion<BackgroundJobLog> {
           ..write('jobName: $jobName, ')
           ..write('lastRun: $lastRun, ')
           ..write('jobStatus: $jobStatus, ')
-          ..write('jobDescription: $jobDescription')
+          ..write('jobDescription: $jobDescription, ')
+          ..write('tenantId: $tenantId')
           ..write(')'))
         .toString();
   }
@@ -2664,9 +2829,21 @@ class $BackgroundJobLogsTable extends BackgroundJobLogs
     );
   }
 
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
   @override
   List<GeneratedColumn> get $columns =>
-      [id, jobName, lastRun, jobStatus, jobDescription];
+      [id, jobName, lastRun, jobStatus, jobDescription, tenantId];
   @override
   $BackgroundJobLogsTable get asDslTable => this;
   @override
@@ -2706,6 +2883,10 @@ class $BackgroundJobLogsTable extends BackgroundJobLogs
               data['job_description'], _jobDescriptionMeta));
     } else if (isInserting) {
       context.missing(_jobDescriptionMeta);
+    }
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
     }
     return context;
   }
@@ -3031,7 +3212,7 @@ class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
     this.groups = const Value.absent(),
   });
   PreferenceCompanion.insert({
-    this.id = const Value.absent(),
+    @required int id,
     @required int tenantId,
     @required String code,
     this.preferenceName = const Value.absent(),
@@ -3044,7 +3225,8 @@ class PreferenceCompanion extends UpdateCompanion<PreferenceData> {
     this.dataType = const Value.absent(),
     this.dataValue = const Value.absent(),
     this.groups = const Value.absent(),
-  })  : tenantId = Value(tenantId),
+  })  : id = Value(id),
+        tenantId = Value(tenantId),
         code = Value(code),
         value = Value(value);
   static Insertable<PreferenceData> custom({
@@ -3369,6 +3551,8 @@ class $PreferenceTable extends Preference
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
     }
     if (data.containsKey('tenant_id')) {
       context.handle(_tenantIdMeta,
@@ -3434,7 +3618,7 @@ class $PreferenceTable extends Preference
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => {code};
   @override
   PreferenceData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -3485,6 +3669,7 @@ class MobileDeviceData extends DataClass
   final String deviceNickName;
   final double latitude;
   final double longitude;
+  final int tenantId;
   MobileDeviceData(
       {this.creationTime,
       this.deleteTime,
@@ -3521,7 +3706,8 @@ class MobileDeviceData extends DataClass
       this.companyName,
       this.deviceNickName,
       this.latitude,
-      this.longitude});
+      this.longitude,
+      this.tenantId});
   factory MobileDeviceData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -3604,6 +3790,8 @@ class MobileDeviceData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}latitude']),
       longitude: doubleType
           .mapFromDatabaseResponse(data['${effectivePrefix}longitude']),
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
     );
   }
   @override
@@ -3717,6 +3905,9 @@ class MobileDeviceData extends DataClass
     if (!nullToAbsent || longitude != null) {
       map['longitude'] = Variable<double>(longitude);
     }
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
     return map;
   }
 
@@ -3829,6 +4020,9 @@ class MobileDeviceData extends DataClass
       longitude: longitude == null && nullToAbsent
           ? const Value.absent()
           : Value(longitude),
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
     );
   }
 
@@ -3872,6 +4066,7 @@ class MobileDeviceData extends DataClass
       deviceNickName: serializer.fromJson<String>(json['deviceNickName']),
       latitude: serializer.fromJson<double>(json['latitude']),
       longitude: serializer.fromJson<double>(json['longitude']),
+      tenantId: serializer.fromJson<int>(json['tenantId']),
     );
   }
   @override
@@ -3914,6 +4109,7 @@ class MobileDeviceData extends DataClass
       'deviceNickName': serializer.toJson<String>(deviceNickName),
       'latitude': serializer.toJson<double>(latitude),
       'longitude': serializer.toJson<double>(longitude),
+      'tenantId': serializer.toJson<int>(tenantId),
     };
   }
 
@@ -3953,7 +4149,8 @@ class MobileDeviceData extends DataClass
           String companyName,
           String deviceNickName,
           double latitude,
-          double longitude}) =>
+          double longitude,
+          int tenantId}) =>
       MobileDeviceData(
         creationTime: creationTime ?? this.creationTime,
         deleteTime: deleteTime ?? this.deleteTime,
@@ -3991,6 +4188,7 @@ class MobileDeviceData extends DataClass
         deviceNickName: deviceNickName ?? this.deviceNickName,
         latitude: latitude ?? this.latitude,
         longitude: longitude ?? this.longitude,
+        tenantId: tenantId ?? this.tenantId,
       );
   @override
   String toString() {
@@ -4030,7 +4228,8 @@ class MobileDeviceData extends DataClass
           ..write('companyName: $companyName, ')
           ..write('deviceNickName: $deviceNickName, ')
           ..write('latitude: $latitude, ')
-          ..write('longitude: $longitude')
+          ..write('longitude: $longitude, ')
+          ..write('tenantId: $tenantId')
           ..write(')'))
         .toString();
   }
@@ -4077,7 +4276,7 @@ class MobileDeviceData extends DataClass
                                                                               .hashCode,
                                                                           $mrjc(
                                                                               bootLoader.hashCode,
-                                                                              $mrjc(manufacture.hashCode, $mrjc(model.hashCode, $mrjc(sdkNumber.hashCode, $mrjc(hardware.hashCode, $mrjc(deviceHost.hashCode, $mrjc(deviceTime.hashCode, $mrjc(deviceSerial.hashCode, $mrjc(deviceMac.hashCode, $mrjc(deviceIp.hashCode, $mrjc(deviceMode.hashCode, $mrjc(activationDate.hashCode, $mrjc(expirationDate.hashCode, $mrjc(deviceStatus.hashCode, $mrjc(companyName.hashCode, $mrjc(deviceNickName.hashCode, $mrjc(latitude.hashCode, longitude.hashCode))))))))))))))))))))))))))))))))))));
+                                                                              $mrjc(manufacture.hashCode, $mrjc(model.hashCode, $mrjc(sdkNumber.hashCode, $mrjc(hardware.hashCode, $mrjc(deviceHost.hashCode, $mrjc(deviceTime.hashCode, $mrjc(deviceSerial.hashCode, $mrjc(deviceMac.hashCode, $mrjc(deviceIp.hashCode, $mrjc(deviceMode.hashCode, $mrjc(activationDate.hashCode, $mrjc(expirationDate.hashCode, $mrjc(deviceStatus.hashCode, $mrjc(companyName.hashCode, $mrjc(deviceNickName.hashCode, $mrjc(latitude.hashCode, $mrjc(longitude.hashCode, tenantId.hashCode)))))))))))))))))))))))))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -4117,7 +4316,8 @@ class MobileDeviceData extends DataClass
           other.companyName == this.companyName &&
           other.deviceNickName == this.deviceNickName &&
           other.latitude == this.latitude &&
-          other.longitude == this.longitude);
+          other.longitude == this.longitude &&
+          other.tenantId == this.tenantId);
 }
 
 class MobileDeviceCompanion extends UpdateCompanion<MobileDeviceData> {
@@ -4157,6 +4357,7 @@ class MobileDeviceCompanion extends UpdateCompanion<MobileDeviceData> {
   final Value<String> deviceNickName;
   final Value<double> latitude;
   final Value<double> longitude;
+  final Value<int> tenantId;
   const MobileDeviceCompanion({
     this.creationTime = const Value.absent(),
     this.deleteTime = const Value.absent(),
@@ -4194,6 +4395,7 @@ class MobileDeviceCompanion extends UpdateCompanion<MobileDeviceData> {
     this.deviceNickName = const Value.absent(),
     this.latitude = const Value.absent(),
     this.longitude = const Value.absent(),
+    this.tenantId = const Value.absent(),
   });
   MobileDeviceCompanion.insert({
     this.creationTime = const Value.absent(),
@@ -4232,6 +4434,7 @@ class MobileDeviceCompanion extends UpdateCompanion<MobileDeviceData> {
     this.deviceNickName = const Value.absent(),
     this.latitude = const Value.absent(),
     this.longitude = const Value.absent(),
+    this.tenantId = const Value.absent(),
   });
   static Insertable<MobileDeviceData> custom({
     Expression<DateTime> creationTime,
@@ -4270,6 +4473,7 @@ class MobileDeviceCompanion extends UpdateCompanion<MobileDeviceData> {
     Expression<String> deviceNickName,
     Expression<double> latitude,
     Expression<double> longitude,
+    Expression<int> tenantId,
   }) {
     return RawValuesInsertable({
       if (creationTime != null) 'creation_time': creationTime,
@@ -4309,6 +4513,7 @@ class MobileDeviceCompanion extends UpdateCompanion<MobileDeviceData> {
       if (deviceNickName != null) 'device_nick_name': deviceNickName,
       if (latitude != null) 'latitude': latitude,
       if (longitude != null) 'longitude': longitude,
+      if (tenantId != null) 'tenant_id': tenantId,
     });
   }
 
@@ -4348,7 +4553,8 @@ class MobileDeviceCompanion extends UpdateCompanion<MobileDeviceData> {
       Value<String> companyName,
       Value<String> deviceNickName,
       Value<double> latitude,
-      Value<double> longitude}) {
+      Value<double> longitude,
+      Value<int> tenantId}) {
     return MobileDeviceCompanion(
       creationTime: creationTime ?? this.creationTime,
       deleteTime: deleteTime ?? this.deleteTime,
@@ -4386,6 +4592,7 @@ class MobileDeviceCompanion extends UpdateCompanion<MobileDeviceData> {
       deviceNickName: deviceNickName ?? this.deviceNickName,
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
+      tenantId: tenantId ?? this.tenantId,
     );
   }
 
@@ -4500,6 +4707,9 @@ class MobileDeviceCompanion extends UpdateCompanion<MobileDeviceData> {
     if (longitude.present) {
       map['longitude'] = Variable<double>(longitude.value);
     }
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
     return map;
   }
 
@@ -4541,7 +4751,8 @@ class MobileDeviceCompanion extends UpdateCompanion<MobileDeviceData> {
           ..write('companyName: $companyName, ')
           ..write('deviceNickName: $deviceNickName, ')
           ..write('latitude: $latitude, ')
-          ..write('longitude: $longitude')
+          ..write('longitude: $longitude, ')
+          ..write('tenantId: $tenantId')
           ..write(')'))
         .toString();
   }
@@ -5017,6 +5228,18 @@ class $MobileDeviceTable extends MobileDevice
     );
   }
 
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
   @override
   List<GeneratedColumn> get $columns => [
         creationTime,
@@ -5054,7 +5277,8 @@ class $MobileDeviceTable extends MobileDevice
         companyName,
         deviceNickName,
         latitude,
-        longitude
+        longitude,
+        tenantId
       ];
   @override
   $MobileDeviceTable get asDslTable => this;
@@ -5263,6 +5487,10 @@ class $MobileDeviceTable extends MobileDevice
       context.handle(_longitudeMeta,
           longitude.isAcceptableOrUnknown(data['longitude'], _longitudeMeta));
     }
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
     return context;
   }
 
@@ -5291,6 +5519,7 @@ class BusinessRuleData extends DataClass
   final String userRule;
   final String domain;
   final DateTime expiredDateTime;
+  final int tenantId;
   final String syncError;
   final String dataType;
   final String dataValue;
@@ -5305,6 +5534,7 @@ class BusinessRuleData extends DataClass
       this.userRule,
       this.domain,
       this.expiredDateTime,
+      this.tenantId,
       this.syncError,
       this.dataType,
       this.dataValue,
@@ -5316,6 +5546,7 @@ class BusinessRuleData extends DataClass
     final stringType = db.typeSystem.forDartType<String>();
     final boolType = db.typeSystem.forDartType<bool>();
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final intType = db.typeSystem.forDartType<int>();
     return BusinessRuleData(
       code: stringType.mapFromDatabaseResponse(data['${effectivePrefix}code']),
       ruleName: stringType
@@ -5334,6 +5565,8 @@ class BusinessRuleData extends DataClass
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}domain']),
       expiredDateTime: dateTimeType
           .mapFromDatabaseResponse(data['${effectivePrefix}expired_date_time']),
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
       syncError: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}sync_error']),
       dataType: stringType
@@ -5373,6 +5606,9 @@ class BusinessRuleData extends DataClass
     }
     if (!nullToAbsent || expiredDateTime != null) {
       map['expired_date_time'] = Variable<DateTime>(expiredDateTime);
+    }
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
     }
     if (!nullToAbsent || syncError != null) {
       map['sync_error'] = Variable<String>(syncError);
@@ -5414,6 +5650,9 @@ class BusinessRuleData extends DataClass
       expiredDateTime: expiredDateTime == null && nullToAbsent
           ? const Value.absent()
           : Value(expiredDateTime),
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
       syncError: syncError == null && nullToAbsent
           ? const Value.absent()
           : Value(syncError),
@@ -5441,6 +5680,7 @@ class BusinessRuleData extends DataClass
       userRule: serializer.fromJson<String>(json['userRule']),
       domain: serializer.fromJson<String>(json['domain']),
       expiredDateTime: serializer.fromJson<DateTime>(json['expiredDateTime']),
+      tenantId: serializer.fromJson<int>(json['tenantId']),
       syncError: serializer.fromJson<String>(json['syncError']),
       dataType: serializer.fromJson<String>(json['dataType']),
       dataValue: serializer.fromJson<String>(json['dataValue']),
@@ -5460,6 +5700,7 @@ class BusinessRuleData extends DataClass
       'userRule': serializer.toJson<String>(userRule),
       'domain': serializer.toJson<String>(domain),
       'expiredDateTime': serializer.toJson<DateTime>(expiredDateTime),
+      'tenantId': serializer.toJson<int>(tenantId),
       'syncError': serializer.toJson<String>(syncError),
       'dataType': serializer.toJson<String>(dataType),
       'dataValue': serializer.toJson<String>(dataValue),
@@ -5477,6 +5718,7 @@ class BusinessRuleData extends DataClass
           String userRule,
           String domain,
           DateTime expiredDateTime,
+          int tenantId,
           String syncError,
           String dataType,
           String dataValue,
@@ -5491,6 +5733,7 @@ class BusinessRuleData extends DataClass
         userRule: userRule ?? this.userRule,
         domain: domain ?? this.domain,
         expiredDateTime: expiredDateTime ?? this.expiredDateTime,
+        tenantId: tenantId ?? this.tenantId,
         syncError: syncError ?? this.syncError,
         dataType: dataType ?? this.dataType,
         dataValue: dataValue ?? this.dataValue,
@@ -5508,6 +5751,7 @@ class BusinessRuleData extends DataClass
           ..write('userRule: $userRule, ')
           ..write('domain: $domain, ')
           ..write('expiredDateTime: $expiredDateTime, ')
+          ..write('tenantId: $tenantId, ')
           ..write('syncError: $syncError, ')
           ..write('dataType: $dataType, ')
           ..write('dataValue: $dataValue, ')
@@ -5536,11 +5780,15 @@ class BusinessRuleData extends DataClass
                                   $mrjc(
                                       expiredDateTime.hashCode,
                                       $mrjc(
-                                          syncError.hashCode,
+                                          tenantId.hashCode,
                                           $mrjc(
-                                              dataType.hashCode,
-                                              $mrjc(dataValue.hashCode,
-                                                  groups.hashCode)))))))))))));
+                                              syncError.hashCode,
+                                              $mrjc(
+                                                  dataType.hashCode,
+                                                  $mrjc(
+                                                      dataValue.hashCode,
+                                                      groups
+                                                          .hashCode))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -5554,6 +5802,7 @@ class BusinessRuleData extends DataClass
           other.userRule == this.userRule &&
           other.domain == this.domain &&
           other.expiredDateTime == this.expiredDateTime &&
+          other.tenantId == this.tenantId &&
           other.syncError == this.syncError &&
           other.dataType == this.dataType &&
           other.dataValue == this.dataValue &&
@@ -5570,6 +5819,7 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
   final Value<String> userRule;
   final Value<String> domain;
   final Value<DateTime> expiredDateTime;
+  final Value<int> tenantId;
   final Value<String> syncError;
   final Value<String> dataType;
   final Value<String> dataValue;
@@ -5584,6 +5834,7 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
     this.userRule = const Value.absent(),
     this.domain = const Value.absent(),
     this.expiredDateTime = const Value.absent(),
+    this.tenantId = const Value.absent(),
     this.syncError = const Value.absent(),
     this.dataType = const Value.absent(),
     this.dataValue = const Value.absent(),
@@ -5599,6 +5850,7 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
     this.userRule = const Value.absent(),
     this.domain = const Value.absent(),
     this.expiredDateTime = const Value.absent(),
+    this.tenantId = const Value.absent(),
     this.syncError = const Value.absent(),
     this.dataType = const Value.absent(),
     this.dataValue = const Value.absent(),
@@ -5615,6 +5867,7 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
     Expression<String> userRule,
     Expression<String> domain,
     Expression<DateTime> expiredDateTime,
+    Expression<int> tenantId,
     Expression<String> syncError,
     Expression<String> dataType,
     Expression<String> dataValue,
@@ -5630,6 +5883,7 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
       if (userRule != null) 'user_rule': userRule,
       if (domain != null) 'domain': domain,
       if (expiredDateTime != null) 'expired_date_time': expiredDateTime,
+      if (tenantId != null) 'tenant_id': tenantId,
       if (syncError != null) 'sync_error': syncError,
       if (dataType != null) 'data_type': dataType,
       if (dataValue != null) 'data_value': dataValue,
@@ -5647,6 +5901,7 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
       Value<String> userRule,
       Value<String> domain,
       Value<DateTime> expiredDateTime,
+      Value<int> tenantId,
       Value<String> syncError,
       Value<String> dataType,
       Value<String> dataValue,
@@ -5661,6 +5916,7 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
       userRule: userRule ?? this.userRule,
       domain: domain ?? this.domain,
       expiredDateTime: expiredDateTime ?? this.expiredDateTime,
+      tenantId: tenantId ?? this.tenantId,
       syncError: syncError ?? this.syncError,
       dataType: dataType ?? this.dataType,
       dataValue: dataValue ?? this.dataValue,
@@ -5698,6 +5954,9 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
     if (expiredDateTime.present) {
       map['expired_date_time'] = Variable<DateTime>(expiredDateTime.value);
     }
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
     if (syncError.present) {
       map['sync_error'] = Variable<String>(syncError.value);
     }
@@ -5725,6 +5984,7 @@ class BusinessRuleCompanion extends UpdateCompanion<BusinessRuleData> {
           ..write('userRule: $userRule, ')
           ..write('domain: $domain, ')
           ..write('expiredDateTime: $expiredDateTime, ')
+          ..write('tenantId: $tenantId, ')
           ..write('syncError: $syncError, ')
           ..write('dataType: $dataType, ')
           ..write('dataValue: $dataValue, ')
@@ -5850,6 +6110,18 @@ class $BusinessRuleTable extends BusinessRule
     );
   }
 
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
   final VerificationMeta _syncErrorMeta = const VerificationMeta('syncError');
   GeneratedTextColumn _syncError;
   @override
@@ -5909,6 +6181,7 @@ class $BusinessRuleTable extends BusinessRule
         userRule,
         domain,
         expiredDateTime,
+        tenantId,
         syncError,
         dataType,
         dataValue,
@@ -5973,6 +6246,10 @@ class $BusinessRuleTable extends BusinessRule
           expiredDateTime.isAcceptableOrUnknown(
               data['expired_date_time'], _expiredDateTimeMeta));
     }
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
     if (data.containsKey('sync_error')) {
       context.handle(_syncErrorMeta,
           syncError.isAcceptableOrUnknown(data['sync_error'], _syncErrorMeta));
@@ -6025,6 +6302,7 @@ class NonGlobalBusinessRuleData extends DataClass
   final String dataType;
   final String dataValue;
   final String groups;
+  final int tenantId;
   NonGlobalBusinessRuleData(
       {@required this.code,
       @required this.parentCode,
@@ -6042,7 +6320,8 @@ class NonGlobalBusinessRuleData extends DataClass
       this.expiredDateTime,
       this.dataType,
       this.dataValue,
-      this.groups});
+      this.groups,
+      this.tenantId});
   factory NonGlobalBusinessRuleData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -6050,6 +6329,7 @@ class NonGlobalBusinessRuleData extends DataClass
     final stringType = db.typeSystem.forDartType<String>();
     final boolType = db.typeSystem.forDartType<bool>();
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final intType = db.typeSystem.forDartType<int>();
     return NonGlobalBusinessRuleData(
       code: stringType.mapFromDatabaseResponse(data['${effectivePrefix}code']),
       parentCode: stringType
@@ -6084,6 +6364,8 @@ class NonGlobalBusinessRuleData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}data_value']),
       groups:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}groups']),
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
     );
   }
   @override
@@ -6140,6 +6422,9 @@ class NonGlobalBusinessRuleData extends DataClass
     if (!nullToAbsent || groups != null) {
       map['groups'] = Variable<String>(groups);
     }
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
     return map;
   }
 
@@ -6190,6 +6475,9 @@ class NonGlobalBusinessRuleData extends DataClass
           : Value(dataValue),
       groups:
           groups == null && nullToAbsent ? const Value.absent() : Value(groups),
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
     );
   }
 
@@ -6214,6 +6502,7 @@ class NonGlobalBusinessRuleData extends DataClass
       dataType: serializer.fromJson<String>(json['dataType']),
       dataValue: serializer.fromJson<String>(json['dataValue']),
       groups: serializer.fromJson<String>(json['groups']),
+      tenantId: serializer.fromJson<int>(json['tenantId']),
     );
   }
   @override
@@ -6237,6 +6526,7 @@ class NonGlobalBusinessRuleData extends DataClass
       'dataType': serializer.toJson<String>(dataType),
       'dataValue': serializer.toJson<String>(dataValue),
       'groups': serializer.toJson<String>(groups),
+      'tenantId': serializer.toJson<int>(tenantId),
     };
   }
 
@@ -6257,7 +6547,8 @@ class NonGlobalBusinessRuleData extends DataClass
           DateTime expiredDateTime,
           String dataType,
           String dataValue,
-          String groups}) =>
+          String groups,
+          int tenantId}) =>
       NonGlobalBusinessRuleData(
         code: code ?? this.code,
         parentCode: parentCode ?? this.parentCode,
@@ -6276,6 +6567,7 @@ class NonGlobalBusinessRuleData extends DataClass
         dataType: dataType ?? this.dataType,
         dataValue: dataValue ?? this.dataValue,
         groups: groups ?? this.groups,
+        tenantId: tenantId ?? this.tenantId,
       );
   @override
   String toString() {
@@ -6296,7 +6588,8 @@ class NonGlobalBusinessRuleData extends DataClass
           ..write('expiredDateTime: $expiredDateTime, ')
           ..write('dataType: $dataType, ')
           ..write('dataValue: $dataValue, ')
-          ..write('groups: $groups')
+          ..write('groups: $groups, ')
+          ..write('tenantId: $tenantId')
           ..write(')'))
         .toString();
   }
@@ -6336,8 +6629,11 @@ class NonGlobalBusinessRuleData extends DataClass
                                                               $mrjc(
                                                                   dataValue
                                                                       .hashCode,
-                                                                  groups
-                                                                      .hashCode)))))))))))))))));
+                                                                  $mrjc(
+                                                                      groups
+                                                                          .hashCode,
+                                                                      tenantId
+                                                                          .hashCode))))))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -6358,7 +6654,8 @@ class NonGlobalBusinessRuleData extends DataClass
           other.expiredDateTime == this.expiredDateTime &&
           other.dataType == this.dataType &&
           other.dataValue == this.dataValue &&
-          other.groups == this.groups);
+          other.groups == this.groups &&
+          other.tenantId == this.tenantId);
 }
 
 class NonGlobalBusinessRuleCompanion
@@ -6380,6 +6677,7 @@ class NonGlobalBusinessRuleCompanion
   final Value<String> dataType;
   final Value<String> dataValue;
   final Value<String> groups;
+  final Value<int> tenantId;
   const NonGlobalBusinessRuleCompanion({
     this.code = const Value.absent(),
     this.parentCode = const Value.absent(),
@@ -6398,6 +6696,7 @@ class NonGlobalBusinessRuleCompanion
     this.dataType = const Value.absent(),
     this.dataValue = const Value.absent(),
     this.groups = const Value.absent(),
+    this.tenantId = const Value.absent(),
   });
   NonGlobalBusinessRuleCompanion.insert({
     @required String code,
@@ -6417,6 +6716,7 @@ class NonGlobalBusinessRuleCompanion
     this.dataType = const Value.absent(),
     this.dataValue = const Value.absent(),
     this.groups = const Value.absent(),
+    this.tenantId = const Value.absent(),
   })  : code = Value(code),
         parentCode = Value(parentCode),
         value = Value(value);
@@ -6438,6 +6738,7 @@ class NonGlobalBusinessRuleCompanion
     Expression<String> dataType,
     Expression<String> dataValue,
     Expression<String> groups,
+    Expression<int> tenantId,
   }) {
     return RawValuesInsertable({
       if (code != null) 'code': code,
@@ -6457,6 +6758,7 @@ class NonGlobalBusinessRuleCompanion
       if (dataType != null) 'data_type': dataType,
       if (dataValue != null) 'data_value': dataValue,
       if (groups != null) 'groups': groups,
+      if (tenantId != null) 'tenant_id': tenantId,
     });
   }
 
@@ -6477,7 +6779,8 @@ class NonGlobalBusinessRuleCompanion
       Value<DateTime> expiredDateTime,
       Value<String> dataType,
       Value<String> dataValue,
-      Value<String> groups}) {
+      Value<String> groups,
+      Value<int> tenantId}) {
     return NonGlobalBusinessRuleCompanion(
       code: code ?? this.code,
       parentCode: parentCode ?? this.parentCode,
@@ -6496,6 +6799,7 @@ class NonGlobalBusinessRuleCompanion
       dataType: dataType ?? this.dataType,
       dataValue: dataValue ?? this.dataValue,
       groups: groups ?? this.groups,
+      tenantId: tenantId ?? this.tenantId,
     );
   }
 
@@ -6553,6 +6857,9 @@ class NonGlobalBusinessRuleCompanion
     if (groups.present) {
       map['groups'] = Variable<String>(groups.value);
     }
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
     return map;
   }
 
@@ -6575,7 +6882,8 @@ class NonGlobalBusinessRuleCompanion
           ..write('expiredDateTime: $expiredDateTime, ')
           ..write('dataType: $dataType, ')
           ..write('dataValue: $dataValue, ')
-          ..write('groups: $groups')
+          ..write('groups: $groups, ')
+          ..write('tenantId: $tenantId')
           ..write(')'))
         .toString();
   }
@@ -6791,6 +7099,18 @@ class $NonGlobalBusinessRuleTable extends NonGlobalBusinessRule
     );
   }
 
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
   @override
   List<GeneratedColumn> get $columns => [
         code,
@@ -6809,7 +7129,8 @@ class $NonGlobalBusinessRuleTable extends NonGlobalBusinessRule
         expiredDateTime,
         dataType,
         dataValue,
-        groups
+        groups,
+        tenantId
       ];
   @override
   $NonGlobalBusinessRuleTable get asDslTable => this;
@@ -6904,6 +7225,10 @@ class $NonGlobalBusinessRuleTable extends NonGlobalBusinessRule
     if (data.containsKey('groups')) {
       context.handle(_groupsMeta,
           groups.isAcceptableOrUnknown(data['groups'], _groupsMeta));
+    }
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
     }
     return context;
   }
@@ -8133,6 +8458,7 @@ class NonGlobalPreferenceData extends DataClass
   final String dataType;
   final String dataValue;
   final String groups;
+  final int tenantId;
   NonGlobalPreferenceData(
       {@required this.id,
       @required this.parentCode,
@@ -8147,7 +8473,8 @@ class NonGlobalPreferenceData extends DataClass
       this.syncError,
       this.dataType,
       this.dataValue,
-      this.groups});
+      this.groups,
+      this.tenantId});
   factory NonGlobalPreferenceData.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -8183,6 +8510,8 @@ class NonGlobalPreferenceData extends DataClass
           .mapFromDatabaseResponse(data['${effectivePrefix}data_value']),
       groups:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}groups']),
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
     );
   }
   @override
@@ -8230,6 +8559,9 @@ class NonGlobalPreferenceData extends DataClass
     if (!nullToAbsent || groups != null) {
       map['groups'] = Variable<String>(groups);
     }
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
     return map;
   }
 
@@ -8270,6 +8602,9 @@ class NonGlobalPreferenceData extends DataClass
           : Value(dataValue),
       groups:
           groups == null && nullToAbsent ? const Value.absent() : Value(groups),
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
     );
   }
 
@@ -8291,6 +8626,7 @@ class NonGlobalPreferenceData extends DataClass
       dataType: serializer.fromJson<String>(json['dataType']),
       dataValue: serializer.fromJson<String>(json['dataValue']),
       groups: serializer.fromJson<String>(json['groups']),
+      tenantId: serializer.fromJson<int>(json['tenantId']),
     );
   }
   @override
@@ -8311,6 +8647,7 @@ class NonGlobalPreferenceData extends DataClass
       'dataType': serializer.toJson<String>(dataType),
       'dataValue': serializer.toJson<String>(dataValue),
       'groups': serializer.toJson<String>(groups),
+      'tenantId': serializer.toJson<int>(tenantId),
     };
   }
 
@@ -8328,7 +8665,8 @@ class NonGlobalPreferenceData extends DataClass
           String syncError,
           String dataType,
           String dataValue,
-          String groups}) =>
+          String groups,
+          int tenantId}) =>
       NonGlobalPreferenceData(
         id: id ?? this.id,
         parentCode: parentCode ?? this.parentCode,
@@ -8344,6 +8682,7 @@ class NonGlobalPreferenceData extends DataClass
         dataType: dataType ?? this.dataType,
         dataValue: dataValue ?? this.dataValue,
         groups: groups ?? this.groups,
+        tenantId: tenantId ?? this.tenantId,
       );
   @override
   String toString() {
@@ -8361,7 +8700,8 @@ class NonGlobalPreferenceData extends DataClass
           ..write('syncError: $syncError, ')
           ..write('dataType: $dataType, ')
           ..write('dataValue: $dataValue, ')
-          ..write('groups: $groups')
+          ..write('groups: $groups, ')
+          ..write('tenantId: $tenantId')
           ..write(')'))
         .toString();
   }
@@ -8393,8 +8733,10 @@ class NonGlobalPreferenceData extends DataClass
                                                   dataType.hashCode,
                                                   $mrjc(
                                                       dataValue.hashCode,
-                                                      groups
-                                                          .hashCode))))))))))))));
+                                                      $mrjc(
+                                                          groups.hashCode,
+                                                          tenantId
+                                                              .hashCode)))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -8412,7 +8754,8 @@ class NonGlobalPreferenceData extends DataClass
           other.syncError == this.syncError &&
           other.dataType == this.dataType &&
           other.dataValue == this.dataValue &&
-          other.groups == this.groups);
+          other.groups == this.groups &&
+          other.tenantId == this.tenantId);
 }
 
 class NonGlobalPreferenceCompanion
@@ -8431,6 +8774,7 @@ class NonGlobalPreferenceCompanion
   final Value<String> dataType;
   final Value<String> dataValue;
   final Value<String> groups;
+  final Value<int> tenantId;
   const NonGlobalPreferenceCompanion({
     this.id = const Value.absent(),
     this.parentCode = const Value.absent(),
@@ -8446,9 +8790,10 @@ class NonGlobalPreferenceCompanion
     this.dataType = const Value.absent(),
     this.dataValue = const Value.absent(),
     this.groups = const Value.absent(),
+    this.tenantId = const Value.absent(),
   });
   NonGlobalPreferenceCompanion.insert({
-    this.id = const Value.absent(),
+    @required int id,
     @required String parentCode,
     @required String code,
     @required String value,
@@ -8462,7 +8807,9 @@ class NonGlobalPreferenceCompanion
     this.dataType = const Value.absent(),
     this.dataValue = const Value.absent(),
     this.groups = const Value.absent(),
-  })  : parentCode = Value(parentCode),
+    this.tenantId = const Value.absent(),
+  })  : id = Value(id),
+        parentCode = Value(parentCode),
         code = Value(code),
         value = Value(value);
   static Insertable<NonGlobalPreferenceData> custom({
@@ -8480,6 +8827,7 @@ class NonGlobalPreferenceCompanion
     Expression<String> dataType,
     Expression<String> dataValue,
     Expression<String> groups,
+    Expression<int> tenantId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -8496,6 +8844,7 @@ class NonGlobalPreferenceCompanion
       if (dataType != null) 'data_type': dataType,
       if (dataValue != null) 'data_value': dataValue,
       if (groups != null) 'groups': groups,
+      if (tenantId != null) 'tenant_id': tenantId,
     });
   }
 
@@ -8513,7 +8862,8 @@ class NonGlobalPreferenceCompanion
       Value<String> syncError,
       Value<String> dataType,
       Value<String> dataValue,
-      Value<String> groups}) {
+      Value<String> groups,
+      Value<int> tenantId}) {
     return NonGlobalPreferenceCompanion(
       id: id ?? this.id,
       parentCode: parentCode ?? this.parentCode,
@@ -8529,6 +8879,7 @@ class NonGlobalPreferenceCompanion
       dataType: dataType ?? this.dataType,
       dataValue: dataValue ?? this.dataValue,
       groups: groups ?? this.groups,
+      tenantId: tenantId ?? this.tenantId,
     );
   }
 
@@ -8577,6 +8928,9 @@ class NonGlobalPreferenceCompanion
     if (groups.present) {
       map['groups'] = Variable<String>(groups.value);
     }
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
     return map;
   }
 
@@ -8596,7 +8950,8 @@ class NonGlobalPreferenceCompanion
           ..write('syncError: $syncError, ')
           ..write('dataType: $dataType, ')
           ..write('dataValue: $dataValue, ')
-          ..write('groups: $groups')
+          ..write('groups: $groups, ')
+          ..write('tenantId: $tenantId')
           ..write(')'))
         .toString();
   }
@@ -8776,6 +9131,18 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
     );
   }
 
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -8791,7 +9158,8 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
         syncError,
         dataType,
         dataValue,
-        groups
+        groups,
+        tenantId
       ];
   @override
   $NonGlobalPreferenceTable get asDslTable => this;
@@ -8807,6 +9175,8 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
     }
     if (data.containsKey('parent_code')) {
       context.handle(
@@ -8872,11 +9242,15 @@ class $NonGlobalPreferenceTable extends NonGlobalPreference
       context.handle(_groupsMeta,
           groups.isAcceptableOrUnknown(data['groups'], _groupsMeta));
     }
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
+    }
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => {code};
   @override
   NonGlobalPreferenceData map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -8899,6 +9273,7 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
   final String iconGroup;
   final bool isFavorit;
   final String userPermission;
+  final int tenantId;
   DesktopData(
       {@required this.id,
       @required this.iconName,
@@ -8908,7 +9283,8 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
       @required this.navigationRoute,
       @required this.iconGroup,
       @required this.isFavorit,
-      @required this.userPermission});
+      @required this.userPermission,
+      this.tenantId});
   factory DesktopData.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -8933,6 +9309,8 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
           .mapFromDatabaseResponse(data['${effectivePrefix}is_favorit']),
       userPermission: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}user_permission']),
+      tenantId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}tenant_id']),
     );
   }
   @override
@@ -8965,6 +9343,9 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
     if (!nullToAbsent || userPermission != null) {
       map['user_permission'] = Variable<String>(userPermission);
     }
+    if (!nullToAbsent || tenantId != null) {
+      map['tenant_id'] = Variable<int>(tenantId);
+    }
     return map;
   }
 
@@ -8995,6 +9376,9 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
       userPermission: userPermission == null && nullToAbsent
           ? const Value.absent()
           : Value(userPermission),
+      tenantId: tenantId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tenantId),
     );
   }
 
@@ -9011,6 +9395,7 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
       iconGroup: serializer.fromJson<String>(json['iconGroup']),
       isFavorit: serializer.fromJson<bool>(json['isFavorit']),
       userPermission: serializer.fromJson<String>(json['userPermission']),
+      tenantId: serializer.fromJson<int>(json['tenantId']),
     );
   }
   @override
@@ -9026,6 +9411,7 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
       'iconGroup': serializer.toJson<String>(iconGroup),
       'isFavorit': serializer.toJson<bool>(isFavorit),
       'userPermission': serializer.toJson<String>(userPermission),
+      'tenantId': serializer.toJson<int>(tenantId),
     };
   }
 
@@ -9038,7 +9424,8 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
           String navigationRoute,
           String iconGroup,
           bool isFavorit,
-          String userPermission}) =>
+          String userPermission,
+          int tenantId}) =>
       DesktopData(
         id: id ?? this.id,
         iconName: iconName ?? this.iconName,
@@ -9049,6 +9436,7 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
         iconGroup: iconGroup ?? this.iconGroup,
         isFavorit: isFavorit ?? this.isFavorit,
         userPermission: userPermission ?? this.userPermission,
+        tenantId: tenantId ?? this.tenantId,
       );
   @override
   String toString() {
@@ -9061,7 +9449,8 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
           ..write('navigationRoute: $navigationRoute, ')
           ..write('iconGroup: $iconGroup, ')
           ..write('isFavorit: $isFavorit, ')
-          ..write('userPermission: $userPermission')
+          ..write('userPermission: $userPermission, ')
+          ..write('tenantId: $tenantId')
           ..write(')'))
         .toString();
   }
@@ -9081,8 +9470,10 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
                           navigationRoute.hashCode,
                           $mrjc(
                               iconGroup.hashCode,
-                              $mrjc(isFavorit.hashCode,
-                                  userPermission.hashCode)))))))));
+                              $mrjc(
+                                  isFavorit.hashCode,
+                                  $mrjc(userPermission.hashCode,
+                                      tenantId.hashCode))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -9095,7 +9486,8 @@ class DesktopData extends DataClass implements Insertable<DesktopData> {
           other.navigationRoute == this.navigationRoute &&
           other.iconGroup == this.iconGroup &&
           other.isFavorit == this.isFavorit &&
-          other.userPermission == this.userPermission);
+          other.userPermission == this.userPermission &&
+          other.tenantId == this.tenantId);
 }
 
 class DesktopCompanion extends UpdateCompanion<DesktopData> {
@@ -9108,6 +9500,7 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
   final Value<String> iconGroup;
   final Value<bool> isFavorit;
   final Value<String> userPermission;
+  final Value<int> tenantId;
   const DesktopCompanion({
     this.id = const Value.absent(),
     this.iconName = const Value.absent(),
@@ -9118,6 +9511,7 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
     this.iconGroup = const Value.absent(),
     this.isFavorit = const Value.absent(),
     this.userPermission = const Value.absent(),
+    this.tenantId = const Value.absent(),
   });
   DesktopCompanion.insert({
     this.id = const Value.absent(),
@@ -9129,6 +9523,7 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
     @required String iconGroup,
     this.isFavorit = const Value.absent(),
     @required String userPermission,
+    this.tenantId = const Value.absent(),
   })  : iconName = Value(iconName),
         iconCode = Value(iconCode),
         iconColour = Value(iconColour),
@@ -9146,6 +9541,7 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
     Expression<String> iconGroup,
     Expression<bool> isFavorit,
     Expression<String> userPermission,
+    Expression<int> tenantId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -9157,6 +9553,7 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
       if (iconGroup != null) 'icon_group': iconGroup,
       if (isFavorit != null) 'is_favorit': isFavorit,
       if (userPermission != null) 'user_permission': userPermission,
+      if (tenantId != null) 'tenant_id': tenantId,
     });
   }
 
@@ -9169,7 +9566,8 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
       Value<String> navigationRoute,
       Value<String> iconGroup,
       Value<bool> isFavorit,
-      Value<String> userPermission}) {
+      Value<String> userPermission,
+      Value<int> tenantId}) {
     return DesktopCompanion(
       id: id ?? this.id,
       iconName: iconName ?? this.iconName,
@@ -9180,6 +9578,7 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
       iconGroup: iconGroup ?? this.iconGroup,
       isFavorit: isFavorit ?? this.isFavorit,
       userPermission: userPermission ?? this.userPermission,
+      tenantId: tenantId ?? this.tenantId,
     );
   }
 
@@ -9213,6 +9612,9 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
     if (userPermission.present) {
       map['user_permission'] = Variable<String>(userPermission.value);
     }
+    if (tenantId.present) {
+      map['tenant_id'] = Variable<int>(tenantId.value);
+    }
     return map;
   }
 
@@ -9227,7 +9629,8 @@ class DesktopCompanion extends UpdateCompanion<DesktopData> {
           ..write('navigationRoute: $navigationRoute, ')
           ..write('iconGroup: $iconGroup, ')
           ..write('isFavorit: $isFavorit, ')
-          ..write('userPermission: $userPermission')
+          ..write('userPermission: $userPermission, ')
+          ..write('tenantId: $tenantId')
           ..write(')'))
         .toString();
   }
@@ -9343,6 +9746,18 @@ class $DesktopTable extends Desktop with TableInfo<$DesktopTable, DesktopData> {
     );
   }
 
+  final VerificationMeta _tenantIdMeta = const VerificationMeta('tenantId');
+  GeneratedIntColumn _tenantId;
+  @override
+  GeneratedIntColumn get tenantId => _tenantId ??= _constructTenantId();
+  GeneratedIntColumn _constructTenantId() {
+    return GeneratedIntColumn(
+      'tenant_id',
+      $tableName,
+      true,
+    );
+  }
+
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -9353,7 +9768,8 @@ class $DesktopTable extends Desktop with TableInfo<$DesktopTable, DesktopData> {
         navigationRoute,
         iconGroup,
         isFavorit,
-        userPermission
+        userPermission,
+        tenantId
       ];
   @override
   $DesktopTable get asDslTable => this;
@@ -9422,6 +9838,10 @@ class $DesktopTable extends Desktop with TableInfo<$DesktopTable, DesktopData> {
               data['user_permission'], _userPermissionMeta));
     } else if (isInserting) {
       context.missing(_userPermissionMeta);
+    }
+    if (data.containsKey('tenant_id')) {
+      context.handle(_tenantIdMeta,
+          tenantId.isAcceptableOrUnknown(data['tenant_id'], _tenantIdMeta));
     }
     return context;
   }

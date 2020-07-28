@@ -52,56 +52,49 @@ class _PreferencesPageState extends State<PreferencesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        BlocProvider.of<AuthenticationBloc>(context)
-            .add(PushNotification(route: 'home'));
-        return Future(() => true);
-      },
-      child: Scaffold(
-        backgroundColor: JasseColors.BackgroundColor,
-        appBar: AppBar(
-          
-          //ToDo add translation for preferences title
-          title: Text(
-              AppLocalization.of(context).translate('preferences_title') ??
-                  "Preferences"),
-          actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(right: 18),
-              child: Icon(
-                Icons.wifi,
-                color: Colors.greenAccent,
-              ),
+    return Scaffold(
+      backgroundColor: JasseColors.BackgroundColor,
+      appBar: AppBar(
+        
+        //ToDo add translation for preferences title
+        title: Text(
+            AppLocalization.of(context).translate('preferences_title') ??
+                "Preferences"),
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 18),
+            child: Icon(
+              Icons.wifi,
+              color: Colors.greenAccent,
             ),
-          ],
-        ),
-        body: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 3),
-                  child: Container(
-                      height: 55,
-                      color: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 25, vertical: 5),
-                        child: Center(
-                          child: ListFilter(
-                              placeholder: 'Search',
-                              filter: searchText,
-                              onFilterChanged: (search) {
-                                setState(() {
-                                  searchText = search;
-                                });
-                              }),
-                        ),
-                      ))),
-              _buildStreamBuilder(),
-            ]),
+          ),
+        ],
       ),
+      body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 3),
+                child: Container(
+                    height: 55,
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 25, vertical: 5),
+                      child: Center(
+                        child: ListFilter(
+                            placeholder: 'Search',
+                            filter: searchText,
+                            onFilterChanged: (search) {
+                              setState(() {
+                                searchText = search;
+                              });
+                            }),
+                      ),
+                    ))),
+            _buildStreamBuilder(),
+          ]),
     );
   }
 
