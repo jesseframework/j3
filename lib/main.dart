@@ -140,8 +140,7 @@ class _AppState extends State<App> {
           home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, state) {
               if (state is PushNotificationState) {
-                print(state.route);
-                return getRoute(state.route);
+                
               }
               if (state is AuthenticationCreateMobileHash) {
                 return OfflineLoginPage(userRepository: widget.userRepository);
@@ -197,5 +196,5 @@ class _AppState extends State<App> {
   }
 
   
-  }
+  
 }
