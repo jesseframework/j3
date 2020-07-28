@@ -18,13 +18,10 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/services/message_stream.dart';
-import 'package:bot_toast/bot_toast.dart';
-import 'package:j3enterprise/src/ui/authentication/authentication.dart';
-import 'package:j3enterprise/src/ui/authentication/authentication_bloc.dart';
 import 'package:j3enterprise/main.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 class FirebaseMessageWrapper extends StatefulWidget {
   final Widget child;
@@ -69,28 +66,61 @@ class _FirebaseMessageWrapperState extends State<FirebaseMessageWrapper> {
 
   void _serialiseAndNavigate(Map<String, dynamic> message, context) async {
     bool hasToken = await getIt<UserRepository>().hasToken();
-    Priority priority = getPriority(message['priority']);
+    Priority priority = getPriority(message['data']['priority']);
+    print(message['priority']);
+    Key key;
     // if (ModalRoute.of(context).isCurrent) {
-    if (hasToken) {
-      print('showToast');
-      BotToast.showNotification(
-          crossPage: true,
-          title: (_) => Text(message['notification']["title"]),
-          leading: (_) => Image.asset(
-                'images/logo.png',
-              ),
-          subtitle: (_) => Text(message['notification']["body"]),
-          duration: Duration(
-              seconds: priority == Priority.HIGH
-                  ? double.infinity
-                  : priority == Priority.MEDIUM ? 5 : 3),
-          enableSlideOff: priority == Priority.HIGH ? false : true,
-          dismissDirections: [DismissDirection.horizontal],
-          onTap: () {
-            BotToast.cleanAll();
-            BlocProvider.of<AuthenticationBloc>(context).add(PushNotification(
-                route: hasToken ? message['data']['view'] : 'login'));
-          });
+   if (hasToken) {
+      showOverlayNotification(
+        
+            (ctx) => SlideDismissible(
+           key:UniqueKey(),
+              
+          enable: priority == Priority.HIGH ? false : true,
+
+          child: Material(
+            color: Theme.of(context)?.accentColor,
+            elevation: 8,
+            child: SafeArea(
+                top: true,
+                child: ListTileTheme(
+                  textColor: Theme.of(context)?.accentTextTheme?.title?.color,
+                  iconColor: Theme.of(context)?.accentTextTheme?.title?.color,
+                  child: ListTile(
+                    leading: Image.asset(
+                      'images/logo.png',
+                    ),
+                    title: Text(message['notification']["title"]),
+                    subtitle: Text(message['notification']["body"]),
+                  ),
+                )),
+          ),
+        ),
+        duration: Duration(
+            seconds: priority == Priority.HIGH
+                ? 1000
+                : priority == Priority.MEDIUM ? 5 : 3),
+      );
+
+      // print('showToast');
+      // BotToast.showNotification(
+      //     crossPage: true,
+      //     title: (_) => Text(message['notification']["title"]),
+      //     leading: (_) => Image.asset(
+      //           'images/logo.png',
+      //         ),
+      //     subtitle: (_) => Text(message['notification']["body"]),
+      //     duration: Duration(
+      //         seconds: priority == Priority.HIGH
+      //             ? double.infinity
+      //             : priority == Priority.MEDIUM ? 5 : 3),
+      //     enableSlideOff: priority == Priority.HIGH ? false : true,
+      //     dismissDirections: [DismissDirection.horizontal],
+      //     onTap: () {
+      //       BotToast.cleanAll();
+      //       BlocProvider.of<AuthenticationBloc>(context).add(PushNotification(
+      //           route: hasToken ? message['data']['view'] : 'login'));
+      //     });
     }
   }
 
