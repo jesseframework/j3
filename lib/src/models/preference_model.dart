@@ -35,5 +35,5 @@ class Preference extends Table {
   TextColumn get groups => text().nullable()();
 
   @override
-  Set<Column> get primaryKey => {id};
+  Set<Column> get primaryKey => {code};
 }

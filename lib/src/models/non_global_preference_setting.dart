@@ -37,5 +37,5 @@ class NonGlobalPreference extends Table {
    IntColumn get tenantId => integer().nullable()();
 
   @override
-  Set<Column> get primaryKey => {id};
+  Set<Column> get primaryKey => {code};
 }
