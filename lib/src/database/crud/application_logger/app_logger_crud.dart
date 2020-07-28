@@ -44,9 +44,16 @@ class ApplicationLoggerDao extends DatabaseAccessor<AppDatabase>
           ..where((t) => t.exportStatus.equals(exportStatus)))
         .get();
   }
+  
+  Stream<List<BusinessRuleData>> watchAllBusinessRule(String searchText) {
+    return (select(db.businessRule)
+          ..where((tbl) => tbl.ruleName.contains(searchText)))
+        .watch();
+  }
 
-  Stream<List<ApplicationLoggerData>> watchAllAppLog() {
-    return (select(db.applicationLogger).watch());
+  Stream<List<ApplicationLoggerData>> watchAllAppLog(String searchText) {
+    return (select(db.applicationLogger)..where((tbl) => tbl.functionName.contains(searchText)))
+        .watch();
   }
 
   Future updateAppLogger(

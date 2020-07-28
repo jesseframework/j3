@@ -66,18 +66,11 @@ class AppLoggerPage extends StatelessWidget {
           ),
         ],
       ),
-      body: SafeArea(
-        child: BlocProvider(
-          create: (context) {
-            return ApploggerBloc();
-          },
-          child: Stack(children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[Flexible(child: AppLoggerForm())],
-            )
-          ]),
-        ),
+      body: BlocProvider(
+        create: (context) {
+          return ApploggerBloc();
+        },
+        child: AppLoggerForm(),
       ),
     );
   }
