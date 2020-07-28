@@ -170,17 +170,17 @@ class _BackgroundFetchPageState extends State<BackgroundFetchPage> {
             'Waiting for fetch events.  Simulate one.\n [Android] \$ ./scripts/simulate-fetch\n [iOS] XCode->Debug->Simulate Background Fetch'));
 
     return Scaffold(
-      // appBar: new AppBar(
-      //     title: const Text('Background Fetch'),
-      //     leading: IconButton(
-      //       icon: Icon(Icons.chevron_left),
-      //       onPressed: () {
-      //         Navigator.pop(context);
-      //       },
-      //     ),
-      //     actions: <Widget>[
-      //       Switch(value: _enabled, onChanged: _onClickEnable),
-      //     ]),
+      appBar: new AppBar(
+          title: const Text('Background Fetch'),
+          leading: IconButton(
+            icon: Icon(Icons.chevron_left),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          actions: <Widget>[
+            Switch(value: _enabled, onChanged: _onClickEnable),
+          ]),
       body: (_events.isEmpty)
           ? EMPTY_TEXT
           : Container(

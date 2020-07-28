@@ -24,6 +24,7 @@ import 'package:equatable/equatable.dart';
 import 'package:j3enterprise/src/database/crud/communication/communication_setup_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/api_clients/api_client.dart';
+import 'package:j3enterprise/src/resources/shared/widgets/snak_bar.dart';
 import 'package:meta/meta.dart';
 import 'package:moor/moor.dart';
 
@@ -72,6 +73,7 @@ class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
       // set the success state
       //yield CommunicationSuccess();
       yield CommunicationUpdateuccess(data: event.data);
+       ShowSnakBar("Success", "Communication Update");
     }
 
     if (event is UpdateERPCommunicationButtonPressed) {
@@ -84,6 +86,7 @@ class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
       // set the success state
       //yield CommunicationSuccess();
       yield CommunicationUpdateuccess(data: event.data);
+      ShowSnakBar("Success", "Communication Update");
     }
 
     if (event is OnFormLoadGetSaveCommunication) {
@@ -98,6 +101,7 @@ class CommunicationBloc extends Bloc<CommunicationEvent, CommunicationState> {
 
       // set the success state
       yield CommunicationLoadSuccess(data: data);
+     
     }
   }
 }

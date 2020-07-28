@@ -101,7 +101,7 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
       },
       child: BlocConsumer<CommunicationBloc, CommunicationState>(
         listener: (context, state) {
-          // TODO show loader if needed
+          
         },
         buildWhen: (previous, current) {
           var wasLoading = previous is CommunicationLoading;
@@ -214,7 +214,7 @@ class _CommunicationTabOneWidgetState extends State<CommunicationTabOneWidget> {
                     'Sync Frequency',
                 selectedValue: syncfrequencySelectedItem,
                 listData: [
-                  'Every Minet',
+                  'Every Minute',
                   'Every 5 Minutes',
                   'Every 20 Minutes',
                   'Every Day',
