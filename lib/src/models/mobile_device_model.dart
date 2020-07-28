@@ -59,6 +59,7 @@ class MobileDevice extends Table implements FullAudited, SyncTrigger {
   DateTimeColumn get importDateTime => dateTime().nullable()();
   TextColumn get importStatus => text().withDefault(Constant('Pending'))();
   TextColumn get syncError => text().nullable()();
+   IntColumn get tenantId => integer().nullable()();
 
   @override
   Set<Column> get primaryKey => {deviceId};

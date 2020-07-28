@@ -37,4 +37,5 @@ class ApplicationLogger extends Table implements MustHaveTenant, MultiUser {
   IntColumn get tenantId => integer().nullable()();
   TextColumn get uerName => text().nullable()();
   IntColumn get userId => integer().nullable()();
+  
 }

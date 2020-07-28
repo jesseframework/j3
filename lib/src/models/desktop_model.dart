@@ -29,6 +29,7 @@ class Desktop extends Table {
   TextColumn get iconGroup => text()();
   BoolColumn get isFavorit => boolean().withDefault(Constant(false))();
   TextColumn get userPermission => text()();
+   IntColumn get tenantId => integer().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};
