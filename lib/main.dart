@@ -1,8 +1,25 @@
+/*
+ * Jesseframework - Computer Expertz Ltd - https://cpxz.us
+ * Copyright (C) 2019-2021 Jesseframework
+ *
+ * This file is part of Jesseframework - https://github.com/jesseframework/j3.
+ *
+ * Jesseframework is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version. 
+ *
+ * Jesseframework is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ */
+
 import 'package:background_fetch/background_fetch.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:j3enterprise/src/resources/services/background_fetch_service.dart';
 import 'dart:io' show Platform;
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -11,12 +28,12 @@ import 'package:j3enterprise/src/resources/services/firebase_message_wrapper.dar
 import 'package:j3enterprise/src/resources/services/init_services.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/routes.dart';
+import 'package:j3enterprise/src/resources/shared/utils/theme.dart';
 import 'package:j3enterprise/src/ui/about/about.dart';
 import 'package:j3enterprise/src/ui/background_jobs/backgroundjobs_pages.dart';
 import 'package:j3enterprise/src/ui/communication/setup_communication_page.dart';
 import 'package:j3enterprise/src/ui/login_offline/offline_login_page.dart';
 import 'package:j3enterprise/src/ui/preferences/preferences.dart';
-import 'package:j3enterprise/src/ui/profile/profile_page.dart';
 import 'package:j3enterprise/src/ui/splash/splash_page.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -82,12 +99,19 @@ class App extends StatefulWidget {
     state.setLocale(locale);
   }
 
+  static void setTheme(BuildContext context) {
+    _AppState state = context.findAncestorStateOfType<_AppState>();
+    state.didChangeDependencies();
+  }
+
   @override
   _AppState createState() => _AppState();
 }
 
 class _AppState extends State<App> {
   Locale _locale;
+  ThemeData themeData;
+
   void setLocale(locale) {
     setState(() {
       _locale = locale;
@@ -97,8 +121,11 @@ class _AppState extends State<App> {
   @override
   void didChangeDependencies() {
     getIt<UserRepository>().getLocale().then((value) {
-      setState(() {
-        _locale = value;
+      getIt<UserRepository>().getTheme().then((value1) {
+        setState(() {
+          _locale = value;
+          themeData = value1 == 'dark' ? darkTheme : lightTheme;
+        });
       });
     });
     super.didChangeDependencies();
@@ -108,8 +135,7 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return FirebaseMessageWrapper(
       child: OverlaySupport(
-              child: MaterialApp(
-         
+        child: MaterialApp(
           // navigatorObservers: [BotToastNavigatorObserver()],
           home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
             builder: (context, state) {
@@ -132,10 +158,7 @@ class _AppState extends State<App> {
               return SplashPage();
             },
           ),
-          theme: ThemeData(
-            fontFamily: 'MyFont',
-            primarySwatch: Colors.blue,
-          ),
+          theme: themeData,
           locale: _locale,
           routes: routes,
           supportedLocales: [
@@ -173,31 +196,6 @@ class _AppState extends State<App> {
     );
   }
 
-  dynamic getRoute(String route) {
-    switch (route) {
-      case 'offline_login':
-        return OfflineLoginPage();
-        break;
-      case 'login':
-        return LoginPage();
-        break;
-      case 'BackgroundJobs':
-        return BackgroundJobsPage();
-        break;
-      case 'communication':
-        return CommunicationPage();
-        break;
-      case 'preferences':
-        return PreferencesPage();
-        break;
-      case 'home':
-        return HomePage();
-        break;
-      case 'about':
-        return About();
-        break;
-      default:
-        return HomePage();
-    }
+  
   }
 }
