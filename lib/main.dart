@@ -124,7 +124,7 @@ class _AppState extends State<App> {
                 return HomePage();
               }
               if (state is AuthenticationUnauthenticated) {
-                return ProfileThreePage();
+                return LoginPage();
               }
               if (state is AuthenticationLoading) {
                 return LoadingIndicator();
