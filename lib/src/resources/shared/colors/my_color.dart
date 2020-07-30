@@ -30,7 +30,5 @@ class JasseColors {
   static const Color redcircle = Color(0xffED0006);
   static const Color yellowircle = Color(0xffF9A000);
   static const Color textColor = Color(0xff8492A2);
-  static const Color BackgroundColor =Color(0xffe7ebee);
-
+  static const Color backgroundColor = Color(0xffe7ebee);
 }
-

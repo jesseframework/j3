@@ -18,7 +18,6 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/database/crud/prefrence/preference_crud.dart';
 import 'package:j3enterprise/src/database/moor_database.dart';
 import 'package:j3enterprise/src/resources/shared/colors/my_color.dart';
@@ -53,9 +52,8 @@ class _PreferencesPageState extends State<PreferencesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: JasseColors.BackgroundColor,
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        
         //ToDo add translation for preferences title
         title: Text(
             AppLocalization.of(context).translate('preferences_title') ??
@@ -78,7 +76,6 @@ class _PreferencesPageState extends State<PreferencesPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 3),
                 child: Container(
                     height: 55,
-                    color: Colors.white,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 25, vertical: 5),
@@ -133,7 +130,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
-                                color: Colors.black45),
+                                color: Theme.of(context).accentColor),
                           ),
                         ),
                         Container(
@@ -177,13 +174,13 @@ class _PreferencesPageState extends State<PreferencesPage> {
                                                                   children: [
                                                                     Text(
                                                                       e.preferenceName,
-                                                                      style: TextStyle(
-                                                                          fontWeight: FontWeight
-                                                                              .bold,
-                                                                          fontSize:
-                                                                              16,
-                                                                          color:
-                                                                              Colors.black54),
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                        fontSize:
+                                                                            16,
+                                                                      ),
                                                                     ),
                                                                     Expanded(
                                                                         child:
@@ -205,13 +202,13 @@ class _PreferencesPageState extends State<PreferencesPage> {
                                                                   children: [
                                                                     Text(
                                                                       e.description,
-                                                                      style: TextStyle(
-                                                                          fontWeight: FontWeight
-                                                                              .w600,
-                                                                          fontSize:
-                                                                              14,
-                                                                          color:
-                                                                              Colors.black45),
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                        fontSize:
+                                                                            14,
+                                                                      ),
                                                                     ),
                                                                   ],
                                                                 )
@@ -224,8 +221,6 @@ class _PreferencesPageState extends State<PreferencesPage> {
                                                           child: Icon(
                                                             Icons
                                                                 .arrow_forward_ios,
-                                                            color:
-                                                                Colors.black54,
                                                             size: 20,
                                                           ),
                                                         )

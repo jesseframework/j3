@@ -35,9 +35,8 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: JasseColors.BackgroundColor,
+      backgroundColor: JasseColors.backgroundColor,
       appBar: AppBar(
-       
         //ToDo add translation for preferences title
         title: Text(
             AppLocalization.of(context).translate('bussiness_rule_title') ??

@@ -78,7 +78,6 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
         centerTitle: false,
         //ToDo add translation for preferences title
         title: Text(AppLocalization.of(context).translate('profile_title') ??
@@ -120,7 +119,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               padding: EdgeInsets.all(16.0),
                               margin: EdgeInsets.only(top: 16.0),
                               decoration: BoxDecoration(
-                                  color: Theme.of(context).cardColor,
+                                  color: Theme.of(context)
+                                      .cardColor
+                                      .withOpacity(.8),
                                   borderRadius: BorderRadius.circular(5.0)),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -164,7 +165,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         SizedBox(height: 20.0),
                         Container(
                           decoration: BoxDecoration(
-                            color: Theme.of(context).cardColor,
+                            color: Theme.of(context).cardColor.withOpacity(.8),
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: Column(
