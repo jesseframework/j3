@@ -48,101 +48,96 @@ class _AppLoggerForm extends State<AppLoggerForm> {
       return _buildForm(bloc);
     }));
   }
+
   String searchText = '';
   Widget _buildForm(ApploggerBloc bloc) {
-  
     return Container(
       child: Column(
-         mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-           Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 3),
-                    child: Container(
-                        height: 55,
-                        color: Colors.white,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 5, vertical: 5),
-                          child: Center(
-                            child: ListFilter(
-                                placeholder: 'Search',
-                               filter: searchText,
-                                onFilterChanged: (search) {
-                                  setState(() {
-                                   searchText = search;
-                                  });
-                                }),
-                          ),
-                        ))),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 3),
+              child: Container(
+                  height: 55,
+                  color: Theme.of(context).backgroundColor,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                    child: Center(
+                      child: ListFilter(
+                          placeholder: 'Search',
+                          filter: searchText,
+                          onFilterChanged: (search) {
+                            setState(() {
+                              searchText = search;
+                            });
+                          }),
+                    ),
+                  ))),
           StreamBuilder(
-                stream: bloc.applicationLoggerDao.watchAllAppLog(searchText),
-                builder: (context, snapshot) {
-                  if(snapshot.hasData){
-                    List<ApplicationLoggerData>  data=snapshot.data;
+              stream: bloc.applicationLoggerDao.watchAllAppLog(searchText),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  List<ApplicationLoggerData> data = snapshot.data;
                   return Expanded(
-                                      child: ListView.builder(
-                       
-                       
-          itemCount: data.length,
-          itemBuilder: (_, index) {
-            return Container(
-              color: (index % 2 == 0)
-                    ? Colors.blue[50]
-                    : Colors.white,
-              child: Row(
-                children: [
-                    Expanded(
-                        child: Column(
-                      mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
-                      children: [
-                        Divider(
-                          height: 0.5,
-                        ),
-                        ListTile(
-                          onTap: (){ 
-
-                              Navigator.push(
-                                         context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                             LoggerDetailPage(data[index])));
-                          },
-
-                          title: Row(
-                            children: [
-                              Expanded(
-                                  child: Text(
-                                      '${data[index].functionName}')),
-                              Expanded(
-                                  child: Text(
-                                      '${data[index].logDateTime}')),
-                            ],
-                          ),
-                          subtitle: Row(
-                            children: [
-                              Expanded(
-                                  child: Text(
-                                      '${data[index].logDescription}')),
-                              Expanded(
-                                  child: Text(
-                                      '${data[index].documentNo}')),
-                            ],
-                          ),
-                        )
-                      ],
-                    ))
-                ],
-              ),
-            );
-          }),
+                    child: ListView.builder(
+                        itemCount: data.length,
+                        itemBuilder: (_, index) {
+                          return Container(
+                            color: (index % 2 == 0)
+                                ? Theme.of(context).backgroundColor
+                                : Theme.of(context).cardColor,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Divider(
+                                      height: 0.5,
+                                    ),
+                                    ListTile(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    LoggerDetailPage(
+                                                        data[index])));
+                                      },
+                                      title: Row(
+                                        children: [
+                                          Expanded(
+                                              child: Text(
+                                                  '${data[index].functionName}')),
+                                          Expanded(
+                                              child: Text(
+                                                  '${data[index].logDateTime}')),
+                                        ],
+                                      ),
+                                      subtitle: Row(
+                                        children: [
+                                          Expanded(
+                                              child: Text(
+                                                  '${data[index].logDescription}')),
+                                          Expanded(
+                                              child: Text(
+                                                  '${data[index].documentNo}')),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ))
+                              ],
+                            ),
+                          );
+                        }),
                   );
-                  }
-                  return BuildProgressIndicator();
-
-               
-                }),
+                }
+                return BuildProgressIndicator();
+              }),
         ],
       ),
     );

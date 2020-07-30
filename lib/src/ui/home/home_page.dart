@@ -49,7 +49,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     try {
       return Scaffold(
-        backgroundColor: JasseColors.BackgroundColor,
         appBar: AppBar(
           title: Text(AppLocalization.of(context).translate('app_title')),
           actions: <Widget>[
@@ -80,32 +79,32 @@ class _HomePageState extends State<HomePage> {
               'images/beach-background.jpg',
             ),
             fit: BoxFit.cover,
-            colorFilter: new ColorFilter.mode(
-                Colors.white.withOpacity(0.8), BlendMode.dstATop),
           )),
           child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: Container(
-                        height: 55,
-                        color: Theme.of(context).backgroundColor,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 18, vertical: 5),
-                          child: Center(
-                            child: ListFilter(
-                                placeholder: 'Search',
-                                filter: 'searchText',
-                                onFilterChanged: (search) {
-                                  setState(() {
-                                    // searchText=search;
-                                  });
-                                }),
-                          ),
-                        ))),
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: Stack(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 18, vertical: 5),
+                        child: Center(
+                          child: ListFilter(
+                              placeholder: 'Search',
+                              onFilterChanged: (search) {
+                                setState(() {
+                                  // searchText=search;
+                                });
+                              }),
+                        ),
+                      )
+                    ],
+                    //    color: Theme.of(context).backgroundColor,
+                  ),
+                ),
                 StreamBuilder(
                     stream: widget.desktopDao.watchAllBusinessRule(),
                     builder: (context, snapshot) {
@@ -138,7 +137,8 @@ class _HomePageState extends State<HomePage> {
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16,
-                                            color: Colors.black45),
+                                            color: Theme.of(context)
+                                                .textSelectionColor),
                                       ),
                                     ),
                                     Padding(
@@ -146,7 +146,9 @@ class _HomePageState extends State<HomePage> {
                                           horizontal: 15, vertical: 8),
                                       child: Container(
                                         decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.8),
+                                          color: Theme.of(context)
+                                              .cardColor
+                                              .withOpacity(0.8),
                                           borderRadius:
                                               BorderRadius.circular(10),
                                         ),

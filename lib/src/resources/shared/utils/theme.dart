@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 
 final darkTheme = ThemeData(
-   
-  //cardColor: Color(0xFF212121),
-  primarySwatch: Colors.grey,
-  primaryColor: Colors.black,
-  brightness: Brightness.dark,
-  backgroundColor: const Color(0xFF212121),
-  accentColor: Colors.white,
-  accentIconTheme: IconThemeData(color: Colors.black),
-  dividerColor: Colors.black12,
-  fontFamily: 'MyFont',
-);
+    primaryColor: Colors.black,
+    cardColor: Colors.black45,
+    primarySwatch: Colors.grey,
+    brightness: Brightness.dark,
+    backgroundColor: Colors.white38,
+    accentColor: Colors.white,
+    accentIconTheme: IconThemeData(color: Colors.black),
+    dividerColor: Colors.black87,
+    fontFamily: 'MyFont',
+    textSelectionColor: Colors.white54);
 
 final lightTheme = ThemeData(
-    cardColor: Colors.white,
-    fontFamily: 'MyFont',
-    primarySwatch: Colors.grey,
     primaryColor: Colors.blue,
+    cardColor: Colors.white,
+    primarySwatch: Colors.grey,
     brightness: Brightness.light,
-    backgroundColor: Colors.grey.shade300,
+    backgroundColor: Color(0xffe7ebee),
     accentColor: Colors.black87,
     accentIconTheme: IconThemeData(color: Colors.white),
     dividerColor: Colors.white54,
-    appBarTheme: AppBarTheme(color: Colors.blue));
+    appBarTheme: AppBarTheme(
+      color: Colors.blue,
+    ),
+    fontFamily: 'MyFont',
+    textSelectionColor: Colors.black45);
