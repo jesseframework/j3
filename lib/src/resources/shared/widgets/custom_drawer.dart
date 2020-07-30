@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
-import 'package:j3enterprise/src/resources/shared/utils/langcustomdialogbox.dart';
-import 'package:j3enterprise/src/resources/shared/widgets/snak_bar.dart';
 import 'package:j3enterprise/src/ui/about/about.dart';
 import 'package:j3enterprise/src/ui/app_logger/applogger_page.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication.dart';
-import 'package:j3enterprise/src/ui/background_jobs/background_fetch_page.dart';
 import 'package:j3enterprise/src/ui/background_jobs/background_jobs.dart';
-import 'package:j3enterprise/src/ui/background_jobs/backgroundjobs_pages.dart';
 import 'package:j3enterprise/src/ui/communication/setup_communication_page.dart';
 import 'package:j3enterprise/src/ui/profile/profile_page.dart';
 
@@ -17,39 +13,62 @@ class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      
       child: ListView(
         children: <Widget>[
-          DrawerHeader(
-            child: Align(
-                alignment: Alignment.bottomLeft,
-                child: Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.settings,
-                      size: 32,
-                      color: Colors.white,
-                    ),
-                    SizedBox(
-                      width: 27,
-                    ),
-                    Text(
-                      AppLocalization.of(context)
-                              .translate('setting_label_appdraw') ??
-                          'Setting',
-                      style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                  ],
-                )),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [Colors.blueGrey, Colors.blue],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight),
-            ),
+          UserAccountsDrawerHeader(
+            
+            accountName: Text("Irfan Bashir"),
+            accountEmail: Text("malikfani112@gmail.com"),
+            currentAccountPicture: CircleAvatar(
+                backgroundColor: Theme.of(context).cardColor,
+                child: Icon(Icons.person)),
+            otherAccountsPictures: <Widget>[
+              CircleAvatar(
+                backgroundColor: Theme.of(context).cardColor,
+                child: Text(
+                  "B",
+                ),
+              ),
+              CircleAvatar(
+                backgroundColor: Theme.of(context).cardColor,
+                child: Text(
+                  "C",
+                ),
+              ),
+            ],
           ),
+          // DrawerHeader(
+          //   child: Align(
+          //       alignment: Alignment.bottomLeft,
+          //       child: Row(
+          //         children: <Widget>[
+          //           Icon(
+          //             Icons.settings,
+          //             size: 32,
+          //             color: Colors.white,
+          //           ),
+          //           SizedBox(
+          //             width: 27,
+          //           ),
+          //           Text(
+          //             AppLocalization.of(context)
+          //                     .translate('setting_label_appdraw') ??
+          //                 'Setting',
+          //             style: TextStyle(
+          //                 fontSize: 22,
+          //                 fontWeight: FontWeight.bold,
+          //                 color: Colors.white),
+          //           ),
+          //         ],
+          //       )),
+          //   decoration: BoxDecoration(
+          //     gradient: LinearGradient(
+          //         colors: [Colors.blueGrey, Colors.blue],
+          //         begin: Alignment.topLeft,
+          //         end: Alignment.bottomRight),
+          //   ),
+          // ),
           Align(
             alignment: Alignment.bottomLeft,
             child: GestureDetector(
@@ -63,7 +82,7 @@ class CustomDrawer extends StatelessWidget {
               child: ListTile(
                 leading: Icon(
                   CustomIcons.wrench_solid,
-                  color: Colors.blue,
+                  color: Theme.of(context).primaryColor,
                 ),
                 title: Text(
                   AppLocalization.of(context)
@@ -87,14 +106,13 @@ class CustomDrawer extends StatelessWidget {
               child: ListTile(
                 leading: Icon(
                   Icons.sync,
-                  color: Colors.blue,
+                  color: Theme.of(context).primaryColor,
                 ),
                 title: Text(
                   AppLocalization.of(context)
                           .translate('background_job_appdraw') ??
                       'Background Jobs',
                   style: TextStyle(fontSize: 16),
-                  
                 ),
               ),
             ),
@@ -110,7 +128,7 @@ class CustomDrawer extends StatelessWidget {
               child: ListTile(
                 leading: Icon(
                   Icons.error_outline,
-                  color: Colors.blue,
+                 color: Theme.of(context).primaryColor,
                 ),
                 title: Text(
                   AppLocalization.of(context).translate('applogger_appdraw') ??
@@ -131,7 +149,7 @@ class CustomDrawer extends StatelessWidget {
               child: ListTile(
                 leading: Icon(
                   Icons.person,
-                  color: Colors.blue,
+                   color: Theme.of(context).primaryColor,
                 ),
                 title: Text(
                   AppLocalization.of(context).translate('profile_appdraw') ??
@@ -154,7 +172,7 @@ class CustomDrawer extends StatelessWidget {
               child: ListTile(
                 leading: Icon(
                   CustomIcons.info_circle_solid,
-                  color: Colors.blue,
+                   color: Theme.of(context).primaryColor,
                 ),
                 title: Text(
                   AppLocalization.of(context).translate('about_appdraw') ??
@@ -171,7 +189,7 @@ class CustomDrawer extends StatelessWidget {
                 BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
               },
               child: ListTile(
-                leading: Icon(Icons.exit_to_app, color: Colors.blue),
+                leading: Icon(Icons.exit_to_app,  color: Theme.of(context).primaryColor,),
                 title: Text(
                   AppLocalization.of(context).translate('logout_appdraw') ??
                       'Logout',

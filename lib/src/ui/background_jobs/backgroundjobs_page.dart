@@ -146,7 +146,7 @@ class _BackgroundJobs extends State<BackgroundJobs> {
                           ),
                     Container(
                       decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Theme.of(context).cardColor,
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           boxShadow: kElevationToShadow[2]),
                       child: IconButton(
@@ -181,7 +181,7 @@ class _BackgroundJobs extends State<BackgroundJobs> {
                           ),
                     Container(
                       decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Theme.of(context).cardColor,
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           boxShadow: kElevationToShadow[2]),
                       child: IconButton(
@@ -312,8 +312,9 @@ class _BackgroundJobs extends State<BackgroundJobs> {
                       itemBuilder: (_, index) {
                         //final itemTask = jobs[index];
                         return Container(
-                          color:
-                              (index % 2 == 0) ? Colors.blue[50] : Colors.white,
+                          color: (index % 2 == 0)
+                              ? Theme.of(context).cardColor
+                              : Theme.of(context).backgroundColor,
                           child: Row(
                             children: [
                               Expanded(

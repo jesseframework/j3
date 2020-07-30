@@ -53,7 +53,8 @@ class _DropdownFormFieldNormalReuseState
         Padding(
             padding: const EdgeInsets.all(10.00),
             child: DropdownButtonFormField<String>(
-              decoration: InputDecoration(filled: true),
+              decoration: InputDecoration(
+                  filled: true, fillColor: Theme.of(context).backgroundColor),
               hint: Text(widget.hintText),
               value: setselectedValue,
               onChanged: (String newValue) {
@@ -67,7 +68,6 @@ class _DropdownFormFieldNormalReuseState
                   value: dropDownStringItem,
                   child: new Text(
                     dropDownStringItem,
-                    style: new TextStyle(color: Colors.black),
                   ),
                 );
               }).toList(),

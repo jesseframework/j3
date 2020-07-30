@@ -29,11 +29,6 @@ import 'package:j3enterprise/src/resources/services/init_services.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'package:j3enterprise/src/resources/shared/utils/routes.dart';
 import 'package:j3enterprise/src/resources/shared/utils/theme.dart';
-import 'package:j3enterprise/src/ui/about/about.dart';
-import 'package:j3enterprise/src/ui/background_jobs/backgroundjobs_pages.dart';
-import 'package:j3enterprise/src/ui/communication/setup_communication_page.dart';
-import 'package:j3enterprise/src/ui/login_offline/offline_login_page.dart';
-import 'package:j3enterprise/src/ui/preferences/preferences.dart';
 import 'package:j3enterprise/src/ui/splash/splash_page.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -142,9 +137,7 @@ class _AppState extends State<App> {
               if (state is PushNotificationState) {
                 
               }
-              if (state is AuthenticationCreateMobileHash) {
-                return OfflineLoginPage(userRepository: widget.userRepository);
-              }
+
               if (state is AuthenticationAuthenticated) {
                 return HomePage();
               }
