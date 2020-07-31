@@ -76,7 +76,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+     // backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         centerTitle: false,
         //ToDo add translation for preferences title
@@ -100,6 +100,7 @@ class _ProfilePageState extends State<ProfilePage> {
             User user = snapshot.data;
             return SingleChildScrollView(
               child: Stack(
+
                 children: <Widget>[
                   SizedBox(
                     height: 250,

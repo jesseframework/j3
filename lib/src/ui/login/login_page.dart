@@ -39,7 +39,6 @@ class LoginPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(AppLocalization.of(context).translate('app_title') ??
             'J3 ENTERPRISE SOLUTION'),
-        backgroundColor: Colors.blue[800],
       ),
       body: BlocProvider(
         create: (context) {

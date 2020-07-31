@@ -51,7 +51,6 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: JasseColors.backgroundColor,
       appBar: AppBar(
         //ToDo add translation for preferences title
         title: Text(
@@ -82,7 +81,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black45),
+                       ),
                 ),
               ),
               StreamBuilder(
@@ -114,7 +113,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                       'Name',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
-                                          color: Colors.black45,
+
                                           fontSize: 16),
                                     ),
                                     Container(
@@ -123,7 +122,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                         businessRuleData.ruleName,
                                         style: TextStyle(
                                             fontWeight: FontWeight.w500,
-                                            color: Colors.black45,
+
                                             fontSize: 16),
                                       ),
                                     ),
@@ -137,7 +136,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                       'Is Global',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
-                                          color: Colors.black45,
+
                                           fontSize: 16),
                                     ),
                                     Container(
@@ -165,7 +164,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                       'Option',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
-                                          color: Colors.black45,
+
                                           fontSize: 16),
                                     ),
                                     Container(
@@ -196,8 +195,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                                         style: TextStyle(
                                                             fontWeight:
                                                                 FontWeight.w600,
-                                                            color:
-                                                                Colors.black45,
+
                                                             fontSize: 16),
                                                       ),
                                                       InkWell(
@@ -260,7 +258,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                       'Expiry Date',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
-                                          color: Colors.black45,
+
                                           fontSize: 16),
                                     ),
                                     Expanded(child: Container()),
@@ -268,7 +266,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                       "${businessRuleData.expiredDateTime.day}-${businessRuleData.expiredDateTime.month}-${businessRuleData.expiredDateTime.year}",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500,
-                                          color: Colors.black45,
+
                                           fontSize: 16),
                                     ),
                                     InkWell(
@@ -305,7 +303,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black45),
+                       ),
                 ),
               ),
               Container(
@@ -324,7 +322,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                               "No Non-Global Bussiness Rule Found",
                               style: TextStyle(
                                   fontStyle: FontStyle.italic,
-                                  color: Colors.black45,
+
                                   fontWeight: FontWeight.w800,
                                   fontSize: 25),
                             ),
@@ -350,7 +348,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                         Text(
                                           'DeviceId: ${nonGlobalBussinessRuleData[index].deviceId}',
                                           style: TextStyle(
-                                              color: Colors.black45,
+
                                               fontWeight: FontWeight.bold,
                                               fontSize: 18),
                                         ),
@@ -389,14 +387,14 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                           'User: ${nonGlobalBussinessRuleData[index].userName.toString()}',
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500,
-                                              color: Colors.black45,
+
                                               fontSize: 16),
                                         ),
                                         Text(
                                           'Screen: ${nonGlobalBussinessRuleData[index].screen}',
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500,
-                                              color: Colors.black45,
+
                                               fontSize: 16),
                                         ),
                                         Container(
@@ -405,7 +403,7 @@ class _BussinessRuleDetailPageState extends State<BussinessRuleDetailPage> {
                                             "${nonGlobalBussinessRuleData[index].expiredDateTime.day}-${nonGlobalBussinessRuleData[index].expiredDateTime.month}-${nonGlobalBussinessRuleData[index].expiredDateTime.year}",
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w500,
-                                                color: Colors.black45,
+
                                                 fontSize: 16),
                                           ),
                                         ),

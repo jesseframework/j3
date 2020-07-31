@@ -35,7 +35,7 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: JasseColors.backgroundColor,
+
       appBar: AppBar(
         //ToDo add translation for preferences title
         title: Text(
@@ -59,10 +59,10 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
                 padding: const EdgeInsets.symmetric(horizontal: 3),
                 child: Container(
                     height: 55,
-                    color: Colors.white,
+
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 25, vertical: 5),
+                          horizontal: 5, vertical: 5),
                       child: Center(
                         child: ListFilter(
                             placeholder: 'Search',
@@ -114,7 +114,7 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
-                                color: Colors.black45),
+                                ),
                           ),
                         ),
                         Container(
@@ -163,8 +163,7 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
                                                                               .bold,
                                                                           fontSize:
                                                                               16,
-                                                                          color:
-                                                                              Colors.black54),
+                                                                           ),
                                                                     ),
                                                                     Expanded(
                                                                         child:
@@ -191,8 +190,8 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
                                                                               .w600,
                                                                           fontSize:
                                                                               14,
-                                                                          color:
-                                                                              Colors.black45),
+
+                                                                              ),
                                                                     ),
                                                                   ],
                                                                 )
@@ -205,8 +204,7 @@ class _BussinessRulePageState extends State<BussinessRulePage> {
                                                           child: Icon(
                                                             Icons
                                                                 .arrow_forward_ios,
-                                                            color:
-                                                                Colors.black54,
+
                                                             size: 20,
                                                           ),
                                                         )

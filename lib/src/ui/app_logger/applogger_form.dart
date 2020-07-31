@@ -56,25 +56,23 @@ class _AppLoggerForm extends State<AppLoggerForm> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 3),
-              child: Container(
-                  height: 55,
-                  color: Theme.of(context).backgroundColor,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                    child: Center(
-                      child: ListFilter(
-                          placeholder: 'Search',
-                          filter: searchText,
-                          onFilterChanged: (search) {
-                            setState(() {
-                              searchText = search;
-                            });
-                          }),
-                    ),
-                  ))),
+          Container(
+              height: 55,
+              color: Theme.of(context).backgroundColor,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                child: Center(
+                  child: ListFilter(
+                      placeholder: 'Search',
+                      filter: searchText,
+                      onFilterChanged: (search) {
+                        setState(() {
+                          searchText = search;
+                        });
+                      }),
+                ),
+              )),
           StreamBuilder(
               stream: bloc.applicationLoggerDao.watchAllAppLog(searchText),
               builder: (context, snapshot) {
@@ -87,7 +85,7 @@ class _AppLoggerForm extends State<AppLoggerForm> {
                           return Container(
                             color: (index % 2 == 0)
                                 ? Theme.of(context).backgroundColor
-                                : Theme.of(context).cardColor,
+                                : Theme.of(context).cardColor.withOpacity(0.1),
                             child: Row(
                               children: [
                                 Expanded(

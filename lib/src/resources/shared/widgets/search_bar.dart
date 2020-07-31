@@ -79,7 +79,7 @@ class _ListFilterState extends State<ListFilter> {
         height: 40,
         margin: EdgeInsets.only(bottom: 2.0),
         decoration: BoxDecoration(
-          color: Theme.of(context).backgroundColor,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.all(Radius.circular(5)),
         ),
         child: TextField(

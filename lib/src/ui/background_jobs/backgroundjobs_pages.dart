@@ -38,6 +38,7 @@ class _BackgroundJobsPageState extends State<BackgroundJobsPage> {
           return BackgroundJobsBloc();
         },
         child: Scaffold(
+
           // appBar: AppBar(
           //   leading: IconButton(
           //     icon: Icon(Icons.chevron_left),

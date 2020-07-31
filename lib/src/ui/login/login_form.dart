@@ -80,15 +80,17 @@ class _LoginFormState extends State<LoginForm> {
           return Form(
             key: formKey,
             child: Container(
+
               constraints: BoxConstraints(
                   minWidth: 100, maxWidth: 400, minHeight: 200, maxHeight: 360),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: ClipRRect(
-                  // Add border radius
+                  // Add bcorder radius
+
                   borderRadius: BorderRadius.circular(10.0),
                   child: Container(
-                    color: Colors.white.withOpacity(0.8),
+                    color: Theme.of(context).cardColor.withOpacity(0.8),
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Column(
@@ -151,7 +153,7 @@ class _LoginFormState extends State<LoginForm> {
                           ButtonTheme(
                             minWidth: double.infinity,
                             child: RaisedButton(
-                              color: Colors.blue.shade500,
+                              color: Theme.of(context).primaryColor,
                               child: Text(
                                 AppLocalization.of(context)
                                         .translate('login_button') ??

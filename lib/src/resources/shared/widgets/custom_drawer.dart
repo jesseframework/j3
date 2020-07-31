@@ -14,224 +14,225 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       
-      child: ListView(
-        children: <Widget>[
-          UserAccountsDrawerHeader(
-            
-            accountName: Text("Irfan Bashir"),
-            accountEmail: Text("malikfani112@gmail.com"),
-            currentAccountPicture: CircleAvatar(
-                backgroundColor: Theme.of(context).cardColor,
-                child: Icon(Icons.person)),
-            otherAccountsPictures: <Widget>[
-              CircleAvatar(
-                backgroundColor: Theme.of(context).cardColor,
-                child: Text(
-                  "B",
+      child: Container(
+        color: Theme.of(context).cardColor,
+        child: ListView(
+          children: <Widget>[
+            UserAccountsDrawerHeader(
+
+              accountName: Text("Irfan Bashir"),
+              accountEmail: Text("malikfani112@gmail.com"),
+              currentAccountPicture: CircleAvatar(
+                 // backgroundColor: Theme.of(context).backgroundColor,
+                  child: Icon(Icons.person)),
+              otherAccountsPictures: <Widget>[
+                CircleAvatar(
+                  backgroundColor: Theme.of(context).backgroundColor,
+                  child: Text(
+                    "B",
+                  ),
                 ),
-              ),
-              CircleAvatar(
-                backgroundColor: Theme.of(context).cardColor,
-                child: Text(
-                  "C",
-                ),
-              ),
-            ],
-          ),
-          // DrawerHeader(
-          //   child: Align(
-          //       alignment: Alignment.bottomLeft,
-          //       child: Row(
-          //         children: <Widget>[
-          //           Icon(
-          //             Icons.settings,
-          //             size: 32,
-          //             color: Colors.white,
-          //           ),
-          //           SizedBox(
-          //             width: 27,
-          //           ),
-          //           Text(
-          //             AppLocalization.of(context)
-          //                     .translate('setting_label_appdraw') ??
-          //                 'Setting',
-          //             style: TextStyle(
-          //                 fontSize: 22,
-          //                 fontWeight: FontWeight.bold,
-          //                 color: Colors.white),
-          //           ),
-          //         ],
-          //       )),
-          //   decoration: BoxDecoration(
-          //     gradient: LinearGradient(
-          //         colors: [Colors.blueGrey, Colors.blue],
-          //         begin: Alignment.topLeft,
-          //         end: Alignment.bottomRight),
-          //   ),
-          // ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CommunicationPage()));
-              },
-              child: ListTile(
-                leading: Icon(
-                  CustomIcons.wrench_solid,
-                  color: Theme.of(context).primaryColor,
-                ),
-                title: Text(
-                  AppLocalization.of(context)
-                          .translate('set_communication_appdraw') ??
-                      'Set Communication',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SetupBackgroundPage()));
-              },
-              child: ListTile(
-                leading: Icon(
-                  Icons.sync,
-                  color: Theme.of(context).primaryColor,
-                ),
-                title: Text(
-                  AppLocalization.of(context)
-                          .translate('background_job_appdraw') ??
-                      'Background Jobs',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AppLoggerPage()));
-              },
-              child: ListTile(
-                leading: Icon(
-                  Icons.error_outline,
-                 color: Theme.of(context).primaryColor,
-                ),
-                title: Text(
-                  AppLocalization.of(context).translate('applogger_appdraw') ??
-                      'App Logger',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (contex) => ProfilePage()));
-              },
-              child: ListTile(
-                leading: Icon(
-                  Icons.person,
-                   color: Theme.of(context).primaryColor,
-                ),
-                title: Text(
-                  AppLocalization.of(context).translate('profile_appdraw') ??
-                      'Profile',
-                  // AppLocalization.of(context).translate('language_appdraw') ??
-                  //     'Language',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => About()));
-              },
-              child: ListTile(
-                leading: Icon(
-                  CustomIcons.info_circle_solid,
-                   color: Theme.of(context).primaryColor,
-                ),
-                title: Text(
-                  AppLocalization.of(context).translate('about_appdraw') ??
-                      'About',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: GestureDetector(
-              onTap: () {
-                BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
-              },
-              child: ListTile(
-                leading: Icon(Icons.exit_to_app,  color: Theme.of(context).primaryColor,),
-                title: Text(
-                  AppLocalization.of(context).translate('logout_appdraw') ??
-                      'Logout',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: 32,
-                ),
-                Divider(
-                  thickness: 2,
-                ),
-                Text(
-                  AppLocalization.of(context).translate('version_appdraw') ??
-                      'Version',
-                  style: TextStyle(fontSize: 12),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Text(
-                  'Jesseframework 2.1',
-                  style: TextStyle(fontSize: 12),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
-                Text(
-                  'J3 Enterprise Pro 3.1',
-                  style: TextStyle(fontSize: 12),
+                CircleAvatar(
+                  backgroundColor: Theme.of(context).backgroundColor,
+                  child: Text(
+                    "C",
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
+            // DrawerHeader(
+            //   child: Align(
+            //       alignment: Alignment.bottomLeft,
+            //       child: Row(
+            //         children: <Widget>[
+            //           Icon(
+            //             Icons.settings,
+            //             size: 32,
+            //             color: Colors.white,
+            //           ),
+            //           SizedBox(
+            //             width: 27,
+            //           ),
+            //           Text(
+            //             AppLocalization.of(context)
+            //                     .translate('setting_label_appdraw') ??
+            //                 'Setting',
+            //             style: TextStyle(
+            //                 fontSize: 22,
+            //                 fontWeight: FontWeight.bold,
+            //                 color: Colors.white),
+            //           ),
+            //         ],
+            //       )),
+            //   decoration: BoxDecoration(
+            //     gradient: LinearGradient(
+            //         colors: [Colors.blueGrey, Colors.blue],
+            //         begin: Alignment.topLeft,
+            //         end: Alignment.bottomRight),
+            //   ),
+            // ),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CommunicationPage()));
+                },
+                child: ListTile(
+                  leading: Icon(
+                    CustomIcons.wrench_solid,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  title: Text(
+                    AppLocalization.of(context)
+                            .translate('set_communication_appdraw') ??
+                        'Set Communication',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SetupBackgroundPage()));
+                },
+                child: ListTile(
+                  leading: Icon(
+                    Icons.sync,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  title: Text(
+                    AppLocalization.of(context)
+                            .translate('background_job_appdraw') ??
+                        'Background Jobs',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AppLoggerPage()));
+                },
+                child: ListTile(
+                  leading: Icon(
+                    Icons.error_outline,
+                   color: Theme.of(context).primaryColor,
+                  ),
+                  title: Text(
+                    AppLocalization.of(context).translate('applogger_appdraw') ??
+                        'App Logger',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (contex) => ProfilePage()));
+                },
+                child: ListTile(
+                  leading: Icon(
+                    Icons.person,
+                     color: Theme.of(context).primaryColor,
+                  ),
+                  title: Text(
+                    AppLocalization.of(context).translate('profile_appdraw') ??
+                        'Profile',
+                    // AppLocalization.of(context).translate('language_appdraw') ??
+                    //     'Language',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => About()));
+                },
+                child: ListTile(
+                  leading: Icon(
+                    CustomIcons.info_circle_solid,
+                     color: Theme.of(context).primaryColor,
+                  ),
+                  title: Text(
+                    AppLocalization.of(context).translate('about_appdraw') ??
+                        'About',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: GestureDetector(
+                onTap: () {
+                  BlocProvider.of<AuthenticationBloc>(context).add(LoggedOut());
+                },
+                child: ListTile(
+                  leading: Icon(Icons.exit_to_app,  color: Theme.of(context).primaryColor,),
+                  title: Text(
+                    AppLocalization.of(context).translate('logout_appdraw') ??
+                        'Logout',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: 32,
+                  ),
+
+                  Text(
+                    AppLocalization.of(context).translate('version_appdraw') ??
+                        'Version',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    'Jesseframework 2.1',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    'J3 Enterprise Pro 3.1',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
