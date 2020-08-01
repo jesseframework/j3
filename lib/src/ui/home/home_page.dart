@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 18, vertical: 5),
+                            horizontal: 12, vertical: 5),
                         child: Center(
                           child: ListFilter(
                               placeholder: 'Search',
@@ -137,8 +137,7 @@ class _HomePageState extends State<HomePage> {
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16,
-                                            color: Theme.of(context)
-                                                .textSelectionColor),
+                                            ),
                                       ),
                                     ),
                                     Padding(
@@ -200,7 +199,9 @@ class _HomePageState extends State<HomePage> {
                                                             style: TextStyle(
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .w500),
+                                                                        .w500,
+
+                                                            ),
                                                             textAlign: TextAlign
                                                                 .center,
                                                             softWrap: true,

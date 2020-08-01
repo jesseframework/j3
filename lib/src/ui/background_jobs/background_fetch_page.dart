@@ -130,22 +130,7 @@ class _BackgroundFetchPageState extends State<BackgroundFetchPage> {
     BackgroundFetch.finish(taskId);
   }
 
-  void _onClickEnable(enabled) {
-    setState(() {
-      _enabled = enabled;
-    });
-    if (enabled) {
-      BackgroundFetch.start().then((int status) {
-        print('[BackgroundFetch] start success: $status');
-      }).catchError((e) {
-        print('[BackgroundFetch] start FAILURE: $e');
-      });
-    } else {
-      BackgroundFetch.stop().then((int status) {
-        print('[BackgroundFetch] stop success: $status');
-      });
-    }
-  }
+
 
   void _onClickStatus() async {
     int status = await BackgroundFetch.status;
@@ -170,17 +155,7 @@ class _BackgroundFetchPageState extends State<BackgroundFetchPage> {
             'Waiting for fetch events.  Simulate one.\n [Android] \$ ./scripts/simulate-fetch\n [iOS] XCode->Debug->Simulate Background Fetch'));
 
     return Scaffold(
-      appBar: new AppBar(
-          title: const Text('Background Fetch'),
-          leading: IconButton(
-            icon: Icon(Icons.chevron_left),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          actions: <Widget>[
-            Switch(value: _enabled, onChanged: _onClickEnable),
-          ]),
+
       body: (_events.isEmpty)
           ? EMPTY_TEXT
           : Container(
@@ -197,7 +172,7 @@ class _BackgroundFetchPageState extends State<BackgroundFetchPage> {
                             labelText: "[${event[0].toString()}]"),
                         child: new Text(event[1],
                             style: TextStyle(
-                                color: Colors.black, fontSize: 16.0)));
+                                 fontSize: 16.0)));
                   }),
             ),
       bottomNavigationBar: BottomAppBar(

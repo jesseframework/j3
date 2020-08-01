@@ -146,9 +146,9 @@ class _BackgroundJobs extends State<BackgroundJobs> {
                           ),
                     Container(
                       decoration: BoxDecoration(
-                          color: Theme.of(context).cardColor,
+                        color: Theme.of(context).cardColor,
                           borderRadius: BorderRadius.all(Radius.circular(10)),
-                          boxShadow: kElevationToShadow[2]),
+                          ),
                       child: IconButton(
                         icon: Icon(Icons.alarm),
                         onPressed: () async {
@@ -171,7 +171,7 @@ class _BackgroundJobs extends State<BackgroundJobs> {
                               "${date.day}/${date.month}/${date.year}",
                               style: TextStyle(
                                   fontSize: 22,
-                                  color: Colors.grey.shade700,
+
                                   fontWeight: FontWeight.w700),
                             ),
                           )
@@ -181,9 +181,9 @@ class _BackgroundJobs extends State<BackgroundJobs> {
                           ),
                     Container(
                       decoration: BoxDecoration(
-                          color: Theme.of(context).cardColor,
+                        color: Theme.of(context).cardColor,
                           borderRadius: BorderRadius.all(Radius.circular(10)),
-                          boxShadow: kElevationToShadow[2]),
+    ),
                       child: IconButton(
                         icon: Icon(Icons.date_range),
                         onPressed: () async {
@@ -313,7 +313,7 @@ class _BackgroundJobs extends State<BackgroundJobs> {
                         //final itemTask = jobs[index];
                         return Container(
                           color: (index % 2 == 0)
-                              ? Theme.of(context).cardColor
+                              ? Theme.of(context).cardColor.withOpacity(0.8)
                               : Theme.of(context).backgroundColor,
                           child: Row(
                             children: [

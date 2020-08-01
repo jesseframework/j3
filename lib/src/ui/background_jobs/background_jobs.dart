@@ -18,6 +18,7 @@
  */
 
 
+import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
@@ -25,12 +26,36 @@ import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
 import 'background_fetch_page.dart';
 import 'backgroundjobs_pages.dart';
 
-class SetupBackgroundPage extends StatelessWidget {
+class SetupBackgroundPage extends StatefulWidget {
+  @override
+  _SetupBackgroundPageState createState() => _SetupBackgroundPageState();
+}
+
+class _SetupBackgroundPageState extends State<SetupBackgroundPage> {
+  bool _enabled = true;
+  void _onClickEnable(enabled) {
+    setState(() {
+      _enabled = enabled;
+    });
+    if (enabled) {
+      BackgroundFetch.start().then((int status) {
+        print('[BackgroundFetch] start success: $status');
+      }).catchError((e) {
+        print('[BackgroundFetch] start FAILURE: $e');
+      });
+    } else {
+      BackgroundFetch.stop().then((int status) {
+        print('[BackgroundFetch] stop success: $status');
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.chevron_left),
@@ -58,6 +83,9 @@ class SetupBackgroundPage extends StatelessWidget {
               AppLocalization.of(context).translate('title_background_jobs') ??
                   'Background Jobs'),
           actions: <Widget>[
+            Switch(
+              activeColor: Theme.of(context).backgroundColor,
+                value: _enabled, onChanged: _onClickEnable),
             Padding(
               padding: const EdgeInsets.all(8),
               child: Row(

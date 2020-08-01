@@ -11,6 +11,7 @@ class LoggerDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child:Scaffold(
+        backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
           title: Text(data.functionName),
         ),

@@ -52,7 +52,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+
       appBar: AppBar(
         //ToDo add translation for preferences title
         title: Text(
@@ -78,7 +78,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
                     height: 55,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 25, vertical: 5),
+                          horizontal: 5, vertical: 5),
                       child: Center(
                         child: ListFilter(
                             placeholder: 'Search',
@@ -130,7 +130,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
-                                color: Theme.of(context).accentColor),
+                                ),
                           ),
                         ),
                         Container(
@@ -180,6 +180,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
                                                                             FontWeight.bold,
                                                                         fontSize:
                                                                             16,
+
                                                                       ),
                                                                     ),
                                                                     Expanded(
@@ -208,6 +209,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
                                                                             FontWeight.w600,
                                                                         fontSize:
                                                                             14,
+
                                                                       ),
                                                                     ),
                                                                   ],
@@ -222,6 +224,7 @@ class _PreferencesPageState extends State<PreferencesPage> {
                                                             Icons
                                                                 .arrow_forward_ios,
                                                             size: 20,
+
                                                           ),
                                                         )
                                                       ]),

@@ -48,7 +48,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+
       appBar: AppBar(
         //ToDo add translation for preferences title
         title: Text(
@@ -79,7 +79,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).textSelectionColor),
+                       ),
                 ),
               ),
               StreamBuilder(
@@ -111,8 +111,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                       'Name',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
-                                          color: Theme.of(context)
-                                              .textSelectionColor,
+
                                           fontSize: 16),
                                     ),
                                     Container(
@@ -121,8 +120,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                         prefData.preferenceName,
                                         style: TextStyle(
                                             fontWeight: FontWeight.w500,
-                                            color: Theme.of(context)
-                                                .textSelectionColor,
+
                                             fontSize: 16),
                                       ),
                                     ),
@@ -136,8 +134,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                       'Is Global',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
-                                          color: Theme.of(context)
-                                              .textSelectionColor,
+
                                           fontSize: 16),
                                     ),
                                     Container(
@@ -163,8 +160,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                       'Option',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
-                                          color: Theme.of(context)
-                                              .textSelectionColor,
+
                                           fontSize: 16),
                                     ),
                                     Container(
@@ -251,8 +247,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                       'Expiry Date',
                                       style: TextStyle(
                                           fontWeight: FontWeight.w600,
-                                          color: Theme.of(context)
-                                              .textSelectionColor,
+
                                           fontSize: 16),
                                     ),
                                     Expanded(child: Container()),
@@ -260,8 +255,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                       "${prefData.expiredDateTime.day}-${prefData.expiredDateTime.month}-${prefData.expiredDateTime.year}",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500,
-                                          color: Theme.of(context)
-                                              .textSelectionColor,
+
                                           fontSize: 16),
                                     ),
                                     InkWell(
@@ -298,7 +292,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Theme.of(context).textSelectionColor,
+
                   ),
                 ),
               ),
@@ -317,7 +311,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                               "No Preference Foud",
                               style: TextStyle(
                                   fontStyle: FontStyle.italic,
-                                  color: Theme.of(context).textSelectionColor,
+
                                   fontWeight: FontWeight.w800,
                                   fontSize: 25),
                             ),
