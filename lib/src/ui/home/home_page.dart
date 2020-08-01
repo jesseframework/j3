@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
           decoration: BoxDecoration(
               image: DecorationImage(
             image: AssetImage(
-              'images/beach-background.jpg',
+              'images/hrhw3a.jpg',
             ),
             fit: BoxFit.cover,
           )),
