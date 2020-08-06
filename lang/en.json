@@ -20,7 +20,7 @@
   "logout_appdraw": "Logout",
   "version_appdraw": "Version",
   "title_communication": "Set Communication",
-  "tab_communication_communication": "Communication",
+  "tab_communication_communication": "Local Server",
   "tab_api_communication": "API",
   "type_of_erp_label_communication": "Type of ERP",
   "server_url_label_communication": "Server Url",

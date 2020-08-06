@@ -43,7 +43,7 @@ class SetupCommunicationForm extends StatelessWidget {
                 icon: Icon(CustomIcons.wrench_solid),
                 text: AppLocalization.of(context)
                         .translate('tab_communication_communication') ??
-                    'Communication',
+                    'Local Server',
               ),
               Tab(
                 icon: Icon(CustomIcons.cog_regular),

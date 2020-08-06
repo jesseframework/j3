@@ -36,8 +36,8 @@ class DesktopDao extends DatabaseAccessor<AppDatabase> with _$DesktopDaoMixin {
     return into(db.desktop).insertOnConflictUpdate(desktopData);
   }
 
-  Stream<List<DesktopData>> watchAllBusinessRule() {
-    return (select(db.desktop).watch());
+  Stream<List<DesktopData>> watchAllBusinessRule(String functionName) {
+    return (select(db.desktop)..where((t) => t.iconName.contains(functionName))).watch();
   }
 
   Future insertBusinessRule(DesktopData desktopData) =>

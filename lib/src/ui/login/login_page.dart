@@ -54,7 +54,7 @@ class LoginPage extends StatelessWidget {
             children: <Widget>[
               Positioned.fill(
                 child: Image.asset(
-                  'images/beach-background.jpg',
+                  'images/hrhw3a.jpg',
                   fit: BoxFit.cover,
                 ),
               ),

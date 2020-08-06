@@ -43,6 +43,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String searchText = '';
   //final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   int code = 0xe8b8;
   @override
@@ -94,9 +95,10 @@ class _HomePageState extends State<HomePage> {
                         child: Center(
                           child: ListFilter(
                               placeholder: 'Search',
+                              filter: searchText,
                               onFilterChanged: (search) {
                                 setState(() {
-                                  // searchText=search;
+                                  searchText = search;
                                 });
                               }),
                         ),
@@ -106,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 StreamBuilder(
-                    stream: widget.desktopDao.watchAllBusinessRule(),
+                    stream: widget.desktopDao.watchAllBusinessRule(searchText),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         List<DesktopData> prefData = snapshot.data;
@@ -135,9 +137,9 @@ class _HomePageState extends State<HomePage> {
                                       child: Text(
                                         groupsCollection[index],
                                         style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            ),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                        ),
                                       ),
                                     ),
                                     Padding(
@@ -197,10 +199,9 @@ class _HomePageState extends State<HomePage> {
                                                               child: Text(
                                                             e.iconName,
                                                             style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
                                                             ),
                                                             textAlign: TextAlign
                                                                 .center,
