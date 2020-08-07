@@ -49,6 +49,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   String tenantName;
   String theme;
+
   @override
   void didChangeDependencies() async {
     await getIt<UserRepository>().getLocale().then((value) {
@@ -68,7 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
     tenantName = data['tenantName'];
 
     final profileData =
-        await widget.userDao.getSingleUser(int.parse(data['userId']));
+    await widget.userDao.getSingleUser(int.parse(data['userId']));
 
     return profileData;
   }
@@ -76,7 +77,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     // backgroundColor: Theme.of(context).backgroundColor,
+      // backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         centerTitle: false,
         //ToDo add translation for preferences title
@@ -120,7 +121,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               padding: EdgeInsets.all(16.0),
                               margin: EdgeInsets.only(top: 16.0),
                               decoration: BoxDecoration(
-                                  color: Theme.of(context)
+                                  color: Theme
+                                      .of(context)
                                       .cardColor
                                       .withOpacity(.8),
                                   borderRadius: BorderRadius.circular(5.0)),
@@ -131,12 +133,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                     margin: EdgeInsets.only(left: 96.0),
                                     child: Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
                                           user.fullName,
                                           style:
-                                              Theme.of(context).textTheme.title,
+                                          Theme
+                                              .of(context)
+                                              .textTheme
+                                              .title,
                                         ),
                                         ListTile(
                                           contentPadding: EdgeInsets.all(0),
@@ -166,7 +171,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         SizedBox(height: 20.0),
                         Container(
                           decoration: BoxDecoration(
-                            color: Theme.of(context).cardColor.withOpacity(.8),
+                            color: Theme
+                                .of(context)
+                                .cardColor
+                                .withOpacity(.8),
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                           child: Column(
@@ -190,14 +198,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                 },
                                 title: Text(
                                   AppLocalization.of(context)
-                                          .translate('language_appdraw') ??
+                                      .translate('language_appdraw') ??
                                       'Language',
                                 ),
                                 subtitle: Text(selecteditem == 'es'
                                     ? 'Spanish'
                                     : selecteditem == 'en'
-                                        ? 'English'
-                                        : 'English'),
+                                    ? 'English'
+                                    : 'English'),
                                 leading: Icon(CustomIcons.language),
                               ),
                               ListTile(
@@ -205,8 +213,24 @@ class _ProfilePageState extends State<ProfilePage> {
                                   subtitle: Text(theme),
                                   leading: Icon(Icons.brightness_4),
                                   trailing: Switch(
-                                    value: theme == 'dark' ? true : false,
-                                    onChanged: _changeTheme,
+                                      value: theme == 'dark' ? true : false,
+                                      onChanged: (theme) async {
+                                        if (theme == true) {
+                                          await getIt<UserRepository>()
+                                              .setTheme('dark');
+                                          widget.userDao.updateSingleUser(
+                                              user.copyWith(themeData: 'dark'));
+                                        } else {
+                                          await getIt<UserRepository>()
+                                              .setTheme('light');
+                                          widget.userDao.updateSingleUser(
+                                              user.copyWith(themeData: 'Light'));
+                                        }
+                                        App.setTheme(
+                                          context,
+                                        );
+                                      }
+
                                   )),
                               ListTile(
                                 title: Text("Currency"),
@@ -229,14 +253,4 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  void _changeTheme(bool theme) async {
-    if (theme == true) {
-      await getIt<UserRepository>().setTheme('dark');
-    } else {
-      await getIt<UserRepository>().setTheme('light');
-    }
-    App.setTheme(
-      context,
-    );
-  }
 }

@@ -58,7 +58,7 @@ class _AppLoggerForm extends State<AppLoggerForm> {
         children: <Widget>[
           Container(
               height: 55,
-              color: Theme.of(context).backgroundColor,
+              color: Theme.of(context).scaffoldBackgroundColor,
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
@@ -85,7 +85,7 @@ class _AppLoggerForm extends State<AppLoggerForm> {
                           return Container(
                             color: (index % 2 == 0)
                                 ? Theme.of(context).backgroundColor
-                                : Theme.of(context).cardColor.withOpacity(0.1),
+                                : Theme.of(context).cardColor.withOpacity(0.8),
                             child: Row(
                               children: [
                                 Expanded(

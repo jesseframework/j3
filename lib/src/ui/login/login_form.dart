@@ -58,7 +58,7 @@ class _LoginFormState extends State<LoginForm> {
     _onLoginButtonPressed() async {
 
       formKey.currentState.validate();
-   //  await getIt<UserRepository>().setTenantIntoSharedPref(_tenantController.text); 
+    await getIt<UserRepository>().setTenantIntoSharedPref(_tenantController.text);
       BlocProvider.of<LoginBloc>(context).add(
         LoginButtonPressed(
             username: _usernameController.text.trim(),

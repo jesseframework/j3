@@ -116,11 +116,13 @@ class _AppState extends State<App> {
   @override
   void didChangeDependencies() {
     getIt<UserRepository>().getLocale().then((value) {
-      getIt<UserRepository>().getTheme().then((value1) {
-        setState(() {
-          _locale = value;
-          themeData = value1 == 'dark' ? darkTheme : lightTheme;
-        });
+      setState(() {
+        _locale = value;
+      });
+    });
+    getIt<UserRepository>().getTheme().then((value1) {
+      setState(() {
+        themeData = value1 == 'dark' ? darkTheme : lightTheme;
       });
     });
     super.didChangeDependencies();

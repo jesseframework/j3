@@ -29,10 +29,28 @@ import 'package:j3enterprise/src/ui/authentication/authentication_bloc.dart';
 import 'bloc/login_bloc.dart';
 import 'login_form.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   static final route = '/login';
-  final UserRepository userRepository = getIt<UserRepository>();
 
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final UserRepository userRepository = getIt<UserRepository>();
+  String image=  'images/beach-background.jpg';
+  @override
+  void didChangeDependencies() {
+    getIt<UserRepository>().getTheme().then((value) {
+      if(value=='dark'){
+        setState(() {
+          image='images/dark-theme-background.jpg';
+        });
+
+      }
+    });
+    super.didChangeDependencies();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +72,7 @@ class LoginPage extends StatelessWidget {
             children: <Widget>[
               Positioned.fill(
                 child: Image.asset(
-                  'images/hrhw3a.jpg',
+                 image,
                   fit: BoxFit.cover,
                 ),
               ),

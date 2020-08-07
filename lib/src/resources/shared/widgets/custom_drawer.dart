@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:j3enterprise/main.dart';
+import 'package:j3enterprise/src/database/crud/user/user_crud.dart';
+import 'package:j3enterprise/src/database/moor_database.dart';
+import 'package:j3enterprise/src/resources/repositories/user_repository.dart';
 import 'package:j3enterprise/src/resources/shared/icons/custom_icons.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
+import 'package:j3enterprise/src/resources/shared/preferences/user_share_data.dart';
 import 'package:j3enterprise/src/ui/about/about.dart';
 import 'package:j3enterprise/src/ui/app_logger/applogger_page.dart';
 import 'package:j3enterprise/src/ui/authentication/authentication.dart';
@@ -9,37 +14,83 @@ import 'package:j3enterprise/src/ui/background_jobs/background_jobs.dart';
 import 'package:j3enterprise/src/ui/communication/setup_communication_page.dart';
 import 'package:j3enterprise/src/ui/profile/profile_page.dart';
 
-class CustomDrawer extends StatelessWidget {
+class CustomDrawer extends StatefulWidget {
+  var db;
+  UserDao userDao;
+  CustomDrawer() {
+    db = AppDatabase();
+    userDao = UserDao(db);
+  }
+
+  @override
+  _CustomDrawerState createState() => _CustomDrawerState();
+}
+
+class _CustomDrawerState extends State<CustomDrawer> {
+  Future getProfileData() async {
+
+    final data = await UserSharedData().getUserSharedPref();
+    final profileData =await
+    widget.userDao.getSingleUser(int.parse(data['userId']));
+
+    return profileData;
+  }
+
+  User user;
+  int userId;
+
+  @override
+  void didChangeDependencies() async{
+    await getIt<UserRepository>().getUserSharedPref().then((value) {
+
+        if(value==null) {
+          print(value);
+
+        }else{
+          setState(() {
+            userId = int.parse(value['userId']);
+          });
+        }
+
+    });
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      
+
       child: Container(
         color: Theme.of(context).cardColor,
         child: ListView(
           children: <Widget>[
-            UserAccountsDrawerHeader(
+            FutureBuilder(
+                future: getProfileData(),
+               builder: (context,snapshot){
+                   user = snapshot.data;
+            return snapshot.hasData?UserAccountsDrawerHeader(
 
-              accountName: Text("Irfan Bashir"),
-              accountEmail: Text("malikfani112@gmail.com"),
-              currentAccountPicture: CircleAvatar(
+               accountName: Text( user.fullName),
+               accountEmail: Text(  user.emailAddress),
+               currentAccountPicture: CircleAvatar(
                  // backgroundColor: Theme.of(context).backgroundColor,
-                  child: Icon(Icons.person)),
-              otherAccountsPictures: <Widget>[
-                CircleAvatar(
-                  backgroundColor: Theme.of(context).backgroundColor,
-                  child: Text(
-                    "B",
-                  ),
-                ),
-                CircleAvatar(
-                  backgroundColor: Theme.of(context).backgroundColor,
-                  child: Text(
-                    "C",
-                  ),
-                ),
-              ],
-            ),
+                   child: Icon(Icons.person)),
+               otherAccountsPictures: <Widget>[
+//                 CircleAvatar(
+//                   backgroundColor: Theme.of(context).backgroundColor,
+//                   child: Text(
+//                     "B",
+//                   ),
+//                 ),
+//                 CircleAvatar(
+//                   backgroundColor: Theme.of(context).backgroundColor,
+//                   child: Text(
+//                     "C",
+//                   ),
+//                 ),
+               ],
+             ):UserAccountsDrawerHeader(accountName: null, accountEmail: null);
+           }),
             // DrawerHeader(
             //   child: Align(
             //       alignment: Alignment.bottomLeft,
@@ -140,7 +191,7 @@ class CustomDrawer extends StatelessWidget {
                 ),
               ),
             ),
-            Align(
+           userId!=null? Align(
               alignment: Alignment.bottomLeft,
               child: GestureDetector(
                 onTap: () {
@@ -162,7 +213,7 @@ class CustomDrawer extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
+            ):Container(),
             Align(
               alignment: Alignment.bottomLeft,
               child: GestureDetector(
