@@ -5,7 +5,7 @@ final lightTheme = ThemeData(
     primaryColor: Colors.blue,
     cardColor: Colors.white,
     brightness: Brightness.light,
-    //backgroundColor: Color(0xffe7ebee),
+    backgroundColor: Color(0xffe7ebee),
     scaffoldBackgroundColor:Color(0xffe7ebee) ,
     accentColor: Colors.black87,
     accentIconTheme: IconThemeData(color: Colors.white),

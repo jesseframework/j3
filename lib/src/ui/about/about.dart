@@ -21,6 +21,7 @@ import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:j3enterprise/src/resources/shared/lang/appLocalization.dart';
+import 'package:j3enterprise/src/resources/shared/widgets/no_data_found.dart';
 import 'dart:io' show Platform;
 
 import 'package:j3enterprise/src/resources/shared/widgets/snak_bar.dart';
@@ -84,6 +85,9 @@ class _AboutState extends State<About> {
                     ],
                   ),
                 );
+              }
+              if(Platform.isWindows||Platform.isMacOS){
+                return BuildOnNoData(message: 'No information Found',);
               }
 
               return Center(child: CircularProgressIndicator());

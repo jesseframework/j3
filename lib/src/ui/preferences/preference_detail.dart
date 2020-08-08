@@ -193,6 +193,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                                       ),
                                                       InkWell(
                                                         child: Container(
+                                                          color: Theme.of(context).cardColor,
                                                             margin:
                                                                 EdgeInsets.only(
                                                                     left: 8),
@@ -216,6 +217,7 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
                                                     ],
                                                   )
                                                 : FindDropdown(
+                                                  backgroundColor: Theme.of(context).cardColor,
                                                     onFind: (value) async {
                                                       print(value);
                                                       return prefData.dataValue
@@ -421,9 +423,11 @@ class _PreferenceDetailPageState extends State<PreferenceDetailPage> {
 
   _displayDialog(BuildContext context, callBack) async {
     return showDialog(
+      barrierColor: Theme.of(context).cardColor,
         context: context,
         builder: (context) {
           return AlertDialog(
+
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             title: Text('Option'),

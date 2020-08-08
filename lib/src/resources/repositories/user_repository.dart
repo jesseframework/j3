@@ -105,8 +105,8 @@ class UserRepository {
     String tenantState = await _prefs.get('tenantState');
     String userName = await _prefs.get('userName');
     String tenantName = await _prefs.get('tenantName');
-    int tenantId = await _prefs.get('tenantId');
-    int userId = await _prefs.get('userId');
+    String tenantId = await _prefs.get('tenantId');
+    String userId = await _prefs.get('userId');
 
     Map<String, String> map = {
       "deviceId": "$deviceId",

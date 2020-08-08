@@ -22,6 +22,7 @@ class User extends DataClass implements Insertable<User> {
   final DateTime creationTime;
   final DateTime lastLoginTime;
   final String currency;
+  final String themeData;
   User(
       {this.tenantId,
       @required this.id,
@@ -36,7 +37,8 @@ class User extends DataClass implements Insertable<User> {
       this.firebaseToken,
       this.creationTime,
       this.lastLoginTime,
-      this.currency});
+      this.currency,
+      this.themeData});
   factory User.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -71,6 +73,8 @@ class User extends DataClass implements Insertable<User> {
           .mapFromDatabaseResponse(data['${effectivePrefix}last_login_time']),
       currency: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}currency']),
+      themeData: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}theme_data']),
     );
   }
   @override
@@ -118,6 +122,9 @@ class User extends DataClass implements Insertable<User> {
     if (!nullToAbsent || currency != null) {
       map['currency'] = Variable<String>(currency);
     }
+    if (!nullToAbsent || themeData != null) {
+      map['theme_data'] = Variable<String>(themeData);
+    }
     return map;
   }
 
@@ -161,6 +168,9 @@ class User extends DataClass implements Insertable<User> {
       currency: currency == null && nullToAbsent
           ? const Value.absent()
           : Value(currency),
+      themeData: themeData == null && nullToAbsent
+          ? const Value.absent()
+          : Value(themeData),
     );
   }
 
@@ -182,6 +192,7 @@ class User extends DataClass implements Insertable<User> {
       creationTime: serializer.fromJson<DateTime>(json['creationTime']),
       lastLoginTime: serializer.fromJson<DateTime>(json['lastLoginTime']),
       currency: serializer.fromJson<String>(json['currency']),
+      themeData: serializer.fromJson<String>(json['themeData']),
     );
   }
   @override
@@ -202,6 +213,7 @@ class User extends DataClass implements Insertable<User> {
       'creationTime': serializer.toJson<DateTime>(creationTime),
       'lastLoginTime': serializer.toJson<DateTime>(lastLoginTime),
       'currency': serializer.toJson<String>(currency),
+      'themeData': serializer.toJson<String>(themeData),
     };
   }
 
@@ -219,7 +231,8 @@ class User extends DataClass implements Insertable<User> {
           String firebaseToken,
           DateTime creationTime,
           DateTime lastLoginTime,
-          String currency}) =>
+          String currency,
+          String themeData}) =>
       User(
         tenantId: tenantId ?? this.tenantId,
         id: id ?? this.id,
@@ -235,6 +248,7 @@ class User extends DataClass implements Insertable<User> {
         creationTime: creationTime ?? this.creationTime,
         lastLoginTime: lastLoginTime ?? this.lastLoginTime,
         currency: currency ?? this.currency,
+        themeData: themeData ?? this.themeData,
       );
   @override
   String toString() {
@@ -252,7 +266,8 @@ class User extends DataClass implements Insertable<User> {
           ..write('firebaseToken: $firebaseToken, ')
           ..write('creationTime: $creationTime, ')
           ..write('lastLoginTime: $lastLoginTime, ')
-          ..write('currency: $currency')
+          ..write('currency: $currency, ')
+          ..write('themeData: $themeData')
           ..write(')'))
         .toString();
   }
@@ -284,8 +299,10 @@ class User extends DataClass implements Insertable<User> {
                                                   creationTime.hashCode,
                                                   $mrjc(
                                                       lastLoginTime.hashCode,
-                                                      currency
-                                                          .hashCode))))))))))))));
+                                                      $mrjc(
+                                                          currency.hashCode,
+                                                          themeData
+                                                              .hashCode)))))))))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -303,7 +320,8 @@ class User extends DataClass implements Insertable<User> {
           other.firebaseToken == this.firebaseToken &&
           other.creationTime == this.creationTime &&
           other.lastLoginTime == this.lastLoginTime &&
-          other.currency == this.currency);
+          other.currency == this.currency &&
+          other.themeData == this.themeData);
 }
 
 class UsersCompanion extends UpdateCompanion<User> {
@@ -321,6 +339,7 @@ class UsersCompanion extends UpdateCompanion<User> {
   final Value<DateTime> creationTime;
   final Value<DateTime> lastLoginTime;
   final Value<String> currency;
+  final Value<String> themeData;
   const UsersCompanion({
     this.tenantId = const Value.absent(),
     this.id = const Value.absent(),
@@ -336,6 +355,7 @@ class UsersCompanion extends UpdateCompanion<User> {
     this.creationTime = const Value.absent(),
     this.lastLoginTime = const Value.absent(),
     this.currency = const Value.absent(),
+    this.themeData = const Value.absent(),
   });
   UsersCompanion.insert({
     this.tenantId = const Value.absent(),
@@ -352,6 +372,7 @@ class UsersCompanion extends UpdateCompanion<User> {
     this.creationTime = const Value.absent(),
     this.lastLoginTime = const Value.absent(),
     this.currency = const Value.absent(),
+    this.themeData = const Value.absent(),
   })  : userName = Value(userName),
         name = Value(name),
         surname = Value(surname),
@@ -372,6 +393,7 @@ class UsersCompanion extends UpdateCompanion<User> {
     Expression<DateTime> creationTime,
     Expression<DateTime> lastLoginTime,
     Expression<String> currency,
+    Expression<String> themeData,
   }) {
     return RawValuesInsertable({
       if (tenantId != null) 'tenant_id': tenantId,
@@ -389,6 +411,7 @@ class UsersCompanion extends UpdateCompanion<User> {
       if (creationTime != null) 'creation_time': creationTime,
       if (lastLoginTime != null) 'last_login_time': lastLoginTime,
       if (currency != null) 'currency': currency,
+      if (themeData != null) 'theme_data': themeData,
     });
   }
 
@@ -406,7 +429,8 @@ class UsersCompanion extends UpdateCompanion<User> {
       Value<String> firebaseToken,
       Value<DateTime> creationTime,
       Value<DateTime> lastLoginTime,
-      Value<String> currency}) {
+      Value<String> currency,
+      Value<String> themeData}) {
     return UsersCompanion(
       tenantId: tenantId ?? this.tenantId,
       id: id ?? this.id,
@@ -422,6 +446,7 @@ class UsersCompanion extends UpdateCompanion<User> {
       creationTime: creationTime ?? this.creationTime,
       lastLoginTime: lastLoginTime ?? this.lastLoginTime,
       currency: currency ?? this.currency,
+      themeData: themeData ?? this.themeData,
     );
   }
 
@@ -470,6 +495,9 @@ class UsersCompanion extends UpdateCompanion<User> {
     if (currency.present) {
       map['currency'] = Variable<String>(currency.value);
     }
+    if (themeData.present) {
+      map['theme_data'] = Variable<String>(themeData.value);
+    }
     return map;
   }
 
@@ -489,7 +517,8 @@ class UsersCompanion extends UpdateCompanion<User> {
           ..write('firebaseToken: $firebaseToken, ')
           ..write('creationTime: $creationTime, ')
           ..write('lastLoginTime: $lastLoginTime, ')
-          ..write('currency: $currency')
+          ..write('currency: $currency, ')
+          ..write('themeData: $themeData')
           ..write(')'))
         .toString();
   }
@@ -656,6 +685,18 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
     );
   }
 
+  final VerificationMeta _themeDataMeta = const VerificationMeta('themeData');
+  GeneratedTextColumn _themeData;
+  @override
+  GeneratedTextColumn get themeData => _themeData ??= _constructThemeData();
+  GeneratedTextColumn _constructThemeData() {
+    return GeneratedTextColumn(
+      'theme_data',
+      $tableName,
+      true,
+    );
+  }
+
   @override
   List<GeneratedColumn> get $columns => [
         tenantId,
@@ -671,7 +712,8 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
         firebaseToken,
         creationTime,
         lastLoginTime,
-        currency
+        currency,
+        themeData
       ];
   @override
   $UsersTable get asDslTable => this;
@@ -760,6 +802,10 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
     if (data.containsKey('currency')) {
       context.handle(_currencyMeta,
           currency.isAcceptableOrUnknown(data['currency'], _currencyMeta));
+    }
+    if (data.containsKey('theme_data')) {
+      context.handle(_themeDataMeta,
+          themeData.isAcceptableOrUnknown(data['theme_data'], _themeDataMeta));
     }
     return context;
   }
